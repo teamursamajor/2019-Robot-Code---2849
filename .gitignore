@@ -1,5 +1,14 @@
 # Created by https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
 
+# Gradle/Other Files
+.vscode/
+.wpilib/
+build.gradle
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+
 ### C++ ###
 # Prerequisites
 *.d
