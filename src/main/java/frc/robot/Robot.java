@@ -7,6 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.Spark;
+import frc.robot.XboxController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +30,14 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  private Spark rearLeftMotor;
+  private Spark rearRightMotor;
+  private Spark frontLeftMotor;
+  private Spark frontRightMotor;
+  private XboxController xbox;
+  NetworkTableEntry tx;
+  NetworkTableEntry ty;
+  NetworkTableEntry ta;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -34,6 +47,16 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    rearLeftMotor = new Spark(0);
+    rearRightMotor = new Spark(1);
+    frontLeftMotor = new Spark(2);
+    frontRightMotor = new Spark(3);
+    xbox = new XboxController(0);
+
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  tx = table.getEntry("tx");
+  ty = table.getEntry("ty");
+  ta = table.getEntry("ta");
   }
 
   /**
@@ -88,6 +111,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    rearLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    frontLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    rearRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    frontRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+
+    System.out.println("tx: " + tx.getDouble(0));
+    System.out.println("ty: " + ty.getDouble(0));
+    System.out.println("ta: " + ta.getDouble(0));
   }
 
   /**
