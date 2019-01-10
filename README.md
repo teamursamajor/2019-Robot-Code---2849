@@ -10,6 +10,8 @@ Git Bash:
 
 This program allows you to utilize Git for your projects through a command line. You can install it at https://git-scm.com/downloads. Tutorials on how to use Git Bash are further below.
 
+To use Git Bash in the VSCode terminal, open VSCode and open the command window by pressing CTRL + Shift + P. Search for "Select Default Shell" and select Git Bash.
+
 2019 NI Update Suite:
 
 https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/480793-offline-installation-preparation
@@ -20,19 +22,18 @@ VSCode and WPILib:
 
 https://github.com/wpilibsuite/allwpilib/releases
 
-Follow the link and install the WPILib installer that corresponds to your OS. Run the installer, then click Select/Download VSCode. Click Download. Once that’s complete, make sure all checkboxes are checked (unless you have already installed 2019 WPILib software on this machine and the software unchecked them automatically), then click Execute Install.
+Follow the link and install the WPILib installer that corresponds to your OS. Run the installer, then click Select/Download VSCode. Click Download. Once that’s complete, make sure all checkboxes are checked (unless you have already installed 2019 WPILib software on this machine and the software unchecked them automatically), then click Execute Install. Don't forget to set Git Bash as the default shell and install the NavX libraries in VSCode (see those respective sections for more info).
 
 NavX-MXP:
 
 https://pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/java/
 
-We use a sensor called the NavX MXP, which requires some outside libraries. Open the link and follow the “Offline Installation Method.” 
+We use a sensor called the NavX MXP, which requires some outside libraries. Open the link and download the latest build of the libraries. After installing, run the setup program. Then, open VSCode and press CTRL + Shift + P to show all commands. Search
+for "Manage Vendor Libraries," then "Install new libraries (offline)," then click on the NavX libraries.
 
 JRE (Java Runtime Environment): 
 
 If Strings or other basic objects are throwing errors, you are missing your JRE. Install it from https://java.com/en/download/manual.jsp
-
-####Cloning the repository into your VSCode workspace (Incomplete)
 
 ####Pulling Changes (Incomplete)
 
