@@ -47,10 +47,10 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    rearLeftMotor = new Spark(0);
-    rearRightMotor = new Spark(4);
-    frontLeftMotor = new Spark(1);
-    frontRightMotor = new Spark(7);
+    rearLeftMotor = new Spark(3);
+    rearRightMotor = new Spark(2);
+    frontLeftMotor = new Spark(0);
+    frontRightMotor = new Spark(1);
     xbox = new XboxController(0);
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
