@@ -107,7 +107,7 @@ public class AutoTest implements Runnable {
 
     }
 
-    public void debugMessage(String message){
+    public static void debugMessage(String message){
             message = "DEBUGGING: " + message;
             System.out.println(message);
     }
