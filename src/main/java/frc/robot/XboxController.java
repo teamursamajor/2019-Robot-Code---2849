@@ -42,9 +42,10 @@ public class XboxController extends Joystick implements Runnable {
 
 	public XboxController(int port) {
 		super(port);
-		// TODO We never use rumble. Is it worth starting a thread over?
-		Thread rumbleThread = new Thread(this, "rumbleThread");
-		rumbleThread.start();
+
+		//We never use rumble for anything, so I've commented it out to avoid unneccessary threads
+		// Thread rumbleThread = new Thread(this, "rumbleThread");
+		// rumbleThread.start();
 		for (Latch num1 : buttonLatch) {
 			num1 = new Latch();
 		}

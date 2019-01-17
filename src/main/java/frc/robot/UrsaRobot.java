@@ -30,7 +30,7 @@ public interface UrsaRobot {
 	public static final double ROBOT_WIDTH_FEET = 32.0 / 12.0;
 	public static final double ROBOT_DEPTH_FEET = 28.0 / 12.0;
 	
-	//Used to be 160 TODO hotfix
+	//Used to be 160
 	public static final double MAX_VELOCITY = 160; // inches / second
 //	public static final double MAX_ACCELERATION = 160 * 1; // inches / second^2
 	public static final double MAX_ACCELERATION = 80;

@@ -94,7 +94,6 @@ public class Drive implements Runnable, UrsaRobot {
 			// mRearLeft.set(-cont.getDrive().getLeftSpeed());
 			// mRearRight.set(cont.getDrive().getRightSpeed());
 			
-			// // TODO test this
 			// if (mFrontLeft.getSpeed() < 0 && mFrontRight.getSpeed() < 0) {
 			// 	cont.getIntake().setIntakeType(IntakeType.HOLD);
 			// }
@@ -184,7 +183,6 @@ public class Drive implements Runnable, UrsaRobot {
 		return running;
 	}
 
-	// TODO what even
 	//As of 3/9/2018 at 5:49 PM this method has been declared sacred and will not be deleted. Ever. -20XX
 	public void summonSatan() {
 	}
