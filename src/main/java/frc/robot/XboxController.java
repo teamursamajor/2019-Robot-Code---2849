@@ -28,6 +28,7 @@ public class XboxController extends Joystick implements Runnable {
 	public static final int AXIS_RIGHTSTICK_X = 4;
 	public static final int AXIS_RIGHTSTICK_Y = 5;
 
+	//POV refers to the D-Pad
 	public static final int POV_NONE = -1;
 	public static final int POV_UP = 0;
 	public static final int POV_RIGHT = 90;
@@ -37,15 +38,19 @@ public class XboxController extends Joystick implements Runnable {
 	private boolean running = false;
 	private long rumbleStopTime = 0;
 
+	//Latch is defined as a subclass below
 	Latch buttonLatch[] = new Latch[10];
 	Latch axisLatch[] = new Latch[6];
 
 	public XboxController(int port) {
 		super(port);
 
-		//We never use rumble for anything, so I've commented it out to avoid unneccessary threads
+		// We never use rumble for anything, so I've commented it out to avoid
+		// unneccessary threads
 		// Thread rumbleThread = new Thread(this, "rumbleThread");
 		// rumbleThread.start();
+
+		//Creates Latch objects for every button and axis on the controller
 		for (Latch num1 : buttonLatch) {
 			num1 = new Latch();
 		}
@@ -74,7 +79,7 @@ public class XboxController extends Joystick implements Runnable {
 	 * Gets the value of a button
 	 * 
 	 * @param buttonNumber the button whose value is to be read
-	 * @return the button's value
+	 * @return True if the button is pressed, false otherwise
 	 */
 	public boolean getButton(int buttonNumber) {
 		return super.getRawButton(buttonNumber);
@@ -112,6 +117,7 @@ public class XboxController extends Joystick implements Runnable {
 		return this.getRawAxis(axisNumber) < lessThan;
 	}
 
+	//TODO javadoc comment this
 	public double getSquaredAxis(int axisNumber) {
 		double rawInput = this.getAxis(axisNumber);
 		return rawInput * Math.abs(rawInput);
@@ -138,7 +144,6 @@ public class XboxController extends Joystick implements Runnable {
 	/**
 	 * Started on object init, runs in background and monitors rumble
 	 */
-
 	public void run() {
 		while (running) {
 			if (System.currentTimeMillis() - rumbleStopTime < 0) {
@@ -158,6 +163,8 @@ public class XboxController extends Joystick implements Runnable {
 
 	/**
 	 * Rising edge detector
+	 * 
+	 * Prevents an input from being read more than once
 	 * 
 	 * @author kingeinstein
 	 *

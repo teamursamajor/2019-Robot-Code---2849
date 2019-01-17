@@ -5,17 +5,24 @@ import edu.wpi.first.wpilibj.Spark;
 public class Climb implements Runnable {
 
     private boolean running = false;
-    private Spark Motor;
+    private Spark climbMotor;
 
-        //defines the motors
-    public Climb(Spark Motor) {
+    public Climb(Spark motor) {
         AutoTest.debugMessage("I'm running");
-        this.Motor = Motor;
-
-        //creates a new thread
-    new Thread(this, "Thread").start(); 
+        climbMotor = motor;
     }
-        public void run() {
-        // place runnable code
+
+    private void startClimb() {
+        //TODO placeholder, synchronize on an object
+        synchronized(Boolean.TRUE){
+            if (running)
+				return;
+			running = true;
+        }
+        new Thread(this, "climbThread").start();
+    }
+
+    public void run() {
+        // TODO place runnable code
     }
 }
