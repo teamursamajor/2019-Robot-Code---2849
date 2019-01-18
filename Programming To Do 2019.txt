@@ -1,0 +1,69 @@
+Comments! Use them! Be sure to comment everything that might not be immediately understandable!:
+	Print lines or simple object creation don't need to be commented, but a PID loop or some auto functionality should
+Clean up Robot.java
+AutoTest.java can probably be a method in Drive
+Update UrsaRobot to be current for the 2019 season:
+	Move sparks and all physical sensors (like encoders) to here
+	Remove anything we are not using this year
+	This is essentially our Sensors file
+Research logging on the Driver Station
+Copy the compiler/parser from last year and update it for this year (new keywords and such)
+Create the auto handler, which is told grabs the parsed keywords from the compiler and executes tasks as needed
+Create the teleop handler, which processes controller inputs and executes tasks as needed:
+	If desired, you can make a .config file of some sort allowing for quick changes to control layouts.
+	The code would read the config files and look for the specified buttons/axis assigned to a specified action, then execute that action
+		Ex: You make a variable which holds the button ID and if that button ID is inputted, run the hatch dropoff
+Write the code for the ShuffleBoard:
+	Create the file and set up the ShuffleBoard so that we can pick different auto files to run, much like last year
+	Allow the user to enter values for different constants/motor speeds (like Path constants or the arm motor speed for example)
+Create a Constants.java which holds constants and motor speeds:
+	Should get values from smart dashboard
+	Other files can use those values from here to set motor speeds
+	
+Good Vision:
+	-Auto Align:
+		-Working with Limelight
+			-Fix the targeting system to account for wrong pairs
+	-Color Sensor
+		-Wiring them
+		-Placement on the robot
+	-Distance Sensor
+		Sensors on Raspberry Pi?
+		How can we utilize this alongside vision and color?
+
+Subsystems:
+	-Cargo arm and Hatch arm separately
+	OR
+	-One combined arm
+		-Recognize game piece
+	
+	-Drive
+	-Climb
+	-Lazy Susan
+
+Auto:
+	-Write new auto code:
+		-Make new path files
+		-Take a ball or hatch to any spot on the bay
+			-Dont drop the hatch until the driver confirms the position
+			-New naming convention
+		-Start from either the level 1 or 2 platforms (5 total start positions)
+	-Shuffleboard integration
+	-Incorporate vision code
+	-Displaying camera to the Driver Station
+	-Improve scripting language
+		-Align task?
+		-The compiler could be much more sophisticated and robust; low priority though
+	-Improve path code
+		-New model of arena
+
+Logger:
+	-Integrate logger
+	-Improve it
+	
+Misc:
+	-Look into SourceTree
+	-Use Meld as a merge tool
+	-Fast LED?
+	-Create a Programming Phamplet of all the cool stuff we do this year
+	-Create an Auto Modes Booklet for all of our auto modes (if we have a lot)
