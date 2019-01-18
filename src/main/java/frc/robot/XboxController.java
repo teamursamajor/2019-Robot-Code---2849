@@ -47,6 +47,7 @@ public class XboxController extends Joystick implements Runnable {
 
 		// We never use rumble for anything, so I've commented it out to avoid
 		// unneccessary threads
+		//TODO should we just delete this?
 		// Thread rumbleThread = new Thread(this, "rumbleThread");
 		// rumbleThread.start();
 

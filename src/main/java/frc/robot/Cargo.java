@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Cargo implements Runnable, UrsaRobot{
-    private boolean running = false;
+    private Boolean running = new Boolean(false);
     private Spark armMotor;
 
     public Cargo(Spark motor) {
@@ -14,7 +14,7 @@ public class Cargo implements Runnable, UrsaRobot{
 
     private void startCargo() {
         //TODO placeholder, synchronize on an object
-        synchronized(Boolean.TRUE){
+        synchronized(running){
             if (running)
 				return;
 			running = true;

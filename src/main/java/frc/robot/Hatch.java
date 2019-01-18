@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Hatch implements Runnable, UrsaRobot{
-    private boolean running = false;
+    private Boolean running = new Boolean(false);
     private Spark hatchMotor;
 
     public Hatch(Spark motor) {
@@ -14,7 +14,7 @@ public class Hatch implements Runnable, UrsaRobot{
 
     private void startHatch() {
         //TODO placeholder, synchronize on an object
-        synchronized(Boolean.TRUE){
+        synchronized(running){
             if (running)
 				return;
 			running = true;
