@@ -1,10 +1,5 @@
 package frc.robot;
 
-// import org.usfirst.frc.team2849.autonomous.IntakeTask.IntakeType;
-// import org.usfirst.frc.team2849.controls.ControlLayout;
-// import org.usfirst.frc.team2849.diagnostics.Logger;
-// import org.usfirst.frc.team2849.diagnostics.Logger.LogLevel;
-
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -12,9 +7,19 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Drive implements Runnable, UrsaRobot {
+<<<<<<< HEAD
 	
 	
 	
+=======
+
+	// TODO move these to UrsaRobot?
+	private static Spark mFrontLeft;
+	private static Spark mFrontRight;
+	private static Spark mRearLeft;
+	private static Spark mRearRight;
+
+>>>>>>> 1e8218de4245b45e2cd27e7fe4e4bd9edc6710ab
 	private static double leftSpeed;
 	private static double rightSpeed;
 	private static boolean square;
@@ -24,9 +29,13 @@ public class Drive implements Runnable, UrsaRobot {
 	
 	private static Encoder encL;
 	private static Encoder encR;
+<<<<<<< HEAD
 	
 	//private static ControlLayout cont;
 	
+=======
+
+>>>>>>> 1e8218de4245b45e2cd27e7fe4e4bd9edc6710ab
 	private static final double INCHES_PER_TICK = 0.011505d;
 	
 	private double kdAutoAlign = 2;
@@ -39,23 +48,25 @@ public class Drive implements Runnable, UrsaRobot {
 	private static Modes mode;
 	
 	/**
-	 * Constructor for Drive class. Only one Drive object should be instantiated
-	 * at any time.
+	 * Constructor for Drive class. Only one Drive object should be instantiated at
+	 * any time.
 	 * 
-	 * @param frontLeft
-	 *            Channel number for front left motor
-	 * @param frontRight
-	 *            Channel number for front right motor
-	 * @param rearLeft
-	 *            Channel number for rear left motor
-	 * @param rearRight
-	 *            Channel number for rear right motor
+	 * @param frontLeft  Channel number for front left motor
+	 * @param frontRight Channel number for front right motor
+	 * @param rearLeft   Channel number for rear left motor
+	 * @param rearRight  Channel number for rear right motor
 	 */
 
+<<<<<<< HEAD
 	public Drive(int frontLeft, int frontRight, int rearLeft, int rearRight) { //, ControlLayout controller) {
 		
-
-		//cont = controller;
+=======
+	public Drive(int frontLeft, int frontRight, int rearLeft, int rearRight) { // , ControlLayout controller) {
+		mFrontLeft = new Spark(frontLeft);
+		mFrontRight = new Spark(frontRight);
+		mRearLeft = new Spark(rearLeft);
+		mRearRight = new Spark(rearRight);
+>>>>>>> 1e8218de4245b45e2cd27e7fe4e4bd9edc6710ab
 
 		ahrs = new AHRS(SPI.Port.kMXP);
 
@@ -73,10 +84,10 @@ public class Drive implements Runnable, UrsaRobot {
 	}
 
 	/**
-	 * Starts driveThread. Made so that only one driveThread can exist at one
-	 * time.
+	 * Starts driveThread. Made so that only one driveThread can exist at one time.
 	 */
 	private void startDrive() {
+		//TODO we shouldn't be synchronizing on a boolean, but rather an object. We need to update this throughout the project
 		synchronized (running) {
 			if (running)
 				return;
@@ -89,24 +100,18 @@ public class Drive implements Runnable, UrsaRobot {
 	 * Run method for driveThread
 	 */
 	@Override
-	// TODO PID
+	// TODO Write the run method. It will be a PID loop which drives a specified distance that it tracks using sensors/encoders
 	public void run() {
 		while (running) {
 			// mFrontLeft.set(-cont.getDrive().getLeftSpeed());
 			// mFrontRight.set(cont.getDrive().getRightSpeed());
 			// mRearLeft.set(-cont.getDrive().getLeftSpeed());
 			// mRearRight.set(cont.getDrive().getRightSpeed());
-			
-			// // TODO test this
+
 			// if (mFrontLeft.getSpeed() < 0 && mFrontRight.getSpeed() < 0) {
-			// 	cont.getIntake().setIntakeType(IntakeType.HOLD);
+			// cont.getIntake().setIntakeType(IntakeType.HOLD);
 			// }
-			// try {
-			// 	Thread.sleep(20);
-			// } catch (InterruptedException e) {
-			// 	e.printStackTrace();
-			// 	Logger.log("Drive run method Thread.sleep call, printStackTrace", LogLevel.ERROR);
-			// }
+<<<<<<< HEAD
 
 			switch (mode) {
 			case Auto:	
@@ -120,6 +125,14 @@ public class Drive implements Runnable, UrsaRobot {
 			default: 
 				mode = Modes.DriveSticks;
 				break;
+=======
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				// Logger.log("Drive run method Thread.sleep call, printStackTrace",
+				// LogLevel.ERROR);
+>>>>>>> 1e8218de4245b45e2cd27e7fe4e4bd9edc6710ab
 			}
 		}
 	}
@@ -141,9 +154,10 @@ public class Drive implements Runnable, UrsaRobot {
 	}
 
 	/**
-	 * Takes the angle given by the AHRS and turns it into a heading which is
-	 * always between 0 and 360 (AHRS can return negative values and values
-	 * above 360)
+	 * Since the NavX can return values below 0 or above 360, this fixes it and
+	 * returns a proper heading
+	 * 
+	 * @return Fixed heading from the NavX always between 0 and 360
 	 */
 
 	public double getHeading() {
@@ -152,16 +166,19 @@ public class Drive implements Runnable, UrsaRobot {
 		return angle;
 	}
 
+	/**
+	 * 
+	 * @return The raw angle from the NavX. This can return values below 0 or above
+	 *         360
+	 */
 	public double getRawHeading() {
 		return ahrs.getAngle();
 	}
 
 	/**
-	 * Takes an angle and turns it into a heading which is always between 0 and
-	 * 360
+	 * Takes an angle and turns it into a heading which is always between 0 and 360
 	 * 
-	 * @param heading
-	 *            Angle to turn into a heading between 0 and 360
+	 * @param heading Raw angle to convert into a heading between 0 and 360
 	 * @return Heading between 0 and 360
 	 */
 	public double fixHeading(double heading) {
@@ -179,25 +196,44 @@ public class Drive implements Runnable, UrsaRobot {
 		return encR.getDistance();
 	}
 
+	/**
+	 * 
+	 * @return Get the current rate of the encoder. Units are distance per second as
+	 *         scaled by the value from setDistancePerPulse().
+	 */
 	public double getLeftRate() {
 		return encL.getRate();
 	}
 
+	/**
+	 * 
+	 * @return Get the current rate of the encoder. Units are distance per second as
+	 *         scaled by the value from setDistancePerPulse().
+	 */
 	public double getRightRate() {
 		return encR.getRate();
 	}
 
+	/**
+	 * Resets the current encoder distance to zero
+	 */
 	public void resetEncoders() {
 		encL.reset();
 		encR.reset();
 	}
 
+	/**
+	 * Resets the Gyro Z axis to a heading of zero. This can be used if there is
+	 * significant drift in the gyro and it needs to be recalibrated after it has
+	 * been running.
+	 */
 	public void resetNavx() {
 		ahrs.reset();
 	}
 
 	/**
-	 * Method to stop all four motors
+	 * Stops all four motors. Remember that robot will still have forward momentum
+	 * and slide slightly
 	 */
 	public void stop() {
 		mFrontLeft.stopMotor();
@@ -210,8 +246,10 @@ public class Drive implements Runnable, UrsaRobot {
 		return running;
 	}
 
-	// TODO what even
-	//As of 3/9/2018 at 5:49 PM this method has been declared sacred and will not be deleted. Ever. -20XX
+	/**
+	 * As of 3/9/2018 at 5:49 PM this method has been declared sacred and will not
+	 * be deleted. Ever. -20XX
+	 */
 	public void summonSatan() {
 	}
 
