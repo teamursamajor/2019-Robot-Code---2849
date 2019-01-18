@@ -1,5 +1,11 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
+
 public interface UrsaRobot {
 	public static final int DRIVE_FRONT_LEFT = 1;
 	public static final int DRIVE_FRONT_RIGHT = 6;
@@ -42,4 +48,19 @@ public interface UrsaRobot {
 	public static final int LED_Solenoid_port_5 = 5;
 	public static final int LED_Solenoid_port_6 = 6;
 
+	Spark mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
+	Spark mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
+	Spark mRearLeft = new Spark(DRIVE_REAR_LEFT);
+	Spark mRearRight = new Spark(DRIVE_REAR_RIGHT);
+
+	//cont = controller;
+	//ahrs = new AHRS(SPI.Port.kMXP);
+	//encL = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
+	//encR = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
+
+	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+
+	XboxController xbox = new XboxController(0);
+
 }
+

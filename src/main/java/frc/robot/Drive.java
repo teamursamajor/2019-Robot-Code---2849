@@ -12,26 +12,32 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Drive implements Runnable, UrsaRobot {
-
-	private static Spark mFrontLeft;
-	private static Spark mFrontRight;
-	private static Spark mRearLeft;
-	private static Spark mRearRight;
-
+	
+	
+	
 	private static double leftSpeed;
 	private static double rightSpeed;
 	private static boolean square;
 	private static AHRS ahrs;
-
+	
 	private static Boolean running = new Boolean(false);
-
+	
 	private static Encoder encL;
 	private static Encoder encR;
-
+	
 	//private static ControlLayout cont;
-
+	
 	private static final double INCHES_PER_TICK = 0.011505d;
+	
+	private double kdAutoAlign = 2;
+	private double kpAutoAlign = 1.0/33.0;
+	private double toleranceAutoAlign = 0.1;
+	private double minimumPowerAutoAlign = 0.25;
 
+	public enum Modes {Auto, DriveSticks};
+
+	private static Modes mode;
+	
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated
 	 * at any time.
@@ -47,10 +53,7 @@ public class Drive implements Runnable, UrsaRobot {
 	 */
 
 	public Drive(int frontLeft, int frontRight, int rearLeft, int rearRight) { //, ControlLayout controller) {
-		mFrontLeft = new Spark(frontLeft);
-		mFrontRight = new Spark(frontRight);
-		mRearLeft = new Spark(rearLeft);
-		mRearRight = new Spark(rearRight);
+		
 
 		//cont = controller;
 
@@ -104,7 +107,30 @@ public class Drive implements Runnable, UrsaRobot {
 			// 	e.printStackTrace();
 			// 	Logger.log("Drive run method Thread.sleep call, printStackTrace", LogLevel.ERROR);
 			// }
+
+			switch (mode) {
+			case Auto:	
+				System.out.println("Mode: Auto");
+				AutoAlign();
+				mode = Modes.DriveSticks;
+				break;
+			case DriveSticks:
+				System.out.println("Mode: DriveSticks");
+				break;
+			default: 
+				mode = Modes.DriveSticks;
+				break;
+			}
 		}
+	}
+
+	/**
+	 * Sets the enum mode
+	 * 
+	 * @param tMode
+	 */
+	public static void setMode(Modes tMode) {
+		mode = tMode;
 	}
 
 	/**
@@ -189,4 +215,71 @@ public class Drive implements Runnable, UrsaRobot {
 	public void summonSatan() {
 	}
 
+	public void AutoAlign() { 
+        double tv = table.getEntry("tv").getDouble(-1); //Gets current y-coordinate
+        //slows down the robot until it sees second tape.
+        tv = table.getEntry("tv").getDouble(-1); //detects the presence of reflective tape.
+        while(tv!=1) {
+            driveTest(0.3);
+            tv = table.getEntry("tv").getDouble(-1); //detects the presence of reflective tape.
+		}
+		
+        debugMessage("Saw second tape");
+        //alignment code / control loop 
+        double tx = table.getEntry("tx").getDouble(42.5);
+        System.out.println(tx);
+		
+        double lastTx = tx;
+        double lastTime = System.currentTimeMillis();
+        double currentTime;
+        double outputPower; 
+        
+        while(Math.abs(tx) > toleranceAutoAlign) {
+            //DEBUGGING
+            //double output_power;
+            currentTime = System.currentTimeMillis();
+            tx = table.getEntry("tx").getDouble(42.5);
+            if(tx == lastTx) {
+                continue;
+            }
+        
+            //Finding Rate of change in kd
+            double rateOfChangeInKD_e = tx - lastTx;
+            double rateOfChangeInKD_t = currentTime - lastTime;
+            outputPower = kpAutoAlign*tx + kdAutoAlign*(rateOfChangeInKD_e / rateOfChangeInKD_t);
+            if (Math.abs(outputPower) < minimumPowerAutoAlign) {
+                outputPower = Math.signum(outputPower)*minimumPowerAutoAlign;
+			}
+			
+            driveTest(outputPower);
+            //System.out.println("output power "+kp*tx + kd*(rateOfChangeInKD_e / rateOfChangeInKD_t));
+            System.out.println("tx "+tx);
+            System.out.println(outputPower);
+            lastTime = currentTime;
+            lastTx = tx;
+            //(tx-last_tx)/(current_time-last_time)
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+
+            }
+        }
+		
+        //stops motor
+        System.out.println("Stopped.");
+		driveTest(0.01);
+		mode = Modes.DriveSticks;
+    }
+    
+    public void driveTest(double power) {
+        mFrontRight.set(-power);
+        mFrontLeft.set(power);
+        mRearRight.set(-power);
+        mRearLeft.set(power);
+    }
+
+    public void debugMessage(String message){
+        message = "DEBUGGING: " + message;
+        System.out.println(message);
+    }
 }
