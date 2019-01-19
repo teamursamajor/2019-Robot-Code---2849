@@ -1,14 +1,10 @@
 Comments! Use them! Be sure to comment everything that might not be immediately understandable!:
 	Print lines or simple object creation don't need to be commented, but a PID loop or some auto functionality should
 
-Clean up Robot.java
-
 Look at all the TODO's in the project and start doing them
 
-AutoTest.java can probably be a method in Drive
-
 Update UrsaRobot to be current for the 2019 season:
-	Move sparks and all physical sensors (like encoders) to here
+	Move all physical sensors (like encoders) to here
 	Remove anything we are not using this year
 	This is essentially our Sensors file
 

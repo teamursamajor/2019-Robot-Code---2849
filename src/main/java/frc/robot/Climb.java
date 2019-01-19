@@ -8,9 +8,8 @@ public class Climb implements Runnable, UrsaRobot {
 
     private Spark climbMotor;
 
-    public Climb(Spark motor) {
-        AutoTest.debugMessage("I'm running");
-        climbMotor = motor;
+    public Climb() {
+        climbMotor = new Spark(CLIMB);
         startClimb();
     }
 
