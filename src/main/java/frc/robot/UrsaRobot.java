@@ -35,6 +35,9 @@ public interface UrsaRobot {
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 
+	public static final double INCHES_PER_TICK = 0.011505d;
+	public static final double DEGREES_PER_TICK = 0.72434608d;
+
 	public static final double ROBOT_WIDTH_INCHES  = 32d;/*in*///12;//ft
 	public static final double ROBOT_DEPTH_INCHES = 28d;/*in*///12;//ft
 	
