@@ -219,6 +219,9 @@ public class Drive implements Runnable, UrsaRobot {
 	public void summonSatan() {
 	}
 
+	/**
+	 * Auto aligns the robot to the tape
+	 */
 	public void AutoAlign() { 
         double tv = table.getEntry("tv").getDouble(-1); //Gets current y-coordinate
         //slows down the robot until it sees second tape.

@@ -7,10 +7,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.Spark;
 import frc.robot.XboxController;
 import frc.robot.Drive.Modes;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 // Suggested to use CommandRobot
-public class Robot extends TimedRobot implements UrsaRobot{
+public class Robot extends TimedRobot implements UrsaRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -34,6 +34,8 @@ public class Robot extends TimedRobot implements UrsaRobot{
   NetworkTableEntry tx;
   NetworkTableEntry ty;
   NetworkTableEntry ta;
+
+  private Hatch hatch;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -45,7 +47,6 @@ public class Robot extends TimedRobot implements UrsaRobot{
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
@@ -83,7 +84,6 @@ public class Robot extends TimedRobot implements UrsaRobot{
     // defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
 
-    //AutoTest autotest = new AutoTest(frontRightMotor, frontLeftMotor, rearRightMotor, rearLeftMotor);
   }
 
   /**
@@ -95,7 +95,7 @@ public class Robot extends TimedRobot implements UrsaRobot{
     case kCustomAuto:
       // Put custom auto code here
       break;
-    
+
     case kDefaultAuto:
     default:
       // Put default auto code here
@@ -108,19 +108,20 @@ public class Robot extends TimedRobot implements UrsaRobot{
    */
   @Override
   public void teleopPeriodic() {
-    mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-    mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    // mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    // mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    // mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    // mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+
 
     System.out.println("tx: " + tx.getDouble(0));
     System.out.println("ty: " + ty.getDouble(0));
     System.out.println("ta: " + ta.getDouble(0));
 
-    if (xbox.getRawButtonPressed(2)) {
-      System.out.println("Switching to Auto");
-      Drive.setMode(Modes.Auto);
-    }
+    // if (xbox.getRawButtonPressed(2)) {
+    //   System.out.println("Switching to Auto");
+    //   Drive.setMode(Modes.Auto);
+    // }
   }
 
   /**
