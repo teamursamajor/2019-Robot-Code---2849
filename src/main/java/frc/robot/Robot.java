@@ -23,13 +23,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
+<<<<<<< HEAD
 // TODO Suggested to use CommandRobot
 public class Robot extends TimedRobot {
+=======
+// Suggested to use CommandRobot
+public class Robot extends TimedRobot implements UrsaRobot{
+>>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+<<<<<<< HEAD
   private Spark rearLeftMotor;
   private Spark rearRightMotor;
   private Spark frontLeftMotor;
@@ -39,6 +45,8 @@ public class Robot extends TimedRobot {
   private Spark hatchMotor;
 
   private XboxController xbox;
+=======
+>>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
   NetworkTableEntry tx;
   NetworkTableEntry ty;
   NetworkTableEntry ta;
@@ -53,6 +61,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
+<<<<<<< HEAD
     rearLeftMotor = new Spark(3);
     rearRightMotor = new Spark(2);
     frontLeftMotor = new Spark(0);
@@ -63,6 +72,8 @@ public class Robot extends TimedRobot {
 
     xbox = new XboxController(0);
 
+=======
+>>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
@@ -126,6 +137,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+<<<<<<< HEAD
     // rearLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
     // frontLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
     // rearRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
@@ -142,6 +154,21 @@ public class Robot extends TimedRobot {
     System.out.println("tx: " + tx.getDouble(0));
     System.out.println("ty: " + ty.getDouble(0));
     System.out.println("ta: " + ta.getDouble(0));
+=======
+    mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+
+    System.out.println("tx: " + tx.getDouble(0));
+    System.out.println("ty: " + ty.getDouble(0));
+    System.out.println("ta: " + ta.getDouble(0));
+
+    if (xbox.getRawButtonPressed(2)) {
+      System.out.println("Switching to Auto");
+      Drive.setMode(Modes.Auto);
+    }
+>>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
   }
 
   /**
