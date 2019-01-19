@@ -7,11 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTable;
-import frc.robot.XboxController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 // TODO Suggested to use CommandRobot
-public class Robot extends TimedRobot implements UrsaRobot{
+public class Robot extends TimedRobot implements UrsaRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -44,9 +40,8 @@ public class Robot extends TimedRobot implements UrsaRobot{
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
 
-    xbox = new XboxController(0);
+    SmartDashboard.putData("Auto choices", m_chooser);
 
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
@@ -85,10 +80,6 @@ public class Robot extends TimedRobot implements UrsaRobot{
     // defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
 
-<<<<<<< HEAD
-=======
-    AutoTest autotest = new AutoTest(frontRightMotor, frontLeftMotor, rearRightMotor, rearLeftMotor);
->>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
   }
 
   /**
@@ -113,53 +104,14 @@ public class Robot extends TimedRobot implements UrsaRobot{
    */
   @Override
   public void teleopPeriodic() {
-<<<<<<< HEAD
-    // mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    // mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    // mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-    // mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-
-=======
-<<<<<<< HEAD
-    // rearLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    // frontLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    // rearRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-    // frontRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-
-    if(xbox.getButton(1)){
-      hatchMotor.set(0.2);
-    } else if(xbox.getButton(2)){
-      hatchMotor.set(-0.2);
-    } else{
-      hatchMotor.set(0);
-    }
-    
-    System.out.println("tx: " + tx.getDouble(0));
-    System.out.println("ty: " + ty.getDouble(0));
-    System.out.println("ta: " + ta.getDouble(0));
-=======
-    mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-    mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
->>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
-
     System.out.println("tx: " + tx.getDouble(0));
     System.out.println("ty: " + ty.getDouble(0));
     System.out.println("ta: " + ta.getDouble(0));
 
-<<<<<<< HEAD
     // if (xbox.getRawButtonPressed(2)) {
-    //   System.out.println("Switching to Auto");
-    //   Drive.setMode(Modes.Auto);
+    // System.out.println("Switching to Auto");
+    // Drive.setMode(Modes.Auto);
     // }
-=======
-    if (xbox.getRawButtonPressed(2)) {
-      System.out.println("Switching to Auto");
-      Drive.setMode(Modes.Auto);
-    }
->>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
->>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
   }
 
   /**

@@ -22,7 +22,7 @@ public class Drive implements Runnable, UrsaRobot {
 	private double autoAlignTolerance = 0.1;
 	private double autoAlignMinimumPower = 0.25;
 
-	//TODO how would we use an enum/why?
+	// TODO how would we use an enum/why?
 	public enum Modes {
 		Auto, DriveSticks
 	};
@@ -75,7 +75,7 @@ public class Drive implements Runnable, UrsaRobot {
 	// distance that it tracks using sensors/encoders
 	public void run() {
 		while (running) {
-			//TODO update
+			// TODO update
 			mFrontLeft.set(xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y));
 			mRearLeft.set(XboxController.AXIS_LEFTSTICK_Y);
 			mFrontRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
@@ -254,37 +254,29 @@ public class Drive implements Runnable, UrsaRobot {
 			lastTime = currentTime;
 			lastTx = tx;
 			// (tx-last_tx)/(current_time-last_time)
-			
-<<<<<<< HEAD
-            driveTest(outputPower);
-            //System.out.println("output power "+kp*tx + kd*(rateOfChangeInKD_e / rateOfChangeInKD_t));
-            System.out.println("tx "+tx);
-            System.out.println(outputPower);
-            lastTime = currentTime;
-            lastTx = tx;
-            //(tx-last_tx)/(current_time-last_time)
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
 
-            }
-        }
-		
-        //stops motor
-        System.out.println("Stopped.");
-		driveTest(0.0);
-=======
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
+			setPower(outputPower);
+			// System.out.println("output power "+kp*tx + kd*(rateOfChangeInKD_e /
+			// rateOfChangeInKD_t));
+			System.out.println("tx " + tx);
+			System.out.println(outputPower);
+			lastTime = currentTime;
+			lastTx = tx;
+			// (tx-last_tx)/(current_time-last_time)
+		}
 
-			}
+		System.out.println("Stopped.");
+		setPower(0.0);
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+
 		}
 
 		System.out.println("Stopped drive");
+
 		setPower(0.0);
 		// setPower(>9000);
->>>>>>> d13ce816805e31ad9bf3ace9a2fbd3dbeabc0c0c
 		mode = Modes.DriveSticks;
 	}
 

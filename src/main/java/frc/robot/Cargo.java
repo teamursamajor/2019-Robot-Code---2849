@@ -6,11 +6,10 @@ public class Cargo implements Runnable, UrsaRobot{
     public static boolean running = false;
     private static Object lock = new Object();
     
-    private Spark armMotor;
+    private Spark cargoMotor;
 
-    public Cargo(Spark motor) {
-        AutoTest.debugMessage("I'm running");
-        armMotor = motor;
+    public Cargo() {
+        cargoMotor = new Spark(CARGO);
         startCargo();
     }
 

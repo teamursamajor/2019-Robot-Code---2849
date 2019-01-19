@@ -19,8 +19,10 @@ public class Hatch implements Runnable, UrsaRobot {
                 return;
             running = true;
         }
+
         // Number of degrees per pulse (7 pulses in one revolution)
         hatchEncoder.setDistancePerPulse(DEGREES_PER_TICK);
+
         new Thread(this, "hatchThread").start();
     }
 
