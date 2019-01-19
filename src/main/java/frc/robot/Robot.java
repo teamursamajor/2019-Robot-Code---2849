@@ -12,7 +12,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Spark;
 import frc.robot.XboxController;
-import frc.robot.Drive.Modes;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,16 +23,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-// Suggested to use CommandRobot
+// TODO Suggested to use CommandRobot
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  Spark rearLeftMotor, rearRightMotor, frontLeftMotor, frontRightMotor;
-  XboxController xbox;
+  private Spark rearLeftMotor;
+  private Spark rearRightMotor;
+  private Spark frontLeftMotor;
+  private Spark frontRightMotor;
 
+  //TODO remove
+  private Spark hatchMotor;
+
+  private XboxController xbox;
   NetworkTableEntry tx;
   NetworkTableEntry ty;
   NetworkTableEntry ta;
@@ -52,6 +57,9 @@ public class Robot extends TimedRobot {
     rearRightMotor = new Spark(2);
     frontLeftMotor = new Spark(0);
     frontRightMotor = new Spark(1);
+
+    //TODO remove
+    hatchMotor = new Spark(4);
 
     xbox = new XboxController(0);
 
@@ -93,7 +101,7 @@ public class Robot extends TimedRobot {
     // defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
 
-    //AutoTest autotest = new AutoTest(frontRightMotor, frontLeftMotor, rearRightMotor, rearLeftMotor);
+    AutoTest autotest = new AutoTest(frontRightMotor, frontLeftMotor, rearRightMotor, rearLeftMotor);
   }
 
   /**
@@ -118,19 +126,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    rearLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    frontLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    rearRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-    frontRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    // rearLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    // frontLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    // rearRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    // frontRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
 
+    if(xbox.getButton(1)){
+      hatchMotor.set(0.2);
+    } else if(xbox.getButton(2)){
+      hatchMotor.set(-0.2);
+    } else{
+      hatchMotor.set(0);
+    }
+    
     System.out.println("tx: " + tx.getDouble(0));
     System.out.println("ty: " + ty.getDouble(0));
     System.out.println("ta: " + ta.getDouble(0));
-
-    if (xbox.getRawButtonPressed(2)) {
-      System.out.println("Swithcing to Auto");
-      Drive.setMode(Modes.Auto);
-    }
   }
 
   /**

@@ -31,8 +31,6 @@ Create a Constants.java which holds constants and motor speeds:
 	Should get values from smart dashboard
 	Other files can use those values from here to set motor speeds
 	
-XboxController:
-	Use enums not ints for the button/axis IDs
 Good Vision:
 	-Auto Align:
 		-Working with Limelight
