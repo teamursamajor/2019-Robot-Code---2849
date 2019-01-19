@@ -54,7 +54,6 @@ public interface UrsaRobot {
 	Spark mRearLeft = new Spark(DRIVE_REAR_LEFT);
 	Spark mRearRight = new Spark(DRIVE_REAR_RIGHT);
 
-	//cont = controller;
 	//ahrs = new AHRS(SPI.Port.kMXP);
 	//encL = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	//encR = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);

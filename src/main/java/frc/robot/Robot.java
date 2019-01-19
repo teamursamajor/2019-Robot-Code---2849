@@ -25,14 +25,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 // Suggested to use CommandRobot
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot implements UrsaRobot{
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-
-  Spark rearLeftMotor, rearRightMotor, frontLeftMotor, frontRightMotor;
-  XboxController xbox;
 
   NetworkTableEntry tx;
   NetworkTableEntry ty;
@@ -47,13 +44,6 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-
-    rearLeftMotor = new Spark(3);
-    rearRightMotor = new Spark(2);
-    frontLeftMotor = new Spark(0);
-    frontRightMotor = new Spark(1);
-
-    xbox = new XboxController(0);
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     tx = table.getEntry("tx");
@@ -118,17 +108,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    rearLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    frontLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    rearRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-    frontRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
 
     System.out.println("tx: " + tx.getDouble(0));
     System.out.println("ty: " + ty.getDouble(0));
     System.out.println("ta: " + ta.getDouble(0));
 
     if (xbox.getRawButtonPressed(2)) {
-      System.out.println("Swithcing to Auto");
+      System.out.println("Switching to Auto");
       Drive.setMode(Modes.Auto);
     }
   }
