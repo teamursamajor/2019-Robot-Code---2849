@@ -41,10 +41,6 @@ Good Vision:
 
 Subsystems:
 	-Cargo arm and Hatch arm separately
-	OR
-	-One combined arm
-		-Recognize game piece
-	
 	-Drive
 	-Climb
 	-Lazy Susan
