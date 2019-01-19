@@ -1,3 +1,6 @@
+-Enums: Y or N?
+-How are the handlers going to interact with the subsytems?
+
 Comments! Use them! Be sure to comment everything that might not be immediately understandable!:
 	Print lines or simple object creation don't need to be commented, but a PID loop or some auto functionality should
 
@@ -40,8 +43,9 @@ Good Vision:
 		Do we have any sensors which can detect small enough distances?
 
 Subsystems:
-	-Cargo arm and Hatch arm separately
 	-Drive
+	-Hatch
+	-Cargo
 	-Climb
 	-Lazy Susan
 

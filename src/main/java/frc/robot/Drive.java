@@ -22,6 +22,7 @@ public class Drive implements Runnable, UrsaRobot {
 	private double autoAlignTolerance = 0.1;
 	private double autoAlignMinimumPower = 0.25;
 
+	//TODO how would we use an enum/why?
 	public enum Modes {
 		Auto, DriveSticks
 	};
@@ -74,14 +75,12 @@ public class Drive implements Runnable, UrsaRobot {
 	// distance that it tracks using sensors/encoders
 	public void run() {
 		while (running) {
-			// mFrontLeft.set(-cont.getDrive().getLeftSpeed());
-			// mFrontRight.set(cont.getDrive().getRightSpeed());
-			// mRearLeft.set(-cont.getDrive().getLeftSpeed());
-			// mRearRight.set(cont.getDrive().getRightSpeed());
+			//TODO update
+			mFrontLeft.set(xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y));
+			mRearLeft.set(XboxController.AXIS_LEFTSTICK_Y);
+			mFrontRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
+			mRearRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
 
-			// if (mFrontLeft.getSpeed() < 0 && mFrontRight.getSpeed() < 0) {
-			// cont.getIntake().setIntakeType(IntakeType.HOLD);
-			// }
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
