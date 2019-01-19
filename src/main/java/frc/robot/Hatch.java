@@ -9,7 +9,6 @@ public class Hatch implements Runnable, UrsaRobot {
     private Spark hatchMotor;
 
     public Hatch() {
-        AutoTest.debugMessage("I'm running");
         hatchMotor = new Spark(HATCH);
         startHatch();
     }
@@ -21,18 +20,17 @@ public class Hatch implements Runnable, UrsaRobot {
             running = true;
         }
         // Number of degrees per pulse (7 pulses in one revolution)
-        hatchEncoder.setDistancePerPulse(0.72434608d);
+        hatchEncoder.setDistancePerPulse(DEGREES_PER_TICK);
         new Thread(this, "hatchThread").start();
     }
 
     public void run() {
         while (running) {
+            //TODO get input from teleop handler
             if (xbox.getButton(XboxController.BUTTON_A)) { // Goes up
                 hatchMotor.set(0.40);
             } else if (xbox.getButton(XboxController.BUTTON_B)) { // Goes down
-                // hatchMotor.set(-0.20);
-                hatchMotor.set(0.0);
-                break;
+                hatchMotor.set(-0.20);
             } else {
                 hatchMotor.set(0.0);
             }

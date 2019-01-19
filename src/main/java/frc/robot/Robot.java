@@ -23,34 +23,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-<<<<<<< HEAD
 // TODO Suggested to use CommandRobot
-public class Robot extends TimedRobot {
-=======
-// Suggested to use CommandRobot
-<<<<<<< HEAD
-public class Robot extends TimedRobot implements UrsaRobot {
-=======
 public class Robot extends TimedRobot implements UrsaRobot{
->>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
->>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-<<<<<<< HEAD
-  private Spark rearLeftMotor;
-  private Spark rearRightMotor;
-  private Spark frontLeftMotor;
-  private Spark frontRightMotor;
-
-  //TODO remove
-  private Spark hatchMotor;
-
-  private XboxController xbox;
-=======
->>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
   NetworkTableEntry tx;
   NetworkTableEntry ty;
   NetworkTableEntry ta;
@@ -67,23 +46,8 @@ public class Robot extends TimedRobot implements UrsaRobot{
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    rearLeftMotor = new Spark(3);
-    rearRightMotor = new Spark(2);
-    frontLeftMotor = new Spark(0);
-    frontRightMotor = new Spark(1);
-
-    //TODO remove
-    hatchMotor = new Spark(4);
-
     xbox = new XboxController(0);
 
-=======
->>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
->>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
