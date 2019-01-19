@@ -12,7 +12,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
 import frc.robot.XboxController;
-import frc.robot.Drive.Modes;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,13 +23,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
+<<<<<<< HEAD
+// TODO Suggested to use CommandRobot
+public class Robot extends TimedRobot {
+=======
 // Suggested to use CommandRobot
+<<<<<<< HEAD
 public class Robot extends TimedRobot implements UrsaRobot {
+=======
+public class Robot extends TimedRobot implements UrsaRobot{
+>>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
+>>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+<<<<<<< HEAD
+  private Spark rearLeftMotor;
+  private Spark rearRightMotor;
+  private Spark frontLeftMotor;
+  private Spark frontRightMotor;
+
+  //TODO remove
+  private Spark hatchMotor;
+
+  private XboxController xbox;
+=======
+>>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
   NetworkTableEntry tx;
   NetworkTableEntry ty;
   NetworkTableEntry ta;
@@ -47,6 +67,23 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    rearLeftMotor = new Spark(3);
+    rearRightMotor = new Spark(2);
+    frontLeftMotor = new Spark(0);
+    frontRightMotor = new Spark(1);
+
+    //TODO remove
+    hatchMotor = new Spark(4);
+
+    xbox = new XboxController(0);
+
+=======
+>>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+>>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
@@ -84,6 +121,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
 
+<<<<<<< HEAD
+=======
+    AutoTest autotest = new AutoTest(frontRightMotor, frontLeftMotor, rearRightMotor, rearLeftMotor);
+>>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
   }
 
   /**
@@ -108,20 +149,53 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+<<<<<<< HEAD
     // mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
     // mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
     // mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
     // mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
 
+=======
+<<<<<<< HEAD
+    // rearLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    // frontLeftMotor.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    // rearRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    // frontRightMotor.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+
+    if(xbox.getButton(1)){
+      hatchMotor.set(0.2);
+    } else if(xbox.getButton(2)){
+      hatchMotor.set(-0.2);
+    } else{
+      hatchMotor.set(0);
+    }
+    
+    System.out.println("tx: " + tx.getDouble(0));
+    System.out.println("ty: " + ty.getDouble(0));
+    System.out.println("ta: " + ta.getDouble(0));
+=======
+    mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+>>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
 
     System.out.println("tx: " + tx.getDouble(0));
     System.out.println("ty: " + ty.getDouble(0));
     System.out.println("ta: " + ta.getDouble(0));
 
+<<<<<<< HEAD
     // if (xbox.getRawButtonPressed(2)) {
     //   System.out.println("Switching to Auto");
     //   Drive.setMode(Modes.Auto);
     // }
+=======
+    if (xbox.getRawButtonPressed(2)) {
+      System.out.println("Switching to Auto");
+      Drive.setMode(Modes.Auto);
+    }
+>>>>>>> 8009bbe5fe3c45bb9b034b09c8d9569487537944
+>>>>>>> 24443200d99027310f70feec7f128fbe37c8684c
   }
 
   /**
