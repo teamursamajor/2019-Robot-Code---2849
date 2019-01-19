@@ -31,7 +31,7 @@ public interface UrsaRobot {
 
 	//7 pulses per revolution
 	public static Encoder hatchEncoder = new Encoder(HATCH_ENCODER_CHANNEL_A, HATCH_ENCODER_CHANNEL_B);
-
+	
 	public static final double ROBOT_WIDTH_INCHES  = 32d;/*in*///12;//ft
 	public static final double ROBOT_DEPTH_INCHES = 28d;/*in*///12;//ft
 	

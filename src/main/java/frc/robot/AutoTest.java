@@ -63,7 +63,6 @@ public class AutoTest implements Runnable {
             if (tx == lastTx) {
                 continue;
             }
-
             // Finding Rate of change in kd
             double rateOfChangeInKD_e = tx - lastTx;
             double rateOfChangeInKD_t = currentTime - lastTime;

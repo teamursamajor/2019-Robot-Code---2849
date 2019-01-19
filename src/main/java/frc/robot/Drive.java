@@ -274,7 +274,7 @@ public class Drive implements Runnable, UrsaRobot {
 		
         //stops motor
         System.out.println("Stopped.");
-		driveTest(0.01);
+		driveTest(0.0);
 		mode = Modes.DriveSticks;
     }
     
