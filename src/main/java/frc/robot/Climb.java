@@ -3,8 +3,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Climb implements Runnable, UrsaRobot {
+    public static boolean running = false;
+    private static Object lock = new Object();
 
-    private Boolean running = new Boolean(false);
     private Spark climbMotor;
 
     public Climb(Spark motor) {
@@ -14,8 +15,7 @@ public class Climb implements Runnable, UrsaRobot {
     }
 
     private void startClimb() {
-        //TODO placeholder, synchronize on an object
-        synchronized(running){
+        synchronized(lock){
             if (running)
 				return;
 			running = true;

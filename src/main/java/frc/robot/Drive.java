@@ -7,11 +7,6 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Drive implements Runnable, UrsaRobot {
-<<<<<<< HEAD
-	
-	
-	
-=======
 
 	// TODO move these to UrsaRobot?
 	private static Spark mFrontLeft;
@@ -19,23 +14,16 @@ public class Drive implements Runnable, UrsaRobot {
 	private static Spark mRearLeft;
 	private static Spark mRearRight;
 
->>>>>>> 1e8218de4245b45e2cd27e7fe4e4bd9edc6710ab
 	private static double leftSpeed;
 	private static double rightSpeed;
 	private static boolean square;
 	private static AHRS ahrs;
 	
-	private static Boolean running = new Boolean(false);
-	
+	public static boolean running = false;
+	private static Object lock = new Object();
+		
 	private static Encoder encL;
 	private static Encoder encR;
-<<<<<<< HEAD
-	
-	//private static ControlLayout cont;
-	
-=======
-
->>>>>>> 1e8218de4245b45e2cd27e7fe4e4bd9edc6710ab
 	private static final double INCHES_PER_TICK = 0.011505d;
 	
 	private double kdAutoAlign = 2;
@@ -57,16 +45,11 @@ public class Drive implements Runnable, UrsaRobot {
 	 * @param rearRight  Channel number for rear right motor
 	 */
 
-<<<<<<< HEAD
-	public Drive(int frontLeft, int frontRight, int rearLeft, int rearRight) { //, ControlLayout controller) {
-		
-=======
 	public Drive(int frontLeft, int frontRight, int rearLeft, int rearRight) { // , ControlLayout controller) {
 		mFrontLeft = new Spark(frontLeft);
 		mFrontRight = new Spark(frontRight);
 		mRearLeft = new Spark(rearLeft);
 		mRearRight = new Spark(rearRight);
->>>>>>> 1e8218de4245b45e2cd27e7fe4e4bd9edc6710ab
 
 		ahrs = new AHRS(SPI.Port.kMXP);
 
@@ -87,8 +70,7 @@ public class Drive implements Runnable, UrsaRobot {
 	 * Starts driveThread. Made so that only one driveThread can exist at one time.
 	 */
 	private void startDrive() {
-		//TODO we shouldn't be synchronizing on a boolean, but rather an object. We need to update this throughout the project
-		synchronized (running) {
+		synchronized (lock) {
 			if (running)
 				return;
 			running = true;
@@ -111,28 +93,12 @@ public class Drive implements Runnable, UrsaRobot {
 			// if (mFrontLeft.getSpeed() < 0 && mFrontRight.getSpeed() < 0) {
 			// cont.getIntake().setIntakeType(IntakeType.HOLD);
 			// }
-<<<<<<< HEAD
-
-			switch (mode) {
-			case Auto:	
-				System.out.println("Mode: Auto");
-				AutoAlign();
-				mode = Modes.DriveSticks;
-				break;
-			case DriveSticks:
-				System.out.println("Mode: DriveSticks");
-				break;
-			default: 
-				mode = Modes.DriveSticks;
-				break;
-=======
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				// Logger.log("Drive run method Thread.sleep call, printStackTrace",
 				// LogLevel.ERROR);
->>>>>>> 1e8218de4245b45e2cd27e7fe4e4bd9edc6710ab
 			}
 		}
 	}

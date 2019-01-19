@@ -28,36 +28,44 @@ public class XboxController extends Joystick implements Runnable {
 	public static final int AXIS_RIGHTSTICK_X = 4;
 	public static final int AXIS_RIGHTSTICK_Y = 5;
 
-	//POV refers to the D-Pad
+	// POV refers to the D-Pad
 	public static final int POV_NONE = -1;
 	public static final int POV_UP = 0;
 	public static final int POV_RIGHT = 90;
 	public static final int POV_DOWN = 180;
 	public static final int POV_LEFT = 270;
 
-	private boolean running = false;
+	public static boolean running = false;
+	private static Object lock = new Object();
+
 	private long rumbleStopTime = 0;
 
-	//Latch is defined as a subclass below
+	// Latch is defined as a subclass below
 	Latch buttonLatch[] = new Latch[10];
 	Latch axisLatch[] = new Latch[6];
 
 	public XboxController(int port) {
 		super(port);
 
-		// We never use rumble for anything, so I've commented it out to avoid
-		// unneccessary threads
-		//TODO should we just delete this?
-		// Thread rumbleThread = new Thread(this, "rumbleThread");
-		// rumbleThread.start();
+		startRumble();
 
-		//Creates Latch objects for every button and axis on the controller
-		for (Latch num1 : buttonLatch) {
-			num1 = new Latch();
+		// Creates Latch objects for every button and axis on the controller
+		for(int i = 0; i < buttonLatch.length - 1; i++){
+			buttonLatch[i] = new Latch();
 		}
-		for (Latch num2 : axisLatch) {
-			num2 = new Latch();
+
+		for(int i = 0; i < axisLatch.length - 1; i++){
+			axisLatch[i] = new Latch();
 		}
+	}
+
+	private void startRumble() {
+		synchronized (lock) {
+			if (running)
+				return;
+			running = true;
+		}
+		new Thread(this, "rumbleThread").start();
 	}
 
 	/**
@@ -118,7 +126,15 @@ public class XboxController extends Joystick implements Runnable {
 		return this.getRawAxis(axisNumber) < lessThan;
 	}
 
-	//TODO javadoc comment this
+	/**
+	 * Since it is difficult to use the axis to input low speeds, we square our
+	 * input values so that instead of a linear curve, our speed/input ratio is
+	 * exponential. This means that when the stick is at about 50% power the robot
+	 * actually moves at 25% speed.
+	 * 
+	 * @param axisNumber The ID number for the axis
+	 * @return The input value squared
+	 */
 	public double getSquaredAxis(int axisNumber) {
 		double rawInput = this.getAxis(axisNumber);
 		return rawInput * Math.abs(rawInput);
