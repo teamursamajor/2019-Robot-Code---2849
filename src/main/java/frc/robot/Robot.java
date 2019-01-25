@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
+import frc.robot.XboxController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-// TODO Suggested to use CommandRobot
+// Suggested to use CommandRobot
 public class Robot extends TimedRobot implements UrsaRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
@@ -40,12 +44,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-
     SmartDashboard.putData("Auto choices", m_chooser);
 
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
+
+    hatch = new Hatch();
   }
 
   /**
@@ -104,13 +109,19 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    // mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    // mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
+    // mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    // mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+
+
     System.out.println("tx: " + tx.getDouble(0));
     System.out.println("ty: " + ty.getDouble(0));
     System.out.println("ta: " + ta.getDouble(0));
 
     // if (xbox.getRawButtonPressed(2)) {
-    // System.out.println("Switching to Auto");
-    // Drive.setMode(Modes.Auto);
+    //   System.out.println("Switching to Auto");
+    //   Drive.setMode(Modes.Auto);
     // }
   }
 

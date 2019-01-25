@@ -52,4 +52,33 @@ public interface UrsaRobot {
 	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
 	XboxController xbox = new XboxController(0);
+
+	//Subsystem Mode Enums
+	public enum HatchMode {
+		Intake, Deploy, Default, Carry
+	}
+	
+	public enum DriveMode {
+		Auto, DriveSticks
+	}
+
+	//TODO Add modes
+	public enum ClimbMode {
+
+	}
+
+	//TODO Add modes
+	public enum CargoMode {
+
+	}
+
+	/**
+	 * As of 1/25/2019 at 4:32 PM this enum has been declared sacred and will not
+	 * be deleted. Ever. -Evan
+	 * (ok delete it if you want idc)
+	 */
+	public enum SickoMode {
+		
+	}
+
 }

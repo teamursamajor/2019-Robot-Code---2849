@@ -2,27 +2,21 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 
-public class Cargo implements Runnable, UrsaRobot{
-    public static boolean running = false;
-    private static Object lock = new Object();
-    
+public class Cargo extends Subsystem<UrsaRobot.CargoMode> implements UrsaRobot{
+
     private Spark cargoMotor;
 
     public Cargo() {
+        super();
         cargoMotor = new Spark(CARGO);
-        startCargo();
     }
 
-    private void startCargo() {
-        synchronized(lock){
-            if (running)
-				return;
-			running = true;
+    public void runSubsystem() {
+        //TODO Fill this out and add modes
+        switch (getMode()) {
+            default:
+                break;
         }
-        new Thread(this, "cargoThread").start();
-    }
-
-    public void run() {
-        // TODO place runnable code
+        //TODO place runnable code
     }
 }

@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 
-public class Drive implements Runnable, UrsaRobot {
+public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 
 	private Spark mFrontLeft;
 	private Spark mFrontRight;
@@ -11,9 +11,6 @@ public class Drive implements Runnable, UrsaRobot {
 
 	private static boolean square;
 
-	public static boolean running = false;
-	private static Object lock = new Object();
-
 	// TODO move these to UrsaRobot?
 	private double leftSpeed;
 	private double rightSpeed;
@@ -21,13 +18,6 @@ public class Drive implements Runnable, UrsaRobot {
 	private double kpAutoAlign = 1.0 / 33.0;
 	private double autoAlignTolerance = 0.1;
 	private double autoAlignMinimumPower = 0.25;
-
-	// TODO how would we use an enum/why?
-	public enum Modes {
-		Auto, DriveSticks
-	};
-
-	private static Modes mode;
 
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
@@ -40,6 +30,7 @@ public class Drive implements Runnable, UrsaRobot {
 	 */
 
 	public Drive() {
+		super();
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mRearLeft = new Spark(DRIVE_REAR_LEFT);
@@ -51,60 +42,37 @@ public class Drive implements Runnable, UrsaRobot {
 
 		leftEncoder.reset();
 		rightEncoder.reset();
-
-		startDrive();
 	}
 
-	/**
-	 * Starts driveThread. Made so that only one driveThread can exist at one time.
-	 */
-	private void startDrive() {
-		synchronized (lock) {
-			if (running)
-				return;
-			running = true;
-		}
-		new Thread(this, "driveThread").start();
-	}
-
-	/**
-	 * Run method for driveThread
-	 */
-	@Override
 	// TODO Write the run method. It will be a PID loop which drives a specified
 	// distance that it tracks using sensors/encoders
-	public void run() {
-		while (running) {
-			// TODO update
-			mFrontLeft.set(xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y));
-			mRearLeft.set(XboxController.AXIS_LEFTSTICK_Y);
-			mFrontRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
-			mRearRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
 
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				// Logger.log("Drive run method Thread.sleep call, printStackTrace",
-				// LogLevel.ERROR);
-			}
+	public void runSubsystem() {
+
+		//TODO Fill this out
+		switch (getMode()) {
+			case DriveSticks: 
+				break;
+			case Auto:
+				break;
+			default:
+				break;
 		}
-	}
+		// mFrontLeft.set(-cont.getDrive().getLeftSpeed());
+		// mFrontRight.set(cont.getDrive().getRightSpeed());
+		// mRearLeft.set(-cont.getDrive().getLeftSpeed());
+		// mRearRight.set(cont.getDrive().getRightSpeed());
 
-	/**
-	 * Sets the enum mode
-	 * 
-	 * @param tMode
-	 */
-	public static void setMode(Modes tMode) {
-		mode = tMode;
-	}
-
-	/**
-	 * Kill method for driveThread
-	 */
-	public void kill() {
-		running = false;
+		// if (mFrontLeft.getSpeed() < 0 && mFrontRight.getSpeed() < 0) {
+		// cont.getIntake().setIntakeType(IntakeType.HOLD);
+		// }
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			// Logger.log("Drive run method Thread.sleep call, printStackTrace",
+			// LogLevel.ERROR);
+		}
 	}
 
 	/**
@@ -196,10 +164,6 @@ public class Drive implements Runnable, UrsaRobot {
 		mRearRight.stopMotor();
 	}
 
-	public static boolean getRunning() {
-		return running;
-	}
-
 	/**
 	 * As of 3/9/2018 at 5:49 PM this method has been declared sacred and will not
 	 * be deleted. Ever. -20XX
@@ -254,30 +218,18 @@ public class Drive implements Runnable, UrsaRobot {
 			lastTime = currentTime;
 			lastTx = tx;
 			// (tx-last_tx)/(current_time-last_time)
+			
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
 
-			setPower(outputPower);
-			// System.out.println("output power "+kp*tx + kd*(rateOfChangeInKD_e /
-			// rateOfChangeInKD_t));
-			System.out.println("tx " + tx);
-			System.out.println(outputPower);
-			lastTime = currentTime;
-			lastTx = tx;
-			// (tx-last_tx)/(current_time-last_time)
-		}
-
-		System.out.println("Stopped.");
-		setPower(0.0);
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-
+			}
 		}
 
 		System.out.println("Stopped drive");
-
 		setPower(0.0);
 		// setPower(>9000);
-		mode = Modes.DriveSticks;
+		setMode(DriveMode.DriveSticks);
 	}
 
 	public void setPower(double power) {

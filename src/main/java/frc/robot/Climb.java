@@ -2,27 +2,22 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 
-public class Climb implements Runnable, UrsaRobot {
-    public static boolean running = false;
-    private static Object lock = new Object();
+public class Climb extends Subsystem<UrsaRobot.ClimbMode> implements UrsaRobot {
 
     private Spark climbMotor;
 
     public Climb() {
+        super();
         climbMotor = new Spark(CLIMB);
-        startClimb();
     }
 
-    private void startClimb() {
-        synchronized(lock){
-            if (running)
-				return;
-			running = true;
+    public void runSubsystem() {
+        //TODO Fill this out and add modes
+        switch (getMode()) {
+            default:
+                break;
         }
-        new Thread(this, "climbThread").start();
+        //TODO Place runnable code
     }
 
-    public void run() {
-        // TODO place runnable code
-    }
 }

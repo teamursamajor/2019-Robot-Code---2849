@@ -7,6 +7,7 @@ public class TeleOp implements UrsaRobot {
     // Execute the tasks
 
     public TeleOp(){
-        
+
     }
+
 }
