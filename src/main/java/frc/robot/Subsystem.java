@@ -2,25 +2,33 @@ package frc.robot;
 
 public abstract class Subsystem<E> implements Runnable {
 
+    /* This class is meant to act as a skeleton for subsystems and reduce redundant code.
+     * It creates a subsystem thread and methods to get/set different modes (according to enums).
+     * Subsystem classes then extend it and run its constructor so they get the thread and methods.
+     * It uses the generic E so that subsystem classes can substitute this with their mode enums.
+     */
+
     public static boolean running = false;
     private static Object lock = new Object();
     
     private Thread t;
     
     public Subsystem(String threadName) {
+        //Used to prevent ("lock") a thread from starting again if constructor is run again
         synchronized (lock) {
 			if (running)
 				return;
 			running = true;
         }
-        //TODO Maybe we should declare/start the thread in the individual subsystems?
-        //Unless the name has no purpose here, idk. Right now it's general
         t = new Thread(this, threadName);
         t.start();
     }
 
+    //Thread Methods
+
     public void run() {
         while (running) {
+            //When the thread is interrupted to set a mode (see below), it will just restart itself.
             try {
                 runSubsystem();
             } catch (InterruptedException e) {
@@ -29,28 +37,43 @@ public abstract class Subsystem<E> implements Runnable {
         }
     }
 
+    /**
+     * Method to check if subsystem thread is running.
+     */
     public static boolean getRunning() {
 		return running;
     }
     
     /**
-	 * Kill method for thread
+	 * Method to kill subsystem thread.
 	 */
 	public void kill() {
 		running = false;
 	}
 
+    //Mode Setter/Getter Methods
+
     private E subsystemMode;
 
+    /**
+     * Sets the current mode for the subsystem and interrupts the subsystem thread to do so.
+     */
     public void setMode(E mode) {
         t.interrupt();
         subsystemMode = mode;
     }
 
+    /**
+     * @return The current mode for the subsystem.
+     */
     public E getMode() {
         return subsystemMode;
     }
 
+    /**
+     * Abstract method for subsystems to do stuff in their individual threads.
+     * @throws InterruptedException because the thread is interrupted to change modes.
+     */
     public abstract void runSubsystem() throws InterruptedException;
 
 }
