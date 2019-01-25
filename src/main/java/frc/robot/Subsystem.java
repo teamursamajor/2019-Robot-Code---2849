@@ -7,7 +7,7 @@ public abstract class Subsystem<E> implements Runnable {
     
     private Thread t;
     
-    public Subsystem() {
+    public Subsystem(String threadName) {
         synchronized (lock) {
 			if (running)
 				return;
@@ -15,7 +15,7 @@ public abstract class Subsystem<E> implements Runnable {
         }
         //TODO Maybe we should declare/start the thread in the individual subsystems?
         //Unless the name has no purpose here, idk. Right now it's general
-        t = new Thread(this, "subsystemThread");
+        t = new Thread(this, threadName);
         t.start();
     }
 

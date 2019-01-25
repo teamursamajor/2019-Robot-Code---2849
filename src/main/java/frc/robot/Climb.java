@@ -7,7 +7,7 @@ public class Climb extends Subsystem<UrsaRobot.ClimbMode> implements UrsaRobot {
     private Spark climbMotor;
 
     public Climb() {
-        super();
+        super("climbThread");
         climbMotor = new Spark(CLIMB);
     }
 

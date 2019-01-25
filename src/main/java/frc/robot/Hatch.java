@@ -28,7 +28,7 @@ public class Hatch extends Subsystem<UrsaRobot.HatchMode> implements UrsaRobot {
     double currentPosition; //Encoder?
 
     public Hatch() {
-        super();
+        super("hatchThread");
         hatchMotor = new Spark(HATCH);
         //Number of degrees per pulse (7 pulses in one revolution)
         hatchEncoder.setDistancePerPulse(DEGREES_PER_TICK);

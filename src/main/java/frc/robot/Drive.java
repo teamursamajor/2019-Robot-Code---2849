@@ -30,7 +30,7 @@ public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 	 */
 
 	public Drive() {
-		super();
+		super("driveThread");
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mRearLeft = new Spark(DRIVE_REAR_LEFT);
