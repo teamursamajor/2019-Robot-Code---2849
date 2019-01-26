@@ -1,25 +1,26 @@
--Enums: Y or N?
--How are the handlers going to interact with the subsytems?
+Parser:
+	Update the keywords
+	Make it simple and go line by line
+		Read the whole file in as a string
+		Read the first line and if its a command you run it
+		If its a serial/bundle, go until you find the }, and use substrings to recursively run those commands
+		Look at whiteboard pic
+PID Loops:
+	Tune drive, (maybe) hatch, and cargo
+Subsystems:
+	Use basic DriveLoops/States/Order as a template for other subsystems
+Logger
+Sensors.java and SmartDashboard integration with speeds and such
 
 Comments! Use them! Be sure to comment everything that might not be immediately understandable!:
 	Print lines or simple object creation don't need to be commented, but a PID loop or some auto functionality should
 
 Look at all the TODO's in the project and start doing them
 
-Update UrsaRobot to be current for the 2019 season:
-	Move all physical sensors (like encoders) to here
-	Remove anything we are not using this year
-	This is essentially our Sensors file
+Update the compiler/parser for this year
 
-Research how we can log values, errors, etc. on the Driver Station
-
-Copy the compiler/parser from last year and update it for this year (new keywords and such)
-
-Create the auto handler, which is told grabs the parsed keywords from the compiler and executes tasks as needed
-
-Create the teleop handler, which processes controller inputs and executes tasks as needed:
-	If desired, you can make a .config file of some sort allowing for quick changes to control layouts.
-	The code would read the config files and look for the specified buttons/axis assigned to a specified action, then execute that action
+If desired, you can make a .config file of some sort allowing for quick changes to control layouts.
+The code would read the config files and look for the specified buttons/axis assigned to a specified action, then execute that action
 		Ex: You make a variable which holds the button ID and if that button ID is inputted, run the hatch dropoff
 
 Write the code for the ShuffleBoard:
