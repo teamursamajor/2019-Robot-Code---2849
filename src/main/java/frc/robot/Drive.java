@@ -76,6 +76,14 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 		double rightDeltaPos = rightDistance - DriveLoops.DriveState.rightPos;
 		rightVelocity = (rightDeltaPos / deltaTime);
 
+		/*
+		 * Our loop updates faster than the limelight. If the limelight hasn't updated
+		 * yet, then our change in position is 0. In this case, we want to skip this
+		 * iteration and wait for the next cycle
+		 */
+		if (leftDeltaPos == 0 || rightDeltaPos == 0)
+			return;
+
 		DriveLoops.DriveState.updateState(leftPower, rightPower, leftVelocity, rightVelocity, leftDistance,
 				rightDistance);
 	}

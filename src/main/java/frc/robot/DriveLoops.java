@@ -44,27 +44,26 @@ public class DriveLoops implements UrsaRobot {
             double autoAlignMinimumPower = 0.25;
 
             // alignment code / control loop
-            double tx = limelightTable.getEntry("tx").getDouble(Double.NaN);
 
-            double lastTx = tx;
-            double outputPower;
-
-            if (Math.abs(tx) < autoAlignTolerance) {
+            double centerPos = (DriveState.leftPos + DriveState.rightPos) / 2.0;
+            if (Math.abs(centerPos) < autoAlignTolerance) {
                 return new DriveOrder(0.0, 0.0);
             }
 
-            tx = limelightTable.getEntry("tx").getDouble(Double.NaN);
 
             // Finding Rate of change in kd
-            double rateOfChangeInKD_e = tx - lastTx;
-            double rateOfChangeInKD_t = currentTime - lastTime;
-            outputPower = kpAutoAlign * tx + kdAutoAlign * (rateOfChangeInKD_e / rateOfChangeInKD_t);
+            double leftOutputPower = kpAutoAlign * DriveState.leftPos + kdAutoAlign * DriveState.leftVelocity;
+            double rightOutputPower = kpAutoAlign * DriveState.rightPos + kdAutoAlign * DriveState.rightVelocity;
 
-            if (Math.abs(outputPower) < autoAlignMinimumPower) {
-                outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
+            if (Math.abs(leftOutputPower) < autoAlignMinimumPower) {
+                leftOutputPower = Math.signum(leftOutputPower) * autoAlignMinimumPower;
             }
 
-            return new DriveOrder(outputPower, outputPower);
+            if (Math.abs(rightOutputPower) < autoAlignMinimumPower) {
+                rightOutputPower = Math.signum(rightOutputPower) * autoAlignMinimumPower;
+            }
+
+            return new DriveOrder(leftOutputPower, rightOutputPower);
         }
 
         /**
