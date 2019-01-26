@@ -34,7 +34,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
   NetworkTableEntry ty;
   NetworkTableEntry ta;
 
+  private Spark mRearLeft;
   private Hatch hatch;
+  private Spark armSpin;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -51,6 +53,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     ta = table.getEntry("ta");
 
     hatch = new Hatch();
+    mRearLeft = new Spark(4);
+    armSpin = new Spark(5);
   }
 
   /**
@@ -114,15 +118,33 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
     // mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
 
+    if (xbox.getButton(XboxController.BUTTON_A)) { // Goes up
+      mRearLeft.set(0.3);
+    } else if (xbox.getButton(XboxController.BUTTON_B)) { // Goes down
+      mRearLeft.set(-0.25);
+    } 
+    //else if (xbox.getButton(XboxController.BUTTON_X)){
+      //mRearLeft.set(0.1);
+    //} 
+    else {
+      mRearLeft.set(0.0);
+    }
+
+    if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)){
+      System.out.println("left trigger");
+      armSpin.set(-.20);
+    }
+    else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)){
+      System.out.println("right trigger");
+      armSpin.set(.20);
+    }
+    else {
+      armSpin.set(0.0);
+    }
 
     System.out.println("tx: " + tx.getDouble(0));
     System.out.println("ty: " + ty.getDouble(0));
     System.out.println("ta: " + ta.getDouble(0));
-
-    // if (xbox.getRawButtonPressed(2)) {
-    //   System.out.println("Switching to Auto");
-    //   Drive.setMode(Modes.Auto);
-    // }
   }
 
   /**
