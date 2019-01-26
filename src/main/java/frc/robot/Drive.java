@@ -9,14 +9,11 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 	private Spark mRearLeft;
 	private Spark mRearRight;
 
+	// TODO need?
 	private static boolean square;
 
-	private double leftSpeed;
-	private double rightSpeed;
-	private double kdAutoAlign = 2;
-	private double kpAutoAlign = 1.0 / 33.0;
-	private double autoAlignTolerance = 0.1;
-	private double autoAlignMinimumPower = 0.25;
+	private double leftPower;
+	private double rightPower;
 
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
@@ -24,7 +21,7 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 	 */
 
 	public Drive() {
-		super("driveThread");
+		super("driveThread"); // Creates the thread
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mRearLeft = new Spark(DRIVE_REAR_LEFT);
@@ -38,32 +35,49 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 		rightEncoder.reset();
 	}
 
-	// TODO Write run method. It will communicate with the DriveLoops to send it the
-	// current state of the Robot and then update the powers to the returned
-	// DriveOrder
+	/**
+	 * Updates the DriveState class (in DriveLoops) with current power and position,
+	 * then iterates the loop once and sets the motor powers according to the new
+	 * results
+	 */
 	public void runSubsystem() {
+		updateStateInfo();
+		DriveLoops.DriveOrder driveOrder = subsystemMode.callLoop();
 
-		// TODO Fill this out
-		switch (getMode()) {
-		case Auto:
-			break;
-		case DriveSticks:
-			break;
-		default:
-			break;
-		}
-		// mFrontLeft.set(-cont.getDrive().getLeftSpeed());
-		// mFrontRight.set(cont.getDrive().getRightSpeed());
-		// mRearLeft.set(-cont.getDrive().getLeftSpeed());
-		// mRearRight.set(cont.getDrive().getRightSpeed());
+		mFrontLeft.set(-driveOrder.leftPower);
+		mFrontRight.set(driveOrder.rightPower);
+		mRearLeft.set(-driveOrder.leftPower);
+		mRearRight.set(driveOrder.rightPower);
 
 		try {
 			Thread.sleep(20);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			// TODO logger stuff
 			// Logger.log("Drive run method Thread.sleep call, printStackTrace",
 			// LogLevel.ERROR);
 		}
+	}
+
+	public void updateStateInfo() {
+		// TODO update these distances to use information from encoders alongside
+		// limelight
+		double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
+		double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
+
+		// Calculate robot velocity
+		double leftVelocity, rightVelocity;
+
+		// For underclassmen, Delta means "change in"
+		double leftDeltaPos = leftDistance - DriveLoops.DriveState.leftPos;
+		double deltaTime = System.currentTimeMillis() - DriveLoops.DriveState.stateTime;
+		leftVelocity = (leftDeltaPos / deltaTime);
+
+		double rightDeltaPos = rightDistance - DriveLoops.DriveState.rightPos;
+		rightVelocity = (rightDeltaPos / deltaTime);
+
+		DriveLoops.DriveState.updateState(leftPower, rightPower, leftVelocity, rightVelocity, leftDistance,
+				rightDistance);
 	}
 
 	/**
@@ -155,68 +169,6 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 		mRearRight.stopMotor();
 	}
 
-	/**
-	 * Auto aligns the robot to the tape
-	 */
-	//TODO comment this with a bit more detail
-	public void autoAlign() {
-		double tv = table.getEntry("tv").getDouble(-1); // Gets current y-coordinate
-
-		// slows down the robot until it sees second tape.
-		tv = table.getEntry("tv").getDouble(-1); // detects the presence of reflective tape.
-		while (tv != 1) {
-			setPower(0.3);
-			tv = table.getEntry("tv").getDouble(-1); // detects the presence of reflective tape.
-		}
-		debugMessage("Saw second tape");
-
-		// alignment code / control loop
-		double tx = table.getEntry("tx").getDouble(42.5);
-		System.out.println(tx);
-
-		double lastTx = tx;
-		double lastTime = System.currentTimeMillis();
-		double currentTime;
-		double outputPower;
-
-		while (Math.abs(tx) > autoAlignTolerance) {
-			// DEBUGGING
-			// double output_power;
-			currentTime = System.currentTimeMillis();
-			tx = table.getEntry("tx").getDouble(42.5);
-			if (tx == lastTx) {
-				continue;
-			}
-
-			// Finding Rate of change in kd
-			double rateOfChangeInKD_e = tx - lastTx;
-			double rateOfChangeInKD_t = currentTime - lastTime;
-			outputPower = kpAutoAlign * tx + kdAutoAlign * (rateOfChangeInKD_e / rateOfChangeInKD_t);
-			if (Math.abs(outputPower) < autoAlignMinimumPower) {
-				outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
-			}
-
-			setPower(outputPower);
-			// System.out.println("output power "+kp*tx + kd*(rateOfChangeInKD_e /
-			// rateOfChangeInKD_t));
-			System.out.println("tx " + tx);
-			System.out.println(outputPower);
-			lastTime = currentTime;
-			lastTx = tx;
-			// (tx-last_tx)/(current_time-last_time)
-
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-
-			}
-		}
-
-		System.out.println("Stopped drive");
-		setPower(0.0);
-		setMode(DriveLoops.DriveMode.DriveSticks);
-	}
-
 	public void setPower(double power) {
 		mFrontRight.set(-power);
 		mFrontLeft.set(power);
@@ -232,6 +184,8 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 	/**
 	 * As of 3/9/2018 at 5:49 PM this method has been declared sacred and will not
 	 * be deleted. Ever. -20XX
+	 * 
+	 * During the holidays, summonSanta() is an acceptable replacement. -20XX
 	 */
 	public void summonSatan() {
 	}

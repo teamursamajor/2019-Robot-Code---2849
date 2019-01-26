@@ -54,7 +54,7 @@ public interface UrsaRobot {
 	AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
 	// Limelight
-	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+	NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
 	XboxController xbox = new XboxController(0);
 

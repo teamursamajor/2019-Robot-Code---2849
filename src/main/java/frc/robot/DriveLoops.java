@@ -1,6 +1,6 @@
 package frc.robot;
 
-public class DriveLoops {
+public class DriveLoops implements UrsaRobot {
 
     /*
      * An enum is a list of predefined constants. Ex: Directions - North South East
@@ -14,59 +14,92 @@ public class DriveLoops {
          * This method takes the current drive state and iterates the control loop then
          * returns the next drive order for Drive to use
          * 
-         * @param driveState Information about the current velocity, power, and position
+         * @param driveState Information about the current power, velocity, and position
          * @param xbox       Instance of the xbox controller
          * @return DriveOrder containing the left and right powers
          */
 
-        public DriveOrder callLoop(DriveState driveState, XboxController xbox) {
+        public DriveOrder callLoop() {
+            // "this" refers to the enum that the method is in
             switch (this) {
             case Auto:
-                return autoCalculator(driveState);
+                return autoCalculator();
             case DriveSticks:
-                return sticksBox(driveState, xbox);
+                return sticksBox();
             }
             return new DriveOrder(0.0, 0.0);
         }
-    }
 
-    /**
-     * Iterates the Auto control loop and calculates the new powers for Drive
-     * 
-     * @param driveState Current information on the robot: velocity, power, and
-     *                   position
-     * @return A DriveOrder object containing the new left and right powers
-     */
-    public static DriveOrder autoCalculator(DriveState driveState) {
-        // Calculates what the motor power should be, updates DriveOrder and returns it
-        // Does one interation of the control loop, returns where it wants to be
-        double leftPower = 0; // temporary
-        double rightPower = 0; // temporary
-        return new DriveOrder(leftPower, rightPower);
-    }
+        /**
+         * Iterates the Auto control loop and calculates the new powers for Drive
+         * 
+         * @param driveState Current information on the robot: power, velocity, and position
+         * @return A DriveOrder object containing the new left and right powers
+         */
+        private DriveOrder autoCalculator() {
+            //TODO move to a constants java file which communicates with the dashboard/UrsaRobot
+            double kdAutoAlign = 2;
+            double kpAutoAlign = 1.0 / 33.0;
+            double autoAlignTolerance = 0.1;
+            double autoAlignMinimumPower = 0.25;
 
-    /**
-     * "Iterates" the DriveSticks control loop. This is called a Box because it just
-     * takes in the DriveState and returns the Xbox controller axis values. It is
-     * not actually calculating anything.
-     * 
-     * @param driveState Current information on the robot: velocity, power, and
-     *                   position
-     * @param xbox       Instance of the xbox controller
-     * @return DriveOrder containing the values from the XboxController
-     */
-    public static DriveOrder sticksBox(DriveState driveState, XboxController xbox) {
-        return new DriveOrder(xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y),
-                xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
+            // alignment code / control loop
+            double tx = limelightTable.getEntry("tx").getDouble(Double.NaN);
+
+            double lastTx = tx;
+            double outputPower;
+
+            if (Math.abs(tx) < autoAlignTolerance) {
+                return new DriveOrder(0.0, 0.0);
+            }
+
+            tx = limelightTable.getEntry("tx").getDouble(Double.NaN);
+
+            // Finding Rate of change in kd
+            double rateOfChangeInKD_e = tx - lastTx;
+            double rateOfChangeInKD_t = currentTime - lastTime;
+            outputPower = kpAutoAlign * tx + kdAutoAlign * (rateOfChangeInKD_e / rateOfChangeInKD_t);
+
+            if (Math.abs(outputPower) < autoAlignMinimumPower) {
+                outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
+            }
+
+            return new DriveOrder(outputPower, outputPower);
+        }
+
+        /**
+         * "Iterates" the DriveSticks control loop. This is called a Box because it just
+         * takes in the DriveState and returns the Xbox controller axis values. It is
+         * not actually calculating anything.
+         * 
+         * @param driveState Current information on the robot: power, velocity, and position
+         * @param xbox       Instance of the xbox controller
+         * @return DriveOrder containing the values from the XboxController
+         */
+        private DriveOrder sticksBox() {
+            return new DriveOrder(xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y),
+                    xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
+        }
     }
 
     /**
      * This holds information about the current state of the robot. It holds values
      * for power, velocity, and position for both the left and right side.
      */
-    class DriveState {
-        double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0,
-                rightPos = 0.0;
+    static class DriveState {
+        static double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0, rightPos = 0.0;
+
+        static long stateTime = System.currentTimeMillis();
+        public static void updateState(double leftPower, double rightPower, double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
+            DriveLoops.DriveState.leftPower = leftPower;
+            DriveLoops.DriveState.rightPower = rightPower;
+            DriveLoops.DriveState.leftVelocity = leftVelocity;
+            DriveLoops.DriveState.rightVelocity = rightVelocity;
+            DriveLoops.DriveState.leftPos = leftPos;
+            DriveLoops.DriveState.rightPos = rightPos;
+            stateTime = System.currentTimeMillis();
+        }
+
     }
 
     /**

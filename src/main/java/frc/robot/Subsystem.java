@@ -38,14 +38,14 @@ public abstract class Subsystem<E> implements Runnable {
     }
 
     /**
-     * Method to check if subsystem thread is running.
+     * Checks if subsystem thread is running.
      */
     public static boolean getRunning() {
 		return running;
     }
     
     /**
-	 * Method to kill subsystem thread.
+	 * Kills subsystem thread.
 	 */
 	public void kill() {
 		running = false;
@@ -53,13 +53,12 @@ public abstract class Subsystem<E> implements Runnable {
 
     //Mode Setter/Getter Methods
 
-    private E subsystemMode;
+    protected E subsystemMode;
 
     /**
-     * Sets the current mode for the subsystem and interrupts the subsystem thread to do so.
+     * Sets the current mode for the subsystem
      */
     public void setMode(E mode) {
-        t.interrupt();
         subsystemMode = mode;
     }
 
@@ -72,7 +71,7 @@ public abstract class Subsystem<E> implements Runnable {
 
     /**
      * Abstract method for subsystems to do stuff in their individual threads.
-     * @throws InterruptedException because the thread is interrupted to change modes.
+     * @throws InterruptedException in case the thread is interrupted to change modes.
      */
     public abstract void runSubsystem() throws InterruptedException;
 

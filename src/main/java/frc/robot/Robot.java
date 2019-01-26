@@ -30,10 +30,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  NetworkTableEntry tx;
-  NetworkTableEntry ty;
-  NetworkTableEntry ta;
-
+  private Drive drive;
   private Hatch hatch;
 
   /**
@@ -46,10 +43,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    tx = table.getEntry("tx");
-    ty = table.getEntry("ty");
-    ta = table.getEntry("ta");
-
+    drive = new Drive();
     hatch = new Hatch();
   }
 
@@ -69,9 +63,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   /**
    * This autonomous (along with the chooser code above) shows how to select
    * between different autonomous modes using the dashboard. The sendable chooser
-   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
-   * remove all of the chooser code and uncomment the getString line to get the
-   * auto name from the text box below the Gyro
+   * code works with the Java SmartDashboard.
    *
    * <p>
    * You can add additional auto modes by adding additional comparisons to the
@@ -109,20 +101,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    // mRearLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    // mFrontLeft.set(-xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y));
-    // mRearRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
-    // mFrontRight.set(xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_Y));
+    // test code delete later
+    if (xbox.getButton(XboxController.BUTTON_Y)) {
+      drive.setMode(DriveLoops.DriveMode.Auto);
+    } else {
+      drive.setMode(DriveLoops.DriveMode.DriveSticks);
+    }
 
-
-    System.out.println("tx: " + tx.getDouble(0));
-    System.out.println("ty: " + ty.getDouble(0));
-    System.out.println("ta: " + ta.getDouble(0));
-
-    // if (xbox.getRawButtonPressed(2)) {
-    //   System.out.println("Switching to Auto");
-    //   Drive.setMode(Modes.Auto);
-    // }
   }
 
   /**
