@@ -8,7 +8,7 @@ public class Cargo extends Subsystem<UrsaRobot.CargoMode> implements UrsaRobot{
 
     public Cargo() {
         super("cargoThread");
-        cargoMotor = new Spark(CARGO);
+        //cargoMotor = new Spark(CARGO);
     }
 
     public void runSubsystem() {
