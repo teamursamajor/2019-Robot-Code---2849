@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Spark;
 
 public class Hatch extends Subsystem<UrsaRobot.HatchMode> implements UrsaRobot {
     
-    //Ported from Arm.java, remove if you want idk:
     /* Positions for the arm:
      * -Intaking a hatch
      * -Deploying a hatch (Rocket/Cargo Bay)
@@ -55,9 +54,11 @@ public class Hatch extends Subsystem<UrsaRobot.HatchMode> implements UrsaRobot {
         }
         
         if (xbox.getButton(XboxController.BUTTON_A)) { //Goes up
-            hatchMotor.set(0.40);
+            hatchMotor.set(0.25);
         } else if (xbox.getButton(XboxController.BUTTON_B)) { //Goes down
             hatchMotor.set(-0.20);
+        } else if (xbox.getButton(XboxController.BUTTON_X)){
+            hatchMotor.set(0.10);
         } else {
             hatchMotor.set(0.0);
         }

@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public interface UrsaRobot {
+	// Ports for every Spark or Encoder channel
 	public static final int DRIVE_FRONT_LEFT = 1;
 	public static final int DRIVE_FRONT_RIGHT = 6;
 	public static final int DRIVE_REAR_LEFT = 0;
@@ -34,51 +35,51 @@ public interface UrsaRobot {
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 
+	// Tells the encoder the value of each tick. Must be set in the corresponding
+	// file with encoder.setDistancePerPulse([Name]_PER_TICK);
 	public static final double INCHES_PER_TICK = 0.011505d;
 	public static final double DEGREES_PER_TICK = 0.72434608d;
 
-	// TODO update these for 2019 robot
-	public static final double ROBOT_WIDTH_INCHES = 32d;/* in */// 12;//ft
-	public static final double ROBOT_DEPTH_INCHES = 28d;/* in */// 12;//ft
+	public static final double ROBOT_WIDTH_INCHES = 28d;
+	public static final double ROBOT_DEPTH_INCHES = 31.5d;
 
 	public static final double ROBOT_WIDTH_FEET = 32.0 / 12.0;
 	public static final double ROBOT_DEPTH_FEET = 28.0 / 12.0;
 
+	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second
 	public static final double MAX_ACCELERATION = 80; // inches / second ^2
 
+	// Nav-X
 	AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
+	// Limelight
 	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
 	XboxController xbox = new XboxController(0);
 
-	//Subsystem Mode Enums
+	// Subsystem Mode Enums
 	public enum HatchMode {
-		Intake, Deploy, Default, Carry
-	}
-	
-	public enum DriveMode {
-		Auto, DriveSticks
+		Default, Intake, Carry, Deploy
 	}
 
-	//TODO Add modes
+	// TODO Add modes
 	public enum ClimbMode {
 
 	}
 
-	//TODO Add modes
+	// TODO Add modes
 	public enum CargoMode {
 
 	}
 
 	/**
-	 * As of 1/25/2019 at 4:32 PM this enum has been declared sacred and will not
-	 * be deleted. Ever. -Evan
-	 * (ok delete it if you want idc)
+	 * As of 1/25/2019 at 4:32 PM this enum has been declared sacred and will not be
+	 * deleted. Ever. -Evan (ok delete it if you want idc)
+	 * 
+	 * If you're gonna make a meme method you gotta double down and demand that it exist. No ambivalence! -20XX
 	 */
 	public enum SickoMode {
-		
-	}
 
+	}
 }
