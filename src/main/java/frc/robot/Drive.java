@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 
-public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
+public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot {
 
 	private Spark mFrontLeft;
 	private Spark mFrontRight;
@@ -11,7 +11,6 @@ public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 
 	private static boolean square;
 
-	// TODO move these to UrsaRobot?
 	private double leftSpeed;
 	private double rightSpeed;
 	private double kdAutoAlign = 2;
@@ -22,11 +21,6 @@ public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
 	 * any time.
-	 * 
-	 * @param frontLeft  Channel number for front left motor
-	 * @param frontRight Channel number for front right motor
-	 * @param rearLeft   Channel number for rear left motor
-	 * @param rearRight  Channel number for rear right motor
 	 */
 
 	public Drive() {
@@ -44,28 +38,25 @@ public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 		rightEncoder.reset();
 	}
 
-	// TODO Write the run method. It will be a PID loop which drives a specified
-	// distance that it tracks using sensors/encoders
-
+	// TODO Write run method. It will communicate with the DriveLoops to send it the
+	// current state of the Robot and then update the powers to the returned
+	// DriveOrder
 	public void runSubsystem() {
 
-		//TODO Fill this out
+		// TODO Fill this out
 		switch (getMode()) {
-			case DriveSticks: 
-				break;
-			case Auto:
-				break;
-			default:
-				break;
+		case Auto:
+			break;
+		case DriveSticks:
+			break;
+		default:
+			break;
 		}
 		// mFrontLeft.set(-cont.getDrive().getLeftSpeed());
 		// mFrontRight.set(cont.getDrive().getRightSpeed());
 		// mRearLeft.set(-cont.getDrive().getLeftSpeed());
 		// mRearRight.set(cont.getDrive().getRightSpeed());
 
-		// if (mFrontLeft.getSpeed() < 0 && mFrontRight.getSpeed() < 0) {
-		// cont.getIntake().setIntakeType(IntakeType.HOLD);
-		// }
 		try {
 			Thread.sleep(20);
 		} catch (InterruptedException e) {
@@ -165,25 +156,20 @@ public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 	}
 
 	/**
-	 * As of 3/9/2018 at 5:49 PM this method has been declared sacred and will not
-	 * be deleted. Ever. -20XX
-	 */
-	public void summonSatan() {
-	}
-
-	/**
 	 * Auto aligns the robot to the tape
 	 */
+	//TODO comment this with a bit more detail
 	public void autoAlign() {
 		double tv = table.getEntry("tv").getDouble(-1); // Gets current y-coordinate
+
 		// slows down the robot until it sees second tape.
 		tv = table.getEntry("tv").getDouble(-1); // detects the presence of reflective tape.
 		while (tv != 1) {
 			setPower(0.3);
 			tv = table.getEntry("tv").getDouble(-1); // detects the presence of reflective tape.
 		}
-
 		debugMessage("Saw second tape");
+
 		// alignment code / control loop
 		double tx = table.getEntry("tx").getDouble(42.5);
 		System.out.println(tx);
@@ -218,7 +204,7 @@ public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 			lastTime = currentTime;
 			lastTx = tx;
 			// (tx-last_tx)/(current_time-last_time)
-			
+
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
@@ -228,8 +214,7 @@ public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 
 		System.out.println("Stopped drive");
 		setPower(0.0);
-		// setPower(>9000);
-		setMode(DriveMode.DriveSticks);
+		setMode(DriveLoops.DriveMode.DriveSticks);
 	}
 
 	public void setPower(double power) {
@@ -243,4 +228,12 @@ public class Drive extends Subsystem<UrsaRobot.DriveMode> implements UrsaRobot {
 		message = "DEBUGGING: " + message;
 		System.out.println(message);
 	}
+
+	/**
+	 * As of 3/9/2018 at 5:49 PM this method has been declared sacred and will not
+	 * be deleted. Ever. -20XX
+	 */
+	public void summonSatan() {
+	}
+
 }
