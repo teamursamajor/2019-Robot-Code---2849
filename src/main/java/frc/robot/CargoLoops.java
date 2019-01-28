@@ -23,7 +23,7 @@ public class CargoLoops implements UrsaRobot {
         }
 
         private CargoOrder sticksBox() {
-            if (xbox.getButton(xbox.getButton(XboxController.BUTTON_A))) {
+            if (xbox.getButton(XboxController.BUTTON_A)) {
                 return new CargoOrder(.5);
             } else {
                 return new CargoOrder(0);
