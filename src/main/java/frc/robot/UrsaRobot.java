@@ -13,11 +13,12 @@ public interface UrsaRobot {
 	public static final int DRIVE_FRONT_LEFT = 1;
 	public static final int DRIVE_FRONT_RIGHT = 6;
 	public static final int DRIVE_REAR_LEFT = 0;
-	public static final int DRIVE_REAR_RIGHT = 7;
+	public static final int DRIVE_REAR_RIGHT = 3; //was seven
+	public static final int CARGO_FRONT = 5;
 
 	public static final int HATCH = 2;
 	public static final int CARGO = 5;
-	public static final int CLIMB = 3;
+	public static final int CLIMB = 7;
 
 	public static final int CONTROLLER_PORT = 0;
 
@@ -25,13 +26,16 @@ public interface UrsaRobot {
 	public static final int LEFT_ENCODER_CHANNEL_B = 7;
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
+	
 
+	public static final int CARGO_ENCODER_CHANNEL_A = 8;
+	public static final int CARGO_ENCODER_CHANNEL_B = 9;
 	public static final int HATCH_ENCODER_CHANNEL_A = 0;
 	public static final int HATCH_ENCODER_CHANNEL_B = 1;
 
 	// 7 pulses per revolution
 	public static Encoder hatchEncoder = new Encoder(HATCH_ENCODER_CHANNEL_A, HATCH_ENCODER_CHANNEL_B);
-
+	public static Encoder cargoEncoder = new Encoder(CARGO_ENCODER_CHANNEL_A, CARGO_ENCODER_CHANNEL_B);
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 
@@ -56,6 +60,7 @@ public interface UrsaRobot {
 	// Limelight
 	NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
+	//Xbox Controller
 	XboxController xbox = new XboxController(0);
 
 	// Subsystem Mode Enums
@@ -79,7 +84,7 @@ public interface UrsaRobot {
 	 * 
 	 * If you're gonna make a meme method you gotta double down and demand that it exist. No ambivalence! -20XX
 	 */
-	public enum SickoMode {
+	public enum SickoModeOrMoBamba {
 
 	}
 }

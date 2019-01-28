@@ -89,8 +89,8 @@ public class DriveLoops implements UrsaRobot {
         static double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0, rightPos = 0.0;
 
         static long stateTime = System.currentTimeMillis();
-        public static void updateState(double leftPower, double rightPower, double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
-            DriveLoops.DriveState.leftPower = leftPower;
+        public static void updateState(double leftPow, double rightPower, double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
+            DriveLoops.DriveState.leftPower = leftPow;
             DriveLoops.DriveState.rightPower = rightPower;
             DriveLoops.DriveState.leftVelocity = leftVelocity;
             DriveLoops.DriveState.rightVelocity = rightVelocity;
