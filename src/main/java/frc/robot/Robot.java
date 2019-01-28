@@ -7,14 +7,10 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTable;
-import frc.robot.XboxController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.tasks.DriveTask.DriveMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,7 +27,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
-  private Hatch hatch;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -44,7 +39,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     drive = new Drive();
-    hatch = new Hatch();
   }
 
   /**
@@ -95,6 +89,15 @@ public class Robot extends TimedRobot implements UrsaRobot {
       break;
     }
   }
+
+/**
+	 * This function is run when teleop mode is first started up and should be
+	 * used for any teleop initialization code.
+	 */
+	@Override
+	public void teleopInit() {
+		drive.setMode(DriveMode.DriveSticks);
+	}
 
   /**
    * This function is called periodically during operator control.

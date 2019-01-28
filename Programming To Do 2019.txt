@@ -1,4 +1,5 @@
 Rename enums to all capital letters
+Test driving and moving lazy susan and or arm or other subsystem
 Write Auto
 Parser:
 	Update the keywords
@@ -11,10 +12,9 @@ PID Loops:
 	Tune drive, (maybe) hatch, and cargo
 Logger
 Sensors.java and SmartDashboard integration with speeds and such
+Path code
 
 Look at all the TODO's in the project and start doing them
-
-Update the compiler/parser for this year
 
 If desired, you can make a .config file of some sort allowing for quick changes to control layouts.
 The code would read the config files and look for the specified buttons/axis assigned to a specified action, then execute that action
@@ -35,13 +35,6 @@ Good Vision:
 	-Color Sensor
 		-Wiring them
 
-Subsystems:
-	-Drive
-	-Hatch
-	-Cargo
-	-Climb
-	-Lazy Susan
-
 Auto:
 	-Write new auto code:
 		-Make new path files
@@ -55,14 +48,7 @@ Auto:
 	-Improve scripting language
 		-Align task?
 		-The compiler could be much more sophisticated and robust; low priority though
-	-Improve path code
-		-New model of arena
-
-Logger:
-	-Integrate logger
-	-Improve it
 	
 Misc:
 	-Create a Programming Phamplet of all the cool stuff we do this year
 	-Create an Auto Modes Booklet for all of our auto modes (if we have a lot)
-	-Fast LED?

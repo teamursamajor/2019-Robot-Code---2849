@@ -87,12 +87,12 @@ public class DriveTask implements UrsaRobot {
 
         public static long stateTime = System.currentTimeMillis();
         public static void updateState(double leftPower, double rightPower, double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
-            DriveTask.DriveState.leftPower = leftPower;
-            DriveTask.DriveState.rightPower = rightPower;
-            DriveTask.DriveState.leftVelocity = leftVelocity;
-            DriveTask.DriveState.rightVelocity = rightVelocity;
-            DriveTask.DriveState.leftPos = leftPos;
-            DriveTask.DriveState.rightPos = rightPos;
+            DriveState.leftPower = leftPower;
+            DriveState.rightPower = rightPower;
+            DriveState.leftVelocity = leftVelocity;
+            DriveState.rightVelocity = rightVelocity;
+            DriveState.leftPos = leftPos;
+            DriveState.rightPos = rightPos;
             stateTime = System.currentTimeMillis();
         }
 

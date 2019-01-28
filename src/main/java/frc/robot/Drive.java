@@ -2,8 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 import frc.tasks.*;
-import frc.tasks.DriveTask.*;
-import frc.tasks.DriveTask.DriveOrder.*;
 
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
@@ -25,6 +23,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	public Drive() {
 		super("driveThread"); // Creates the thread
+	
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mRearLeft = new Spark(DRIVE_REAR_LEFT);
