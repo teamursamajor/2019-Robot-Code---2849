@@ -34,7 +34,7 @@ public class HatchTask extends Task {
 	public void run() {
 		// Logger.log("Running lift task", LogLevel.INFO);
 		// cont.getLift().setDesiredHeight(height);
-		long startTime = System.currentTimeMillis();
+		// long startTime = System.currentTimeMillis();
 		// while (!cont.getLift().getReached() && System.currentTimeMillis() - startTime < timeout) {
 			try {
 				Thread.sleep(20);

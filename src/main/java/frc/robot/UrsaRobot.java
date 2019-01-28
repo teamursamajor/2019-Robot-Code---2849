@@ -19,6 +19,7 @@ public interface UrsaRobot {
 	public static final int HATCH = 2;
 	public static final int CARGO = 5;
 	public static final int CLIMB = 7;
+	public static final int LAZY_SUSAN = 4;
 
 	public static final int CONTROLLER_PORT = 0;
 
@@ -35,7 +36,9 @@ public interface UrsaRobot {
 
 	// 7 pulses per revolution
 	public static Encoder hatchEncoder = new Encoder(HATCH_ENCODER_CHANNEL_A, HATCH_ENCODER_CHANNEL_B);
+
 	public static Encoder cargoEncoder = new Encoder(CARGO_ENCODER_CHANNEL_A, CARGO_ENCODER_CHANNEL_B);
+
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 

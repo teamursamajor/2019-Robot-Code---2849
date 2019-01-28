@@ -8,14 +8,6 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     private Spark cargoMotor;
     private double cargoPower;
 
-    /* Encoder for the cargo? */
-
-    public double getCargoEncoder() {
-        return cargoEncoder.getDistance();
-    }
-
-    /* Cargo class similar to drive */
-
     public Cargo() {
         super("cargoThread");
         cargoMotor = new Spark(CARGO_FRONT);
@@ -26,5 +18,11 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     // subsystem code?
     public void runSubsystem() {
         // updateStateInfo();
+    }
+
+    /* Encoder for the cargo? */
+
+    public double getCargoEncoder() {
+        return cargoEncoder.getDistance();
     }
 }

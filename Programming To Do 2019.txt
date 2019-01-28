@@ -1,3 +1,4 @@
+Rename enums to all capital letters
 Write Auto
 Parser:
 	Update the keywords
@@ -8,13 +9,8 @@ Parser:
 		Look at whiteboard pic
 PID Loops:
 	Tune drive, (maybe) hatch, and cargo
-Subsystems:
-	Use basic DriveLoops/States/Order as a template for other subsystems
 Logger
 Sensors.java and SmartDashboard integration with speeds and such
-
-Comments! Use them! Be sure to comment everything that might not be immediately understandable!:
-	Print lines or simple object creation don't need to be commented, but a PID loop or some auto functionality should
 
 Look at all the TODO's in the project and start doing them
 
@@ -38,11 +34,6 @@ Good Vision:
 			-Fix the targeting system to account for wrong pairs (pairs in between two actual targets)
 	-Color Sensor
 		-Wiring them
-		-Placement on the robot
-	-Distance Sensor
-		Sensors on Raspberry Pi?
-		How can we utilize this alongside vision and color?
-		Do we have any sensors which can detect small enough distances?
 
 Subsystems:
 	-Drive
