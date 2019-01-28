@@ -83,9 +83,9 @@ public class DriveTask implements UrsaRobot {
      * for power, velocity, and position for both the left and right side.
      */
     public static class DriveState {
-        static double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0, rightPos = 0.0;
+        public static double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0, rightPos = 0.0;
 
-        static long stateTime = System.currentTimeMillis();
+        public static long stateTime = System.currentTimeMillis();
         public static void updateState(double leftPower, double rightPower, double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
             DriveTask.DriveState.leftPower = leftPower;
             DriveTask.DriveState.rightPower = rightPower;
@@ -103,7 +103,7 @@ public class DriveTask implements UrsaRobot {
      * right powers to be set by Drive
      */
     public static class DriveOrder {
-        double leftPower = 0.0, rightPower = 0.0;
+        public double leftPower = 0.0, rightPower = 0.0;
 
         public DriveOrder(double leftPower, double rightPower) {
             this.leftPower = leftPower;
