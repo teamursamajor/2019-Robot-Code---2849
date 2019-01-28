@@ -10,7 +10,7 @@ public class DriveTask implements UrsaRobot {
      * represent Autonomous and Teleop
      */
     public enum DriveMode {
-        Auto, DriveSticks;
+        AUTO, DRIVE_STICKS;
 
         /**
          * This method takes the current drive state and iterates the control loop then
@@ -22,9 +22,9 @@ public class DriveTask implements UrsaRobot {
         public DriveOrder callLoop() {
             // "this" refers to the enum that the method is in
             switch (this) {
-            case Auto:
+            case AUTO:
                 return autoCalculator();
-            case DriveSticks:
+            case DRIVE_STICKS:
                 return sticksBox();
             }
             return new DriveOrder(0.0, 0.0);

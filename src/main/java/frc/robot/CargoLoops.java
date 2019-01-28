@@ -1,16 +1,16 @@
-package frc.tasks;
-import frc.robot.*;
+package frc.robot;
 
-public class CargoTask extends Task implements UrsaRobot{
-	public enum CargoMode {
-        AUTO, DRIVE_STICKS;
+public class CargoLoops implements UrsaRobot {
+
+    public enum CargoMode {
+        Auto, DriveSticks;
 
         public CargoOrder callLoop() {
             // "this" refers to the enum that the method is in
             switch (this) {
-            case AUTO:
+            case Auto:
                 return autoCalculator();
-            case DRIVE_STICKS:
+            case DriveSticks:
                 return sticksBox();
             }
             return new CargoOrder(0.0);  
@@ -34,8 +34,8 @@ public class CargoTask extends Task implements UrsaRobot{
         static long stateTime = System.currentTimeMillis();
 
         public static void updateState(double power, double position) {
-            CargoTask.CargoState.power = power;
-            CargoTask.CargoState.position = position;
+            CargoLoops.CargoState.power = power;
+            CargoLoops.CargoState.position = position;
             stateTime = System.currentTimeMillis();
         }
     }
@@ -48,13 +48,4 @@ public class CargoTask extends Task implements UrsaRobot{
         }
 
     }
-
-	public String toString() {
-        // return "CargoTask: " + cargo.name() + "\n";
-        return " ";
-	}
-
-	public void run(){
-		
-	}
 }

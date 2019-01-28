@@ -76,8 +76,10 @@ public interface UrsaRobot {
 	 * If you're gonna make a meme method you gotta double down and demand that it exist. No ambivalence! -20XX
 	 * 
 	 * Alright. -Evan
+	 * 
+	 * At least give it the right naming convention - Chris
 	 */
 	public enum SickoMode {
-		Sicko, Bamba, Travis, Sheck
+		SICKO, BAMBA, TRAVIS, SHECK
 	}
 }
