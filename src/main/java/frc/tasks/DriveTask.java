@@ -85,16 +85,6 @@ public class DriveTask implements UrsaRobot {
     public static class DriveState {
         public static double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0, rightPos = 0.0;
 
-<<<<<<< HEAD:src/main/java/frc/robot/DriveLoops.java
-        static long stateTime = System.currentTimeMillis();
-        public static void updateState(double leftPow, double rightPower, double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
-            DriveLoops.DriveState.leftPower = leftPow;
-            DriveLoops.DriveState.rightPower = rightPower;
-            DriveLoops.DriveState.leftVelocity = leftVelocity;
-            DriveLoops.DriveState.rightVelocity = rightVelocity;
-            DriveLoops.DriveState.leftPos = leftPos;
-            DriveLoops.DriveState.rightPos = rightPos;
-=======
         public static long stateTime = System.currentTimeMillis();
         public static void updateState(double leftPower, double rightPower, double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
             DriveTask.DriveState.leftPower = leftPower;
@@ -103,7 +93,6 @@ public class DriveTask implements UrsaRobot {
             DriveTask.DriveState.rightVelocity = rightVelocity;
             DriveTask.DriveState.leftPos = leftPos;
             DriveTask.DriveState.rightPos = rightPos;
->>>>>>> 99f6ac12c4beae1d62b7bbd009adc43a09b92c4a:src/main/java/frc/tasks/DriveTask.java
             stateTime = System.currentTimeMillis();
         }
 

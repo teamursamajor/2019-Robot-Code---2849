@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Spark;
-
 public class CargoLoops implements UrsaRobot {
 
     public enum CargoMode {
@@ -15,17 +13,17 @@ public class CargoLoops implements UrsaRobot {
             case DriveSticks:
                 return sticksBox();
             }
-            return new CargoOrder(0.0);
+            return new CargoOrder(0.0);  
         }
 
         private CargoOrder autoCalculator() {
             return new CargoOrder(0.0);
         }
-
         private CargoOrder sticksBox() {
-            if (xbox.getButton(XboxController.BUTTON_A)) {
+            if (xbox.getButton(XboxController.BUTTON_A)){
                 return new CargoOrder(.5);
-            } else {
+            }
+            else{
                 return new CargoOrder(0);
             }
         }
@@ -45,8 +43,9 @@ public class CargoLoops implements UrsaRobot {
     static class CargoOrder {
         double power = 0.0;
 
-        public CargoOrder(double power){
+        public CargoOrder(double power) {
             this.power = power;
         }
+
     }
 }
