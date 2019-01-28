@@ -90,14 +90,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
     }
   }
 
-/**
-	 * This function is run when teleop mode is first started up and should be
-	 * used for any teleop initialization code.
-	 */
-	@Override
-	public void teleopInit() {
-		drive.setMode(DriveMode.DriveSticks);
-	}
+  /**
+   * This function is run when teleop mode is first started up and should be used
+   * for any teleop initialization code.
+   */
+  @Override
+  public void teleopInit() {
+    drive.setMode(DriveMode.DRIVE_STICKS);
+  }
 
   /**
    * This function is called periodically during operator control.
