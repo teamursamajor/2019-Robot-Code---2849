@@ -1,8 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import frc.tasks.*;
 
-public class Climb extends Subsystem<UrsaRobot.ClimbMode> implements UrsaRobot {
+public class Climb extends Subsystem<ClimbTask.ClimbMode> implements UrsaRobot {
 
     private Spark climbMotor;
 

@@ -1,14 +1,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import frc.tasks.*;
 
-public class Cargo extends Subsystem<UrsaRobot.CargoMode> implements UrsaRobot{
+public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot{
 
     private Spark cargoMotor;
 
     public Cargo() {
         super("cargoThread");
-        //cargoMotor = new Spark(CARGO);
+        cargoMotor = new Spark(CARGO);
     }
 
     public void runSubsystem() {

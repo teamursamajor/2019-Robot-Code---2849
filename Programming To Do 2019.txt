@@ -1,5 +1,4 @@
-Write Auto Code 
-
+Write Auto
 Parser:
 	Update the keywords
 	Make it simple and go line by line

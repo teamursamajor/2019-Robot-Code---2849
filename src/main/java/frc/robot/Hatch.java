@@ -1,8 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import frc.tasks.*;
 
-public class Hatch extends Subsystem<UrsaRobot.HatchMode> implements UrsaRobot {
+public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     
     /* Positions for the arm:
      * -Intaking a hatch

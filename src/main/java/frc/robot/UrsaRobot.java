@@ -59,27 +59,16 @@ public interface UrsaRobot {
 	XboxController xbox = new XboxController(0);
 
 	// Subsystem Mode Enums
-	public enum HatchMode {
-		Default, Intake, Carry, Deploy
-	}
-
-	// TODO Add modes
-	public enum ClimbMode {
-
-	}
-
-	// TODO Add modes
-	public enum CargoMode {
-
-	}
-
+	
 	/**
 	 * As of 1/25/2019 at 4:32 PM this enum has been declared sacred and will not be
-	 * deleted. Ever. -Evan (ok delete it if you want idc)
+	 * deleted. Ever. -Evan
 	 * 
 	 * If you're gonna make a meme method you gotta double down and demand that it exist. No ambivalence! -20XX
+	 * 
+	 * Alright. -Evan
 	 */
 	public enum SickoMode {
-
+		Sicko, Bamba, Travis, Sheck
 	}
 }
