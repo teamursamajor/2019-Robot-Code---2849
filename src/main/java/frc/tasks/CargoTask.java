@@ -1,82 +1,60 @@
 package frc.tasks;
+import frc.robot.*;
 
-public class CargoTask extends Task {
+public class CargoTask extends Task implements UrsaRobot{
+	public enum CargoMode {
+        Auto, DriveSticks;
 
-    public CargoTask() {
-        super();
+        public CargoOrder callLoop() {
+            // "this" refers to the enum that the method is in
+            switch (this) {
+            case Auto:
+                return autoCalculator();
+            case DriveSticks:
+                return sticksBox();
+            }
+            return new CargoOrder(0.0);  
+        }
+
+        private CargoOrder autoCalculator() {
+            return new CargoOrder(0.0);
+        }
+        private CargoOrder sticksBox() {
+            if (xbox.getButton(XboxController.BUTTON_A)){
+                return new CargoOrder(.5);
+            }
+            else{
+                return new CargoOrder(0);
+            }
+        }
     }
 
-    public enum CargoMode {
-        
+    static class CargoState {
+        static double power = 0.0, position = 0.0;
+        static long stateTime = System.currentTimeMillis();
+
+        public static void updateState(double power, double position) {
+            CargoTask.CargoState.power = power;
+            CargoTask.CargoState.position = position;
+            stateTime = System.currentTimeMillis();
+        }
     }
 
-    //This stuff is for Intake from last year. Do what you will with it
-    // private long timeout = 2000;
-	// private long startTime;
-	// public enum IntakeType {
-	// 	IN, OUT, RUN, STOP, DEPLOY, HOLD, RUN_IN, RUN_OUT
-	// }
+    static class CargoOrder {
+        double power = 0.0;
 
-	// private IntakeType intake;
+        public CargoOrder(double power) {
+            this.power = power;
+        }
 
-	// public IntakeTask(ControlLayout cont, IntakeType intakeVal) {
-	// 	super(cont);
-	// 	intake = intakeVal;
-	// }
-
-	public void run() {
-		// Logger.log("Running intake task", LogLevel.INFO);
-
-		// cont.getIntake().setIntakeType(intake);
-		// //Run just keeps running, In/Out use the sensor
-		// switch (intake) {
-		// case IN:
-		//     startTime = System.currentTimeMillis();
-		// 	while(System.currentTimeMillis() - startTime < timeout){
-		// 		try {
-		// 			Thread.sleep(20);
-		// 		} catch (InterruptedException e) {
-		// 			e.printStackTrace();
-		// 			Logger.log("IntakeTask run method intake case IN Thread.sleep call, printStackTrace", LogLevel.ERROR);
-		// 		}
-		// 	}
-		// 	cont.getIntake().setIntakeType(IntakeType.STOP);
-		// 	break;
-		// case OUT:
-		// 	startTime = System.currentTimeMillis();
-		// 	while(System.currentTimeMillis() - startTime < timeout){
-		// 		try {
-		// 			Thread.sleep(20);
-		// 		} catch (InterruptedException e) {
-		// 			e.printStackTrace();
-		// 			Logger.log("IntakeTask run method intake case OUT Thread.sleep call, printStackTrace", LogLevel.ERROR);
-		// 		}
-		// 	}
-		// 	cont.getIntake().setIntakeType(IntakeType.STOP);
-		// 	break;
-		// case DEPLOY:
-		// 	startTime = System.currentTimeMillis();
-		// 	// new LiftTask(cont,Integer.MAX_VALUE, 250).start();
-		// 	while(System.currentTimeMillis() - startTime < timeout){
-		// 		cont.getIntake().setIntakeType(IntakeType.STOP);
-		// 		try {
-		// 			Thread.sleep(20);
-		// 		} catch (InterruptedException e) {
-		// 			e.printStackTrace();
-		// 			// Logger.log("IntakeTask run method intake case DEPLOY Thread.sleep call, printStackTrace", LogLevel.ERROR);
-		// 		}
-		// 	}
-		// 	// cont.getIntake().setIntakeType(IntakeType.STOP);
-		// 	break;
-		// default:
-		// 	// Logger.log("Intake in " + intake.name() + " case :^)", LogLevel.DEBUG);
-		// 	break;
-		// }
-
-	}
+    }
 
 	public String toString() {
         // return "CargoTask: " + cargo.name() + "\n";
         return " ";
+	}
+
+	public void run(){
+		
 	}
 }
