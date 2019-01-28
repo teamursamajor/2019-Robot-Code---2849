@@ -13,6 +13,7 @@ public abstract class Subsystem<E> implements Runnable {
     
     private Thread t;
     
+    //Constructor for starting threads for each subsystem
     public Subsystem(String threadName) {
         //Used to prevent ("lock") a thread from starting again if constructor is run again
         synchronized (lock) {

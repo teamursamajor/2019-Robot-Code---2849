@@ -1,8 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import frc.tasks.*;
+import frc.tasks.DriveTask.*;
+import frc.tasks.DriveTask.DriveOrder.*;
 
-public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot {
+public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	private Spark mFrontLeft;
 	private Spark mFrontRight;
@@ -36,13 +39,13 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 	}
 
 	/**
-	 * Updates the DriveState class (in DriveLoops) with current power and position,
+	 * Updates the DriveState class (in DriveTask) with current power and position,
 	 * then iterates the loop once and sets the motor powers according to the new
 	 * results
 	 */
 	public void runSubsystem() {
 		updateStateInfo();
-		DriveLoops.DriveOrder driveOrder = subsystemMode.callLoop();
+		DriveTask.DriveOrder driveOrder = subsystemMode.callLoop();
 
 		mFrontLeft.set(-driveOrder.leftPower);
 		mFrontRight.set(driveOrder.rightPower);
@@ -69,11 +72,11 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 		double leftVelocity, rightVelocity;
 
 		// For underclassmen, Delta means "change in"
-		double leftDeltaPos = leftDistance - DriveLoops.DriveState.leftPos;
-		double deltaTime = System.currentTimeMillis() - DriveLoops.DriveState.stateTime;
+		double leftDeltaPos = leftDistance - DriveTask.DriveState.leftPos;
+		double deltaTime = System.currentTimeMillis() - DriveTask.DriveState.stateTime;
 		leftVelocity = (leftDeltaPos / deltaTime);
 
-		double rightDeltaPos = rightDistance - DriveLoops.DriveState.rightPos;
+		double rightDeltaPos = rightDistance - DriveTask.DriveState.rightPos;
 		rightVelocity = (rightDeltaPos / deltaTime);
 
 		/*
@@ -84,7 +87,7 @@ public class Drive extends Subsystem<DriveLoops.DriveMode> implements UrsaRobot 
 		if (leftDeltaPos == 0 || rightDeltaPos == 0)
 			return;
 
-		DriveLoops.DriveState.updateState(leftPower, rightPower, leftVelocity, rightVelocity, leftDistance,
+		DriveTask.DriveState.updateState(leftPower, rightPower, leftVelocity, rightVelocity, leftDistance,
 				rightDistance);
 	}
 
