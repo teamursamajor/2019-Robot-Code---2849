@@ -37,16 +37,16 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public void runSubsystem() {
         switch (getMode()) {
-            case Intake:
+            case INTAKE:
                 setAngle(intakePosition);
                 break;
-            case Deploy:
+            case DEPLOY:
                 setAngle(deployPosition);
                 break;
-            case Carry:
+            case CARRY:
                 setAngle(carryPosition);
                 break;
-            case Default:
+            case DEFAULT:
                 setAngle(defaultPosition);
                 break;
             default:

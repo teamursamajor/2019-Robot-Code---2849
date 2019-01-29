@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 import frc.tasks.*;
+import frc.tasks.DriveTask.DriveMode;
 
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
@@ -35,6 +36,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		leftEncoder.reset();
 		rightEncoder.reset();
+
+		subsystemMode = DriveMode.DRIVE_STICKS;
 	}
 
 	/**

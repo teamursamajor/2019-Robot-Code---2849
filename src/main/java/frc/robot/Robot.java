@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.DriveTask.DriveMode;
+import edu.wpi.first.wpilibj.Spark;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,6 +28,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
+  private Spark testMotor;
+
+  private boolean test = false; // Set true when testing a motor for build
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -37,7 +41,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-
+    testMotor = new Spark(8);
     drive = new Drive();
   }
 
@@ -104,6 +108,15 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    if (test) {
+      if (xbox.getButton(XboxController.BUTTON_A)) {
+        testMotor.set(.90);
+      } else if (xbox.getButton(XboxController.BUTTON_B)) {
+        testMotor.set(-0.90);
+      } else {
+        testMotor.set(0.0);
+      }
+    }
   }
 
   /**

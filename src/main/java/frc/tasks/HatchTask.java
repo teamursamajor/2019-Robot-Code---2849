@@ -7,7 +7,7 @@ public class HatchTask extends Task {
     }
 
     public enum HatchMode {
-		Default, Intake, Carry, Deploy
+		DEFAULT, INTAKE, CARRY, DEPLOY;
     }
     
     //This stuff was for lift. Figured it would maybe help to reference for Hatch. Do what you will with it.
