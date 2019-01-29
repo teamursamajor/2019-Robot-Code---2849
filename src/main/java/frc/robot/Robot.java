@@ -41,8 +41,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    testMotor = new Spark(8);
-    drive = new Drive();
+    testMotor = new Spark(2);
+    //drive = new Drive();
   }
 
   /**
@@ -100,7 +100,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopInit() {
-    drive.setMode(DriveMode.DRIVE_STICKS);
+    //drive.setMode(DriveMode.DRIVE_STICKS);
   }
 
   /**
@@ -110,9 +110,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopPeriodic() {
     if (test) {
       if (xbox.getButton(XboxController.BUTTON_A)) {
-        testMotor.set(.90);
+        testMotor.set(.35);
       } else if (xbox.getButton(XboxController.BUTTON_B)) {
-        testMotor.set(-0.90);
+        testMotor.set(-0.25);
       } else {
         testMotor.set(0.0);
       }

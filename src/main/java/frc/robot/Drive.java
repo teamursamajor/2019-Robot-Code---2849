@@ -37,6 +37,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		leftEncoder.reset();
 		rightEncoder.reset();
 
+		//TODO how should we set the default mode?
 		subsystemMode = DriveMode.DRIVE_STICKS;
 	}
 

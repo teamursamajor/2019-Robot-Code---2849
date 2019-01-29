@@ -11,13 +11,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public interface UrsaRobot {
 	// Ports for every Spark or Encoder channel
 	public static final int DRIVE_FRONT_LEFT = 1;
-	public static final int DRIVE_FRONT_RIGHT = 2;
+	public static final int DRIVE_FRONT_RIGHT = 6;
 	public static final int DRIVE_REAR_LEFT = 0;
 	public static final int DRIVE_REAR_RIGHT = 3;
 
 	public static final int CARGO_FRONT = 5;
 
-	public static final int HATCH = 6;
+	public static final int HATCH = 8;
 	public static final int CARGO = 5;
 	public static final int CLIMB = 7;
 	public static final int LAZY_SUSAN = 4;
@@ -29,11 +29,12 @@ public interface UrsaRobot {
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
 	
-
 	public static final int CARGO_ENCODER_CHANNEL_A = 8;
 	public static final int CARGO_ENCODER_CHANNEL_B = 9;
 	public static final int HATCH_ENCODER_CHANNEL_A = 0;
 	public static final int HATCH_ENCODER_CHANNEL_B = 1;
+
+	public static final int SUSAN_SWITCH_CHANNEL = 4;
 
 	// 7 pulses per revolution
 	public static Encoder hatchEncoder = new Encoder(HATCH_ENCODER_CHANNEL_A, HATCH_ENCODER_CHANNEL_B);
