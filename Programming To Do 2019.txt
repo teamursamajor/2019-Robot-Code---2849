@@ -1,6 +1,4 @@
-Rename enums to all capital letters
-Test driving and moving lazy susan and or arm or other subsystem
-Write Auto
+Test Driving + subsystem
 Parser:
 	Update the keywords
 	Make it simple and go line by line
@@ -8,9 +6,13 @@ Parser:
 		Read the first line and if its a command you run it
 		If its a serial/bundle, go until you find the }, and use substrings to recursively run those commands
 		Look at whiteboard pic
+Write auto code
+Turret Lock
+SmartDashboard integration
 PID Loops:
 	Tune drive, (maybe) hatch, and cargo
 Logger
+
 Sensors.java and SmartDashboard integration with speeds and such
 Path code
 
