@@ -49,7 +49,6 @@ public class DriveTask implements UrsaRobot {
                 return new DriveOrder(0.0, 0.0);
             }
 
-
             double goalPosition = 0.0;
             double leftOutputPower = kpAutoAlign * (DriveState.leftPos - goalPosition) + kdAutoAlign * DriveState.leftVelocity;
             double rightOutputPower = kpAutoAlign * (DriveState.rightPos - goalPosition) + kdAutoAlign * DriveState.rightVelocity;
