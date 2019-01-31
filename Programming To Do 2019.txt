@@ -1,5 +1,7 @@
 TEAM VOTE: do we call it a "lazy susan" or a "turret" in the code? Very important
 
+How to set the default subsystemMode before the subsystem is initialized?
+	Is subsystemMode in Drive the same one in Subsystem.java or are they separate?
 Test driving the robot and using a subsystem at the same time
 
 Parser:
