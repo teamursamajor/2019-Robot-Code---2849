@@ -24,10 +24,13 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
         // I'm thinking we would store our current position, and then use the dpad to
         // move to a specific direction no matter where we start from. Not 100% sure how
         // to do this yet
+        //susanMotor.set(0.25);
         if (xbox.getButton(XboxController.BUTTON_A)) {
             susanMotor.set(.35);
+            System.out.println("A");
         } else if (xbox.getButton(XboxController.BUTTON_B)) {
             susanMotor.set(-0.25);
+            System.out.println("B");
         } else {
             susanMotor.set(0.0);
         }

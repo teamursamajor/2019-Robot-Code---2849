@@ -31,8 +31,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private LazySusan lazySusan;
   private Spark testMotor;
 
-  private boolean test = false; // Set true when testing a motor for build
-
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -42,8 +40,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    if(test)
-      testMotor = new Spark(2);
+    testMotor = new Spark(9);
     drive = new Drive();
     lazySusan = new LazySusan();
 
@@ -104,7 +101,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopInit() {
-    //drive.setMode(DriveMode.DRIVE_STICKS);
   }
 
   /**
@@ -112,15 +108,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if (test) {
-      if (xbox.getButton(XboxController.BUTTON_A)) {
-        testMotor.set(.35);
-      } else if (xbox.getButton(XboxController.BUTTON_B)) {
-        testMotor.set(-0.25);
-      } else {
-        testMotor.set(0.0);
-      }
-    }
   }
 
   /**
@@ -128,5 +115,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
+    //drive.testDrive();
+    if (xbox.getButton(XboxController.BUTTON_A)) {
+      testMotor.set(0.5);
+    } else if (xbox.getButton(XboxController.BUTTON_B)) {
+      testMotor.set(-0.40);
+    } else {
+      testMotor.set(0.0);
+    }
   }
 }

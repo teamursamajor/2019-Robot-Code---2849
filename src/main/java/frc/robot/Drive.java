@@ -17,6 +17,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	private double leftPower;
 	private double rightPower;
 
+	DriveMode subsystemMode = DriveMode.DRIVE_STICKS;
+
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
 	 * any time.
@@ -24,7 +26,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	public Drive() {
 		super("driveThread"); // Creates the thread
-	
+
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mRearLeft = new Spark(DRIVE_REAR_LEFT);
@@ -36,9 +38,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		leftEncoder.reset();
 		rightEncoder.reset();
-
-		//TODO how should we set the default mode?
-		subsystemMode = DriveMode.DRIVE_STICKS;
 	}
 
 	/**
@@ -188,6 +187,14 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		mFrontLeft.set(power);
 		mRearRight.set(-power);
 		mRearLeft.set(power);
+	}
+
+	public void testDrive() {
+		XboxController xbox = new XboxController(0);
+		mFrontLeft.set(-xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y));
+		mFrontRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
+		mRearLeft.set(-xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y));
+		mRearRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
 	}
 
 	public void debugMessage(String message) {

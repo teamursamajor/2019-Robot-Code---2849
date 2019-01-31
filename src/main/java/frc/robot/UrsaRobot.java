@@ -15,11 +15,11 @@ public interface UrsaRobot {
 	public static final int DRIVE_REAR_LEFT = 0;
 	public static final int DRIVE_REAR_RIGHT = 3;
 
-	public static final int CARGO_FRONT = 5;
+	public static final int CARGO_FRONT = 6;
 
-	public static final int HATCH = 6;
-	public static final int CARGO = 5;
-	public static final int CLIMB = 7;
+	public static final int HATCH = 5;
+	public static final int CARGO = 7;
+	public static final int CLIMB = 8;
 	public static final int LAZY_SUSAN = 4;
 
 	public static final int CONTROLLER_PORT = 0;
