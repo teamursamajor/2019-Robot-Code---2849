@@ -29,6 +29,7 @@ public interface UrsaRobot {
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
 	
+
 	public static final int CARGO_ENCODER_CHANNEL_A = 8;
 	public static final int CARGO_ENCODER_CHANNEL_B = 9;
 	public static final int HATCH_ENCODER_CHANNEL_A = 0;
