@@ -36,6 +36,11 @@ public abstract class Subsystem<E> implements Runnable {
             } catch (InterruptedException e) {
 
             }
+            try{
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
