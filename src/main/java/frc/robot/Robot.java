@@ -27,6 +27,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  private Piston piston;
   private Drive drive;
   private LazySusan lazySusan;
   private Spark testMotor;
@@ -40,9 +41,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    testMotor = new Spark(9);
-    drive = new Drive();
-    lazySusan = new LazySusan();
+    //testMotor = new Spark(9);
+    //drive = new Drive();
+    //lazySusan = new LazySusan();
+    piston = new Piston();
 
   }
 
