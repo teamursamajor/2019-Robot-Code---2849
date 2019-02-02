@@ -1,8 +1,10 @@
-TEAM VOTE: do we call it a "lazy susan" or a "turret" in the code? Very important
+Pneumatics Test Code
 
-How to set the default subsystemMode before the subsystem is initialized?
-	Is subsystemMode in Drive the same one in Subsystem.java or are they separate?
-Test driving the robot and using a subsystem at the same time
+Start writing Task and Subsystem code (ie finish all the subsystems)
+
+Logger:
+	Re use the logger from last year and add Logger calls throughout the code
+	Later, if we have extra time, we can improve the Logger functionality
 
 Parser:
 	Update the tokens for the 2019 season. Ex: Replace "intake" with "hatch" and "cargo"
@@ -16,16 +18,13 @@ Parser:
 Write auto code:
 	We'll write individual auto files once the parser is complete
 
-Turret Lock:
-	Use the limelight camera to make the turret (lazy susan) lock onto the vision target regardless of the robot orientation.
-	Even if the front of the robot is 30 degrees off from facing forward, we can use limelight to make sure the lazy susan (turret) is 
-	still facing forward relative to the vision tape. If the angle offset starts going up, we move the turret. This is a control loop
-
 SmartDashboard integration:
 	Set test values that are changed often (coefficients/constants, motor powers, etc) through the SmartDashboard. The end goal is that 
 	the code is constantly feeding these values in from the SmartDashboard, so even if the robot is constantly enabled we can switch 
 	the Hatch arm speed from 0.25 to 0.30 and it would update in real time. There would also be a toggle on this feature, so that we 
 	don't accidentally change values right before or during a match.
+
+	Set up the SmartDashboard so that we can pick different auto files to run, much like last year
 
 PID Loops:
 	Write the loops for the hatch, cargo, turret lock (maybe), etc:
@@ -34,25 +33,23 @@ PID Loops:
 		We can tune them slightly when initially testing, but our main tuning will occur when the robot is finished and we have testing 
 		time
 
-Logger:
-	Do we want to use the logger this year? What improvements can we make to it?
-	Once those questions are answered and implemented, begin adding Logger calls throughout the code
-
 Path code:
 	It's a mess. Just do your best
 
 Look at all the TODO's in the project and start doing them:
 	We never get to this. Maybe this year it'll be different...
+	
+Turret Lock:
+	Use the limelight camera to make the turret (lazy susan) lock onto the vision target regardless of the robot orientation.
+	Even if the front of the robot is 30 degrees off from facing forward, we can use limelight to make sure the lazy susan (turret) is 
+	still facing forward relative to the vision tape. If the angle offset starts going up, we move the turret. This is a control loop
 
 Config file:
 	If desired, you can make a .config file of some sort allowing for quick changes to control layouts.
 	The code would read the config files and look for the specified buttons/axis assigned to a specified action, then execute that action
 		Ex: A variable holds the button ID which will be used for the hatch arm. It gets the ID from the config file upon robotInit, and if 
 		the button with that ID is pressed, it runs the hatch dropoff.
-Write the code for the ShuffleBoard:
-	Create the file and set up the ShuffleBoard so that we can pick different auto files to run, much like last year
-	Allow the user to enter values for different constants/motor speeds (like Path constants or the arm motor speed for example)
-	
+
 Good Vision:
 	-Auto Align:
 		-Working with Limelight

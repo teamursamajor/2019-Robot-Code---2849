@@ -28,7 +28,6 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     double currentPosition; //Encoder?
 
     public Hatch() {
-        super("hatchThread");
         hatchMotor = new Spark(HATCH);
         //Number of degrees per pulse (7 pulses in one revolution)
         hatchEncoder.setDistancePerPulse(DEGREES_PER_TICK);
@@ -36,47 +35,44 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     }
 
     public void runSubsystem() {
-        switch (getMode()) {
-            case INTAKE:
-                setAngle(intakePosition);
-                break;
-            case DEPLOY:
-                setAngle(deployPosition);
-                break;
-            case CARRY:
-                setAngle(carryPosition);
-                break;
-            case DEFAULT:
-                setAngle(defaultPosition);
-                break;
-            default:
-                setAngle(defaultPosition);
-                break;
-        }
+        // switch (getMode()) {
+        //     case INTAKE:
+        //         setAngle(intakePosition);
+        //         break;
+        //     case DEPLOY:
+        //         setAngle(deployPosition);
+        //         break;
+        //     case CARRY:
+        //         setAngle(carryPosition);
+        //         break;
+        //     case DEFAULT:
+        //         setAngle(defaultPosition);
+        //         break;
+        //     default:
+        //         setAngle(defaultPosition);
+        //         break;
+        // }
         
+        // TODO test code, delete
         if (xbox.getButton(XboxController.BUTTON_A)) { //Goes up
-            hatchMotor.set(0.25);
+            hatchMotor.set(0.50);
         } else if (xbox.getButton(XboxController.BUTTON_B)) { //Goes down
-            hatchMotor.set(-0.20);
-        } else if (xbox.getButton(XboxController.BUTTON_X)){
-            hatchMotor.set(0.10);
+            hatchMotor.set(-0.40);
         } else {
             hatchMotor.set(0.0);
         }
-        System.out.println(hatchEncoder.get());
-
     }
 
-    public void customPos (double angle){
-        angle %= 360.0;
-        this.setAngle(angle);
-    }
+    // public void customPos (double angle){
+    //     angle %= 360.0;
+    //     this.setAngle(angle);
+    // }
 
-    private void setAngle (double angle){
-        /* 1. Increase/Decrease motor power
-         * 2. PID Loop
-         * 3. Stay at position (part of PID Loop)
-         */
-    }
+    // private void setAngle (double angle){
+    //     /* 1. Increase/Decrease motor power
+    //      * 2. PID Loop
+    //      * 3. Stay at position (part of PID Loop)
+    //      */
+    // }
 
 }

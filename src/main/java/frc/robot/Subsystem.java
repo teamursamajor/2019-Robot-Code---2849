@@ -14,15 +14,7 @@ public abstract class Subsystem<E> implements Runnable {
     private Thread t;
     
     //Constructor for starting threads for each subsystem
-    public Subsystem(String threadName) {
-        //Used to prevent ("lock") a thread from starting again if constructor is run again
-        synchronized (lock) {
-			// if (running)
-			// 	return;
-			running = true;
-        }
-        t = new Thread(this, threadName);
-        t.start();
+    public Subsystem() {
 
     }
 
@@ -33,10 +25,6 @@ public abstract class Subsystem<E> implements Runnable {
             //When the thread is interrupted to set a mode (see below), it will just restart itself.
             try {
                 runSubsystem();
-            } catch (InterruptedException e) {
-
-            }
-            try{
                 Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -81,5 +69,16 @@ public abstract class Subsystem<E> implements Runnable {
      * @throws InterruptedException in case the thread is interrupted to change modes.
      */
     public abstract void runSubsystem() throws InterruptedException;
+
+    public void initialize(String threadName){
+        //Used to prevent ("lock") a thread from starting again if constructor is run again
+        synchronized (lock) {
+			// if (running)
+			// 	return;
+			running = true;
+        }
+        t = new Thread(this, threadName);
+        t.start();
+    }
 
 }

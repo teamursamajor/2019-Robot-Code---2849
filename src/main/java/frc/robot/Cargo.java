@@ -9,7 +9,6 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     private double cargoPower;
 
     public Cargo() {
-        super("cargoThread");
         cargoMotor = new Spark(CARGO_FRONT);
         cargoEncoder.setDistancePerPulse(CARGO_DEGREES_PER_TICK);
         cargoEncoder.reset();

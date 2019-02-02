@@ -17,15 +17,13 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	private double leftPower;
 	private double rightPower;
 
-	DriveMode subsystemMode = DriveMode.DRIVE_STICKS;
-
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
 	 * any time.
 	 */
 
 	public Drive() {
-		super("driveThread"); // Creates the thread
+		subsystemMode = DriveMode.DRIVE_STICKS;
 
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
@@ -37,7 +35,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		rightEncoder.setReverseDirection(true);
 
 		leftEncoder.reset();
-		rightEncoder.reset();
+		rightEncoder.reset();	
 	}
 
 	/**
@@ -53,15 +51,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		mFrontRight.set(driveOrder.rightPower);
 		mRearLeft.set(-driveOrder.leftPower);
 		mRearRight.set(driveOrder.rightPower);
-
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			// TODO logger stuff
-			// Logger.log("Drive run method Thread.sleep call, printStackTrace",
-			// LogLevel.ERROR);
-		}
 	}
 
 	public void updateStateInfo() {
@@ -182,6 +171,10 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		mRearRight.stopMotor();
 	}
 
+	/**
+	 * Sets all drive motors to the same power
+	 * @param power
+	 */
 	public void setPower(double power) {
 		mFrontRight.set(-power);
 		mFrontLeft.set(power);
@@ -189,6 +182,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		mRearLeft.set(power);
 	}
 
+	// TODO Delete eventually, once drive code is perfect in teleop
 	public void testDrive() {
 		XboxController xbox = new XboxController(0);
 		mFrontLeft.set(-xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y));

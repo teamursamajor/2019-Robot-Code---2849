@@ -1,4 +1,5 @@
 package frc.tasks;
+
 import frc.robot.UrsaRobot;
 import frc.robot.XboxController;
 
@@ -36,7 +37,8 @@ public class DriveTask implements UrsaRobot {
          * @return A DriveOrder object containing the new left and right powers
          */
         private DriveOrder autoCalculator() {
-            //TODO move to a constants java file which communicates with the dashboard/UrsaRobot
+            // TODO move to a constants java file which communicates with the
+            // dashboard/UrsaRobot
             double kdAutoAlign = 2; // Derivative coefficient for PID controller
             double kpAutoAlign = 1.0 / 33.0; // Proportional coefficient for PID controller
             double autoAlignTolerance = 0.1;
@@ -50,8 +52,10 @@ public class DriveTask implements UrsaRobot {
             }
 
             double goalPosition = 0.0;
-            double leftOutputPower = kpAutoAlign * (DriveState.leftPos - goalPosition) + kdAutoAlign * DriveState.leftVelocity;
-            double rightOutputPower = kpAutoAlign * (DriveState.rightPos - goalPosition) + kdAutoAlign * DriveState.rightVelocity;
+            double leftOutputPower = kpAutoAlign * (DriveState.leftPos - goalPosition)
+                    + kdAutoAlign * DriveState.leftVelocity;
+            double rightOutputPower = kpAutoAlign * (DriveState.rightPos - goalPosition)
+                    + kdAutoAlign * DriveState.rightVelocity;
 
             if (Math.abs(leftOutputPower) < autoAlignMinimumPower) {
                 leftOutputPower = Math.signum(leftOutputPower) * autoAlignMinimumPower;
@@ -82,10 +86,13 @@ public class DriveTask implements UrsaRobot {
      * for power, velocity, and position for both the left and right side.
      */
     public static class DriveState {
-        public static double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0, rightPos = 0.0;
+        public static double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0,
+                rightPos = 0.0;
 
         public static long stateTime = System.currentTimeMillis();
-        public static void updateState(double leftPower, double rightPower, double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
+
+        public static void updateState(double leftPower, double rightPower, double leftVelocity, double rightVelocity,
+                double leftPos, double rightPos) {
             DriveState.leftPower = leftPower;
             DriveState.rightPower = rightPower;
             DriveState.leftVelocity = leftVelocity;
@@ -98,8 +105,8 @@ public class DriveTask implements UrsaRobot {
     }
 
     /**
-     * This is returned by the DriveTask and holds values for the new left and
-     * right powers to be set by Drive
+     * This is returned by the DriveTask and holds values for the new left and right
+     * powers to be set by Drive
      */
     public static class DriveOrder {
         public double leftPower = 0.0, rightPower = 0.0;
