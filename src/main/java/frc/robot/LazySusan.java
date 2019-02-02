@@ -11,7 +11,6 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
     private DigitalInput limitSwitch;
 
     public LazySusan() {
-        super("lazySusanThread");
         susanMotor = new Spark(LAZY_SUSAN);
         limitSwitch = new DigitalInput(SUSAN_SWITCH_CHANNEL);
         subsystemMode = SusanMode.FORWARD;
@@ -25,12 +24,10 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
         // move to a specific direction no matter where we start from. Not 100% sure how
         // to do this yet
         //susanMotor.set(0.25);
-        if (xbox.getButton(XboxController.BUTTON_A)) {
-            susanMotor.set(.35);
-            System.out.println("A");
-        } else if (xbox.getButton(XboxController.BUTTON_B)) {
+        if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
+            susanMotor.set(.25);
+        } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
             susanMotor.set(-0.25);
-            System.out.println("B");
         } else {
             susanMotor.set(0.0);
         }

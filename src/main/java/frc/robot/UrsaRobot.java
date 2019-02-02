@@ -28,7 +28,6 @@ public interface UrsaRobot {
 	public static final int LEFT_ENCODER_CHANNEL_B = 7;
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
-	
 
 	public static final int CARGO_ENCODER_CHANNEL_A = 8;
 	public static final int CARGO_ENCODER_CHANNEL_B = 9;
@@ -48,7 +47,7 @@ public interface UrsaRobot {
 	// Tells the encoder the value of each tick. Must be set in the corresponding
 	// file with encoder.setDistancePerPulse([Name]_PER_TICK);
 	public static final double INCHES_PER_TICK = 0.011505d;
-	public static final double CARGO_DEGREES_PER_TICK = 0.0; //TODO update with encoder
+	public static final double CARGO_DEGREES_PER_TICK = 0.0; // TODO update with encoder
 	public static final double DEGREES_PER_TICK = 0.72434608d;
 
 	public static final double ROBOT_WIDTH_INCHES = 28d;
@@ -56,6 +55,9 @@ public interface UrsaRobot {
 
 	public static final double ROBOT_WIDTH_FEET = 32.0 / 12.0;
 	public static final double ROBOT_DEPTH_FEET = 28.0 / 12.0;
+
+	// Hatch angles
+	public static final double startAngle = 0, bottomAngle = 0, topAngle = 0;
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second
@@ -67,16 +69,17 @@ public interface UrsaRobot {
 	// Limelight
 	NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-	//Xbox Controller
+	// Xbox Controller
 	XboxController xbox = new XboxController(0);
 
 	// Subsystem Mode Enums
-	
+
 	/**
 	 * As of 1/25/2019 at 4:32 PM this enum has been declared sacred and will not be
 	 * deleted. Ever. -Evan
 	 * 
-	 * If you're gonna make a meme method you gotta double down and demand that it exist. No ambivalence! -20XX
+	 * If you're gonna make a meme method you gotta double down and demand that it
+	 * exist. No ambivalence! -20XX
 	 * 
 	 * Alright. -Evan
 	 * 

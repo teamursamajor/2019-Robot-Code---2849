@@ -29,6 +29,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private Drive drive;
   private LazySusan lazySusan;
+  private Hatch hatch;
   private Spark testMotor;
 
   /**
@@ -42,8 +43,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
     testMotor = new Spark(9);
     drive = new Drive();
+    drive.initialize("driveThread");
     lazySusan = new LazySusan();
-
+    lazySusan.initialize("susanThread");
+    hatch = new Hatch();
+    hatch.initialize("hatchThread");
   }
 
   /**
@@ -115,7 +119,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    //drive.testDrive();
+    // drive.testDrive();
     if (xbox.getButton(XboxController.BUTTON_A)) {
       testMotor.set(0.5);
     } else if (xbox.getButton(XboxController.BUTTON_B)) {
