@@ -12,6 +12,7 @@ import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
 import frc.tasks.TurnTask.TurnMode;
+import frc.tasks.SusanTask.SusanMode;
 
 
 import frc.tasks.*;
@@ -57,20 +58,21 @@ public class AutoCompiler {
 	}
 
     //TODO Implement with changes to path
-	// class PathToken implements Token {
-	// 	private Path[] paths;
+	class PathToken implements Token {
+		// private Path[] paths;
 
-	// 	public PathToken(String filename) {
-	// 		filename = filename.replace(" ", "");
-	// 		//put all paths into /automodes/paths
-	// 		paths = new PathReader("/home/lvuser/automodes/paths/" + filename + ".path", false).getPaths();
-	// 	}
+		public PathToken(String filename) {
+			filename = filename.replace(" ", "");
+			//TODO put all paths into /automodes/paths
+			// paths = new PathReader("/home/lvuser/automodes/paths/" + filename + ".path", false).getPaths();
+		}
 
-	// 	public PathTask makeTask( ) {
-	// 		Logger.log("[TASK] Path Task", LogLevel.INFO);
-	// 		return new PathTask(, paths, drive);
-	// 	}
-	// }
+		public PathTask makeTask() {
+			// Logger.log("[TASK] Path Task", LogLevel.INFO);
+			// return new PathTask(, drive);
+			return null;
+		}
+	}
 
 	class CargoToken implements Token {
 		private CargoMode cargo;
@@ -123,6 +125,20 @@ public class AutoCompiler {
 		public HatchTask makeTask() {
 			// Logger.log("[TASK] Hatch Task", LogLevel.INFO);
             // return new HatchTask(HatchTask.presetToHeight(hatch), HatchTask.presetToTimeout(hatch));
+            return null;
+		}
+	}
+	
+	class SusanToken implements Token {
+		private SusanMode susan;
+
+		public SusanToken(String susanType) {
+		    susanType = susanType.replace(" ", "");
+		}
+
+		public SusanTask makeTask() {
+			// Logger.log("[TASK] Susan Task", LogLevel.INFO);
+            // return new SusanTask();
             return null;
 		}
     }
@@ -207,60 +223,53 @@ public class AutoCompiler {
 	 * @throws IOException
 	 */
 	private ArrayList<Token> tokenize(String filename) throws IOException {
-		ArrayList<Token> ret = new ArrayList<Token>();
+		ArrayList<Token> tokenList = new ArrayList<Token>();
 		BufferedReader buff;
 		buff = new BufferedReader(new FileReader(filename));
 		String line = null;
 		while ((line = buff.readLine()) != null) {
-            //TODO This is coming from the guy who wrote these comments last year. Please remove them. For my sake.
-            //TODO Also uncomment turn, drive, path, whatever when those are all fixed
-			if (line.contains("#")) { // If the line is a comment
+			if (line.contains("#")) { //# means a comment
 				continue;
-			// } else if (line.contains("follow")) { // If the line is a path token
-			// 	String current = line.substring(line.indexOf("follow") + "follow".length());
-			// 	// The path to follow (name of path file) is what comes after the token "follow"
-			// 	ret.add(new PathToken(current)); // Adds new path token to the ArrayList of all tokens
-			} else if (line.contains("execute")) { // If the line is an execute token
-				String current = line.substring(line.indexOf("execute") + "execute".length());
-				// The automode to execute (name of auto file) is what comes after the token "execute"
-				ret.add(new ExecuteToken(current)); // Adds new execute token to the ArrayList of all tokens
-			} else if (line.contains("wait")) { // If the line is a wait token
-				String current = line.substring(line.indexOf("wait") + "wait".length());
-				// The length (in seconds) to wait is what comes after the token "wait"
-				ret.add(new WaitToken(current)); // Adds new wait token to the ArrayList of all tokens
-			} else if (line.contains("drive")) { // If the line is a drive token
-				String current = line.substring(line.indexOf("drive") + "drive".length());
-				// The length (in feet) to drive is what comes after the token "drive"
-				ret.add(new DriveToken(current)); // Adds new drive token to the ArrayList of all tokens
-			} else if (line.contains("turn")) { // If the line is a turn token
-				String current = line.substring(line.indexOf("turn") + "turn".length());
-				// The type and amount in degrees to turn is what comes after the token "turn"
-				ret.add(new TurnToken(current)); // Adds new turn token to the ArrayList of all tokens
-			} else if (line.contains("hatch")) { // If the line is a hatch token
-				String current = line.substring(line.indexOf("hatch") + "hatch".length());
-				// The preset height to lift to is what comes after the token "lift"
-				ret.add(new HatchToken(current)); // Adds new lift token to the ArrayList of all tokens
-			} else if (line.contains("cargo")) { // If the line is a cargo token
-				String current = line.substring(line.indexOf("cargo") + "cargo".length());
-				// The cargo mode is what comes after the token "cargo"
-				ret.add(new CargoToken(current)); // Adds new intake token to the ArrayList of all tokens
-			} else if (line.contains("print")) { // If the line is a print token
-				String current = line.substring(line.indexOf("print") + "print".length());
-				// The data to print is everything that comes after the token "print"
-				ret.add(new PrintToken(current)); // Adds new print token to the ArrayList of all tokens
-			} else if (line.contains("bundle")) { // If the line is a bundle token
-				ret.add(new BundleToken()); // Adds new bundle token to the ArrayList of all tokens
-			} else if (line.contains("serial")) { // If the line is a serial token
-				ret.add(new SerialToken()); // Adds new serial token to the ArrayList of all tokens
-			} else if (line.contains("}")) { // If the line is a right brace (ends a group task)
-				ret.add(new RightBraceToken()); // Adds new right brace token to the ArrayList of all tokens
+			} else if (line.contains("follow")) {
+				String current = line.substring(line.indexOf("follow") + "follow".length()); //Path to follow (file name)
+				tokenList.add(new PathToken(current));
+			} else if (line.contains("execute")) {
+				String current = line.substring(line.indexOf("execute") + "execute".length()); //Automode to execute (file name)
+				tokenList.add(new ExecuteToken(current));
+			} else if (line.contains("wait")) {
+				String current = line.substring(line.indexOf("wait") + "wait".length()); //Wait length (seconds)
+				tokenList.add(new WaitToken(current));
+			} else if (line.contains("drive")) {
+				String current = line.substring(line.indexOf("drive") + "drive".length()); //Drive length (feet)
+				tokenList.add(new DriveToken(current));
+			} else if (line.contains("turn")) {
+				String current = line.substring(line.indexOf("turn") + "turn".length()); //Turn type/angle
+				tokenList.add(new TurnToken(current));
+			} else if (line.contains("hatch")) {
+				String current = line.substring(line.indexOf("hatch") + "hatch".length()); //Hatch mode
+				tokenList.add(new HatchToken(current));
+			} else if (line.contains("cargo")) {
+				String current = line.substring(line.indexOf("cargo") + "cargo".length()); //Cargo mode
+				tokenList.add(new CargoToken(current));
+			} else if (line.contains("susan")) {
+				String current = line.substring(line.indexOf("susan") + "susan".length()); //Susan mode
+				tokenList.add(new SusanToken(current));
+			} else if (line.contains("print")) {
+				String current = line.substring(line.indexOf("print") + "print".length()); //Text to print
+				tokenList.add(new PrintToken(current));
+			} else if (line.contains("bundle")) {
+				tokenList.add(new BundleToken());
+			} else if (line.contains("serial")) {
+				tokenList.add(new SerialToken());
+			} else if (line.contains("}")) { //Right brace ends a group task (bundle/serial)
+				tokenList.add(new RightBraceToken());
 			}
 		}
 		buff.close();
-		return ret; // Returns ArrayList of all tokens
+		return tokenList; // Returns ArrayList of all tokens
 	}
 
-	private Task parseAuto(ArrayList<Token> toks, GroupTask ret) {
+	private Task parseAuto(ArrayList<Token> toks, GroupTask tokenList) {
 		if (toks.size() == 0) {
 			// Logger.log("[TASK] Wait Task", LogLevel.INFO);
 			return new WaitTask(0);
@@ -270,35 +279,35 @@ public class AutoCompiler {
 			Token t = toks.remove(0);
 			if (t instanceof ExecuteToken) {
 				Task otherMode = buildAutoMode(((ExecuteToken) t).scriptName);
-				ret.addTask(otherMode);
+				tokenList.addTask(otherMode);
 			} else if (t instanceof WaitToken) {
-				ret.addTask(((WaitToken) t).makeTask());
+				tokenList.addTask(((WaitToken) t).makeTask());
 			} else if (t instanceof DriveToken) {
-				// ret.addTask(((DriveToken) t).makeTask());
+				// tokenList.addTask(((DriveToken) t).makeTask());
 			// } else if (t instanceof TurnToken) {
-			// 	ret.addTask(((TurnToken) t).makeTask());
+			// 	tokenList.addTask(((TurnToken) t).makeTask());
 			// } else if (t instanceof PathToken) {
-			// 	ret.addTask(((PathToken) t).makeTask());
+			// 	tokenList.addTask(((PathToken) t).makeTask());
 			} else if (t instanceof CargoToken) {
-				ret.addTask(((CargoToken) t).makeTask());
+				tokenList.addTask(((CargoToken) t).makeTask());
 			} else if (t instanceof HatchToken) {
-				ret.addTask(((HatchToken) t).makeTask());
+				tokenList.addTask(((HatchToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask p = new BundleTask();
 				parseAuto(toks, p);
-				ret.addTask(p);
+				tokenList.addTask(p);
 			} else if (t instanceof SerialToken) {
 				SerialTask p = new SerialTask();
 				parseAuto(toks, p);
-				ret.addTask(p);
+				tokenList.addTask(p);
 			} else if (t instanceof RightBraceToken) {
-				return ret;
+				return tokenList;
 			} else if (t instanceof PrintToken) {
-				ret.addTask(((PrintToken) t).makeTask());
+				tokenList.addTask(((PrintToken) t).makeTask());
 			}
 		}
 
-		return ret;
+		return tokenList;
 	}
 
 	public Task buildAutoMode(String filename) {

@@ -34,7 +34,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Spark testMotor;
   private Climb climb;
 
-  boolean climbPressed;
+  private boolean climbPressed;
 
   /**
    * This function is run when the robot is first started up and should be used
