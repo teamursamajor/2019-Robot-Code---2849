@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Constants{
     //String squirrelsAreAwesome = "This is a fact";
     int i = 50;
-    //SmartDashboard.putData("Squirrel Test", new Squirrel());
+    //SmartDashboard.putData("Sicko Squirrel Test", new Squirrel());
 
     //SmartDashboard.putData()
     public void printTest(){

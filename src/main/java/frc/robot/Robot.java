@@ -32,6 +32,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private LazySusan lazySusan;
   private Hatch hatch;
   private Spark testMotor;
+  private Climb climb;
+
+  boolean climbPressed;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -45,6 +48,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     
     piston = new Piston();
 
+    climb = new Climb();
     testMotor = new Spark(9);
     drive = new Drive();
     drive.initialize("driveThread");
@@ -116,6 +120,28 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    climbPressed = false;
+    if (xbox.getButton(XboxController.POV_UP)) {
+      climb.fowardFrontMotor();
+      climbPressed = true;
+    }
+    if (xbox.getButton(XboxController.POV_DOWN)) {
+      climb.backwardFrontMotor();
+      climbPressed = true;
+    }
+    if (xbox.getButton(XboxController.POV_LEFT)) {
+      climb.forwardBackMotor();
+      climbPressed = true;
+    }
+    if (xbox.getButton(XboxController.POV_RIGHT)) {
+      climb.backwardBackMotor();
+      climbPressed = true;
+    }
+    if (!climbPressed) {
+      climb.stopMotors();
+    }
+
+    
   }
 
   /**

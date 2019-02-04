@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.CargoTask.CargoMode;
-import frc.tasks.ClimbTask.ClimbMode;
 import frc.tasks.DriveTask.DriveMode;
 import frc.tasks.TurnTask.TurnMode;
 
@@ -18,7 +17,7 @@ import frc.tasks.TurnTask.TurnMode;
 import frc.tasks.*;
 
 //TODO import logger when ready
-//TODO hatch/cargo, turn/drive, climb, path (follow) code need to be added
+//TODO hatch/cargo, turn/drive, path (follow) code need to be added
 //TODO Comment this out!
 
 public class AutoCompiler {
@@ -127,32 +126,6 @@ public class AutoCompiler {
             return null;
 		}
     }
-    
-    class ClimbToken implements Token {
-		private ClimbMode climb;
-
-		public ClimbToken(String climbType) {
-		    climbType = climbType.replace(" ", "");
-
-			// if (climbType.equalsIgnoreCase("BOTTOM")) {
-			// 	climb = ClimbMode.BOTTOM;
-			// } else if (climbType.equalsIgnoreCase("VAULT")) {
-			// 	climb = ClimbMode.VAULT;
-			// } else if (climbType.equalsIgnoreCase("SWITCH")) {
-			// 	climb = ClimbMode.SWITCH;
-			// } else if (climbType.equalsIgnoreCase("SCALE")) {
-			// 	climb = ClimbMode.SCALE;
-			// } else {
-			// 	climb = ClimbMode.BOTTOM;
-			// }
-		}
-
-		public ClimbTask makeTask() {
-			// Logger.log("[TASK] Climb Task", LogLevel.INFO);
-            // return new ClimbTask(ClimbTask.presetToHeight(climb), ClimbTask.presetToTimeout(climb));
-            return null;
-		}
-	}
 
 	class WaitToken implements Token {
 		private double wait;

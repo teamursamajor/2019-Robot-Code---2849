@@ -19,7 +19,8 @@ public interface UrsaRobot {
 
 	public static final int HATCH = 5;
 	public static final int CARGO = 7;
-	public static final int CLIMB = 8;
+	public static final int CLIMB_FRONT = 8;
+	public static final int CLIMB_BACK = 9;
 	public static final int LAZY_SUSAN = 4;
 
 	public static final int CONTROLLER_PORT = 0;

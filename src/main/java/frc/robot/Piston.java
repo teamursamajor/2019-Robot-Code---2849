@@ -14,25 +14,29 @@ public class Piston implements UrsaRobot, Runnable {
     private boolean running = false;
 
     public Piston() {
+        System.out.println("Constructor");
         startTest();
     }
 
     public void startTest() {
         synchronized (lock) {
-            if (running)
+            if (running){
                 return;
+            }
             running = true;
         }
+        System.out.println("Making thread");
         new Thread(this, "Piston").start();
     }
 
     public void run(){
+        System.out.println("Before loop");
         c.setClosedLoopControl(true);
         while (running) {
             exampleSolenoid.set(true);
             
             try{
-               Thread.sleep(5000);
+                Thread.sleep(4000);
             } catch(InterruptedException exception){
                 exception.printStackTrace();
             }
@@ -40,7 +44,7 @@ public class Piston implements UrsaRobot, Runnable {
             exampleSolenoid.set(false);
 
             try{
-                Thread.sleep(5000);
+                Thread.sleep(4000);
              } catch(InterruptedException exception){
                  exception.printStackTrace();
 
