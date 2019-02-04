@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.*;
 
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
@@ -14,14 +15,17 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         cargoEncoder.reset();
     }
 
-    // subsystem code?
     public void runSubsystem() {
-        // updateStateInfo();
+        updateStateInfo();
+        CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
+        cargoMotor.set(cargoOrder.power);
     }
 
-    /* Encoder for the cargo? */
-
-    public double getCargoEncoder() {
+    public double getCargoDistance() {
         return cargoEncoder.getDistance();
+    }
+
+    public void updateStateInfo() {
+        CargoTask.CargoState.updateState(getCargoDistance());
     }
 }

@@ -72,21 +72,4 @@ public interface UrsaRobot {
 
 	// Xbox Controller
 	XboxController xbox = new XboxController(0);
-
-	// Subsystem Mode Enums
-
-	/**
-	 * As of 1/25/2019 at 4:32 PM this enum has been declared sacred and will not be
-	 * deleted. Ever. -Evan
-	 * 
-	 * If you're gonna make a meme method you gotta double down and demand that it
-	 * exist. No ambivalence! -20XX
-	 * 
-	 * Alright. -Evan
-	 * 
-	 * At least give it the right naming convention - Chris
-	 */
-	public enum SickoMode {
-		SICKO, BAMBA, TRAVIS, SHECK
-	}
 }
