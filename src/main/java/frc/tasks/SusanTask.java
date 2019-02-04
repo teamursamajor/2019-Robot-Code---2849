@@ -46,7 +46,6 @@ public class SusanTask extends Task {
         } 
     }
 
-
     public SusanTask(){
         super();
     }
