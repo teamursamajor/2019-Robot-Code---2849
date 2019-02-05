@@ -103,6 +103,7 @@ public class DriveTask extends Task implements UrsaRobot {
 
             // If we're already close enough to the tapes, then simply stop
             if (Math.abs(centerPos) < autoAlignTolerance) {
+                driving = false;
                 return new DriveOrder(0.0, 0.0);
             }
 
@@ -114,6 +115,11 @@ public class DriveTask extends Task implements UrsaRobot {
             double rightOutputPower = kpAutoAlign * (DriveState.rightPos - goalPosition)
                     + kdAutoAlign * DriveState.rightVelocity;
 
+            if(leftOutputPower == 0 && rightOutputPower == 0){
+                driving = false;
+                return new DriveOrder(0.0, 0.0);
+            }
+            
             if (Math.abs(leftOutputPower) < autoAlignMinimumPower) {
                 leftOutputPower = Math.signum(leftOutputPower) * autoAlignMinimumPower;
             }

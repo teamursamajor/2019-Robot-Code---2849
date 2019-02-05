@@ -73,6 +73,8 @@ public class CargoTask extends Task implements UrsaRobot{
     public CargoTask(CargoMode mode, Cargo cargo){
         running = true;
         cargo.setMode(mode);
+        Thread t = new Thread("CargoTask");
+        t.start();
     }
 
 	public void run(){

@@ -22,8 +22,14 @@ public class AutoCompiler {
 	}
 
 	private Drive drive;
-	public AutoCompiler(Drive drive) {
-		
+	private Cargo cargo;
+	private Hatch hatch;
+	private LazySusan susan;
+	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, LazySusan susan) {
+		this.drive = drive;
+		this.cargo = cargo;
+		this.hatch = hatch;
+		this.susan = susan;
 	}
 
 	/**
@@ -35,6 +41,7 @@ public class AutoCompiler {
 		private String scriptName;
 
 		public ExecuteToken(String scriptName) {
+			// TODO update path directory
 			this.scriptName = "/home/lvuser/automodes/" + scriptName.trim();
 		}
 	}
@@ -87,16 +94,16 @@ public class AutoCompiler {
 	 * @param cargoType Cargo mode to run by
 	 */
 	class CargoToken implements Token {
-		private CargoMode cargo;
+		private CargoMode cargoMode;
 
 		public CargoToken(String cargoType) {
 			cargoType = cargoType.replace(" ", "");
 			if (cargoType.equalsIgnoreCase("DEPLOY")) {
-				cargo = CargoMode.DEPLOY;
+				cargoMode = CargoMode.DEPLOY;
 			} else if (cargoType.equalsIgnoreCase("PICKUP")) {
-				cargo = CargoMode.PICKUP;
+				cargoMode = CargoMode.PICKUP;
 			} else if (cargoType.equalsIgnoreCase("DROPOFF")) {
-				cargo = CargoMode.DROPOFF;
+				cargoMode = CargoMode.DROPOFF;
 			} else {
 				// cargo = default case
 			}
