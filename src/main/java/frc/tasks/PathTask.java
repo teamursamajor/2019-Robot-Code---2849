@@ -1,7 +1,8 @@
 package frc.tasks;
 
-public class PathTask extends Task {
+import frc.robot.UrsaRobot;
 
+public class PathTask extends Task implements UrsaRobot{
     //TODO this entire thing. I left you code from 2018 if you wanna try to figure it out cause I'm not lol
 
     // private Path leftPath;
