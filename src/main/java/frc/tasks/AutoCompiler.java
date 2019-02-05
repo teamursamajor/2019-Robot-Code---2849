@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.SusanTask.SusanMode;
+import frc.tasks.DriveTask.DriveMode;
 import frc.robot.*;
 
 //TODO import logger when ready
@@ -224,23 +226,21 @@ public class AutoCompiler {
 	 */
 	class TurnToken implements Token {
 		private double turnAmount;
-		private TurnMode turnType;
+		private DriveMode turnType;
 
 		public TurnToken(String turn) {
 			turn = turn.toLowerCase();
 			if (turn.contains("to")) {
-				turnType = TurnMode.TURN_TO;
+				turnType = DriveMode.TURN_TO;
 				turnAmount = Double.valueOf(turn.substring(turn.indexOf("to") + "TO".length()));
 			} else {
-				turnType = TurnMode.TURN_BY;
-				turnAmount = Double.valueOf(turn.substring(turn.indexOf("by") + "BY".length()));
+				turnAmount = 0.0;
 			}
 		}
 
-		public TurnTask makeTask() {
+		public DriveTask makeTask() {
 			// Logger.log("[TASK] Turn Task", LogLevel.INFO);
-            // return new TurnTask(turnType, turnAmount);
-            return null;
+            return new DriveTask(turnAmount, drive, turnType);
 		}
 	}
 
