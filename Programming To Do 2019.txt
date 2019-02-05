@@ -1,6 +1,12 @@
-SusanTask, Color Sensor, Auto Code, Other Sensors
-Incorporate actual pneumatics code
+Finish SusanTask
+Double Check all Tasks for skeleton code or incomplete sections
+Double check autocompiler to make sure it would work4
+Add an auto align keyword to autocompiler
+Write auto align drop off files
+Look into writing auto pick up code
 Color sensor! Learn how to wire it and test using it to get a response
+Incorporate actual pneumatics code
+
 Automate hatch pick up and drop off:
 	Pick up:
 		Using the limelight, get the angle offset from the pickup location and get the distance away

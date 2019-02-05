@@ -152,6 +152,7 @@ public class DriveTask extends Task implements UrsaRobot {
                 driving = false;
                 return new DriveOrder(0.0, 0.0);
             }
+            
             if (newAngle < 0 && Math.abs(newAngle) > 180)
                 newAngle += 360;
 

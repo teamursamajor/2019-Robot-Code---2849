@@ -76,4 +76,12 @@ public interface UrsaRobot {
 
 	// Xbox Controller
 	XboxController xbox = new XboxController(0);
+
+	/**
+	 * 2/5/19 - This enum has been redeclared sacred and shall not be deleted, no matter 
+	 * what Evan may say. - Isaac
+	 */
+	public enum SickoMode {
+		SICKO, BAMBA, SHECK, TRAVIS
+	}
 }

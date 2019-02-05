@@ -18,36 +18,45 @@ public class SusanTask extends Task {
             // "this" refers to the enum that the method is in
             switch (this) {
             case FORWARD:
-                return autoGoToAngle(0);
+                return autoGoToAngle();
             case LEFT:
-                return autoGoToAngle(-90.0);
+                return autoGoToAngle();
             case RIGHT:
-                return autoGoToAngle(90.0);
+                return autoGoToAngle();
             }
             return new SusanOrder(0.0);
         }
 
-        private SusanOrder autoGoToAngle(double angle) {
-            // this will use the potentiometer too
-            // this is our PD loop
-            /*
-             * while (navx.angle != angle) { check the sign of the current angle.
-             * (mathsignum?) + more code :P }
-             * 
-             * OR
-             * 
-             * if (navx.angle != angle) { Math.signum(navx.getAngle) == 1; }
-             * 
-             * //Instead of checking the sign if the target angle is less than the current
-             * angle you will subtract OR If the target angle is more than the current angle
-             * you will add.
-             */
-            return new SusanOrder(0.0);
+        private SusanOrder autoGoToAngle() {
+            double newAngle = desiredAngle - SusanState.currentAngle;
+            double angleTolerance = 5; //TODO Determine experimentally
+            if (newAngle < angleTolerance) {
+                running = false;
+                return new SusanOrder(0.0);
+            }
+
+            if (newAngle > 90 || newAngle < -90) {
+                newAngle = (newAngle > 90) ? 90 : -90;
+            } 
+
+            //TODO PD Loop, determine constants
+            double susanKp = 1/40;
+            double susanKd = 0;
+
+            double velocity = (SusanState.velocity > 0) ? SusanState.velocity : -SusanState.velocity;
+            double susanRadius = 5; //TODO Measure radius of lazy susan
+
+            double outputPower = susanKp * newAngle + susanKd * (velocity/susanRadius);
+
+            return new SusanOrder(outputPower);
         }
     }
 
-    public SusanTask(SusanMode mode, LazySusan susan) {
+    private static double desiredAngle = 0.0;
+
+    public SusanTask(SusanMode mode, LazySusan susan, double desiredAngle) {
         running = true;
+        this.desiredAngle = desiredAngle;
         susan.setMode(mode);
         Thread t = new Thread("SusanTask");
         t.start();
@@ -70,13 +79,13 @@ public class SusanTask extends Task {
      * for power, velocity, and position for both the left and right side.
      */
     public static class SusanState {
-        public static double velocity = 0.0, angle = 0.0, voltage = 0.0;
+        public static double velocity = 0.0, currentAngle = 0.0, voltage = 0.0;
 
         public static long stateTime = System.currentTimeMillis();
 
-        public static void updateState(double velocity, double angle, double voltage) {
+        public static void updateState(double velocity, double currentAngle, double voltage) {
             SusanState.velocity = velocity;
-            SusanState.angle = angle;
+            SusanState.currentAngle = currentAngle;
             SusanState.voltage = voltage;
             stateTime = System.currentTimeMillis();
         }
