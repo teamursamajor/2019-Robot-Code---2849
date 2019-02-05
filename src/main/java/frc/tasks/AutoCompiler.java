@@ -12,6 +12,7 @@ import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.TurnTask.TurnMode;
 import frc.tasks.SusanTask.SusanMode;
+import frc.robot.*;
 
 //TODO import logger when ready
 //TODO hatch/cargo, turn/drive, path (follow) code need to be added!
@@ -20,7 +21,8 @@ public class AutoCompiler {
 	interface Token {
 	}
 
-	public AutoCompiler() {
+	private Drive drive;
+	public AutoCompiler(Drive drive) {
 		
 	}
 

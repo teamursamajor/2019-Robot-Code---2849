@@ -2,6 +2,7 @@ package frc.tasks;
 
 import frc.robot.UrsaRobot;
 import frc.robot.XboxController;
+import frc.robot.Drive;
 
 public class DriveTask extends Task implements UrsaRobot {
 
@@ -34,7 +35,8 @@ public class DriveTask extends Task implements UrsaRobot {
         }
 
         /**
-         * Iterates the regular auto control loop and calculates the new powers for Drive
+         * Iterates the regular auto control loop and calculates the new powers for
+         * Drive
          * 
          * @return A DriveOrder object containing the new left and right powers
          */
@@ -48,8 +50,10 @@ public class DriveTask extends Task implements UrsaRobot {
             double minimumPower = 0.25;
 
             // If we are within the driveTolerance, stop
-            if (Math.abs(currentDistance - desiredLocation) <= driveTolerance)
+            if (Math.abs(currentDistance - desiredLocation) <= driveTolerance) {
+                driving = false;
                 return new DriveOrder(0.0, 0.0);
+            }
 
             // TODO someone double check this
             if (direction > 0) {
@@ -72,9 +76,13 @@ public class DriveTask extends Task implements UrsaRobot {
             if (Math.abs(rightOutputPower) < minimumPower) {
                 rightOutputPower = Math.signum(rightOutputPower) * minimumPower;
             }
+
+            if(leftOutputPower == 0 && rightOutputPower == 0)
+                driving = false;
+            
             return new DriveOrder(leftOutputPower, rightOutputPower);
         }
-
+      
         /**
          * Iterates the AutoAlign control loop and calculates the new powers for Drive
          * 
@@ -162,16 +170,24 @@ public class DriveTask extends Task implements UrsaRobot {
         }
     }
 
-    private static double desiredLocation;
-    private static double direction;
+    private static double desiredLocation = 0.0, startDistance = 0.0, direction = 1.0;
+    private static boolean driving = true;
 
-    public DriveTask(double desiredDistance) {
+    public DriveTask(double desiredDistance, Drive drive) {
         direction = Math.signum(desiredLocation); // Moving Forwards: 1, Moving Backwards: -1
-        desiredLocation = DriveState.averagePos + desiredDistance;
+        startDistance = DriveState.averagePos;
+        desiredLocation = startDistance + desiredDistance;
+
+        drive.setMode(DriveMode.AUTO); // TODO does this work?
     }
 
-    // TODO Fill this out
     public void run() {
-
+        while (driving) {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
