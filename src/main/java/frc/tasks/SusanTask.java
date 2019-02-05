@@ -1,5 +1,7 @@
 package frc.tasks;
 
+import frc.robot.LazySusan;
+
 public class SusanTask extends Task {
 
     public enum SusanMode {
@@ -19,7 +21,7 @@ public class SusanTask extends Task {
                 return autoGoToAngle(0);
             case LEFT:
                 return autoGoToAngle(-90.0);
-            case RIGHT: 
+            case RIGHT:
                 return autoGoToAngle(90.0);
             }
             return new SusanOrder(0.0);
@@ -28,31 +30,39 @@ public class SusanTask extends Task {
         private SusanOrder autoGoToAngle(double angle) {
             // this will use the potentiometer too
             // this is our PD loop
-            /* while (navx.angle != angle) {
-                  check the sign of the current angle. (mathsignum?) + more code :P
-             }
-            
-             OR 
-             
-             if (navx.angle != angle) {
-                    Math.signum(navx.getAngle) == 1;
-             }
-
-                    //Instead of checking the sign if the target angle is less than the current angle
-                    you will subtract
-                    OR
-                    If the target angle is more than the current angle you will add.
-            */
+            /*
+             * while (navx.angle != angle) { check the sign of the current angle.
+             * (mathsignum?) + more code :P }
+             * 
+             * OR
+             * 
+             * if (navx.angle != angle) { Math.signum(navx.getAngle) == 1; }
+             * 
+             * //Instead of checking the sign if the target angle is less than the current
+             * angle you will subtract OR If the target angle is more than the current angle
+             * you will add.
+             */
             return new SusanOrder(0.0);
-        } 
+        }
     }
 
-    public SusanTask(){
-        super();
+    public SusanTask(SusanMode mode, LazySusan susan) {
+        running = true;
+        susan.setMode(mode);
+        Thread t = new Thread("SusanTask");
+        t.start();
     }
+
+    public static boolean running = true;
 
     public void run() {
-
+        while (running) {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -63,6 +73,7 @@ public class SusanTask extends Task {
         public static double velocity = 0.0, angle = 0.0, voltage = 0.0;
 
         public static long stateTime = System.currentTimeMillis();
+
         public static void updateState(double velocity, double angle, double voltage) {
             SusanState.velocity = velocity;
             SusanState.angle = angle;
@@ -73,8 +84,8 @@ public class SusanTask extends Task {
     }
 
     /**
-     * This is returned by the DriveTask and holds values for the new left and
-     * right powers to be set by Drive
+     * This is returned by the DriveTask and holds values for the new left and right
+     * powers to be set by Drive
      */
     public static class SusanOrder {
         public double power;
