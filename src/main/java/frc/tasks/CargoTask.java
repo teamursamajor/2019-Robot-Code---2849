@@ -28,7 +28,7 @@ public class CargoTask extends Task implements UrsaRobot{
             //TODO Add derivative term to PD loop
 			double kpCargo = 1.0 / 40.0;
 			double cargoMinimumPower = 0.2;
-			// Proportional constant * (angle error)
+			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
 			double cargoPower = kpCargo * (distance - CargoState.position);
 
 			if (Math.abs(cargoPower) < cargoMinimumPower) {
