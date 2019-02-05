@@ -1,5 +1,6 @@
 package frc.tasks;
 
+import frc.robot.Hatch;
 import frc.robot.UrsaRobot;
 
 public class HatchTask extends Task {
@@ -26,12 +27,14 @@ public class HatchTask extends Task {
 			case TOP:
 				return moveToAngle(UrsaRobot.topAngle);
 			}
+			running = false;
 			return new HatchOrder(0);
 		}
 
 		private HatchOrder moveToAngle(double desiredAngle) {
 			double angleTolerance = 5;
 			if(Math.abs(HatchState.hatchAngle - desiredAngle) <= angleTolerance){
+				running = false;
 				return new HatchOrder(0.0);
 			}
 
@@ -40,6 +43,11 @@ public class HatchTask extends Task {
 			double hatchMinimumPower = 0.3;
 			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
 			double hatchPower = kpHatch * (desiredAngle - HatchState.hatchAngle);
+
+			if(hatchPower == 0) {
+				running = false;
+				return new HatchOrder(0.0);
+			}
 
 			if (Math.abs(hatchPower) < hatchMinimumPower) {
 				hatchPower = Math.signum(hatchPower) * hatchMinimumPower;
@@ -68,9 +76,14 @@ public class HatchTask extends Task {
 		}
 	}
 
-	public HatchTask() {
-		super();
+	public HatchTask(HatchMode mode, Hatch hatch) {
+		running = true;
+		hatch.setMode(mode);
+		Thread t = new Thread("HatchTask");
+		t.start();
 	}
+
+	private static boolean running = true;
 
 	public void run() {
 		// Take an angle/position from the auto code or controller

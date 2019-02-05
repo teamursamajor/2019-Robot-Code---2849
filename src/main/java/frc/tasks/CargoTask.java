@@ -15,6 +15,7 @@ public class CargoTask extends Task implements UrsaRobot{
             case DROPOFF:
                 return moveToDistance(0.0);
             }
+            running = false;
             return new CargoOrder(0.0);  
         }
 

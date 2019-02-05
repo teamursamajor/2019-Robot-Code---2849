@@ -11,7 +11,11 @@ public class TurnTask extends Task {
     }
 
     public void run() {
-
+        while(running) {
+            try {
+                Thread.sleep(20);
+            } cat
+        }
     }
 
     //TODO this entire thing
