@@ -54,8 +54,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	public void updateStateInfo() {
-		// TODO update these distances to use information from encoders alongside
-		// limelight
+		// TODO update distances to use information from encoders alongside limelight
+		// maybe average the encoder distances with limelight? idk
 		double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
 		double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
 
@@ -78,7 +78,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		if (leftDeltaPos == 0 || rightDeltaPos == 0)
 			return;
 
-		DriveTask.DriveState.updateState(leftPower, rightPower, leftVelocity, rightVelocity, leftDistance,
+		DriveTask.DriveState.updateState(leftVelocity, rightVelocity, leftDistance,
 				rightDistance);
 	}
 

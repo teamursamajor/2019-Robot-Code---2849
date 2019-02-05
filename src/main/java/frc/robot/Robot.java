@@ -31,7 +31,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Drive drive;
   private LazySusan lazySusan;
   private Hatch hatch;
-  private Spark testMotor;
   private Climb climb;
 
   boolean climbPressed;
@@ -49,7 +48,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     piston = new Piston();
 
     climb = new Climb();
-    testMotor = new Spark(9);
     drive = new Drive();
     drive.initialize("driveThread");
     lazySusan = new LazySusan();
@@ -121,20 +119,21 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void teleopPeriodic() {
     climbPressed = false;
+    double power = 0.75;
     if (xbox.getButton(XboxController.POV_UP)) {
-      climb.fowardFrontMotor();
+      climb.setFrontMotor(power);
       climbPressed = true;
     }
     if (xbox.getButton(XboxController.POV_DOWN)) {
-      climb.backwardFrontMotor();
+      climb.setFrontMotor(-power);
       climbPressed = true;
     }
     if (xbox.getButton(XboxController.POV_LEFT)) {
-      climb.forwardBackMotor();
+      climb.setBackMotor(power);
       climbPressed = true;
     }
     if (xbox.getButton(XboxController.POV_RIGHT)) {
-      climb.backwardBackMotor();
+      climb.setBackMotor(-power);
       climbPressed = true;
     }
     if (!climbPressed) {
@@ -149,13 +148,5 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    // drive.testDrive();
-    if (xbox.getButton(XboxController.BUTTON_A)) {
-      testMotor.set(0.5);
-    } else if (xbox.getButton(XboxController.BUTTON_B)) {
-      testMotor.set(-0.40);
-    } else {
-      testMotor.set(0.0);
-    }
   }
 }

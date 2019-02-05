@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
-import frc.tasks.*;
 
 public class Climb implements UrsaRobot {
 
@@ -14,20 +13,12 @@ public class Climb implements UrsaRobot {
         climbBackMotor = new Spark(CLIMB_BACK);
     }
 
-    public void fowardFrontMotor() {
+    public void setFrontMotor(double power) {
         climbFrontMotor.set(power);
     }
 
-    public void forwardBackMotor() {
+    public void setBackMotor(double power) {
         climbBackMotor.set(power);
-    }
-
-    public void backwardFrontMotor() {
-        climbFrontMotor.set(-power);
-    }
-
-    public void backwardBackMotor() {
-        climbBackMotor.set(-power);
     }
 
     public void stopMotors() {

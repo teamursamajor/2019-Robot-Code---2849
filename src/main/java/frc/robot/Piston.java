@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Compressor;
 
 public class Piston implements UrsaRobot, Runnable {
+    //TODO eventually set up pneumatics and incorporate into our architecture
     
     private Solenoid exampleSolenoid = new Solenoid(3);
     Compressor c = new Compressor(0);
@@ -25,12 +26,10 @@ public class Piston implements UrsaRobot, Runnable {
             }
             running = true;
         }
-        System.out.println("Making thread");
         new Thread(this, "Piston").start();
     }
 
     public void run(){
-        System.out.println("Before loop");
         c.setClosedLoopControl(true);
         while (running) {
             exampleSolenoid.set(true);

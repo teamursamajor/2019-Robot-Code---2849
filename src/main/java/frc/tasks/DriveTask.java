@@ -86,15 +86,12 @@ public class DriveTask implements UrsaRobot {
      * for power, velocity, and position for both the left and right side.
      */
     public static class DriveState {
-        public static double leftPower = 0.0, rightPower = 0.0, leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0,
+        public static double leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0,
                 rightPos = 0.0;
-
         public static long stateTime = System.currentTimeMillis();
 
-        public static void updateState(double leftPower, double rightPower, double leftVelocity, double rightVelocity,
+        public static void updateState(double leftVelocity, double rightVelocity,
                 double leftPos, double rightPos) {
-            DriveState.leftPower = leftPower;
-            DriveState.rightPower = rightPower;
             DriveState.leftVelocity = leftVelocity;
             DriveState.rightVelocity = rightVelocity;
             DriveState.leftPos = leftPos;

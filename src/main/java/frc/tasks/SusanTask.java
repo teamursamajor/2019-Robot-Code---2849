@@ -26,6 +26,7 @@ public class SusanTask extends Task {
         }
 
         private SusanOrder autoGoToAngle(double angle) {
+            // this will use the potentiometer too
             /* while (navx.angle != angle) {
                   check the sign of the current angle. (mathsignum?) + more code :P
              }
@@ -41,7 +42,6 @@ public class SusanTask extends Task {
                     OR
                     If the target angle is more than the current angle you will add.
             */
-            System.out.println("Test print");
             return new SusanOrder(0.0);
         } 
     }
@@ -59,11 +59,10 @@ public class SusanTask extends Task {
      * for power, velocity, and position for both the left and right side.
      */
     public static class SusanState {
-        public static double power = 0.0, velocity = 0.0, angle = 0.0;
+        public static double velocity = 0.0, angle = 0.0;
 
         public static long stateTime = System.currentTimeMillis();
-        public static void updateState(double power, double velocity, double angle) {
-            SusanState.power = power;
+        public static void updateState(double velocity, double angle) {
             SusanState.velocity = velocity;
             SusanState.angle = angle;
             stateTime = System.currentTimeMillis();

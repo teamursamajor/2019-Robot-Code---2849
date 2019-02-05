@@ -2,6 +2,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Constants{
+    //TODO finish this
     //String squirrelsAreAwesome = "This is a fact";
     int i = 50;
     //SmartDashboard.putData("Sicko Squirrel Test", new Squirrel());

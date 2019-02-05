@@ -50,10 +50,10 @@ public class CargoTask extends Task implements UrsaRobot{
     }
 
     public static class CargoOrder {
-        public double power = 0.0;
+        public double cargoPower = 0.0;
 
         public CargoOrder(double power) {
-            this.power = power;
+            cargoPower = power;
         }
 
     }

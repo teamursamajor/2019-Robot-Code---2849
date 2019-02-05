@@ -39,7 +39,7 @@ public class HatchTask extends Task {
 			//TODO Add derivative term to PD loop
 			double kpHatch = 1.0 / 40.0;
 			double hatchMinimumPower = 0.3;
-			// Proportional constant * (angle error)
+			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
 			double hatchPower = kpHatch * (desiredAngle - HatchState.hatchAngle);
 
 			if (Math.abs(hatchPower) < hatchMinimumPower) {
@@ -51,11 +51,10 @@ public class HatchTask extends Task {
 	}
 
 	public static class HatchState {
-		public static double hatchPower = 0.0, hatchVelocity = 0.0, hatchAngle = 0.0;
+		public static double hatchVelocity = 0.0, hatchAngle = 0.0;
 		public static long stateTime = System.currentTimeMillis();
 
-		public static void updateState(double hatchPower, double hatchVelocity, double hatchAngle) {
-			HatchState.hatchPower = hatchPower;
+		public static void updateState(double hatchVelocity, double hatchAngle) {
 			HatchState.hatchVelocity = hatchVelocity;
 			HatchState.hatchAngle = hatchAngle;
 			stateTime = System.currentTimeMillis();

@@ -1,13 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
-import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.*;
 
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     private Spark cargoMotor;
-    private double cargoPower;
 
     public Cargo() {
         cargoMotor = new Spark(CARGO_FRONT);
@@ -18,7 +16,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     public void runSubsystem() {
         updateStateInfo();
         CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
-        cargoMotor.set(cargoOrder.power);
+        cargoMotor.set(cargoOrder.cargoPower);
     }
 
     public double getCargoDistance() {
@@ -26,6 +24,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public void updateStateInfo() {
+        // If we add a derivative term to the Cargo PID, we need to calculate velocity here
         CargoTask.CargoState.updateState(getCargoDistance());
     }
 }
