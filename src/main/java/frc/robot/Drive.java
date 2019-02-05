@@ -79,7 +79,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 			return;
 
 		DriveTask.DriveState.updateState(leftVelocity, rightVelocity, leftDistance,
-				rightDistance);
+				rightDistance, getHeading());
 	}
 
 	/**

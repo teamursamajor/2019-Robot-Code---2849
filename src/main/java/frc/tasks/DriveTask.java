@@ -12,7 +12,7 @@ public class DriveTask extends Task implements UrsaRobot {
      * represent Autonomous and Teleop
      */
     public enum DriveMode {
-        AUTO, AUTO_ALIGN, DRIVE_STICKS;
+        AUTO, AUTO_ALIGN, DRIVE_STICKS, TURN_TO;
 
         /**
          * This method takes the current drive state and iterates the control loop then
@@ -30,6 +30,8 @@ public class DriveTask extends Task implements UrsaRobot {
                 return autoAlign();
             case DRIVE_STICKS:
                 return sticksBox();
+            case TURN_TO:
+                return turnTo();
             }
             return new DriveOrder(0.0, 0.0);
         }
@@ -69,7 +71,7 @@ public class DriveTask extends Task implements UrsaRobot {
                 rightOutputPower *= -1.0;
             }
 
-            if(leftOutputPower == 0 && rightOutputPower == 0) {
+            if (leftOutputPower == 0 && rightOutputPower == 0) {
                 driving = false;
                 return new DriveOrder(0.0, 0.0);
             }
@@ -81,10 +83,10 @@ public class DriveTask extends Task implements UrsaRobot {
             if (Math.abs(rightOutputPower) < minimumPower) {
                 rightOutputPower = Math.signum(rightOutputPower) * minimumPower;
             }
-            
+
             return new DriveOrder(leftOutputPower, rightOutputPower);
         }
-      
+
         /**
          * Iterates the AutoAlign control loop and calculates the new powers for Drive
          * 
@@ -115,11 +117,11 @@ public class DriveTask extends Task implements UrsaRobot {
             double rightOutputPower = kpAutoAlign * (DriveState.rightPos - goalPosition)
                     + kdAutoAlign * DriveState.rightVelocity;
 
-            if(leftOutputPower == 0 && rightOutputPower == 0){
+            if (leftOutputPower == 0 && rightOutputPower == 0) {
                 driving = false;
                 return new DriveOrder(0.0, 0.0);
             }
-            
+
             if (Math.abs(leftOutputPower) < autoAlignMinimumPower) {
                 leftOutputPower = Math.signum(leftOutputPower) * autoAlignMinimumPower;
             }
@@ -142,6 +144,29 @@ public class DriveTask extends Task implements UrsaRobot {
             return new DriveOrder(xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y),
                     xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
         }
+
+        private DriveOrder turnTo() {
+            double newAngle = desiredAngle - DriveState.currentAngle;
+            double angleTolerance = 5; //TODO set experimentally
+            if(newAngle < angleTolerance){
+                driving = false;
+                return new DriveOrder(0.0, 0.0);
+            }
+            if (newAngle < 0 && Math.abs(newAngle) > 180)
+                newAngle += 360;
+
+            //TODO PD Loop
+            double turningKp = 1.0/40.0;
+            double turningKd = 0.0;
+
+            double velocity = (DriveState.leftVelocity > 0) ? DriveState.leftVelocity : DriveState.rightVelocity;
+            double radius = 15; // temporary TODO what do we do here
+
+            double outputPower = turningKp * newAngle + turningKd * (velocity / radius);
+
+            return new DriveOrder(1 * (Math.signum(newAngle) * outputPower),
+					-1 * (Math.signum(newAngle)) * outputPower);
+        }
     }
 
     /**
@@ -150,17 +175,17 @@ public class DriveTask extends Task implements UrsaRobot {
      */
     public static class DriveState {
         public static double leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0, rightPos = 0.0;
-        public static double averagePos = 0.0;
+        public static double averagePos = 0.0, currentAngle = 0.0;
         public static long stateTime = System.currentTimeMillis();
 
-        public static void updateState(double leftVelocity, double rightVelocity, double leftPos, double rightPos) {
+        public static void updateState(double leftVelocity, double rightVelocity, double leftPos, double rightPos, double currentAngle) {
             DriveState.leftVelocity = leftVelocity;
             DriveState.rightVelocity = rightVelocity;
             DriveState.leftPos = leftPos;
             DriveState.rightPos = rightPos;
             DriveState.averagePos = (leftPos + rightPos) / 2.0;
+            DriveState.currentAngle = currentAngle;
             stateTime = System.currentTimeMillis();
-
         }
 
     }
@@ -181,6 +206,13 @@ public class DriveTask extends Task implements UrsaRobot {
     private static double desiredLocation = 0.0, startDistance = 0.0, direction = 1.0;
     private static boolean driving = true;
 
+    /**
+     * Used for driving
+     * 
+     * @param desiredDistance How far you want to drive. Positive is forward,
+     *                        negative is backwards
+     * @param drive           Instance of drive object
+     */
     public DriveTask(double desiredDistance, Drive drive) {
         direction = Math.signum(desiredLocation); // Moving Forwards: 1, Moving Backwards: -1
         startDistance = DriveState.averagePos;
@@ -190,6 +222,29 @@ public class DriveTask extends Task implements UrsaRobot {
         drive.setMode(DriveMode.AUTO); // TODO does this work?
         Thread t = new Thread("DriveTask");
         t.start();
+    }
+
+    private static double desiredAngle = 0.0;
+
+    /**
+     * Used for turning
+     * 
+     * @param desiredAngle    The desiredAngle to turn to or turn by
+     * @param drive    Instance of the drive object
+     * @param turnMode Should be either TURN_TO
+     */
+    public DriveTask(double desiredAngle, Drive drive, DriveMode turnMode) {
+        if (turnMode.equals(DriveMode.TURN_TO)) {
+            this.desiredAngle = desiredAngle;
+            driving = true;
+            drive.setMode(turnMode);
+            Thread t = new Thread("TurnTask");
+            t.start();
+        } else {
+            System.out.println(
+                    "This constructor is being used incorrectly to drive the robot. It should be used only for turning.");
+        }
+
     }
 
     public void run() {
