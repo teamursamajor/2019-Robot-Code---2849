@@ -1,5 +1,23 @@
-Pneumatics actual code
-Start writing Task and Subsystem code (ie finish all the subsystems)
+Clean up and test control loops and incorporate new sensors
+Write the run methods for Tasks
+Incorporate actual pneumatics code
+Color sensor! Learn how to wire it and test using it to get a response
+Automate hatch pick up and drop off:
+	Pick up:
+		Using the limelight, get the angle offset from the pickup location and get the distance away
+			Angle offset is given to us
+			We will have to do some math/testing to find the distance, but we can't do that yet
+			For now just write the logic using a placeholder distance variable
+		We can also investigate using the turret lock (see below)
+	Drop off:
+		**if using hatch v1 (non pneumatics) then we need to drift into the wall**
+		**if using hatch v2 (pneumatics) then we can just line up with the light sensor**
+		Starts from front of cargo bay
+		Move lazy susan to the correct side (hopefully its already where it should be but we can set it too)
+		Uses light sensor, encoders, and limelight to know when it has reached whatever bay it wants to deposit at
+			It will be told what bay to go to by the programming driver or like the number of times the button is pressed or something
+		Using the PD loop, move the robot until its in the right spot, then use the arm to drop off the hatch
+
 
 Logger:
 	Re use the logger from last year and add Logger calls throughout the code
@@ -27,7 +45,6 @@ SmartDashboard integration:
 
 PID Loops:
 	Write the loops for the hatch, cargo, turret lock (maybe), etc:
-		This will be possible once we have finalized designs for these subsystems. We can hold off on this for now
 	Tune the loops:
 		We can tune them slightly when initially testing, but our main tuning will occur when the robot is finished and we have testing 
 		time

@@ -6,7 +6,6 @@ public class CargoTask extends Task implements UrsaRobot{
         DEPLOY, PICKUP, DROPOFF;
 
         public CargoOrder callLoop() {
-            // "this" refers to the enum that the method is in
             switch (this) {
                 // TODO change these to their actual distance
             case DEPLOY:

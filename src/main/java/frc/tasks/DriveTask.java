@@ -51,7 +51,9 @@ public class DriveTask extends Task implements UrsaRobot {
                 return new DriveOrder(0.0, 0.0);
             }
 
-            double goalPosition = 0.0;
+            double goalPosition = 0.0; // on the limelight, 0.0 is the center
+
+            // PD equations power = kp * change in distance (aka error) + kd * velocity
             double leftOutputPower = kpAutoAlign * (DriveState.leftPos - goalPosition)
                     + kdAutoAlign * DriveState.leftVelocity;
             double rightOutputPower = kpAutoAlign * (DriveState.rightPos - goalPosition)
