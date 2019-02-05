@@ -1,6 +1,4 @@
 Clean up and test control loops and incorporate new sensors
-AutoAlign should be in its own Task, but not its own Subsystem file:
-	The compiler will make an AutoAlign Task which communicates with Drive...somehow
 Write the run methods for Tasks
 Incorporate actual pneumatics code
 Color sensor! Learn how to wire it and test using it to get a response

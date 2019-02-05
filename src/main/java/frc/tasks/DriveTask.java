@@ -11,7 +11,7 @@ public class DriveTask extends Task implements UrsaRobot {
      * represent Autonomous and Teleop
      */
     public enum DriveMode {
-        AUTO, DRIVE_STICKS;
+        AUTO, AUTO_ALIGN, DRIVE_STICKS;
 
         /**
          * This method takes the current drive state and iterates the control loop then
@@ -25,6 +25,8 @@ public class DriveTask extends Task implements UrsaRobot {
             switch (this) {
             case AUTO:
                 return autoCalculator();
+            case AUTO_ALIGN:
+                return autoAlign();
             case DRIVE_STICKS:
                 return sticksBox();
             }
@@ -32,16 +34,56 @@ public class DriveTask extends Task implements UrsaRobot {
         }
 
         /**
-         * Iterates the Auto control loop and calculates the new powers for Drive
+         * Iterates the regular auto control loop and calculates the new powers for Drive
          * 
          * @return A DriveOrder object containing the new left and right powers
          */
         private DriveOrder autoCalculator() {
+            double leftOutputPower = 0.0, rightOutputPower = 0.0;
+            double currentDistance = DriveState.averagePos;
+            double driveTolerance = 0.0; // TODO set a real value here
+
+            double kdDrive = 2; // Derivative coefficient for PID controller
+            double kpDrive = 1.0 / 33.0; // Proportional coefficient for PID controller
+            double minimumPower = 0.25;
+
+            // If we are within the driveTolerance, stop
+            if (Math.abs(currentDistance - desiredLocation) <= driveTolerance)
+                return new DriveOrder(0.0, 0.0);
+
+            // TODO someone double check this
+            if (direction > 0) {
+                leftOutputPower = kpDrive * (desiredLocation - DriveState.leftPos) + kdDrive * DriveState.leftVelocity;
+                rightOutputPower = kpDrive * (desiredLocation - DriveState.rightPos)
+                        + kdDrive * DriveState.rightVelocity;
+            } else if (direction < 0) {
+                leftOutputPower = kpDrive * (DriveState.leftPos - desiredLocation)
+                        + kdDrive * (-1 * DriveState.leftVelocity);
+                leftOutputPower *= -1.0;
+                rightOutputPower = kpDrive * (DriveState.rightPos - desiredLocation)
+                        + kdDrive * (-1 * DriveState.rightVelocity);
+                rightOutputPower *= -1.0;
+            }
+
+            if (Math.abs(leftOutputPower) < minimumPower) {
+                leftOutputPower = Math.signum(leftOutputPower) * minimumPower;
+            }
+
+            if (Math.abs(rightOutputPower) < minimumPower) {
+                rightOutputPower = Math.signum(rightOutputPower) * minimumPower;
+            }
+            return new DriveOrder(leftOutputPower, rightOutputPower);
+        }
+
+        /**
+         * Iterates the AutoAlign control loop and calculates the new powers for Drive
+         * 
+         * @return A DriveOrder object containing the new left and right powers
+         */
+        private DriveOrder autoAlign() {
             // TODO move to a constants java file which communicates with the
             // dashboard/UrsaRobot
 
-            // TODO this is specifically for auto aligning to the tapes
-            // This should be separate from just moving in auto
             double kdAutoAlign = 2; // Derivative coefficient for PID controller
             double kpAutoAlign = 1.0 / 33.0; // Proportional coefficient for PID controller
             double autoAlignTolerance = 0.1;
@@ -120,8 +162,8 @@ public class DriveTask extends Task implements UrsaRobot {
         }
     }
 
-    private double desiredLocation;
-    private double direction;
+    private static double desiredLocation;
+    private static double direction;
 
     public DriveTask(double desiredDistance) {
         direction = Math.signum(desiredLocation); // Moving Forwards: 1, Moving Backwards: -1
@@ -130,42 +172,6 @@ public class DriveTask extends Task implements UrsaRobot {
 
     // TODO Fill this out
     public void run() {
-        // Regular drive PD loop
-        double currentDistance = DriveState.averagePos;
-        double driveTolerance = 0.0; // TODO set a real value here
 
-        double kdDrive = 2; // Derivative coefficient for PID controller
-        double kpDrive = 1.0 / 33.0; // Proportional coefficient for PID controller
-        double minimumPower = 0.25;
-
-        // If we are within the driveTolerance, stop
-        if (Math.abs(currentDistance - desiredLocation) <= driveTolerance)
-            return;
-
-        double leftOutputPower = 0.0, rightOutputPower = 0.0;
-
-        while ((desiredLocation - currentDistance) > driveTolerance) {
-            // TODO someone double check this
-            if (direction > 0) {
-                leftOutputPower = kpDrive * (desiredLocation - DriveState.leftPos) + kdDrive * DriveState.leftVelocity;
-                rightOutputPower = kpDrive * (desiredLocation - DriveState.rightPos)
-                        + kdDrive * DriveState.rightVelocity;
-            } else if (direction < 0) {
-                leftOutputPower = kpDrive * (DriveState.leftPos - desiredLocation)
-                        + kdDrive * (-1 * DriveState.leftVelocity);
-                leftOutputPower *= -1.0;
-                rightOutputPower = kpDrive * (DriveState.rightPos - desiredLocation)
-                        + kdDrive * (-1 * DriveState.rightVelocity);
-                rightOutputPower *= -1.0;
-            }
-
-            if (Math.abs(leftOutputPower) < minimumPower) {
-                leftOutputPower = Math.signum(leftOutputPower) * minimumPower;
-            }
-
-            if (Math.abs(rightOutputPower) < minimumPower) {
-                rightOutputPower = Math.signum(rightOutputPower) * minimumPower;
-            }
-        }
     }
 }
