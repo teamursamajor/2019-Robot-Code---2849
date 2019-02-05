@@ -35,7 +35,7 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
     public void updateStateInfo(){
         // TODO use potentiometer
         double currentAngle = 0.0;
-        double deltaAngle = currentAngle - SusanTask.SusanState.angle;
+        double deltaAngle = currentAngle - SusanTask.SusanState.currentAngle;
         double deltaTime = System.currentTimeMillis() - SusanTask.SusanState.stateTime;
         double velocity = deltaAngle / deltaTime;
         if(deltaAngle == 0)
