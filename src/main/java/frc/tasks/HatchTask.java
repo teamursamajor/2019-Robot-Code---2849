@@ -30,7 +30,6 @@ public class HatchTask extends Task {
 		}
 
 		private HatchOrder moveToAngle(double desiredAngle) {
-			// Loop: While we are not at the specified angle, move to ti
 			double angleTolerance = 5;
 			if(Math.abs(HatchState.hatchAngle - desiredAngle) <= angleTolerance){
 				return new HatchOrder(0.0);

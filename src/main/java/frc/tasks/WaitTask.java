@@ -3,6 +3,7 @@ package frc.tasks;
 public class WaitTask extends Task {
 	
 	private long waitTime = 20;
+	
 	public WaitTask(long time) {
 		super();
 		waitTime = time;
