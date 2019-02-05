@@ -105,14 +105,13 @@ public class AutoCompiler {
 			} else if (cargoType.equalsIgnoreCase("DROPOFF")) {
 				cargoMode = CargoMode.DROPOFF;
 			} else {
-				// cargo = default case
+				cargoMode = CargoMode.DEPLOY;
 			}
 		}
 
 		public CargoTask makeTask() {
 			// Logger.log("[TASK] Cargo Task", LogLevel.INFO);
-            // return new CargoTask(cargo);
-            return null;
+            return new CargoTask(cargoMode, cargo);
 		}
 	}
 
@@ -122,26 +121,26 @@ public class AutoCompiler {
 	 * @param hatchType The hatch position to get to
 	 */
 	class HatchToken implements Token {
-		private HatchMode hatch;
+		private HatchMode hatchMode;
 
 		public HatchToken(String hatchType) {
 		    hatchType = hatchType.replace(" ", "");
 
 			if (hatchType.equalsIgnoreCase("START")) {
-				hatch = HatchMode.START;
+				hatchMode = HatchMode.START;
 			} else if (hatchType.equalsIgnoreCase("BOTTOM")) {
-				hatch = HatchMode.BOTTOM;
+				hatchMode = HatchMode.BOTTOM;
 			} else if (hatchType.equalsIgnoreCase("TOP")) {
-				hatch = HatchMode.TOP;
+				hatchMode = HatchMode.TOP;
 			} else {
-				hatch = HatchMode.BOTTOM;
+				hatchMode = HatchMode.BOTTOM;
 			}
 		}
 
 		public HatchTask makeTask() {
 			// Logger.log("[TASK] Hatch Task", LogLevel.INFO);
-            // return new HatchTask(hatch);
-            return null;
+			//return new HatchTask(hatchMode, hatch);
+			return null;
 		}
 	}
 	
@@ -151,25 +150,25 @@ public class AutoCompiler {
 	 * @param susanType The direction to turn the lazy susan to
 	 */
 	class SusanToken implements Token {
-		private SusanMode susan;
+		private SusanMode susanMode;
 
 		public SusanToken(String susanType) {
 			susanType = susanType.replace(" ", "");
 			
 			if (susanType.equalsIgnoreCase("FORWARD")) {
-				susan = SusanMode.FORWARD;
+				susanMode = SusanMode.FORWARD;
 			} else if (susanType.equalsIgnoreCase("LEFT")) {
-				susan = SusanMode.LEFT;
+				susanMode = SusanMode.LEFT;
 			} else if (susanType.equalsIgnoreCase("RIGHT")) {
-				susan = SusanMode.RIGHT;
+				susanMode = SusanMode.RIGHT;
 			} else {
-			// 	susan = default case
+				susanMode = SusanMode.FORWARD;
 			}
 		}
 
 		public SusanTask makeTask() {
 			// Logger.log("[TASK] Susan Task", LogLevel.INFO);
-            // return new SusanTask(susan);
+            // return new SusanTask(susanMode, susan);
             return null;
 		}
     }
@@ -263,8 +262,8 @@ public class AutoCompiler {
 
 		public DriveTask makeTask() {
 			// Logger.log("[TASK] Drive Task", LogLevel.INFO);
-            // return new DriveTask((int) dist, drive);
-            return null;
+			// return new DriveTask((int) dist, drive);
+			return new DriveTask(dist, drive);
 		}
 	}
 	
