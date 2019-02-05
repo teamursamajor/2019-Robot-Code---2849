@@ -1,5 +1,4 @@
-Clean up and test control loops and incorporate new sensors
-Write the run methods for Tasks
+SusanTask, Color Sensor, Auto Code, Other Sensors
 Incorporate actual pneumatics code
 Color sensor! Learn how to wire it and test using it to get a response
 Automate hatch pick up and drop off:
@@ -17,7 +16,6 @@ Automate hatch pick up and drop off:
 		Uses light sensor, encoders, and limelight to know when it has reached whatever bay it wants to deposit at
 			It will be told what bay to go to by the programming driver or like the number of times the button is pressed or something
 		Using the PD loop, move the robot until its in the right spot, then use the arm to drop off the hatch
-
 
 Logger:
 	Re use the logger from last year and add Logger calls throughout the code
