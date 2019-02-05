@@ -10,8 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.tasks.DriveTask.DriveMode;
-import edu.wpi.first.wpilibj.Spark;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -44,16 +42,16 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    
-    piston = new Piston();
 
-    climb = new Climb();
     drive = new Drive();
     drive.initialize("driveThread");
     lazySusan = new LazySusan();
     lazySusan.initialize("susanThread");
     hatch = new Hatch();
     hatch.initialize("hatchThread");
+    climb = new Climb();
+
+    piston = new Piston();
   }
 
   /**
@@ -118,6 +116,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    // TODO Should this be here or in a climber thread?
     climbPressed = false;
     double power = 0.75;
     if (xbox.getButton(XboxController.POV_UP)) {
@@ -139,8 +138,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (!climbPressed) {
       climb.stopMotors();
     }
-
-    
   }
 
   /**

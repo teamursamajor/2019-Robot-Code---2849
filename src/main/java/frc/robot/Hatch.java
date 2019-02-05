@@ -8,9 +8,11 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     private Spark hatchMotor;
 
     // Position constants
-    double intakePosition = 0.0; // TODO set angle where arm intakes hatches
-    double deployPosition = 0.0; // TODO set angle where arm deploys hatches
-    double carryPosition = 0.0; // TODO set angle where arm carries hatches
+    // TODO set the encoder distances for these positions
+    // determined experimentally
+    double intakePosition = 0.0;
+    double deployPosition = 0.0;
+    double carryPosition = 0.0;
 
     double defaultPosition = 0.0;
     double currentPosition; // Encoder?
@@ -19,7 +21,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         hatchMotor = new Spark(HATCH);
 
         // Number of degrees per pulse (7 pulses in one revolution)
-        hatchEncoder.setDistancePerPulse(DEGREES_PER_TICK);
+        hatchEncoder.setDistancePerPulse(HATCH_DEGREES_PER_TICK);
         hatchEncoder.reset();
 
         currentPosition = defaultPosition;
@@ -43,7 +45,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public void updateStateInfo() {
         double currentDistance = hatchEncoder.getDistance();
-        // hatchAngle is really hatchDistance. As of now, our "distance" refers to a arc
+        // TODO hatchAngle is really hatchDistance. As of now, our "distance" refers to a arc
         // along a circle
         double deltaPos = currentDistance - HatchTask.HatchState.hatchAngle;
         double deltaTime = System.currentTimeMillis() - HatchTask.HatchState.stateTime;

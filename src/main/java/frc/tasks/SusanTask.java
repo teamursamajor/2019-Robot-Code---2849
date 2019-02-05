@@ -27,6 +27,7 @@ public class SusanTask extends Task {
 
         private SusanOrder autoGoToAngle(double angle) {
             // this will use the potentiometer too
+            // this is our PD loop
             /* while (navx.angle != angle) {
                   check the sign of the current angle. (mathsignum?) + more code :P
              }
@@ -59,12 +60,13 @@ public class SusanTask extends Task {
      * for power, velocity, and position for both the left and right side.
      */
     public static class SusanState {
-        public static double velocity = 0.0, angle = 0.0;
+        public static double velocity = 0.0, angle = 0.0, voltage = 0.0;
 
         public static long stateTime = System.currentTimeMillis();
-        public static void updateState(double velocity, double angle) {
+        public static void updateState(double velocity, double angle, double voltage) {
             SusanState.velocity = velocity;
             SusanState.angle = angle;
+            SusanState.voltage = voltage;
             stateTime = System.currentTimeMillis();
         }
 

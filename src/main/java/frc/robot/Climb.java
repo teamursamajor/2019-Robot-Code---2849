@@ -6,7 +6,6 @@ public class Climb implements UrsaRobot {
 
     private Spark climbFrontMotor;
     private Spark climbBackMotor;
-    private double power = 0.75;
 
     public Climb() {
         climbFrontMotor = new Spark(CLIMB_FRONT);

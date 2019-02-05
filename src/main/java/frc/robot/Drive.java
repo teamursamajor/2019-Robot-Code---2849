@@ -172,7 +172,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	/**
-	 * Sets all drive motors to the same power
+	 * Sets all drive motors to the same power. Accounts for the flip between the left and right sides
 	 * @param power
 	 */
 	public void setPower(double power) {
@@ -180,15 +180,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		mFrontLeft.set(power);
 		mRearRight.set(-power);
 		mRearLeft.set(power);
-	}
-
-	// TODO Delete eventually, once drive code is perfect in teleop
-	public void testDrive() {
-		XboxController xbox = new XboxController(0);
-		mFrontLeft.set(-xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y));
-		mFrontRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
-		mRearLeft.set(-xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y));
-		mRearRight.set(xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
 	}
 
 	public void debugMessage(String message) {

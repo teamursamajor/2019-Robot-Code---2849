@@ -9,20 +9,24 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public interface UrsaRobot {
-	// Ports for every Spark or Encoder channel
+	// Spark Ports
 	public static final int DRIVE_FRONT_LEFT = 1;
 	public static final int DRIVE_FRONT_RIGHT = 2;
 	public static final int DRIVE_REAR_LEFT = 0;
 	public static final int DRIVE_REAR_RIGHT = 3;
 
+	// TODO do we need both of these?
+	public static final int CARGO = 7;
 	public static final int CARGO_FRONT = 6;
 
 	public static final int HATCH = 5;
-	public static final int CARGO = 7;
+
 	public static final int CLIMB_FRONT = 8;
 	public static final int CLIMB_BACK = 9;
+	
 	public static final int LAZY_SUSAN = 4;
 
+	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
 
 	public static final int LEFT_ENCODER_CHANNEL_A = 6;
@@ -37,8 +41,8 @@ public interface UrsaRobot {
 
 	public static final int SUSAN_SWITCH_CHANNEL = 4;
 
-	// 7 pulses per revolution
-	public static Encoder hatchEncoder = new Encoder(HATCH_ENCODER_CHANNEL_A, HATCH_ENCODER_CHANNEL_B);
+	// Encoders
+	public static Encoder hatchEncoder = new Encoder(HATCH_ENCODER_CHANNEL_A, HATCH_ENCODER_CHANNEL_B); // 7 pulses/rev
 
 	public static Encoder cargoEncoder = new Encoder(CARGO_ENCODER_CHANNEL_A, CARGO_ENCODER_CHANNEL_B);
 
@@ -48,8 +52,8 @@ public interface UrsaRobot {
 	// Tells the encoder the value of each tick. Must be set in the corresponding
 	// file with encoder.setDistancePerPulse([Name]_PER_TICK);
 	public static final double INCHES_PER_TICK = 0.011505d;
+	public static final double HATCH_DEGREES_PER_TICK = 0.72434608d;
 	public static final double CARGO_DEGREES_PER_TICK = 0.0; // TODO update with encoder
-	public static final double DEGREES_PER_TICK = 0.72434608d;
 
 	public static final double ROBOT_WIDTH_INCHES = 28d;
 	public static final double ROBOT_DEPTH_INCHES = 31.5d;
