@@ -69,6 +69,11 @@ public class DriveTask extends Task implements UrsaRobot {
                 rightOutputPower *= -1.0;
             }
 
+            if(leftOutputPower == 0 && rightOutputPower == 0) {
+                driving = false;
+                return new DriveOrder(0.0, 0.0);
+            }
+
             if (Math.abs(leftOutputPower) < minimumPower) {
                 leftOutputPower = Math.signum(leftOutputPower) * minimumPower;
             }
@@ -76,9 +81,6 @@ public class DriveTask extends Task implements UrsaRobot {
             if (Math.abs(rightOutputPower) < minimumPower) {
                 rightOutputPower = Math.signum(rightOutputPower) * minimumPower;
             }
-
-            if(leftOutputPower == 0 && rightOutputPower == 0)
-                driving = false;
             
             return new DriveOrder(leftOutputPower, rightOutputPower);
         }
@@ -178,7 +180,10 @@ public class DriveTask extends Task implements UrsaRobot {
         startDistance = DriveState.averagePos;
         desiredLocation = startDistance + desiredDistance;
 
+        driving = true;
         drive.setMode(DriveMode.AUTO); // TODO does this work?
+        Thread t = new Thread("DriveTask");
+        t.start();
     }
 
     public void run() {

@@ -22,6 +22,7 @@ public class CargoTask extends Task implements UrsaRobot{
 
             double distanceTolerance = 5;
             if(Math.abs(CargoState.position - distance) < distanceTolerance) {
+                running = false;
                 return new CargoOrder(0.0);
             }
             //TODO Add derivative term to PD loop
@@ -30,10 +31,15 @@ public class CargoTask extends Task implements UrsaRobot{
 			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
 			double cargoPower = kpCargo * (distance - CargoState.position);
 
+            if(cargoPower == 0){
+                running = false;
+                return new CargoOrder(0.0);
+            }
+
 			if (Math.abs(cargoPower) < cargoMinimumPower) {
 				cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
 			}
-			
+            
 			return new CargoOrder(cargoPower);
        }
     }
@@ -62,7 +68,20 @@ public class CargoTask extends Task implements UrsaRobot{
         return " ";
 	}
 
+    private static boolean running = true;
+
+    public CargoTask(CargoMode mode, Cargo cargo){
+        running = true;
+        cargo.setMode(mode);
+    }
+
 	public void run(){
-		
+        while(running){
+            try{
+                Thread.sleep(20);
+            } catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
 	}
 }
