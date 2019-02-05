@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.CargoTask.CargoMode;
-import frc.tasks.TurnTask.TurnMode;
 import frc.tasks.SusanTask.SusanMode;
 import frc.robot.*;
 
