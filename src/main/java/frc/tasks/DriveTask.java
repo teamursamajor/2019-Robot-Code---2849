@@ -3,7 +3,7 @@ package frc.tasks;
 import frc.robot.UrsaRobot;
 import frc.robot.XboxController;
 
-public class DriveTask implements UrsaRobot {
+public class DriveTask extends Task implements UrsaRobot {
 
     /*
      * An enum is a list of predefined constants. Ex: Directions - North South East
@@ -112,5 +112,10 @@ public class DriveTask implements UrsaRobot {
             this.leftPower = leftPower;
             this.rightPower = rightPower;
         }
+    }
+
+    //TODO Fill this out
+    public void run() {
+
     }
 }
