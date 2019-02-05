@@ -12,7 +12,7 @@ public class DriveTask extends Task implements UrsaRobot {
      * represent Autonomous and Teleop
      */
     public enum DriveMode {
-        AUTO, AUTO_ALIGN, DRIVE_STICKS, TURN_TO;
+        AUTO, ALIGN, DRIVE_STICKS, TURN;
 
         /**
          * This method takes the current drive state and iterates the control loop then
@@ -26,11 +26,11 @@ public class DriveTask extends Task implements UrsaRobot {
             switch (this) {
             case AUTO:
                 return autoCalculator();
-            case AUTO_ALIGN:
+            case ALIGN:
                 return autoAlign();
             case DRIVE_STICKS:
                 return sticksBox();
-            case TURN_TO:
+            case TURN:
                 return turnTo();
             }
             return new DriveOrder(0.0, 0.0);
@@ -152,7 +152,7 @@ public class DriveTask extends Task implements UrsaRobot {
                 driving = false;
                 return new DriveOrder(0.0, 0.0);
             }
-            
+
             if (newAngle < 0 && Math.abs(newAngle) > 180)
                 newAngle += 360;
 
@@ -232,10 +232,10 @@ public class DriveTask extends Task implements UrsaRobot {
      * 
      * @param desiredAngle    The desiredAngle to turn to or turn by
      * @param drive    Instance of the drive object
-     * @param turnMode Should be either TURN_TO
+     * @param turnMode Should be TURN
      */
     public DriveTask(double desiredAngle, Drive drive, DriveMode turnMode) {
-        if (turnMode.equals(DriveMode.TURN_TO)) {
+        if (turnMode.equals(DriveMode.TURN)) {
             this.desiredAngle = desiredAngle;
             driving = true;
             drive.setMode(turnMode);
@@ -245,7 +245,24 @@ public class DriveTask extends Task implements UrsaRobot {
             System.out.println(
                     "This constructor is being used incorrectly to drive the robot. It should be used only for turning.");
         }
+    }
 
+    /**
+     * Used for aligning
+     *
+     * @param drive    Instance of the drive object
+     * @param alignMode Should be ALIGN
+     */
+    public DriveTask(Drive drive, DriveMode alignMode) {
+        if (alignMode.equals(DriveMode.ALIGN)) {
+            driving = true;
+            drive.setMode(alignMode);
+            Thread t = new Thread("AlignTask");
+            t.start();
+        } else {
+            System.out.println(
+                    "This constructor is being used incorrectly to drive the robot. It should be used only for aligning.");
+        }
     }
 
     public void run() {

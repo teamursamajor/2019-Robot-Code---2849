@@ -23,7 +23,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 */
 
 	public Drive() {
-		subsystemMode = DriveMode.DRIVE_STICKS;
+		// TODO In the future we will want a switch statement here with getMode()
+		setMode(DriveMode.DRIVE_STICKS);
 
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);

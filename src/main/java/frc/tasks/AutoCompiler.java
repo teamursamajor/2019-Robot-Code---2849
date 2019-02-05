@@ -222,25 +222,36 @@ public class AutoCompiler {
 	/**
 	 * A token that turns the robot to face an absolute or relative direction
 	 * 
-	 * @param turn The type and amount to turn ("to" or "by" and degrees)
+	 * @param amount The amount to turn
 	 */
 	class TurnToken implements Token {
 		private double turnAmount;
-		private DriveMode turnType;
 
-		public TurnToken(String turn) {
-			turn = turn.toLowerCase();
-			if (turn.contains("to")) {
-				turnType = DriveMode.TURN_TO;
-				turnAmount = Double.valueOf(turn.substring(turn.indexOf("to") + "TO".length()));
-			} else {
-				turnAmount = 0.0;
+		public TurnToken(String amount) {
+			try {
+				turnAmount = Double.valueOf(amount);
+			} catch (java.lang.NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
 
 		public DriveTask makeTask() {
 			// Logger.log("[TASK] Turn Task", LogLevel.INFO);
-            return new DriveTask(turnAmount, drive, turnType);
+            return new DriveTask(turnAmount, drive, DriveMode.TURN);
+		}
+	}
+
+	/**
+	 * A token that aligns a robot to the nearest strip of reflective tape
+	 */
+	class AlignToken implements Token {
+		public AlignToken() {
+			
+		}
+
+		public DriveTask makeTask() {
+			// Logger.log("[TASK] Align Task", LogLevel.INFO);
+            return new DriveTask(drive, DriveMode.ALIGN);
 		}
 	}
 
@@ -296,6 +307,8 @@ public class AutoCompiler {
 			} else if (line.contains("turn")) {
 				String current = line.substring(line.indexOf("turn") + "turn".length()); //Turn type/angle
 				tokenList.add(new TurnToken(current));
+			} else if (line.contains("align")) {
+				tokenList.add(new AlignToken());
 			} else if (line.contains("hatch")) {
 				String current = line.substring(line.indexOf("hatch") + "hatch".length()); //Hatch mode
 				tokenList.add(new HatchToken(current));
@@ -344,6 +357,8 @@ public class AutoCompiler {
 				taskSet.addTask(((DriveToken) t).makeTask());
 			} else if (t instanceof TurnToken) {
 				taskSet.addTask(((TurnToken) t).makeTask());
+			} else if (t instanceof AlignToken) {
+				taskSet.addTask(((AlignToken) t).makeTask());
 			} else if (t instanceof PathToken) {
 				taskSet.addTask(((PathToken) t).makeTask());
 			} else if (t instanceof CargoToken) {
