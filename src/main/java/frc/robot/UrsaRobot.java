@@ -10,21 +10,27 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public interface UrsaRobot {
 	// Spark Ports
-	public static final int DRIVE_FRONT_LEFT = 1;
-	public static final int DRIVE_FRONT_RIGHT = 2;
-	public static final int DRIVE_REAR_LEFT = 0;
-	public static final int DRIVE_REAR_RIGHT = 3;
+	// TODO For testing 2/5 DRIVE_FRONT_LEFT is 3. Change to 1 when done.
+	public static final int DRIVE_FRONT_LEFT = 3;
+	// TODO For testing 2/5 DRIVE_FRONT_RIGHT is 0. Change to 2 when done.
+	public static final int DRIVE_FRONT_RIGHT = 0; // Originally 0
+	// TODO For testing 2/5 DRIVE_REAR_LEFT is 6. Change to 0 when done.
+	public static final int DRIVE_REAR_LEFT = 5; //Originally 6
+	// TODO For testing 2/5 DRIVE_REAR_RIGHT is 1. Change to 3 when done.
+	public static final int DRIVE_REAR_RIGHT = 1; 
 
 	// TODO do we need both of these?
 	public static final int CARGO = 7;
-	public static final int CARGO_FRONT = 6;
+	public static final int CARGO_FRONT = 5; //Changed from 6
 
-	public static final int HATCH = 5;
+	public static final int HATCH = 2;
 
 	public static final int CLIMB_FRONT = 8;
-	public static final int CLIMB_BACK = 9;
+	public static final int CLIMB_BACK = 9; //Originally 4
 	
-	public static final int LAZY_SUSAN = 4;
+	// public static final int LAZY_SUSAN = 4;
+	// TODO For testing 2/5 LAZY_SUSAN is 9. Undo when done.
+	public static final int LAZY_SUSAN = 4; //Originally 9
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;

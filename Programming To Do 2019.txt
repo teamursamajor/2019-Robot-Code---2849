@@ -1,10 +1,10 @@
-Finish SusanTask
 Double Check all Tasks for skeleton code or incomplete sections
 Double check autocompiler to make sure it would work
 Write auto align drop off files
 Look into writing auto pick up code
 Color sensor! Learn how to wire it and test using it to get a response
 Incorporate actual pneumatics code
+Test PD loops
 
 Automate hatch pick up and drop off:
 	Pick up:
