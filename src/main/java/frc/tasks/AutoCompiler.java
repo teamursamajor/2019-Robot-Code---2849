@@ -148,19 +148,19 @@ public class AutoCompiler {
 	/**
 	 * A token that moves the lazy susan to a given direction
 	 * 
-	 * @param susanType The direction to turn the lazy susan to
+	 * @param direction The direction to turn the lazy susan to
 	 */
 	class SusanToken implements Token {
 		private SusanMode susanMode;
 
-		public SusanToken(String susanType) {
-			susanType = susanType.replace(" ", "");
+		public SusanToken(String direction) {
+			direction = direction.replace(" ", "");
 			
-			if (susanType.equalsIgnoreCase("FORWARD")) {
+			if (direction.equalsIgnoreCase("FORWARD")) {
 				susanMode = SusanMode.FORWARD;
-			} else if (susanType.equalsIgnoreCase("LEFT")) {
+			} else if (direction.equalsIgnoreCase("LEFT")) {
 				susanMode = SusanMode.LEFT;
-			} else if (susanType.equalsIgnoreCase("RIGHT")) {
+			} else if (direction.equalsIgnoreCase("RIGHT")) {
 				susanMode = SusanMode.RIGHT;
 			} else {
 				susanMode = SusanMode.FORWARD;
@@ -177,15 +177,15 @@ public class AutoCompiler {
 	/**
 	 * A token that delays the auto mode for a duration passed to it
 	 * 
-	 * @param waitTime The time to wait
+	 * @param time The time to wait
 	 */
 	class WaitToken implements Token {
 		private double wait;
 
-		public WaitToken(String waitTime) {
-			waitTime = waitTime.replace(" ", "");
-			if (Double.parseDouble(waitTime) >= 0) {
-				wait = Double.parseDouble(waitTime);
+		public WaitToken(String time) {
+			time = time.replace(" ", "");
+			if (Double.parseDouble(time) >= 0) {
+				wait = Double.parseDouble(time);
 			}
 		}
 
@@ -220,18 +220,17 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that turns the robot to face an absolute or relative direction
+	 * A token that turns the robot to face a given angle
 	 * 
-	 * @param amount The amount to turn
+	 * @param angle The amount to turn
 	 */
 	class TurnToken implements Token {
 		private double turnAmount;
 
-		public TurnToken(String amount) {
-			try {
-				turnAmount = Double.valueOf(amount);
-			} catch (java.lang.NumberFormatException e) {
-				e.printStackTrace();
+		public TurnToken(String angle) {
+			angle = angle.replace(" ", "");
+			if (Math.abs(Double.parseDouble(angle)) >= 0) {
+				turnAmount = Double.parseDouble(angle);
 			}
 		}
 
@@ -243,15 +242,22 @@ public class AutoCompiler {
 
 	/**
 	 * A token that aligns a robot to the nearest strip of reflective tape
+	 * 
+	 * @param times The number of times to check for pairs of reflective tape
 	 */
 	class AlignToken implements Token {
-		public AlignToken() {
-			
+		private double matchPairTimes;
+
+		public AlignToken(String times) {
+			times = times.replace(" ", "");
+			if (Math.abs(Double.parseDouble(times)) >= 0) {
+				matchPairTimes = Double.parseDouble(times);
+			}
 		}
 
 		public DriveTask makeTask() {
 			// Logger.log("[TASK] Align Task", LogLevel.INFO);
-            return new DriveTask(drive, DriveMode.ALIGN);
+            return new DriveTask(matchPairTimes, drive, DriveMode.ALIGN);
 		}
 	}
 
@@ -305,10 +311,11 @@ public class AutoCompiler {
 				String current = line.substring(line.indexOf("drive") + "drive".length()); //Drive length (feet)
 				tokenList.add(new DriveToken(current));
 			} else if (line.contains("turn")) {
-				String current = line.substring(line.indexOf("turn") + "turn".length()); //Turn type/angle
+				String current = line.substring(line.indexOf("align") + "turn".length()); //Turn angle
 				tokenList.add(new TurnToken(current));
 			} else if (line.contains("align")) {
-				tokenList.add(new AlignToken());
+				String current = line.substring(line.indexOf("turn") + "turn".length()); //Tape match times
+				tokenList.add(new AlignToken(current));
 			} else if (line.contains("hatch")) {
 				String current = line.substring(line.indexOf("hatch") + "hatch".length()); //Hatch mode
 				tokenList.add(new HatchToken(current));

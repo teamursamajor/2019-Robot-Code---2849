@@ -226,42 +226,35 @@ public class DriveTask extends Task implements UrsaRobot {
     }
 
     private static double desiredAngle = 0.0;
+    private static int matchPairTimes = 0;
 
     /**
-     * Used for turning
+     * Used for turning or aligning
      * 
-     * @param desiredAngle    The desiredAngle to turn to or turn by
-     * @param drive    Instance of the drive object
-     * @param turnMode Should be TURN
+     * @param argument  The desired angle to turn to or the number of times to check for tape pairs
+     * @param drive     Instance of the drive object
+     * @param otherMode Should be TURN or ALIGN
      */
-    public DriveTask(double desiredAngle, Drive drive, DriveMode turnMode) {
-        if (turnMode.equals(DriveMode.TURN)) {
-            this.desiredAngle = desiredAngle;
+    public DriveTask(double argument, Drive drive, DriveMode otherMode) {
+        switch (otherMode) {
+        case TURN:
+            this.desiredAngle = argument;
             driving = true;
-            drive.setMode(turnMode);
-            Thread t = new Thread("TurnTask");
-            t.start();
-        } else {
-            System.out.println(
-                    "This constructor is being used incorrectly to drive the robot. It should be used only for turning.");
-        }
-    }
-
-    /**
-     * Used for aligning
-     *
-     * @param drive    Instance of the drive object
-     * @param alignMode Should be ALIGN
-     */
-    public DriveTask(Drive drive, DriveMode alignMode) {
-        if (alignMode.equals(DriveMode.ALIGN)) {
+            drive.setMode(DriveMode.TURN);
+            Thread turnThread = new Thread("TurnTask");
+            turnThread.start();
+            break;
+        case ALIGN:
+            this.matchPairTimes = (int) argument;
             driving = true;
-            drive.setMode(alignMode);
-            Thread t = new Thread("AlignTask");
-            t.start();
-        } else {
-            System.out.println(
-                    "This constructor is being used incorrectly to drive the robot. It should be used only for aligning.");
+            drive.setMode(DriveMode.ALIGN);
+            Thread alignThread = new Thread("AlignTask");
+            alignThread.start();
+            break;
+        default:
+            System.out.println("This constructor is being used incorrectly to drive the robot. It should be used only for turning or aligning.");
+            break;
+            
         }
     }
 
