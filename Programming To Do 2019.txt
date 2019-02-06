@@ -1,7 +1,6 @@
 Finish SusanTask
 Double Check all Tasks for skeleton code or incomplete sections
-Double check autocompiler to make sure it would work4
-Add an auto align keyword to autocompiler
+Double check autocompiler to make sure it would work
 Write auto align drop off files
 Look into writing auto pick up code
 Color sensor! Learn how to wire it and test using it to get a response
@@ -28,7 +27,6 @@ Logger:
 	Later, if we have extra time, we can improve the Logger functionality
 
 Parser:
-	Update the tokens for the 2019 season. Ex: Replace "intake" with "hatch" and "cargo"
 	Parse through the auto file line by line
 		Read the whole file in as a single string
 		Read the first line and if its a command you run it. Ex: if it says drive 10, then run a drive task to move 10 inches
