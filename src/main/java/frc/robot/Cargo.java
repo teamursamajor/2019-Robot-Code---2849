@@ -24,7 +24,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public void updateStateInfo() {
-        // If we add a derivative term to the Cargo PID, we need to calculate velocity here
+        //TODO calculate Cargo velocity
         CargoTask.CargoState.updateState(getCargoDistance());
     }
 }
