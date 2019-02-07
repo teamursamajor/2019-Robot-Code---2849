@@ -55,22 +55,25 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	public void updateStateInfo() {
-		// TODO update distances to use information from encoders alongside limelight
+		// TODO remove?
 		// maybe average the encoder distances with limelight? idk
-		double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
-		double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
+		// double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
+		// double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
+
+		double leftDistance = getLeftEncoder();
+		double rightDistance = getRightEncoder();
 
 		// Calculate robot velocity
-		double leftVelocity, rightVelocity;
-
-		// For underclassmen, Delta means "change in"
-		double leftDeltaPos = leftDistance - DriveTask.DriveState.leftPos;
+		// For underclassmen, delta means "change in"
 		double deltaTime = System.currentTimeMillis() - DriveTask.DriveState.stateTime;
-		leftVelocity = (leftDeltaPos / deltaTime);
+
+		double leftDeltaPos = leftDistance - DriveTask.DriveState.leftPos;
+		double leftVelocity = (leftDeltaPos / deltaTime);
 
 		double rightDeltaPos = rightDistance - DriveTask.DriveState.rightPos;
-		rightVelocity = (rightDeltaPos / deltaTime);
-
+		double rightVelocity = (rightDeltaPos / deltaTime);
+		
+		// TODO remove?
 		/*
 		 * Our loop updates faster than the limelight. If the limelight hasn't updated
 		 * yet, then our change in position is 0. In this case, we want to skip this
