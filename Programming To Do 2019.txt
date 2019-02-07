@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-Double Check all Tasks for skeleton code or incomplete sections
-Double check autocompiler to make sure it would work
-Write auto align drop off files
-Look into writing auto pick up code
-Color sensor! Learn how to wire it and test using it to get a response
-Incorporate actual pneumatics code
-Test PD loops
-=======
 Hershal's Comments for Programming Before Leaving for a Weekend:
 Mounting the Limelight: This is probably our top priority right now. The limelight camera is supposed to be mounted on the lazy susan, behind the hatch arm. However, the panel on the arm would end up blocking a large part of the camera's view. So, first we need to test if the camera can still detect the tapes through the hatch panel. Set up the limelight and look at the feed from the computer. Move the hatch arm up and put a panel on it, then put the tapes behind it and see if the camera can determine that there are tapes or not. If it does, great! make sure it works as well as it would without the panel there. If not, crap. Talk to Sameerah and brainstorm ways to give the camera a better viewpoint. Maybe angle it from above or below the arm? Ask in the group chat if you're unsure about anything
 
@@ -38,7 +29,6 @@ Text me or the group chat if you have any questions. If build is being stupid, l
 
 
 
->>>>>>> ff350b3683d1b0ddae361db3505bd3df414db5df
 
 Automate hatch pick up and drop off:
 	Pick up:
