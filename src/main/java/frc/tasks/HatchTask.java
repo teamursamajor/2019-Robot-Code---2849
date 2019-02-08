@@ -88,10 +88,12 @@ public class HatchTask extends Task {
 	public void run() {
 		// Take an angle/position from the auto code or controller
 		// Set Hatch's subsystemMode accordingly
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		while (running) {
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

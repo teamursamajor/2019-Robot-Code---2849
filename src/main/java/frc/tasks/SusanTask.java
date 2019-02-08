@@ -1,6 +1,7 @@
 package frc.tasks;
 
 import frc.robot.LazySusan;
+import frc.robot.UrsaRobot;
 
 public class SusanTask extends Task {
 
@@ -18,13 +19,16 @@ public class SusanTask extends Task {
             // "this" refers to the enum that the method is in
             switch (this) {
             case FORWARD:
+                desiredAngle = 0.0;
                 return autoGoToAngle();
             case LEFT:
+                desiredAngle = -90.0;
                 return autoGoToAngle();
             case RIGHT:
+                desiredAngle = 90.0;
                 return autoGoToAngle();
             }
-            return new SusanOrder(0.0);
+            return autoGoToAngle();
         }
 
         private SusanOrder autoGoToAngle() {
@@ -35,6 +39,7 @@ public class SusanTask extends Task {
                 return new SusanOrder(0.0);
             }
 
+            //Assuming use of encoders
             if (newAngle > 90 || newAngle < -90) {
                 newAngle = (newAngle > 90) ? 90 : -90;
             } 
@@ -44,9 +49,7 @@ public class SusanTask extends Task {
             double susanKd = 0;
 
             double velocity = (SusanState.velocity > 0) ? SusanState.velocity : -SusanState.velocity;
-            double susanRadius = 5; //TODO Measure radius of lazy susan
-
-            double outputPower = susanKp * newAngle + susanKd * (velocity/susanRadius);
+            double outputPower = susanKp * newAngle + susanKd * (velocity/UrsaRobot.susanRadius);
 
             return new SusanOrder(outputPower);
         }
@@ -54,10 +57,16 @@ public class SusanTask extends Task {
 
     private static double desiredAngle = 0.0;
 
-    public SusanTask(SusanMode mode, LazySusan susan, double desiredAngle) {
+    public SusanTask(SusanMode mode, LazySusan susan) {
         running = true;
-        this.desiredAngle = desiredAngle;
         susan.setMode(mode);
+        Thread t = new Thread("SusanTask");
+        t.start();
+    }
+
+    public SusanTask(double angle, LazySusan susan) {
+        running = true;
+        desiredAngle = angle;
         Thread t = new Thread("SusanTask");
         t.start();
     }

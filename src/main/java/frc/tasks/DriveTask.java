@@ -101,21 +101,38 @@ public class DriveTask extends Task implements UrsaRobot {
             double autoAlignTolerance = 0.1;
             double autoAlignMinimumPower = 0.25;
 
-            double centerPos = (DriveState.leftPos + DriveState.rightPos) / 2.0;
+            double goalPosition = 0.0; // on the limelight, 0.0 is the center
+
+            // Loop through pairs of tape
+            int hatchCount = 0; // actual number of hatches
+            int count = 0; // general counter variable
+            int tapePairPresent;
+            while (hatchCount < matchPairTimes) {
+                // Count the number of valid tape pairs we've encountered
+                tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
+                if (tapePairPresent == 1) count++;
+                if (count % 2 == 1) hatchCount++; // skips "even" pairs to avoid false positives
+
+                // Wait before trying to match a pair of tape again
+                try {
+                    Thread.sleep(1000); // TODO adjust if necessary
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
             // If we're already close enough to the tapes, then simply stop
+            double centerPos = limelightTable.getEntry("tx").getDouble(Double.NaN);
             if (Math.abs(centerPos) < autoAlignTolerance) {
                 driving = false;
                 return new DriveOrder(0.0, 0.0);
             }
 
-            double goalPosition = 0.0; // on the limelight, 0.0 is the center
-
             // PD equations power = kp * change in distance (aka error) + kd * velocity
-            double leftOutputPower = kpAutoAlign * (DriveState.leftPos - goalPosition)
-                    + kdAutoAlign * DriveState.leftVelocity;
-            double rightOutputPower = kpAutoAlign * (DriveState.rightPos - goalPosition)
-                    + kdAutoAlign * DriveState.rightVelocity;
+            double leftOutputPower = kpAutoAlign * (limelightTable.getEntry("tx").getDouble(Double.NaN) - goalPosition)
+            + kdAutoAlign * DriveState.leftVelocity;
+            double rightOutputPower = kpAutoAlign * (limelightTable.getEntry("tx").getDouble(Double.NaN) - goalPosition)
+            + kdAutoAlign * DriveState.rightVelocity;
 
             if (leftOutputPower == 0 && rightOutputPower == 0) {
                 driving = false;
@@ -161,9 +178,8 @@ public class DriveTask extends Task implements UrsaRobot {
             double turningKd = 0.0;
 
             double velocity = (DriveState.leftVelocity > 0) ? DriveState.leftVelocity : DriveState.rightVelocity;
-            double radius = 15; // temporary TODO what do we do here
 
-            double outputPower = turningKp * newAngle + turningKd * (velocity / radius);
+            double outputPower = turningKp * newAngle + turningKd * (velocity / UrsaRobot.robotRadius);
 
             return new DriveOrder(1 * (Math.signum(newAngle) * outputPower),
 					-1 * (Math.signum(newAngle)) * outputPower);
@@ -238,14 +254,14 @@ public class DriveTask extends Task implements UrsaRobot {
     public DriveTask(double argument, Drive drive, DriveMode otherMode) {
         switch (otherMode) {
         case TURN:
-            this.desiredAngle = argument;
+            desiredAngle = argument;
             driving = true;
             drive.setMode(DriveMode.TURN);
             Thread turnThread = new Thread("TurnTask");
             turnThread.start();
             break;
         case ALIGN:
-            this.matchPairTimes = (int) argument;
+            matchPairTimes = (int) argument;
             driving = true;
             drive.setMode(DriveMode.ALIGN);
             Thread alignThread = new Thread("AlignTask");

@@ -5,18 +5,38 @@ import frc.tasks.*;
 
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
-    private Spark cargoMotor;
+    private Spark cargoIntake;
+    private Spark cargo;
 
     public Cargo() {
-        cargoMotor = new Spark(CARGO_FRONT);
+        cargoIntake = new Spark(CARGO_FRONT);
+        cargo = new Spark(CARGO);
         cargoEncoder.setDistancePerPulse(CARGO_DEGREES_PER_TICK);
         cargoEncoder.reset();
     }
 
     public void runSubsystem() {
-        updateStateInfo();
-        CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
-        cargoMotor.set(cargoOrder.cargoPower);
+        //TODO Fix
+        // updateStateInfo();
+        // CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
+        // cargoIntake.set(cargoOrder.cargoPower);
+
+        //TODO Test Code
+        if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
+            cargoIntake.set(-0.75);
+        } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
+            cargoIntake.set(0.5);
+        } else {
+            cargoIntake.set(0);
+        }
+
+        if (xbox.getButton(XboxController.BUTTON_BACK)) {
+            cargo.set(-0.35);
+        } else if (xbox.getButton(XboxController.BUTTON_START)) {
+            cargo.set(0.35);
+        } else {
+            cargo.set(-0.2);
+        }
     }
 
     public double getCargoDistance() {
