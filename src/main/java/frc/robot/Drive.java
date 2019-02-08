@@ -12,10 +12,10 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	private Spark mRearRight;
 
 	// TODO need?
-	private static boolean square;
+	// private static boolean square;
 
-	private double leftPower;
-	private double rightPower;
+	// private double leftPower;
+	// private double rightPower;
 
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at

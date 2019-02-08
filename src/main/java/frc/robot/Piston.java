@@ -1,7 +1,8 @@
 
 package frc.robot;
 
-import frc.tasks.*;
+// TODO unused import?
+// import frc.tasks.*;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Compressor;
 

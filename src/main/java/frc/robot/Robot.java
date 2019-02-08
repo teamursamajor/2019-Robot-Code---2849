@@ -25,11 +25,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private Piston piston;
+  // private Piston piston;
   private Drive drive;
   private LazySusan lazySusan;
   private Hatch hatch;
   private Climb climb;
+  private Cargo cargo;
 
   private boolean climbPressed;
 
@@ -50,8 +51,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     hatch = new Hatch();
     hatch.initialize("hatchThread");
     climb = new Climb();
+    
+    cargo = new Cargo();
+    cargo.initialize("cargoThread");
 
-    piston = new Piston();
+    // piston = new Piston();
   }
 
   /**
@@ -118,7 +122,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopPeriodic() {
     // TODO Should this be here or in a climber thread?
     climbPressed = false;
-    double power = 0.75;
+    double power = 1.0;
     if (xbox.getButton(XboxController.POV_UP)) {
       climb.setFrontMotor(power);
       climbPressed = true;
