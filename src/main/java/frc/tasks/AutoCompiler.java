@@ -72,14 +72,14 @@ public class AutoCompiler {
 	 * 
 	 * @param filename Path file to run
 	 */
-    //TODO Implement with changes to path
+    // TODO Implement with changes to path
 	class PathToken implements Token {
 		// private Path[] paths;
 
 		public PathToken(String filename) {
 			filename = filename.replace(" ", "");
-			//TODO put all paths into /automodes/paths
-			// paths = new PathReader("/home/lvuser/automodes/paths/" + filename + ".path", false).getPaths();
+			// TODO put all paths into /paths
+			// paths = new PathReader("/home/lvuser/paths/" + filename + ".path", false).getPaths();
 		}
 
 		public PathTask makeTask() {
