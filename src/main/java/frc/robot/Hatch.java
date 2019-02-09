@@ -2,10 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 import frc.tasks.*;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     private Spark hatchMotor;
+    private AnalogInput hatchPot;
 
     // Position constants
     // TODO set the encoder distances for these positions
@@ -19,6 +21,8 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public Hatch() {
         hatchMotor = new Spark(HATCH);
+        hatchPot = new AnalogInput(0);
+
 
         // Number of degrees per pulse (7 pulses in one revolution)
         hatchEncoder.setDistancePerPulse(HATCH_DEGREES_PER_TICK);
