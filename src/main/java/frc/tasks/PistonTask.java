@@ -5,16 +5,6 @@ import frc.robot.UrsaRobot;
 
 public class PistonTask extends Task {
 
-	/**
-	 * Start: The position at the start of the match - Holding a hatch and within
-	 * perimeter
-	 * 
-	 * Bottom: The lowest possible position - This is where you start before picking
-	 * up a hatch
-	 * 
-	 * Top: The highest possible positon - This is where you start before delivering
-	 * a hatch and where you carry the hatch
-	 */
 	public enum PistonMode {
 		IN, OUT;
 
@@ -56,15 +46,13 @@ public class PistonTask extends Task {
 	public PistonTask(PistonMode mode, Piston piston) {
 		running = true;
 		piston.setMode(mode);
-		Thread t = new Thread("HatchTask");
+		Thread t = new Thread("PistonTask");
 		t.start();
 	}
 
 	private static boolean running = true;
 
 	public void run() {
-		// Take an angle/position from the auto code or controller
-		// Set Hatch's subsystemMode accordingly
 		while (running) {
 			try {
 				Thread.sleep(20);
@@ -75,7 +63,7 @@ public class PistonTask extends Task {
 	}
 
 	public String toString() {
-		// return "HatchTask: " + cont.getLift().getDesiredHeight() + "\n";
+		// return "PistonTask: " + ??? + "\n";
 		return " ";
 	}
 }

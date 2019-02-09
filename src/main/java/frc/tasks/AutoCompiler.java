@@ -13,11 +13,19 @@ import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.SusanTask.SusanMode;
 import frc.tasks.DriveTask.DriveMode;
+import frc.tasks.PistonTask.PistonMode;
 import frc.robot.*;
 
 //TODO import logger when ready
-//TODO hatch/cargo, turn/drive, path (follow) code need to be added!
+//TODO path (follow) code need to be added!
 
+/**
+ * // TODO actually make this
+ * Check the AutoModes folder for a file named Auto Compiler Syntax.txt It
+ * contains all the syntax
+ * 
+ * @author Evan + Sheldon originally wrote this on 1/16/18. Evan updated it for the 2019 season.
+ */
 public class AutoCompiler {
 	interface Token {
 	}
@@ -26,11 +34,14 @@ public class AutoCompiler {
 	private Cargo cargo;
 	private Hatch hatch;
 	private LazySusan susan;
-	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, LazySusan susan) {
+	private Piston piston;
+
+	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, LazySusan susan, Piston piston) {
 		this.drive = drive;
 		this.cargo = cargo;
 		this.hatch = hatch;
 		this.susan = susan;
+		this.piston = piston;
 	}
 
 	/**
@@ -42,13 +53,12 @@ public class AutoCompiler {
 		private String scriptName;
 
 		public ExecuteToken(String scriptName) {
-			// TODO update path directory
 			this.scriptName = "/home/lvuser/automodes/" + scriptName.trim();
 		}
 	}
 
 	/**
-	 * A token that prints all arguments passed to it to the console
+	 * A token that prints any string passed to it to the console
 	 * 
 	 * @param str String to print
 	 */
@@ -90,20 +100,20 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that sets the cargo to a given mode
+	 * A token that sets the cargo arm to a given state
 	 * 
-	 * @param cargoType Cargo mode to run by
+	 * @param state State of the cargo arm (intaking, outtaking, or deploying)
 	 */
 	class CargoToken implements Token {
 		private CargoMode cargoMode;
 
-		public CargoToken(String cargoType) {
-			cargoType = cargoType.replace(" ", "");
-			if (cargoType.equalsIgnoreCase("DEPLOY")) {
+		public CargoToken(String state) {
+			state = state.replace(" ", "");
+			if (state.equalsIgnoreCase("DEPLOY")) {
 				cargoMode = CargoMode.DEPLOY;
-			} else if (cargoType.equalsIgnoreCase("PICKUP")) {
+			} else if (state.equalsIgnoreCase("PICKUP")) {
 				cargoMode = CargoMode.PICKUP;
-			} else if (cargoType.equalsIgnoreCase("DROPOFF")) {
+			} else if (state.equalsIgnoreCase("DROPOFF")) {
 				cargoMode = CargoMode.DROPOFF;
 			} else {
 				cargoMode = CargoMode.DEPLOY;
@@ -117,21 +127,21 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that sets the hatch position to a given mode
+	 * A token that moves the hatch arm to a preset position
 	 * 
-	 * @param hatchType The hatch position to get to
+	 * @param position Position to move the hatch arm to
 	 */
 	class HatchToken implements Token {
 		private HatchMode hatchMode;
 
-		public HatchToken(String hatchType) {
-		    hatchType = hatchType.replace(" ", "");
+		public HatchToken(String position) {
+		    position = position.replace(" ", "");
 
-			if (hatchType.equalsIgnoreCase("START")) {
+			if (position.equalsIgnoreCase("START")) {
 				hatchMode = HatchMode.START;
-			} else if (hatchType.equalsIgnoreCase("BOTTOM")) {
+			} else if (position.equalsIgnoreCase("BOTTOM")) {
 				hatchMode = HatchMode.BOTTOM;
-			} else if (hatchType.equalsIgnoreCase("TOP")) {
+			} else if (position.equalsIgnoreCase("TOP")) {
 				hatchMode = HatchMode.TOP;
 			} else {
 				hatchMode = HatchMode.BOTTOM;
@@ -147,11 +157,11 @@ public class AutoCompiler {
 	/**
 	 * A token that moves the lazy susan to a given direction
 	 * 
-	 * @param direction The direction to turn the lazy susan to
+	 * @param direction Direction to turn the lazy susan to
 	 */
 	class SusanToken implements Token {
 		private SusanMode susanMode;
-		private double susanAngle = 0;
+		private double susanAngle;
 
 		public SusanToken(String direction) {
 			direction = direction.replace(" ", "");
@@ -163,7 +173,11 @@ public class AutoCompiler {
 			} else if (direction.equalsIgnoreCase("RIGHT")) {
 				susanMode = SusanMode.RIGHT;
 			} else {
-				susanAngle = Double.parseDouble(direction);
+				try {
+					susanAngle = Double.parseDouble(direction);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
 				susanMode = SusanMode.FORWARD;
 			}
 		}
@@ -176,17 +190,47 @@ public class AutoCompiler {
     }
 
 	/**
+	 * A token that makes the piston go in or out
+	 * 
+	 * @param state State of the piston (in or out)
+	 */
+	class PistonToken implements Token {
+		private PistonMode pistonMode;
+
+		public PistonToken(String state) {
+		    state = state.replace(" ", "");
+
+			if (state.equalsIgnoreCase("IN")) {
+				pistonMode = PistonMode.IN;
+			} else if (state.equalsIgnoreCase("OUT")) {
+				pistonMode = PistonMode.OUT;
+			} else { // TODO is this what we want as a default case?
+				pistonMode = PistonMode.IN;
+			}
+		}
+
+		public PistonTask makeTask() {
+			// Logger.log("[TASK] Piston Task", LogLevel.INFO);
+			return new PistonTask(pistonMode, piston);
+		}
+	}
+
+	/**
 	 * A token that delays the auto mode for a duration passed to it
 	 * 
-	 * @param time The time to wait
+	 * @param time Time to wait
 	 */
 	class WaitToken implements Token {
 		private double wait;
 
 		public WaitToken(String time) {
 			time = time.replace(" ", "");
-			if (Double.parseDouble(time) >= 0) {
-				wait = Double.parseDouble(time);
+			try {
+				if (Double.parseDouble(time) >= 0) {
+					wait = Double.parseDouble(time);
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -223,15 +267,19 @@ public class AutoCompiler {
 	/**
 	 * A token that turns the robot to face a given angle
 	 * 
-	 * @param angle The amount to turn
+	 * @param angle Angle to turn to
 	 */
 	class TurnToken implements Token {
 		private double turnAmount;
 
 		public TurnToken(String angle) {
 			angle = angle.replace(" ", "");
-			if (Math.abs(Double.parseDouble(angle)) >= 0) {
-				turnAmount = Double.parseDouble(angle);
+			try {
+				if (Math.abs(Double.parseDouble(angle)) >= 0) {
+					turnAmount = Double.parseDouble(angle);
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -242,23 +290,27 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that aligns a robot to the nearest strip of reflective tape
+	 * A token that aligns a robot to the nearest pair of reflective tape
 	 * 
-	 * @param times The number of times to check for pairs of reflective tape
+	 * @param times Number of pairs of reflective tape to check for
 	 */
 	class AlignToken implements Token {
-		private double matchPairTimes;
+		private int matchPairs = 1;
 
 		public AlignToken(String times) {
 			times = times.replace(" ", "");
-			if (Math.abs(Double.parseDouble(times)) >= 0) {
-				matchPairTimes = Double.parseDouble(times);
+			try {
+				if (Integer.parseInt(times) > 0) {
+					matchPairs = Integer.parseInt(times);
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
 
 		public DriveTask makeTask() {
 			// Logger.log("[TASK] Align Task", LogLevel.INFO);
-            return new DriveTask(matchPairTimes, drive, DriveMode.ALIGN);
+            return new DriveTask(matchPairs, drive, DriveMode.ALIGN);
 		}
 	}
 
@@ -272,8 +324,12 @@ public class AutoCompiler {
 
 		public DriveToken(String distance) {
 			distance = distance.replace(" ", "");
-			if (Math.abs(Double.parseDouble(distance)) >= 0) {
-				dist = Double.parseDouble(distance);
+			try {
+				if (Math.abs(Double.parseDouble(distance)) >= 0) {
+					dist = Double.parseDouble(distance);
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -326,6 +382,9 @@ public class AutoCompiler {
 			} else if (line.contains("susan")) {
 				String current = line.substring(line.indexOf("susan") + "susan".length()); //Susan mode
 				tokenList.add(new SusanToken(current));
+			} else if (line.contains("piston")) {
+				String current = line.substring(line.indexOf("piston") + "piston".length()); //Piston mode
+				tokenList.add(new PistonToken(current));
 			} else if (line.contains("print")) {
 				String current = line.substring(line.indexOf("print") + "print".length()); //Text to print
 				tokenList.add(new PrintToken(current));
@@ -373,6 +432,10 @@ public class AutoCompiler {
 				taskSet.addTask(((CargoToken) t).makeTask());
 			} else if (t instanceof HatchToken) {
 				taskSet.addTask(((HatchToken) t).makeTask());
+			} else if (t instanceof SusanToken) {
+				taskSet.addTask(((SusanToken) t).makeTask());
+			} else if (t instanceof PistonToken) {
+				taskSet.addTask(((PistonToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask bundleSet = new BundleTask();
 				parseAuto(tokenList, bundleSet);

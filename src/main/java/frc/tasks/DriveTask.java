@@ -107,7 +107,7 @@ public class DriveTask extends Task implements UrsaRobot {
             int hatchCount = 0; // actual number of hatches
             int count = 0; // general counter variable
             int tapePairPresent;
-            while (hatchCount < matchPairTimes) {
+            while (hatchCount < matchPairs) {
                 // Count the number of valid tape pairs we've encountered
                 tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
                 if (tapePairPresent == 1) count++;
@@ -243,7 +243,7 @@ public class DriveTask extends Task implements UrsaRobot {
     }
 
     private static double desiredAngle = 0.0;
-    private static int matchPairTimes = 0;
+    private static int matchPairs = 0;
 
     /**
      * Used for turning or aligning
@@ -262,7 +262,7 @@ public class DriveTask extends Task implements UrsaRobot {
             turnThread.start();
             break;
         case ALIGN:
-            matchPairTimes = (int) argument;
+            matchPairs = (int) argument;
             driving = true;
             drive.setMode(DriveMode.ALIGN);
             Thread alignThread = new Thread("AlignTask");
