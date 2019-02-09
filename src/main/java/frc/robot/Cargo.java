@@ -26,9 +26,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     public void updateStateInfo() {
         // TODO remove?
-		// maybe average the encoder distances with limelight? idk
-		// double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
-        // double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
+		
         
         // Calculate velocity
         // For underclassmen, delta means "change in"
