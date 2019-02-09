@@ -67,8 +67,7 @@ public interface UrsaRobot {
 	public static final double ROBOT_WIDTH_FEET = 32.0 / 12.0;
 	public static final double ROBOT_DEPTH_FEET = 28.0 / 12.0;
 
-	//Radius of the lazy susan and robot and cargo
-	public static final double susanRadius = 5;//TODO Measure radius of lazy susan
+	//Radius of the robot and cargo
 	public static final double robotRadius = 15; // temporary TODO what do we do here
 	public static final double cargoRadius = 5; //TODO Measure cargo arm
 
