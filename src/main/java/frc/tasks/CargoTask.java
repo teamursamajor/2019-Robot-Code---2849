@@ -26,11 +26,14 @@ public class CargoTask extends Task implements UrsaRobot{
                 running = false;
                 return new CargoOrder(0.0);
             }
+            //TODO Figure out intake, probably just button but determine power
             //TODO Add derivative term to PD loop
-			double kpCargo = 1.0 / 40.0;
-			double cargoMinimumPower = 0.2;
+            double kpCargo = 1.0 / 40.0;
+            double kdCargo = 0;
+
+			double cargoMinimumPower = 0.2; //TODO Optimize
 			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-			double cargoPower = kpCargo * (distance - CargoState.position);
+			double cargoPower = kpCargo * (distance - CargoState.position) + kdCargo * CargoState.velocity;
 
             if(cargoPower == 0){
                 running = false;

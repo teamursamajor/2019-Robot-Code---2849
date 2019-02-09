@@ -1,7 +1,6 @@
 package frc.tasks;
 
 import frc.robot.LazySusan;
-import frc.robot.UrsaRobot;
 
 public class SusanTask extends Task {
 
@@ -49,7 +48,7 @@ public class SusanTask extends Task {
             double susanKd = 0;
 
             double velocity = (SusanState.velocity > 0) ? SusanState.velocity : -SusanState.velocity;
-            double outputPower = susanKp * newAngle + susanKd * (velocity/UrsaRobot.susanRadius);
+            double outputPower = susanKp * newAngle + susanKd * velocity;
 
             return new SusanOrder(outputPower);
         }

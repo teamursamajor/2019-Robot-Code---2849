@@ -40,9 +40,10 @@ public class HatchTask extends Task {
 
 			//TODO Add derivative term to PD loop
 			double kpHatch = 1.0 / 40.0;
+			double kdHatch = 0;
 			double hatchMinimumPower = 0.3;
 			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-			double hatchPower = kpHatch * (desiredAngle - HatchState.hatchAngle);
+			double hatchPower = kpHatch * (desiredAngle - HatchState.hatchAngle) + kdHatch * HatchState.hatchVelocity;
 
 			if(hatchPower == 0) {
 				running = false;
