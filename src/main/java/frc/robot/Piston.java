@@ -2,54 +2,36 @@
 package frc.robot;
 
 // TODO unused import?
-// import frc.tasks.*;
+import frc.tasks.*;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Compressor;
 
-public class Piston implements UrsaRobot, Runnable {
-    //TODO eventually set up pneumatics and incorporate into our architecture
-    
-    private Solenoid exampleSolenoid = new Solenoid(3);
-    Compressor c = new Compressor(0);
+public class Piston extends Subsystem<PistonTask.PistonMode> implements UrsaRobot {
+    // TODO eventually set up pneumatics and incorporate into our architecture
 
-    private Object lock = new Object();
-    private boolean running = false;
+    private Solenoid solenoid;
+    private Compressor compressor;
+
+    private boolean compressingAir = false;
+    private boolean solenoidOpen = false;
 
     public Piston() {
-        System.out.println("Constructor");
-        startTest();
+        solenoid = new Solenoid(PISTON_PORT);
+        compressor = new Compressor(0);
     }
 
-    public void startTest() {
-        synchronized (lock) {
-            if (running){
-                return;
-            }
-            running = true;
+    public void runSubsystem() {
+        
+        if (xbox.getButton(XboxController.AXIS_RIGHTTRIGGER)){
+            compressor.setClosedLoopControl(compressingAir);
+            compressingAir = !compressingAir;
         }
-        new Thread(this, "Piston").start();
+
+        if (xbox.getButton(XboxController.AXIS_LEFTTRIGGER)){
+            solenoid.set(solenoidOpen);
+            solenoidOpen = !solenoidOpen;
+        }
+
     }
 
-    public void run(){
-        c.setClosedLoopControl(true);
-        while (running) {
-            exampleSolenoid.set(true);
-            
-            try{
-                Thread.sleep(4000);
-            } catch(InterruptedException exception){
-                exception.printStackTrace();
-            }
-            
-            exampleSolenoid.set(false);
-
-            try{
-                Thread.sleep(4000);
-             } catch(InterruptedException exception){
-                 exception.printStackTrace();
-
-             }
-        }    
-    }
-    
 }

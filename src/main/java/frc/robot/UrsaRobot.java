@@ -35,6 +35,9 @@ public interface UrsaRobot {
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
 
+	//Piston Port
+	public static final int PISTON_PORT = 3;
+
 	public static final int LEFT_ENCODER_CHANNEL_A = 6;
 	public static final int LEFT_ENCODER_CHANNEL_B = 7;
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;

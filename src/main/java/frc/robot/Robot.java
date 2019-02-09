@@ -25,7 +25,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  // private Piston piston;
+  private Piston piston;
   private Drive drive;
   private LazySusan lazySusan;
   private Hatch hatch;
@@ -55,7 +55,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     cargo = new Cargo();
     cargo.initialize("cargoThread");
 
-    // piston = new Piston();
+    piston = new Piston();
+    piston.initialize("pistonThread");
   }
 
   /**

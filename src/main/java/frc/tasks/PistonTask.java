@@ -1,9 +1,9 @@
 package frc.tasks;
 
-import frc.robot.Hatch;
+import frc.robot.Piston;
 import frc.robot.UrsaRobot;
 
-public class HatchTask extends Task {
+public class PistonTask extends Task {
 
 	/**
 	 * Start: The position at the start of the match - Holding a hatch and within
@@ -15,71 +15,47 @@ public class HatchTask extends Task {
 	 * Top: The highest possible positon - This is where you start before delivering
 	 * a hatch and where you carry the hatch
 	 */
-	public enum HatchMode {
-		START, BOTTOM, TOP;
+	public enum PistonMode {
+		IN, OUT;
 
-		public HatchOrder callLoop() {
+		public PistonOrder callLoop() {
 			switch (this) {
-			case START:
-				return moveToAngle(UrsaRobot.startAngle);
-			case BOTTOM:
-				return moveToAngle(UrsaRobot.bottomAngle);
-			case TOP:
-				return moveToAngle(UrsaRobot.topAngle);
+			case IN:
+				return moveToPosition();
+			case OUT:
+				return moveToPosition();
 			}
 			running = false;
-			return new HatchOrder(0);
+			return new PistonOrder(0);
 		}
 
-		private HatchOrder moveToAngle(double desiredAngle) {
-			double angleTolerance = 5;
-			if(Math.abs(HatchState.hatchAngle - desiredAngle) <= angleTolerance){
-				running = false;
-				return new HatchOrder(0.0);
-			}
-
-			//TODO Add derivative term to PD loop
-			double kpHatch = 1.0 / 40.0;
-			double kdHatch = 0;
-			double hatchMinimumPower = 0.3;
-			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-			double hatchPower = kpHatch * (desiredAngle - HatchState.hatchAngle) + kdHatch * HatchState.hatchVelocity;
-
-			if(hatchPower == 0) {
-				running = false;
-				return new HatchOrder(0.0);
-			}
-
-			if (Math.abs(hatchPower) < hatchMinimumPower) {
-				hatchPower = Math.signum(hatchPower) * hatchMinimumPower;
-			}
+		private PistonOrder moveToPosition() {
+			//TODO Figure out what to do here
 			
-			return new HatchOrder(hatchPower);
+			return new PistonOrder(0);
 		}
 	}
 
-	public static class HatchState {
-		public static double hatchVelocity = 0.0, hatchAngle = 0.0;
+	public static class PistonState {
+		
 		public static long stateTime = System.currentTimeMillis();
 
-		public static void updateState(double hatchVelocity, double hatchAngle) {
-			HatchState.hatchVelocity = hatchVelocity;
-			HatchState.hatchAngle = hatchAngle;
+		public static void updateState() {
 			stateTime = System.currentTimeMillis();
 		}
 	}
 
-	public static class HatchOrder {
-		public double hatchPower;
+	public static class PistonOrder {
+		public double pistonPower;
 
-		public HatchOrder(double hatchPower) {
-			this.hatchPower = hatchPower;
+		public PistonOrder(double pistonPower) {
+			this.pistonPower = pistonPower;
 		}
 	}
 
-	public HatchTask(HatchMode mode, Hatch hatch) {
+	public PistonTask(PistonMode mode, Piston piston) {
 		running = true;
-		hatch.setMode(mode);
+		piston.setMode(mode);
 		Thread t = new Thread("HatchTask");
 		t.start();
 	}
