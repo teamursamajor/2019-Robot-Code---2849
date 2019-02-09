@@ -25,7 +25,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private Piston piston;
+  //private Piston piston;
   private Drive drive;
   private LazySusan lazySusan;
   private Hatch hatch;
@@ -55,8 +55,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     cargo = new Cargo();
     cargo.initialize("cargoThread");
 
-    piston = new Piston();
-    piston.initialize("pistonThread");
+    //piston = new Piston();
+    //piston.initialize("pistonThread");
   }
 
   /**
@@ -123,12 +123,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopPeriodic() {
     // TODO Should this be here or in a climber thread?
     climbPressed = false;
-    double power = 1.0;
-    if (xbox.getButton(XboxController.POV_UP)) {
+    double power = .75;
+    if (xbox.getButton(XboxController.BUTTON_X)) {
       climb.setFrontMotor(power);
       climbPressed = true;
     }
-    if (xbox.getButton(XboxController.POV_DOWN)) {
+    if (xbox.getButton(XboxController.BUTTON_Y)) {
       climb.setFrontMotor(-power);
       climbPressed = true;
     }
@@ -142,6 +142,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
     }
     if (!climbPressed) {
       climb.stopMotors();
+    }
+    if (xbox.getButton(XboxController.AXIS_LEFTTRIGGER)) {
+      System.out.println("Left Trigger Press");
+    }
+    if (xbox.getButton(XboxController.AXIS_RIGHTTRIGGER)) {
+      System.out.println("Right Trigger Pressed");
     }
   }
 

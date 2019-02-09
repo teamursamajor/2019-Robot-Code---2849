@@ -112,7 +112,8 @@ public class DriveTask extends Task implements UrsaRobot {
                 tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
                 if (tapePairPresent == 1) count++;
                 if (count % 2 == 1) hatchCount++; // skips "even" pairs to avoid false positives
-
+                System.out.println("Count: " + count);
+                System.out.println("Hatch Count: " + hatchCount);
                 // Wait before trying to match a pair of tape again
                 try {
                     Thread.sleep(1000); // TODO adjust if necessary

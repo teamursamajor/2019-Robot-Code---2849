@@ -23,9 +23,9 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
         // SusanTask.SusanOrder susanOrder = subsystemMode.callLoop();
         // susanMotor.set(susanOrder.power);
         // TODO delete, test code
-        if (xbox.getButton(XboxController.BUTTON_Y)) {
+        if (xbox.getButton(XboxController.POV_UP)) {
             susanMotor.set(.25);
-        } else if (xbox.getButton(XboxController.BUTTON_X)) {
+        } else if (xbox.getButton(XboxController.POV_DOWN)) {
             susanMotor.set(-0.25);
         } else {
             susanMotor.set(0.0);

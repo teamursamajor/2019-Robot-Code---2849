@@ -21,7 +21,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public Hatch() {
         hatchMotor = new Spark(HATCH);
-        hatchPot = new AnalogInput(0);
+        hatchPot = new AnalogInput(1);
 
 
         // Number of degrees per pulse (7 pulses in one revolution)
