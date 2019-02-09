@@ -102,7 +102,7 @@ public class AutoCompiler {
 	/**
 	 * A token that sets the cargo arm to a given state
 	 * 
-	 * @param state State of the cargo arm (intaking, outtaking, or deploying)
+	 * @param state State of the cargo arm (picking up, dropping off, or deploying)
 	 */
 	class CargoToken implements Token {
 		private CargoMode cargoMode;
