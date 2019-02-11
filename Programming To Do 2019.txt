@@ -14,6 +14,8 @@ Pathmaker:
 	Move old code and PathTask into its own package
 	Once Chris finishes the new one, remove the old package
 
+Look for updates
+
 Hershal's Comments for Programming Before Leaving for a Weekend:
 Mounting the Limelight: This is probably our top priority right now. The limelight camera is supposed to be mounted on the lazy susan, behind the hatch arm. However, the panel on the arm would end up blocking a large part of the camera's view. So, first we need to test if the camera can still detect the tapes through the hatch panel. Set up the limelight and look at the feed from the computer. Move the hatch arm up and put a panel on it, then put the tapes behind it and see if the camera can determine that there are tapes or not. If it does, great! make sure it works as well as it would without the panel there. If not, crap. Talk to Sameerah and brainstorm ways to give the camera a better viewpoint. Maybe angle it from above or below the arm? Ask in the group chat if you're unsure about anything
 
