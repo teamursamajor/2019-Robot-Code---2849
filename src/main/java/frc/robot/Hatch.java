@@ -45,6 +45,8 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         } else {
             hatchMotor.set(0.0);
         }
+
+        // System.out.println(hatchEncoder.getDistance());
     }
 
     public void updateStateInfo() {
