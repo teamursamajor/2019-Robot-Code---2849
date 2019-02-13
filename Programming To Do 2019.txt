@@ -1,8 +1,8 @@
 Moving Forward:
 Limelight mounting:
-	Switch to a pneumatic arm
+	If we switch to a pneumatic arm
 		Good
-	Dont
+	If we don't
 		Problems
 Mount encoders on the drive train
 Mount and code potentiometers for the lazy susan and arm

@@ -156,5 +156,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
+    System.out.println(leftEncoder.getDistance());
   }
 }

@@ -38,15 +38,15 @@ public interface UrsaRobot {
 	//Piston Port
 	public static final int PISTON_PORT = 10;
 
-	public static final int LEFT_ENCODER_CHANNEL_A = 6;
-	public static final int LEFT_ENCODER_CHANNEL_B = 7;
+	public static final int LEFT_ENCODER_CHANNEL_A = 0;
+	public static final int LEFT_ENCODER_CHANNEL_B = 1;
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
 
 	public static final int CARGO_ENCODER_CHANNEL_A = 8;
 	public static final int CARGO_ENCODER_CHANNEL_B = 9;
-	public static final int HATCH_ENCODER_CHANNEL_A = 0;
-	public static final int HATCH_ENCODER_CHANNEL_B = 1;
+	public static final int HATCH_ENCODER_CHANNEL_A = 6;
+	public static final int HATCH_ENCODER_CHANNEL_B = 7;
 
 	public static final int SUSAN_SWITCH_CHANNEL = 4;
 
