@@ -22,12 +22,12 @@ public class Piston extends Subsystem<PistonTask.PistonMode> implements UrsaRobo
 
     public void runSubsystem() {
         
-        if (xbox.getButton(XboxController.AXIS_RIGHTTRIGGER)){
-            compressor.setClosedLoopControl(compressingAir);
+        if (xbox.getAxisGreaterThan(XboxController.AXIS_RIGHTTRIGGER, .1)){
             compressingAir = !compressingAir;
+            compressor.setClosedLoopControl(compressingAir);
         }
 
-        if (xbox.getButton(XboxController.AXIS_LEFTTRIGGER)){
+        if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, .1)){
             solenoid.set(solenoidOpen);
             solenoidOpen = !solenoidOpen;
         }

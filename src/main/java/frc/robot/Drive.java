@@ -8,8 +8,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	private Spark mLeft;
 	private Spark mRight;
-	// private Spark mRearLeft;
-	// private Spark mRearRight;
+	private Spark mRearLeft;
+	private Spark mRearRight;
 
 	// TODO need?
 	// private static boolean square;
@@ -28,8 +28,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		mLeft = new Spark(DRIVE_LEFT);
 		mRight = new Spark(DRIVE_RIGHT);
-		// mRearLeft = new Spark(DRIVE_REAR_LEFT);
-		// mRearRight = new Spark(DRIVE_REAR_RIGHT);
+		mRearLeft = new Spark(DRIVE_REAR_LEFT);
+		mRearRight = new Spark(DRIVE_REAR_RIGHT);
 
 		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);
@@ -50,8 +50,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		
 		mLeft.set(-driveOrder.leftPower);
 		mRight.set(driveOrder.rightPower);
-		// mRearLeft.set(-driveOrder.leftPower);
-		// mRearRight.set(driveOrder.rightPower);
+		mRearLeft.set(-driveOrder.leftPower);
+		mRearRight.set(driveOrder.rightPower);
 	}
 
 	public void updateStateInfo() {
