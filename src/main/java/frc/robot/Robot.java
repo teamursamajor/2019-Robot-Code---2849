@@ -31,8 +31,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
+  
+  private Constants constants;
 
   private boolean climbPressed;
+
+  private double hatchPower;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -43,7 +47,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-
+    
     drive = new Drive();
     drive.initialize("driveThread");
     lazySusan = new LazySusan();
@@ -51,9 +55,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     hatch = new Hatch();
     hatch.initialize("hatchThread");
     climb = new Climb();
-    
     cargo = new Cargo();
     cargo.initialize("cargoThread");
+
+    constants = new Constants();
+    constants.startConstants();
 
     //piston = new Piston();
     //piston.initialize("pistonThread");
@@ -124,20 +130,24 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // TODO Should this be here or in a climber thread?
     climbPressed = false;
     double power = .75;
-    if (xbox.getButton(XboxController.BUTTON_X)) {
-      climb.setFrontMotor(power);
+    if (xbox.getPOV() == XboxController.POV_UP) {
+      // climb.setFrontMotor(power);
+      System.out.println("climb up working");
       climbPressed = true;
     }
-    if (xbox.getButton(XboxController.BUTTON_Y)) {
-      climb.setFrontMotor(-power);
+    if (xbox.getPOV() == XboxController.POV_DOWN) {
+      // climb.setFrontMotor(-power);
+      System.out.println("climb down working");
       climbPressed = true;
     }
-    if (xbox.getButton(XboxController.POV_LEFT)) {
-      climb.setBackMotor(power);
+    if (xbox.getPOV() == XboxController.POV_LEFT) {
+      // climb.setBackMotor(power);
+      System.out.println("climb left working");
       climbPressed = true;
     }
-    if (xbox.getButton(XboxController.POV_RIGHT)) {
-      climb.setBackMotor(-power);
+    if (xbox.getPOV() == XboxController.POV_RIGHT) {
+      // climb.setBackMotor(-power);
+      System.out.println("climb right working");
       climbPressed = true;
     }
     if (!climbPressed) {
@@ -156,5 +166,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
+    // System.out.println("Hatch Power" + constants.hatchPower);
+    System.out.println(leftEncoder.getDistance());
   }
+  
 }

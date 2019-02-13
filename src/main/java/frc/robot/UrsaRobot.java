@@ -11,42 +11,42 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public interface UrsaRobot {
 	// Spark Ports
 	// TODO For testing 2/5 DRIVE_FRONT_LEFT is 3. Change to 1 when done.
-	public static final int DRIVE_LEFT = 9;
+	public static final int DRIVE_LEFT = 0;
 	// TODO For testing 2/5 DRIVE_FRONT_RIGHT is 0. Change to 2 when done.
-	public static final int DRIVE_RIGHT = 0; // Originally 0
+	public static final int DRIVE_RIGHT = 1; // Originally 0
 	// TODO For testing 2/5 DRIVE_REAR_LEFT is 6. Change to 0 when done.
-	// public static final int DRIVE_REAR_LEFT = 9; //Originally 6; 5 leads to spark 6
+	public static final int DRIVE_REAR_LEFT = 2; //Originally 6; 5 leads to spark 6
 	// TODO For testing 2/5 DRIVE_REAR_RIGHT is 1. Change to 3 when done.
-	// public static final int DRIVE_REAR_RIGHT = 0; 
+	public static final int DRIVE_REAR_RIGHT = 3; 
 
 	// TODO do we need both of these? idk 
-	public static final int CARGO = 2;
-	public static final int CARGO_FRONT = 3; //Changed from 6
+	public static final int CARGO = 7;
+	public static final int CARGO_FRONT = 8; //Changed from 6
 
-	public static final int HATCH = 6;
+	public static final int HATCH = 9;
 
-	public static final int CLIMB_FRONT = 1; // Swap with 8
-	public static final int CLIMB_BACK = 4; //Originally 4
+	public static final int CLIMB_FRONT = 10; // Swap with 8
+	public static final int CLIMB_BACK = 5; //Originally 4
 	
 	// public static final int LAZY_SUSAN = 4;
 	// TODO For testing 2/5 LAZY_SUSAN is 9. Undo when done.
-	public static final int LAZY_SUSAN = 8; //Originally 9; 4 leads to spark 9
+	public static final int LAZY_SUSAN = 6; //Originally 9; 4 leads to spark 9
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
 
 	//Piston Port
-	public static final int PISTON_PORT = 10;
+	public static final int PISTON_PORT = 5;
 
-	public static final int LEFT_ENCODER_CHANNEL_A = 6;
-	public static final int LEFT_ENCODER_CHANNEL_B = 7;
+	public static final int LEFT_ENCODER_CHANNEL_A = 0;
+	public static final int LEFT_ENCODER_CHANNEL_B = 1;
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
 
 	public static final int CARGO_ENCODER_CHANNEL_A = 8;
 	public static final int CARGO_ENCODER_CHANNEL_B = 9;
-	public static final int HATCH_ENCODER_CHANNEL_A = 0;
-	public static final int HATCH_ENCODER_CHANNEL_B = 1;
+	public static final int HATCH_ENCODER_CHANNEL_A = 6;
+	public static final int HATCH_ENCODER_CHANNEL_B = 7;
 
 	public static final int SUSAN_SWITCH_CHANNEL = 4;
 
