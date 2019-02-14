@@ -127,24 +127,23 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopPeriodic() {
     // TODO Should this be here or in a climber thread?
     climbPressed = false;
-    double power = .75;
     if (xbox.getPOV() == XboxController.POV_UP) {
-      // climb.setFrontMotor(power);
+      climb.setFrontMotor(Constants.climbPower);
       System.out.println("climb up working");
       climbPressed = true;
     }
     if (xbox.getPOV() == XboxController.POV_DOWN) {
-      // climb.setFrontMotor(-power);
+      climb.setFrontMotor(-Constants.climbPower);
       System.out.println("climb down working");
       climbPressed = true;
     }
     if (xbox.getPOV() == XboxController.POV_LEFT) {
-      // climb.setBackMotor(power);
+      climb.setBackMotor(Constants.climbPower);
       System.out.println("climb left working");
       climbPressed = true;
     }
     if (xbox.getPOV() == XboxController.POV_RIGHT) {
-      // climb.setBackMotor(-power);
+      climb.setBackMotor(-Constants.climbPower);
       System.out.println("climb right working");
       climbPressed = true;
     }
