@@ -39,9 +39,9 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
         // TODO test code, delete
         if (xbox.getButton(XboxController.BUTTON_A)) { // Goes up
-            hatchMotor.set(0.50);
+            hatchMotor.set(Constants.hatchPower);
         } else if (xbox.getButton(XboxController.BUTTON_B)) { // Goes down
-            hatchMotor.set(-0.40);
+            hatchMotor.set(-Constants.hatchPower);
         } else {
             hatchMotor.set(0.0);
         }

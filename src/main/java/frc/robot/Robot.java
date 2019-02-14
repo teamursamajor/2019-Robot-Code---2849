@@ -36,8 +36,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private boolean climbPressed;
 
-  private double hatchPower;
-
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -166,7 +164,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    // System.out.println("Hatch Power" + constants.hatchPower);
   }
   
 }

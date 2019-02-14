@@ -23,18 +23,19 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
         //TODO Test Code
         if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
-            cargoIntake.set(-0.75);
+            cargoIntake.set(-Constants.cargoOuttakePower);
         } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
-            cargoIntake.set(0.5);
+            cargoIntake.set(Constants.cargoIntakePower);
         } else {
             cargoIntake.set(0);
         }
 
         if (xbox.getButton(XboxController.BUTTON_BACK)) {
-            cargo.set(-0.35);
+            cargo.set(-Constants.cargoPower);
         } else if (xbox.getButton(XboxController.BUTTON_START)) {
-            cargo.set(0.35);
+            cargo.set(Constants.cargoPower);
         } else {
+            // TODO needs a control loop
             cargo.set(-0.2);
         }
     }

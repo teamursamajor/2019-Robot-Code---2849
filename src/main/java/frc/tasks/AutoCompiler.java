@@ -1,14 +1,14 @@
 package frc.tasks;
 
 import java.io.BufferedReader;
-// import java.io.File;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// import edu.wpi.first.wpilibj.DriverStation;
-// import edu.wpi.first.wpilibj.Relay.Direction;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Relay.Direction;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.SusanTask.SusanMode;
@@ -470,58 +470,57 @@ public class AutoCompiler {
     }
     
     //TODO Adapt this when we need it
-    // 	/**
-	//  * Gets the switch/scale side from the FMS, and finds an Auto Mode file
-	//  * which finds robot's position and switch/scale ownership and performs the
-	//  * highest task in the ranked list of tasks from the SmartDashboard that
-	//  * matches the current setup.
-	//  * 
-	//  * @param robotPosition
-	//  *            The side our robot starts on. L, M, or R.
-	//  * @param autoPrefs
-	//  *            String array of ranked Auto Modes
-	//  * @param autoFiles
-	//  *            File array of all files in the AutoModes folder
-	//  * @return String name of the auto file to run
-	//  */
-	// public String pickAutoMode(char robotPosition, String[] autoPrefs, File[] autoFiles) {
-	// 	// Gets the ownership information from the FMS
-	// 	String switchPos = DriverStation.getInstance().getGameSpecificMessage().substring(0,1);
-	// 	String scalePos = DriverStation.getInstance().getGameSpecificMessage().substring(1,2);
-	// 	String mode;
-	// 	System.out.println(switchPos + scalePos);
+    /**
+	 * Gets the switch/scale side from the FMS, and finds an Auto Mode file
+	 * which finds robot's position and switch/scale ownership and performs the
+	 * highest task in the ranked list of tasks from the SmartDashboard that
+	 * matches the current setup.
+	 * 
+	 * @param robotPosition
+	 *            The side our robot starts on. L, M, or R.
+	 * @param autoPrefs
+	 *            String array of ranked Auto Modes
+	 * @param autoFiles
+	 *            File array of all files in the AutoModes folder
+	 * @return String name of the auto file to run
+	 */
+	public String pickAutoMode(String robotPosition, String gamePiece, String piecePosition, String[] autoPrefs, File[] autoFiles) {
+		// Gets the ownership information from the FMS
 		
-	// 	SmartDashboard.putString("Switch side: ", switchPos);
-	// 	SmartDashboard.putString("Scale side: ", scalePos);
+		// TODO make a new selector for this based on what bay we want to go to
+		String mode = " ";
 		
-	// 	switch (switchPos + scalePos) {
-	// 	case "LL":
-	// 		mode = autoPrefs[0];
-	// 		break;
-	// 	case "LR":
-	// 		mode = autoPrefs[1];
-	// 		break;
-	// 	case "RL":
-	// 		mode = autoPrefs[2];
-	// 		break;
-	// 	case "RR":
-	// 		mode = autoPrefs[3];
-	// 		break;
-	// 	default:
-	// 		mode = "path_drive";
-	// 		break;
-	// 	}
 		
-	// 	//for potential future use
-	// 	String oppSide = DriverStation.getInstance().getGameSpecificMessage().substring(2);
+		// TODO update
+		// switch (switchPos + scalePos) {
+		// case "LL":
+		// 	mode = autoPrefs[0];
+		// 	break;
+		// case "LR":
+		// 	mode = autoPrefs[1];
+		// 	break;
+		// case "RL":
+		// 	mode = autoPrefs[2];
+		// 	break;
+		// case "RR":
+		// 	mode = autoPrefs[3];
+		// 	break;
+		// default:
+		// 	mode = "path_drive";
+		// 	break;
+		// }
 		
-	// 	String regex = "^[" + robotPosition + "0]_[" + switchPos + "0][" + scalePos + "0]_" + mode + "\\.auto$";
+		// TODO for potential future use
+		// String oppSide = DriverStation.getInstance().getGameSpecificMessage().substring(2);
 		
-	// 	for (File f: autoFiles) {
-	// 		if (f.getName().matches(regex)) {
-	// 			return "/home/lvuser/automodes/" + f.getName();
-	// 		}
-	// 	}
-	// 	return "/home/lvuser/automodes/0_00_path_drive.auto";
-	// }
+		String regex = "/(" + robotPosition + ")(" + gamePiece + ")(" + piecePosition + ")(" + mode + "(.auto)/gi";
+		
+		for (File f: autoFiles) {
+			if (f.getName().matches(regex)) {
+				return "/home/lvuser/automodes/" + f.getName();
+			}
+		}
+		// TODO make a default auto mode
+		return "/home/lvuser/automodes/ .auto";
+	}
 }
