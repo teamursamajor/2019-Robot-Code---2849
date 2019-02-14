@@ -10,7 +10,7 @@ Limelight mounting:
 	If we don't
 		Problems
 Mount encoders on the drive train
-Mount and code potentiometers for the lazy susan and arm
+Mount and code potentiometers for the lazy susan and arm and cargo
 Mount and code color sensors
 Mount a camera on the eboard
 Sending the image back to the dashboard

@@ -51,10 +51,6 @@ public interface UrsaRobot {
 	//public static final int SUSAN_SWITCH_CHANNEL = 4;
 
 	// Encoders
-	//public static Encoder hatchEncoder = new Encoder(HATCH_ENCODER_CHANNEL_A, HATCH_ENCODER_CHANNEL_B); // 7 pulses/rev
-
-	public static Encoder cargoEncoder = new Encoder(CARGO_ENCODER_CHANNEL_A, CARGO_ENCODER_CHANNEL_B);
-
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 
