@@ -21,19 +21,19 @@ public class HatchTask extends Task {
 		public HatchOrder callLoop() {
 			switch (this) {
 			case START:
-				return moveToAngle(UrsaRobot.startAngle);
+				return moveToAngle(UrsaRobot.startVoltage);
 			case BOTTOM:
-				return moveToAngle(UrsaRobot.bottomAngle);
+				return moveToAngle(UrsaRobot.bottomVoltage);
 			case TOP:
-				return moveToAngle(UrsaRobot.topAngle);
+				return moveToAngle(UrsaRobot.topVoltage);
 			}
 			running = false;
 			return new HatchOrder(0);
 		}
 
-		private HatchOrder moveToAngle(double desiredAngle) {
-			double angleTolerance = 5;
-			if(Math.abs(HatchState.hatchAngle - desiredAngle) <= angleTolerance){
+		private HatchOrder moveToAngle(double desiredVoltage) {
+			double voltageTolerance = 0.0; // TODO find
+			if(Math.abs(HatchState.hatchVoltage - desiredVoltage) <= voltageTolerance){
 				running = false;
 				return new HatchOrder(0.0);
 			}
@@ -43,7 +43,7 @@ public class HatchTask extends Task {
 			double kdHatch = 0;
 			double hatchMinimumPower = 0.3;
 			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-			double hatchPower = kpHatch * (desiredAngle - HatchState.hatchAngle) + kdHatch * HatchState.hatchVelocity;
+			double hatchPower = kpHatch * (desiredVoltage - HatchState.hatchVoltage) + kdHatch * HatchState.hatchVelocity;
 
 			if(hatchPower == 0) {
 				running = false;
@@ -59,12 +59,12 @@ public class HatchTask extends Task {
 	}
 
 	public static class HatchState {
-		public static double hatchVelocity = 0.0, hatchAngle = 0.0;
+		public static double hatchVelocity = 0.0, hatchVoltage = 0.0;
 		public static long stateTime = System.currentTimeMillis();
 
-		public static void updateState(double hatchVelocity, double hatchAngle) {
+		public static void updateState(double hatchVelocity, double hatchVoltage) {
 			HatchState.hatchVelocity = hatchVelocity;
-			HatchState.hatchAngle = hatchAngle;
+			HatchState.hatchVoltage = hatchVoltage;
 			stateTime = System.currentTimeMillis();
 		}
 	}

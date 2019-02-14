@@ -1,3 +1,8 @@
+Write potentiometer code
+Write color sensor code
+Mount pots, color sensors, encoders
+Mount camera/limelight
+
 Moving Forward:
 Limelight mounting:
 	If we switch to a pneumatic arm

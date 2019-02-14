@@ -21,12 +21,11 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public Hatch() {
         hatchMotor = new Spark(HATCH);
-        hatchPot = new AnalogInput(1);
-
+        hatchPot = new AnalogInput(0);
 
         // Number of degrees per pulse (7 pulses in one revolution)
-        hatchEncoder.setDistancePerPulse(HATCH_DEGREES_PER_TICK);
-        hatchEncoder.reset();
+        // hatchEncoder.setDistancePerPulse(HATCH_DEGREES_PER_TICK);
+        // hatchEncoder.reset();
 
         currentPosition = defaultPosition;
     }
@@ -38,27 +37,25 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         // hatchMotor.set(hatchOrder.hatchPower);
 
         // TODO test code, delete
-        if (xbox.getButton(XboxController.BUTTON_A)) { // Goes up
+        if (xbox.getButton(XboxController.BUTTON_B)) { // Goes up
             hatchMotor.set(0.50);
-        } else if (xbox.getButton(XboxController.BUTTON_B)) { // Goes down
+        } else if (xbox.getButton(XboxController.BUTTON_A)) { // Goes down
             hatchMotor.set(-0.40);
         } else {
             hatchMotor.set(0.0);
         }
-
-        // System.out.println(hatchEncoder.getDistance());
     }
 
     public void updateStateInfo() {
-        double currentDistance = hatchEncoder.getDistance();
-        // TODO hatchAngle is really hatchDistance. As of now, our "distance" refers to a arc
-        // along a circle
-        double deltaPos = currentDistance - HatchTask.HatchState.hatchAngle;
+      //  double currentDistance = hatchEncoder.getDistance();
+        double currentVoltage = hatchPot.getAverageVoltage();
+        // hatchDistance is our distance along an arc
+        double deltaPos = currentVoltage - HatchTask.HatchState.hatchVoltage;
         double deltaTime = System.currentTimeMillis() - HatchTask.HatchState.stateTime;
         double velocity = deltaPos / deltaTime;
         if(deltaPos == 0)
             return;
-        HatchTask.HatchState.updateState(velocity, currentDistance);
+        HatchTask.HatchState.updateState(velocity, currentVoltage);
     }
 
 }
