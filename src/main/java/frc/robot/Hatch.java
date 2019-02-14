@@ -47,13 +47,12 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     }
 
     public void updateStateInfo() {
-      //  double currentDistance = hatchEncoder.getDistance();
         double currentVoltage = hatchPot.getAverageVoltage();
         // hatchDistance is our distance along an arc
         double deltaPos = currentVoltage - HatchTask.HatchState.hatchVoltage;
         double deltaTime = System.currentTimeMillis() - HatchTask.HatchState.stateTime;
         double velocity = deltaPos / deltaTime;
-        if(deltaPos == 0)
+        if (deltaPos == 0)
             return;
         HatchTask.HatchState.updateState(velocity, currentVoltage);
     }
