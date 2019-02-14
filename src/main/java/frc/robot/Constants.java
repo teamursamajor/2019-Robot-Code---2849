@@ -12,11 +12,20 @@ public class Constants implements Runnable {
     private static Object lock = new Object();
 
     public double hatchPower;
+    public double cargoPower;
+    public double climbPower;
+    public double susanPower;
     //TODO ... other constants here
 
     public Constants() {
         hatchPower = 0.0;
         SmartDashboard.putNumber("Hatch Power", 0.0);
+        cargoPower = 0.0;
+        SmartDashboard.putNumber("Cargo Power", 0.0);
+        climbPower = 0.0;
+        SmartDashboard.putNumber("Climb Power", 0.0);
+        susanPower = 0.0;
+        SmartDashboard.putNumber("Susan Power", 0.0);
         startConstants();
     }
 
@@ -34,6 +43,9 @@ public class Constants implements Runnable {
     public void run() {
         while (running) {
             hatchPower = SmartDashboard.getNumber("Hatch Power", 0.0);
+            climbPower = SmartDashboard.getNumber("Climb Power", 0.0);
+            susanPower = SmartDashboard.getNumber("Susan Power", 0.0);
+            cargoPower = SmartDashboard.getNumber("Cargo Power", 0.0);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {

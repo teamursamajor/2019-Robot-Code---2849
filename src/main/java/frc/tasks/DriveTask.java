@@ -159,8 +159,21 @@ public class DriveTask extends Task implements UrsaRobot {
          * @return DriveOrder containing the values from the XboxController
          */
         private DriveOrder sticksBox() {
-            return new DriveOrder(xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y),
-                    xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
+            // Arcade Drive
+            double leftStickY = -xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y);
+            double rightStickX = -xbox.getAxis(XboxController.AXIS_RIGHTSTICK_X);
+            double leftSpeed = leftStickY + rightStickX;
+            double rightSpeed = leftStickY - rightStickX;
+            double max = Math.max(leftSpeed, rightSpeed);
+            double min = Math.min(leftSpeed, rightSpeed);
+            if(max > 1){
+                leftSpeed /= max;
+                rightSpeed /= max;
+            } else if (min < -1){
+                leftSpeed /= -min;
+                rightSpeed /= -min;
+            }
+            return new DriveOrder(leftSpeed, rightSpeed);
         }
 
         private DriveOrder turnTo() {
