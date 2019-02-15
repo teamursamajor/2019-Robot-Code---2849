@@ -1,9 +1,10 @@
 Test arm potentiometer, find experimental values
 Repeat for susan, cargo, and lower climb
 Write color sensor code
-Mounting of potentiometers, color sensors, limelight, camera, encoders
-Test vision code 
+Mounting of potentiometers, color sensors, limelight, camera
+Test vision code
 Display raw limelight image on dashboard
+Auto code
 
 Auto mode selector from smartdashboard
 

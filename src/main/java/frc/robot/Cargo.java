@@ -11,7 +11,6 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     private AnalogInput cargoPot;
 
     public Cargo() {
-        cargoIntake = new Spark(CARGO_FRONT);
         cargo = new Spark(CARGO);
         cargoPot = new AnalogInput(1);
     }

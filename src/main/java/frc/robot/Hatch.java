@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import frc.tasks.*;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
@@ -49,7 +48,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         } else {
             hatchMotor.set(0.0);
         }
-        // if((System.currentTimeMillis() - time) % 50 == 0)
+        if((System.currentTimeMillis() - time) % 50 == 0)
             System.out.println("Voltage: " + hatchPot.get());
         
     }
