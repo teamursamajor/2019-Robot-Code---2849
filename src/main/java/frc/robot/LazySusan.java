@@ -14,7 +14,7 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
 
     public LazySusan() {
         susanMotor = new Spark(LAZY_SUSAN);
-        susanPot = new AnalogInput(0);
+        susanPot = new AnalogInput(2);
         subsystemMode = SusanMode.FORWARD;
     }
 
@@ -23,10 +23,10 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
         // SusanTask.SusanOrder susanOrder = subsystemMode.callLoop();
         // susanMotor.set(susanOrder.power);
         // TODO delete, test code
-        if (xbox.getButton(XboxController.BUTTON_X)) {
-            susanMotor.set(Constants.susanPower);
-        } else if (xbox.getButton(XboxController.BUTTON_Y)) {
-            susanMotor.set(-Constants.susanPower);
+        if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
+            susanMotor.set(-.25);
+        } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
+            susanMotor.set(0.25);
         } else {
             susanMotor.set(0.0);
         }

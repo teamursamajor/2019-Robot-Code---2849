@@ -1,49 +1,27 @@
-Moving Forward:
-Limelight mounting:
-	If we switch to a pneumatic arm
-		Good
-	If we don't
-		Problems
-Mount encoders on the drive train
-Mount and code potentiometers for the lazy susan and arm
-Mount and code color sensors
-Mount a camera on the eboard
-Sending the image back to the dashboard
-Setting up smartdashboard in general
+Test arm potentiometer, find experimental values
+Repeat for susan, cargo, and lower climb
+Write color sensor code
+Mounting of potentiometers, color sensors, limelight, camera, encoders
+Test vision code 
+Display raw limelight image on dashboard
+
+Auto mode selector from smartdashboard
+
+Move all constants/powers to the SmartDashboard so we can change them on the fly
+
 Pathmaker:
 	Move old code and PathTask into its own package
 	Once Chris finishes the new one, remove the old package
 
 Look for updates
 
-Hershal's Comments for Programming Before Leaving for a Weekend:
-Mounting the Limelight: This is probably our top priority right now. The limelight camera is supposed to be mounted on the lazy susan, behind the hatch arm. However, the panel on the arm would end up blocking a large part of the camera's view. So, first we need to test if the camera can still detect the tapes through the hatch panel. Set up the limelight and look at the feed from the computer. Move the hatch arm up and put a panel on it, then put the tapes behind it and see if the camera can determine that there are tapes or not. If it does, great! make sure it works as well as it would without the panel there. If not, crap. Talk to Sameerah and brainstorm ways to give the camera a better viewpoint. Maybe angle it from above or below the arm? Ask in the group chat if you're unsure about anything
-
-Sensors: We need 2 drive encoders, 2 potentiometers (one for the lazy susan and one for the hatch arm), and I guess one Cargo encoder (check with Mateo to see if they're still putting an encoder on or want to do something else. It doesn't matter as long as we recieve some form of constant feedback). Find wires for all of these and be able to set them up so that we can use them for auto testing on robot 1. Also let build know that they will eventually need to drill holes in robot 2 for the motor wires to come through and for the drive encoders to come through. Probably want those as close to the eboard as possible.
-
-Finish the SmartDashboard code which allows us to pull constant motor speeds from the smart dashboard in real time. Example: If I have an option to set the hatch power (speed) on the smartdashboard, I can change it while the robot is enabled and the speed will update in real time. This means that the hatch is using the speed directly from the smartdashboard, not from within the code
-
-Hatch: Wire the encoder to the eboard and tell it to constantly print out what it is reading. Then test running the arm and find the ideal positions for starting the match, carrying the hatch, and dropping off the hatch. When you manually move the hatch to the ideal position, look at what the encoder reads and write that down. Then, put that value (approximate) in the code
-LazySusan: Research how to code potentiometers. They will give you the average voltage reading that it currently has. You can check this against the robot to see what the position is at a certain voltage. If you record what the voltage is when the susan is left, right, and center, we can use those values for our PD loop
 Pneumatics: Research how to wire a regulator to our current setup so that we can control the pressure in the tank and stop the compressor when it is at 60. Then use the xbox controller to push the piston in and out. Once all this works perfectly, make the code an actual subsystem file instead of test code
 All PD Loops: Start testing these on the actual robot and tuning the proportional constant. It doesn't need to be perfect, just decently close. Then, add in the derivative term and somewhat tune that. We will do this properly once we have the final robot to work with
 
 Auto Code: Since our compiler should be working now, we can start writing actual auto modes. Evan and JJ should be able to explain this; it's a bit annoying to type everything out right now. Essentially its a simple scripting language where you say a command, then any parameters. Ex: "drive 10" or "turn TO 90" or "hatch CARRY". You can find 2D images of the field with measurements on them in pixel and use these to approximate distances, then write out auto code in the scripting language to do any variety of options. Again, ask Evan for specifics since theres a lot of stuff you can do here. As long as you're doing SOMETHING, it'll probably be helpful.
-Pathmaker: Chris, JJ, and Yusuf have been working on pathmaker. Help them if needed and try to get it to a state where we can draw out a path, save it, and follow it. It's fine if its not fancy yet, but we want a working version as soon as we can. If something goes horribly wrong though, we can always just use last years Pathmaker. If stuff starts breaking or you don't think the new Pathmaker will be done in time, just open the old code and change the image to the new 2019 image so that we can use it.
-
-Color Sensor: Wire the color sensor to the eboard and test it. See how you can receive a signal from it and how the code could use that. This would be used in our auto align code to determine a match. Try to set up the code so that the auto align method can at least receive some input, even if the logic of using the sensor isn't coded. What this means is, make an object for the sensor and be able to receive the input in the auto align code, but don't do anything with that input quite yet. Then, tell build where we want to mount it. We want three mounted sensors: one as far in each corner of the hatch side, and one in the middle on the cargo side. This makes a triangle. It's fine if they don't mount it immediately as long as they know this is something we want/need.
 
 Auto Align to pick up the Hatch: Don't worry about this until AFTER you've figured out how to mount the limelight. Essentially, we want to automate the process of picking up the hatch panel. We could use the limelight to do this, provided we've figured out a way to mount it without losing any functionality. What you should do is turn on the limelight and have the code constantly print out the area of the tape in pixels. Take the model of the loading station and put the reflective tape on it. MAKE SURE TO USE ACCURATE MEASUREMENTS BY CHECKING THE MANUAL. Then, line up the robot behind the loading station so that the limelight can see the entirety of the tapes. Measure how far away it is, and look at what the limelight says the area is in pixels. Using this, we can find a conversion factor to convert the area the limelight sees in pixels to the distance away it is. Do this multiple times from multiple distances and angles and record the data. With this information, we can find some mathematical model that generally tells us how far away the loading station is.
 Auto Align to drop off the Hatch: Again, don't worry about this until AFTER the limelight has been mounted perfectly. First, the code should move the lazy susan to the correct side. Assume it knows which bay it wants to go to and which side this is on. We can probably provide this information in real time using the smartdashboard, and, if we're being optimistic, maybe even through communications with the microsoft surface pros. Since it knows where it is and where it wants to go, you have all the information you need. Drive forward using the auto align PD loop and count the number of pairs you see. Once it reaches the correct number, then it stops! Remember, in between every bay there is a set of "false positive" tapes, where they are facing the wrong way and are actually in between two bays. This means that to reach the third bay you would need to look for 5 pairs, not 3. Then drop off the hatch either manually or through the code, and test to make sure this works correctly.
-
-Order of Priority: The big list of things in the middle can be done in any order or just done throughout if someone needs something to do. Our BIGGEST priority is mounting the limelight. Our next biggest priorities are Pathmaker, sensors, and the color sensor. Then the auto code, then anything else.
-
-Text me or the group chat if you have any questions. If build is being stupid, let me know and I'll yell at them through text. If programming is being stupid, let me know and I'll yell at them through text. PLEASE make sure that you continue to work even though I am not present. We've got a lot of stuff left to do and build is going to give us a full robot soon. We better be prepared for it, or RIP all programmer testing time in the future lmao.
-
-***NOTE***: If you aren't sure what I mean by something or how to even start tackling one of these problems, text the group chat. HOWEVER, if you're running into errors, the first thing you should do is double check your code for obvious mistakes, double check the robot for physical mistakes, and if none are present then GOOGLE! The solution is often online waiting for you and its a good habit to learn to try and find it yourself first. If Google doesn't help, THEN text the group chat and ask for help. Needing help is perfectly fine (and encouraged!) but try to make an effort to figure out the issue by yourself first. It will help in the long run, I promise.
-
-
-
 
 Automate hatch pick up and drop off:
 	Pick up:
@@ -73,25 +51,11 @@ Parser:
 		substrings to recurse and run those commands either in serial or bundle
 		Look at whiteboard pic for more information
 
-Write auto code:
-	We'll write individual auto files once the parser is complete
-
-SmartDashboard integration:
-	Set test values that are changed often (coefficients/constants, motor powers, etc) through the SmartDashboard. The end goal is that 
-	the code is constantly feeding these values in from the SmartDashboard, so even if the robot is constantly enabled we can switch 
-	the Hatch arm speed from 0.25 to 0.30 and it would update in real time. There would also be a toggle on this feature, so that we 
-	don't accidentally change values right before or during a match.
-
-	Set up the SmartDashboard so that we can pick different auto files to run, much like last year
-
 PID Loops:
 	Write the loops for the hatch, cargo, turret lock (maybe), etc:
 	Tune the loops:
 		We can tune them slightly when initially testing, but our main tuning will occur when the robot is finished and we have testing 
 		time
-
-Path code:
-	It's a mess. Just do your best
 
 Look at all the TODO's in the project and start doing them:
 	We never get to this. Maybe this year it'll be different...
@@ -126,12 +90,8 @@ Auto:
 		-5 Start Positions:
 			Level 2: L   R
 			Level 1: L M R
-	-Shuffleboard integration
-	-Use vision code in auto
-	-Displaying camera to the Driver Station
+	-SmartDashboard integration
 	-Improve scripting language
-		-Align task?
-		-The compiler could be much more sophisticated and robust; low priority though
 	
 Misc:
 	-Create a Programming Phamplet of all the cool stuff we do this year

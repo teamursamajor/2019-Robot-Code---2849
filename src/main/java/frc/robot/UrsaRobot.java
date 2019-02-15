@@ -51,10 +51,6 @@ public interface UrsaRobot {
 	//public static final int SUSAN_SWITCH_CHANNEL = 4;
 
 	// Encoders
-	public static Encoder hatchEncoder = new Encoder(HATCH_ENCODER_CHANNEL_A, HATCH_ENCODER_CHANNEL_B); // 7 pulses/rev
-
-	public static Encoder cargoEncoder = new Encoder(CARGO_ENCODER_CHANNEL_A, CARGO_ENCODER_CHANNEL_B);
-
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 
@@ -75,7 +71,7 @@ public interface UrsaRobot {
 	public static final double cargoRadius = 5; //TODO Measure cargo arm
 
 	// Hatch angles
-	public static final double startAngle = 0, bottomAngle = 0, topAngle = 0;
+	public static final double startVoltage = 0, bottomVoltage = 0, topVoltage = 0;
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second
