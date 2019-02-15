@@ -14,7 +14,7 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
 
     public LazySusan() {
         susanMotor = new Spark(LAZY_SUSAN);
-        susanPot = new AnalogInput(0);
+        susanPot = new AnalogInput(2);
         subsystemMode = SusanMode.FORWARD;
     }
 

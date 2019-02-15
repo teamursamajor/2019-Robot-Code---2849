@@ -18,10 +18,12 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     double defaultPosition = 0.0;
     double currentPosition; // Encoder?
+    private long time;
 
     public Hatch() {
         hatchMotor = new Spark(HATCH);
         hatchPot = new AnalogInput(0);
+        time = System.currentTimeMillis();
 
         // Number of degrees per pulse (7 pulses in one revolution)
         // hatchEncoder.setDistancePerPulse(HATCH_DEGREES_PER_TICK);
@@ -44,6 +46,9 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         } else {
             hatchMotor.set(0.0);
         }
+        if((System.currentTimeMillis() - time) % 50 == 0)
+            System.out.println("Voltage: " + hatchPot.getAverageVoltage());
+        
     }
 
     public void updateStateInfo() {
