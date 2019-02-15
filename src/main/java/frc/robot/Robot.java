@@ -10,6 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.I2C;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,14 +29,21 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  //private Piston piston;
+  // private Piston piston;
   private Drive drive;
   private LazySusan lazySusan;
   private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
-  
+
   private Constants constants;
+
+  // weird ass color sensor stuff
+  private I2C I2CBus;
+  // private I2C colorSensor;
+  short cX = 0, cY = 0, cZ = 0;
+  byte[] dataBuffer = new byte[6];
+  ByteBuffer compBuffer = ByteBuffer.wrap(dataBuffer);
 
   private boolean climbPressed;
 
@@ -45,7 +56,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    
+
     drive = new Drive();
     drive.initialize("driveThread");
     lazySusan = new LazySusan();
@@ -59,8 +70,16 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants = new Constants();
     constants.startConstants();
 
-    //piston = new Piston();
-    //piston.initialize("pistonThread");
+    // colorSensor = new I2C(I2C.Port.kMXP, 0x39);
+    I2CBus = new I2C(I2C.Port.kOnboard, 0x39);
+
+    // Vision.visionInit();
+
+    if (!I2CBus.addressOnly())
+      System.out.println("Connected");
+
+    // piston = new Piston();
+    // piston.initialize("pistonThread");
   }
 
   /**
@@ -68,7 +87,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    * items like diagnostics that you want ran during disabled, autonomous,
    * teleoperated and test.
    *
-   * <p>
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
@@ -81,7 +99,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    * between different autonomous modes using the dashboard. The sendable chooser
    * code works with the Java SmartDashboard.
    *
-   * <p>
    * You can add additional auto modes by adding additional comparisons to the
    * switch structure below with additional strings. If using the SendableChooser
    * make sure to add them to the chooser code above as well.
@@ -163,6 +180,21 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
+    I2CBus.read(0x03, 6, dataBuffer);
+
+    compBuffer.order(ByteOrder.BIG_ENDIAN);
+
+    cX = compBuffer.getShort();
+    cY = compBuffer.getShort();
+    cZ = compBuffer.getShort();
+
+    SmartDashboard.putNumber("CompX", cX);
+    SmartDashboard.putNumber("CompY", cY);
+    SmartDashboard.putNumber("CompZ", cZ);
+    System.out.println(I2CBus.toString());
   }
-  
+
+  public void testInit() {
+    I2CBus.write(0x02, 0x00);
+  }
 }

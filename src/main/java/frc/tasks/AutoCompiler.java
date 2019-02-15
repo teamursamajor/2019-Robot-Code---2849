@@ -290,7 +290,7 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that aligns a robot to the nearest pair of reflective tape
+	 * A token that aligns the robot to the nearest pair of reflective tape
 	 * 
 	 * @param times Number of pairs of reflective tape to check for
 	 */
@@ -302,6 +302,9 @@ public class AutoCompiler {
 			try {
 				if (Integer.parseInt(times) > 0) {
 					matchPairs = Integer.parseInt(times);
+				}
+				if (matchPairs > 3) {
+					matchPairs = 3;
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
