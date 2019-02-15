@@ -39,7 +39,7 @@ public class ColorSensor {
 
         // Check we're actually connected to the sensor
         sensor.read(Constants.ID, 1, whoamiResponse);
-        if ((whoamiResponse[0] != 0x44) && (whoamiResponse[0] != 0x10)) {
+        if ((whoamiResponse[0] != 0x60)) { // Device ID for the TMD37821 Color Sensor part (what we have) should be 0x60
             System.out.println("\nError - whoami Constants mismatch on Color Sensor! Cannot initalize!");
             return false;
         }
