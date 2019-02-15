@@ -39,10 +39,10 @@ public class ColorSensor {
 
         // Check we're actually connected to the sensor
         sensor.read(Constants.ID, 1, whoamiResponse);
-        if ((whoamiResponse[0] != 0x44) && (whoamiResponse[0] != 0x10)) {
-            System.out.println("\nError - whoami Constants mismatch on Color Sensor! Cannot initalize!");
-            return false;
-        }
+        // if (whoamiResponse[0] != 0x00) {
+        //     System.out.println("\nError - whoami Constants mismatch on Color Sensor! Cannot initalize!");
+        //     return false;
+        // }
 
         // Set the integration time
         sensor.write(Constants.ATIME, Constants.INTEGRATIONTIME_2_4MS);
@@ -52,7 +52,6 @@ public class ColorSensor {
 
         System.out.println("Color Sensor Initialized!");
         sensor_initalized = true;
-
         return true;
     }
 

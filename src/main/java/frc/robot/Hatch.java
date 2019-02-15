@@ -48,8 +48,10 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         } else {
             hatchMotor.set(0.0);
         }
-        if((System.currentTimeMillis() - time) % 50 == 0)
-            System.out.println("Voltage: " + hatchPot.get());
+        if((System.currentTimeMillis() - time) % 50 == 0){
+            
+        }
+            //System.out.println("Voltage: " + hatchPot.get());
         
     }
 

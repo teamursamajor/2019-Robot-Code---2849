@@ -37,12 +37,16 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private boolean climbPressed;
 
+  private long startTime;
+
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
+    currentTime = System.currentTimeMillis();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
@@ -61,8 +65,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants.startConstants();
 
     colorSensor = new ColorSensor();
-
-    
 
     // Vision.visionInit();
 
@@ -165,14 +167,16 @@ public class Robot extends TimedRobot implements UrsaRobot {
   }
 
   private double currentTime;
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-    if ((System.currentTimeMillis() - currentTime)%50 == 0) {
-      System.out.println("Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + " Blue: " + colorSensor.getBlue());
-      currentTime = System.currentTimeMillis();
+    colorSensor.readColors();
+    if ((System.currentTimeMillis() - startTime) % 50 == 0) {
+      System.out.println(
+          "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + " Blue: " + colorSensor.getBlue());
     }
   }
 
