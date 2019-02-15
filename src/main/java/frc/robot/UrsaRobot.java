@@ -43,16 +43,14 @@ public interface UrsaRobot {
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
 
-	public static final int CARGO_ENCODER_CHANNEL_A = 8;
-	public static final int CARGO_ENCODER_CHANNEL_B = 9;
-	public static final int HATCH_ENCODER_CHANNEL_A = 6;
-	public static final int HATCH_ENCODER_CHANNEL_B = 7;
-
-	//public static final int SUSAN_SWITCH_CHANNEL = 4;
+	public static final int CLIMB_ENCODER_CHANNEL_A = 4;
+	public static final int CLIMB_ENCODER_CHANNEL_B = 5;
 
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
+	
+	public static Encoder climbEncoder = new Encoder(CLIMB_ENCODER_CHANNEL_A, CLIMB_ENCODER_CHANNEL_B);
 
 	// Tells the encoder the value of each tick. Must be set in the corresponding
 	// file with encoder.setDistancePerPulse([Name]_PER_TICK);

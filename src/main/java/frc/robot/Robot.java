@@ -125,6 +125,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    System.out.println("Climb Encoder: " + climbEncoder.getDistance());
     // TODO Should this be here or in a climber thread?
     climbPressed = false;
     if (xbox.getPOV() == XboxController.POV_UP) {
