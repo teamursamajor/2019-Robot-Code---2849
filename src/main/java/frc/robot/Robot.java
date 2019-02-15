@@ -10,10 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.I2C;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,13 +33,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Cargo cargo;
 
   private Constants constants;
-
-  // weird ass color sensor stuff
-  private I2C I2CBus;
-  // private I2C colorSensor;
-  short cX = 0, cY = 0, cZ = 0;
-  byte[] dataBuffer = new byte[6];
-  ByteBuffer compBuffer = ByteBuffer.wrap(dataBuffer);
+  private ColorSensor colorSensor;
 
   private boolean climbPressed;
 
@@ -70,13 +60,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants = new Constants();
     constants.startConstants();
 
-    // colorSensor = new I2C(I2C.Port.kMXP, 0x39);
-    I2CBus = new I2C(I2C.Port.kOnboard, 0x39);
+    colorSensor = new ColorSensor();
+
+    
 
     // Vision.visionInit();
-
-    if (!I2CBus.addressOnly())
-      System.out.println("Connected");
 
     // piston = new Piston();
     // piston.initialize("pistonThread");
@@ -175,26 +163,16 @@ public class Robot extends TimedRobot implements UrsaRobot {
     }
   }
 
+  private double currentTime;
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-    I2CBus.read(0x03, 6, dataBuffer);
-
-    compBuffer.order(ByteOrder.BIG_ENDIAN);
-
-    cX = compBuffer.getShort();
-    cY = compBuffer.getShort();
-    cZ = compBuffer.getShort();
-
-    SmartDashboard.putNumber("CompX", cX);
-    SmartDashboard.putNumber("CompY", cY);
-    SmartDashboard.putNumber("CompZ", cZ);
-    System.out.println(I2CBus.toString());
+    if ((System.currentTimeMillis() - currentTime)%50 == 0) {
+      System.out.println("Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + " Blue: " + colorSensor.getBlue());
+      currentTime = System.currentTimeMillis();
+    }
   }
 
-  public void testInit() {
-    I2CBus.write(0x02, 0x00);
-  }
 }
