@@ -9,25 +9,24 @@ import edu.wpi.first.cameraserver.CameraServer;
 public class Vision implements Runnable {
 	private static CvSink cvSink;
 	private static CvSource outputStream;
-	private static UsbCamera intakeCam;
+	private static UsbCamera cargoCam;
 	private static Mat image = new Mat();
 	private static Thread visionRun = null;
 
 	public Vision() {
-		intakeCam = new UsbCamera("Intake Camera", 0);
+		cargoCam = new UsbCamera("Cargo Camera", 0);
 
-		CameraServer.getInstance().addCamera(intakeCam);
+		CameraServer.getInstance().addCamera(cargoCam);
 
-//		intakeCam.setResolution(240, 180);
+		cargoCam.setResolution(240, 180);
 
-		cvSink = CameraServer.getInstance().getVideo(intakeCam);
-		outputStream = CameraServer.getInstance().putVideo("Intake Camera", 240, 180);
+		cvSink = CameraServer.getInstance().getVideo(cargoCam);
+		outputStream = CameraServer.getInstance().putVideo("Cargo Camera", 240, 180);
 	}
 
 	public static void visionInit() {
 		visionRun = new Thread(new Vision(), "Vision Thread");
 		visionRun.start();
-		// Logger.log("Starting Vision Thread", LogLevel.INFO);
 	}
 
 	public void run() {

@@ -26,9 +26,8 @@
 // 		prevError = 0;
 // 	}
 
-//     //POINT ON PATH BEING USED
 // 	public double getCorrection(Path path, double distance, double time) {
-// 		RobotStats point = path.findNextPointDist(distance);
+// 		PointonPath point = path.findNextPointDist(distance);
 // 		error = point.getPosition() - distance;
 // 		// Logger.log("   Point Position: " + point.getPosition(), LogLevel.DEBUG);
 // 		// Logger.log("   Point time: " + point.getTime(), LogLevel.DEBUG);
@@ -44,29 +43,33 @@
 // 		return out;
 // 	}
 	
-// 	public double getSteering(RobotStats point, double heading) {
+// 	public double getSteering(PointonPath point, double heading) {
 // //		System.out.println("   Heading: " + heading);
 // //		System.out.println("   Point Heading: " + point.getDirection());
 // 		return kturn * Path.getSmallestAngleBetween(heading, point.getDirection());
 // 	}
 	
-// 	public double getDoubleSteering(RobotStats point, RobotStats secondPoint, double heading) {
-// 		// Logger.log("   Heading: " + heading, LogLevel.DEBUG);
-// 		// Logger.log("   First Point Heading: " + point.getDirection(), LogLevel.DEBUG);
-// 		// Logger.log("   Second Point Heading: " + secondPoint.getDirection(), LogLevel.DEBUG);
-// 		double smallestAngle = Path.getSmallestAngleBetween(heading, point.getDirection());
-// 		if (Math.abs(smallestAngle) >= 0) 
-// 			return kturn * smallestAngle + .25 * kturn * Path.getSmallestAngleBetween(heading, secondPoint.getDirection());
-// 		else return 0;
-// 	}
+// <<<<<<< HEAD
+// // 	public double getDoubleSteering(RobotStats point, RobotStats secondPoint, double heading) {
+// =======
+// // 	public double getDoubleSteering(PointonPath point, PointonPath secondPoint, double heading) {
+// // 		// Logger.log("   Second Point Heading: " + secondPoint.getDirection(), LogLevel.DEBUG);
+// // 		if (Math.abs(smallestAngle) >= 0) 
+// // 			return kturn * smallestAngle + .25 * kturn * Path.getSmallestAngleBetween(heading, secondPoint.getDirection());
+// // 		else return 0;
+// // 	}
 	
-// 	public double constrain(double power) {
-// 		if (power > 1) {
-// 			return 1;
-// 		} else if (power < 0) {
-// 			return 0;
-// 		} else return power;
-//     }
-//     //NEED Vel, Direction(DEFINED), Time(), Accel, xyfeetdefined
+// // 	public double constrain(double power) {
+// // 		if (power > 1) {
+// // 			return 1;
+// // 		} else if (power < 0) {
+// // 			return 0;
+// // 		} else return power;
+// <<<<<<< HEAD
+// //     }
+// //     //NEED Vel, Direction(DEFINED), Time(), Accel, xyfeetdefined
+// =======
+// // 	}
+// >>>>>>> 2e57ee82008925163b977d1be63767af0edd55d4
 
 // }

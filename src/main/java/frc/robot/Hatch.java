@@ -1,13 +1,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import frc.tasks.*;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     private Spark hatchMotor;
-    private AnalogInput hatchPot;
+    // private AnalogInput hatchPot;
+    private Potentiometer hatchPot;
 
     // Position constants
     // TODO set the encoder distances for these positions
@@ -22,7 +24,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public Hatch() {
         hatchMotor = new Spark(HATCH);
-        hatchPot = new AnalogInput(0);
+        hatchPot = new AnalogPotentiometer(0, 360, 0);
         time = System.currentTimeMillis();
 
         // Number of degrees per pulse (7 pulses in one revolution)
@@ -39,20 +41,20 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         // hatchMotor.set(hatchOrder.hatchPower);
 
         // TODO test code, delete
-        if (xbox.getButton(XboxController.BUTTON_B)) { // Goes up
-            hatchMotor.set(0.50);
-        } else if (xbox.getButton(XboxController.BUTTON_A)) { // Goes down
-            hatchMotor.set(-0.40);
-        } else {
-            hatchMotor.set(0.0);
-        }
-        if((System.currentTimeMillis() - time) % 50 == 0)
-            System.out.println("Voltage: " + hatchPot.getAverageVoltage());
+        // if (xbox.getButton(XboxController.BUTTON_B)) { // Goes up
+        //     hatchMotor.set(0.50);
+        // } else if (xbox.getButton(XboxController.BUTTON_A)) { // Goes down
+        //     hatchMotor.set(-0.40);
+        // } else {
+        //     hatchMotor.set(0.0);
+        // }
+        // if((System.currentTimeMillis() - time) % 50 == 0)
+        //     System.out.println("Pot Voltage: " + hatchPot.get());
         
     }
 
     public void updateStateInfo() {
-        double currentVoltage = hatchPot.getAverageVoltage();
+        double currentVoltage = hatchPot.get();
         // hatchDistance is our distance along an arc
         double deltaPos = currentVoltage - HatchTask.HatchState.hatchVoltage;
         double deltaTime = System.currentTimeMillis() - HatchTask.HatchState.stateTime;

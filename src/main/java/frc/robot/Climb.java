@@ -12,6 +12,15 @@ public class Climb implements UrsaRobot {
         climbBackMotor = new Spark(CLIMB_BACK);
     }
 
+    public void climbInit() {
+        Thread t = new Thread("Climber Thread");
+        t.start();
+    }
+
+    public void run() {
+        
+    }
+
     public void setFrontMotor(double power) {
         climbFrontMotor.set(power);
     }
@@ -24,6 +33,5 @@ public class Climb implements UrsaRobot {
         climbFrontMotor.set(0.0);
         climbBackMotor.set(0.0);
     }
-
 
 }

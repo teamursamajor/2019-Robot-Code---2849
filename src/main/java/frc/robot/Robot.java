@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Spark;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Constants constants;
   private ColorSensor colorSensor;
 
-  private boolean climbPressed;
+  private long startTime;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotInit() {
+    currentTime = System.currentTimeMillis();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
@@ -61,8 +63,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants.startConstants();
 
     colorSensor = new ColorSensor();
-
-    
 
     // Vision.visionInit();
 
@@ -97,7 +97,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // autoSelected = SmartDashboard.getString("Auto Selector",
     // defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
-
   }
 
   /**
@@ -125,12 +124,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopInit() {
   }
 
+  private boolean climbPressed;
+
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    // TODO Should this be here or in a climber thread?
     climbPressed = false;
     if (xbox.getPOV() == XboxController.POV_UP) {
       climb.setFrontMotor(Constants.climbPower);
@@ -142,12 +142,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
       System.out.println("climb down working");
       climbPressed = true;
     }
-    if (xbox.getPOV() == XboxController.POV_LEFT) {
+    // if (xbox.getPOV() == XboxController.POV_LEFT) {
+      if(xbox.getButton(XboxController.BUTTON_A)){
       climb.setBackMotor(Constants.climbPower);
       System.out.println("climb left working");
       climbPressed = true;
     }
-    if (xbox.getPOV() == XboxController.POV_RIGHT) {
+    // if (xbox.getPOV() == XboxController.POV_RIGHT) {
+      if(xbox.getButton(XboxController.BUTTON_B)){
       climb.setBackMotor(-Constants.climbPower);
       System.out.println("climb right working");
       climbPressed = true;
@@ -155,23 +157,25 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (!climbPressed) {
       climb.stopMotors();
     }
-    if (xbox.getButton(XboxController.AXIS_LEFTTRIGGER)) {
-      System.out.println("Left Trigger Press");
-    }
-    if (xbox.getButton(XboxController.AXIS_RIGHTTRIGGER)) {
-      System.out.println("Right Trigger Pressed");
-    }
+    // if (xbox.getButton(XboxController.AXIS_LEFTTRIGGER)) {
+    //   System.out.println("Left Trigger Press");
+    // }
+    // if (xbox.getButton(XboxController.AXIS_RIGHTTRIGGER)) {
+    //   System.out.println("Right Trigger Pressed");
+    // }
   }
 
   private double currentTime;
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-    if ((System.currentTimeMillis() - currentTime)%50 == 0) {
-      System.out.println("Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + " Blue: " + colorSensor.getBlue());
-      currentTime = System.currentTimeMillis();
+    colorSensor.readColors();
+    if ((System.currentTimeMillis() - startTime) % 50 == 0) {
+      System.out.println(
+          "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + " Blue: " + colorSensor.getBlue());
     }
   }
 

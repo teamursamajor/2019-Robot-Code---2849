@@ -1,9 +1,17 @@
-Test arm potentiometer, find experimental values
-Repeat for susan, cargo, and lower climb
-Write color sensor code
-Mounting of potentiometers, color sensors, limelight, camera, encoders
-Test vision code 
+Test all 4 potentiometers
+Find voltage values for positions
+Make subsystems automatically move when pressing a button on the xbox controller
+Fix color sensor code
+Mounting of color sensors, limelight, camera, drive encoders
+	Color sensor: shouldnt take long but we have to write proper code for it first
+	Limelight: its so screwed man, hopefully it works at that weird angle
+	Camera: clamped on top of the eboard
+	Drive Encoders: Ordered the sleeves and black pieces
+Test vision code
 Display raw limelight image on dashboard
+Write auto code using scripting language and path
+
+Move climber code to a thread?
 
 Auto mode selector from smartdashboard
 
