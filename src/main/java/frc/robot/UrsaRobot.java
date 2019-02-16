@@ -14,14 +14,14 @@ public interface UrsaRobot {
 	public static final int DRIVE_RIGHT = 9;
 
 	public static final int CARGO = 2;
-	public static final int CARGO_LIFT = 8;
+	public static final int CARGO_LIFT = 6;
 
 	public static final int HATCH = 4;
 
 	public static final int CLIMB_FRONT = 1;
 	public static final int CLIMB_BACK = 7;
 	
-	public static final int LAZY_SUSAN = 6;
+	public static final int LAZY_SUSAN = 8;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
@@ -61,6 +61,10 @@ public interface UrsaRobot {
 
 	// Hatch angles
 	public static final double startVoltage = 0, bottomVoltage = 0, topVoltage = 0;
+
+	//Cargo Angles
+	public static final double cargoBottomVoltage = 0, cargoTopVoltage = 0;
+	public static final double cargoBayVoltage = 0, lowRocketVoltage = 0, middleRocketVoltage = 0;
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second

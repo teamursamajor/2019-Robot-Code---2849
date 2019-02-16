@@ -3,38 +3,43 @@ import frc.robot.*;
 
 public class CargoTask extends Task implements UrsaRobot{
 	public enum CargoMode {
-        DEPLOY, PICKUP, DROPOFF;
+        LOWROCKET, MIDDLEROCKET, CARGOBAY, PICKUP, TOP, CUSTOM;
 
         public CargoOrder callLoop() {
             switch (this) {
                 // TODO change these to their actual distance
-            case DEPLOY:
-                return moveToDistance(0.0);
+            case TOP:
+                return moveToAngle(UrsaRobot.cargoTopVoltage);
             case PICKUP:
-                return moveToDistance(0.0);
-            case DROPOFF:
-                return moveToDistance(0.0);
+                return moveToAngle(UrsaRobot.cargoBottomVoltage);
+            case LOWROCKET:
+                return moveToAngle(UrsaRobot.lowRocketVoltage);
+            case MIDDLEROCKET:
+                return moveToAngle(UrsaRobot.middleRocketVoltage);
+            case CARGOBAY:
+                return moveToAngle(UrsaRobot.cargoBayVoltage);
+            case CUSTOM:
+                return moveToAngle(0);
             }
             running = false;
             return new CargoOrder(0.0);  
         }
 
         //TODO change from distance to voltage
-       private CargoOrder moveToDistance(double distance) {
+       private CargoOrder moveToAngle(double desiredVoltage) {
 
-            double distanceTolerance = 0.0;
-            if(Math.abs(CargoState.position - distance) < distanceTolerance) {
+            double voltageTolerance = 0.0; //TODO FInd
+            if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;
-                return new CargoOrder(0.0);
+                return new CargoOrder(CargoState.cargoPower);//potieometer value
             }
             
             //TODO Add derivative term to PD loop
             double kpCargo = 1.0 / 40.0;
             double kdCargo = 0;
-
 			double cargoMinimumPower = 0.2; //TODO Optimize
 			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-			double cargoPower = kpCargo * (distance - CargoState.position) + kdCargo * CargoState.velocity;
+			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage) + kdCargo * CargoState.cargoVelocity;
 
             if(cargoPower == 0){
                 running = false;
@@ -50,23 +55,23 @@ public class CargoTask extends Task implements UrsaRobot{
     }
 
     public static class CargoState {
-        public static double position = 0.0;
-        public static double velocity = 0.0;
+        public static double cargoVelocity = 0.0, cargoVoltage = 0.0, cargoPower = 0.0;
         public static long stateTime = System.currentTimeMillis();
-
-        public static void updateState(double velocity, double position) {
-            CargoState.velocity = velocity;
-            CargoState.position = position;
+        
+        public static void updateState(double cargoPower, double cargoVelocity, double cargoVoltage) {
+            CargoState.cargoPower = cargoPower;
+            CargoState.cargoVelocity = cargoVelocity;
+            CargoState.cargoVoltage = cargoVoltage;
             stateTime = System.currentTimeMillis();
         }
         
     }
 
     public static class CargoOrder {
-        public double cargoPower = 0.0;
+        public double cargoPower;
 
         public CargoOrder(double power) {
-            cargoPower = power;
+            this.cargoPower = power;
         }
 
     }
@@ -93,5 +98,22 @@ public class CargoTask extends Task implements UrsaRobot{
                 e.printStackTrace();
             }
         }
-	}
+    }
+    
+
+    /**
+     * 
+     * //get current voltage method
+     * 
+     * stayAtAngle(voltage){
+     * 
+     * 
+     * 
+     * }
+     * 
+     * 
+     * stayAtAngle(currentAngle);
+     * 
+     * 
+     */
 }
