@@ -12,7 +12,7 @@ public class DriveTask extends Task implements UrsaRobot {
      * represent Autonomous and Teleop
      */
     public enum DriveMode {
-        AUTO, ALIGN, DRIVE_STICKS, TURN;
+        AUTO, ALIGN, DRIVE_STICKS, TURN, PATH;
 
         /**
          * This method takes the current drive state and iterates the control loop then
@@ -32,6 +32,8 @@ public class DriveTask extends Task implements UrsaRobot {
                 return sticksBox();
             case TURN:
                 return turnTo();
+            case PATH:
+                // return pathIterate(pathReader);
             }
             return new DriveOrder(0.0, 0.0);
         }
@@ -198,7 +200,12 @@ public class DriveTask extends Task implements UrsaRobot {
             return new DriveOrder(1 * (Math.signum(newAngle) * outputPower),
 					-1 * (Math.signum(newAngle)) * outputPower);
         }
+
+        private DriveOrder pathIterate(String pathName) {
+            return null;
+        }
     }
+    
 
     /**
      * This holds information about the current state of the robot. It holds values
@@ -257,6 +264,7 @@ public class DriveTask extends Task implements UrsaRobot {
 
     private static double desiredAngle = 0.0;
     private static int matchPairs = 0;
+    // private static PathReader;
 
     /**
      * Used for turning or aligning
@@ -284,9 +292,24 @@ public class DriveTask extends Task implements UrsaRobot {
         default:
             System.out.println("This constructor is being used incorrectly to drive the robot. It should be used only for turning or aligning.");
             break;
-            
         }
     }
+
+    //TODO this when it's ready
+
+    /**
+     * Used for following paths
+     * 
+     * @param pathName  The name of the path file to follow
+     * @param drive     Instance of the drive object
+     */
+    // public DriveTask(PathReader pathReader, Drive drive) {
+    //     this.pathReader = pathReader;
+    //     driving = true;
+    //     drive.setMode(DriveMode.PATH);
+    //     Thread pathThread = new Thread("PathTask");
+    //     pathThread.start();
+    // }
 
     public void run() {
         while (driving) {
