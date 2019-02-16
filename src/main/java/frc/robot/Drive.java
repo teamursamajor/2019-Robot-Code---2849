@@ -28,8 +28,10 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		mLeft = new Spark(DRIVE_LEFT);
 		mRight = new Spark(DRIVE_RIGHT);
-		mRearLeft = new Spark(DRIVE_REAR_LEFT);
-		mRearRight = new Spark(DRIVE_REAR_RIGHT);
+		mRearLeft = mLeft;
+		mRearRight = mRight;
+		// mRearLeft = new Spark(DRIVE_LEFT);
+		// mRearRight = new Spark(DRIVE_RIGHT);
 
 		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);
