@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.I2C;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -62,7 +64,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants = new Constants();
     constants.startConstants();
 
-    colorSensor = new ColorSensor();
+
+    //colorSensor = new ColorSensor(new I2C(I2C.Port.kMXP, 0x39));
+//    colorSensor.init();
+
 
     // Vision.visionInit();
 
@@ -79,8 +84,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    * and SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {
-  }
+  public void robotPeriodic() {}
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -143,17 +147,17 @@ public class Robot extends TimedRobot implements UrsaRobot {
       climbPressed = true;
     }
     // if (xbox.getPOV() == XboxController.POV_LEFT) {
-      if(xbox.getButton(XboxController.BUTTON_A)){
-      climb.setBackMotor(Constants.climbPower);
-      System.out.println("climb left working");
-      climbPressed = true;
-    }
+      //if(xbox.getButton(XboxController.BUTTON_A)){
+      //climb.setBackMotor(Constants.climbPower);
+      //System.out.println("climb left working");
+      //climbPressed = true;
+    //}
     // if (xbox.getPOV() == XboxController.POV_RIGHT) {
-      if(xbox.getButton(XboxController.BUTTON_B)){
-      climb.setBackMotor(-Constants.climbPower);
-      System.out.println("climb right working");
-      climbPressed = true;
-    }
+      //if(xbox.getButton(XboxController.BUTTON_B)){
+      //climb.setBackMotor(-Constants.climbPower);
+      //System.out.println("climb right working");
+      //climbPressed = true;
+    //}
     if (!climbPressed) {
       climb.stopMotors();
     }
@@ -163,6 +167,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // if (xbox.getButton(XboxController.AXIS_RIGHTTRIGGER)) {
     //   System.out.println("Right Trigger Pressed");
     // }
+    // colorSensor.readColors();
+    // System.out.println(colorSensor.getRed() + "," + colorSensor.getGreen() + "," + colorSensor.getBlue() + "FROM COLOR SENSOR");
   }
 
   private double currentTime;
@@ -170,13 +176,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
   /**
    * This function is called periodically during test mode.
    */
-  @Override
-  public void testPeriodic() {
-    colorSensor.readColors();
-    if ((System.currentTimeMillis() - startTime) % 50 == 0) {
-      System.out.println(
-          "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + " Blue: " + colorSensor.getBlue());
-    }
-  }
+  // @Override
+  // public void testPeriodic() {
+  //   colorSensor.readColors();
+  //   if ((System.currentTimeMillis() - startTime) % 50 == 0) {
+  //     System.out.println(
+  //         "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + " Blue: " + colorSensor.getBlue());
+  //   }
+  // }
 
 }

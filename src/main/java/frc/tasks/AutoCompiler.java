@@ -108,16 +108,16 @@ public class AutoCompiler {
 		private CargoMode cargoMode;
 
 		public CargoToken(String state) {
-			state = state.replace(" ", "");
-			if (state.equalsIgnoreCase("DEPLOY")) {
-				cargoMode = CargoMode.DEPLOY;
-			} else if (state.equalsIgnoreCase("PICKUP")) {
-				cargoMode = CargoMode.PICKUP;
-			} else if (state.equalsIgnoreCase("DROPOFF")) {
-				cargoMode = CargoMode.DROPOFF;
-			} else {
-				cargoMode = CargoMode.DEPLOY;
-			}
+			// state = state.replace(" ", "");
+			// if (state.equalsIgnoreCase("DEPLOY")) {
+			// 	cargoMode = CargoMode.DEPLOY;
+			// } else if (state.equalsIgnoreCase("PICKUP")) {
+			// 	cargoMode = CargoMode.PICKUP;
+			// } else if (state.equalsIgnoreCase("DROPOFF")) {
+			// 	cargoMode = CargoMode.DROPOFF;
+			// } else {
+			// 	cargoMode = CargoMode.DEPLOY;
+			// }
 		}
 
 		public CargoTask makeTask() {

@@ -12,8 +12,8 @@ public class ColorSensor {
 
     private static I2C sensor;
 
-    public ColorSensor() {
-        sensor = new I2C(I2C.Port.kOnboard, Constants.ADDR);
+    public ColorSensor(I2C i2cBus) {
+        sensor = i2cBus;
         sensor.write(Constants.ENABLE, Constants.ENABLE_PIEN | Constants.ENABLE_AIEN | Constants.ENABLE_WEN | Constants.ENABLE_PEN | Constants.ENABLE_AEN | Constants.ENABLE_PON );
         
         sensor_initalized = false;
@@ -39,12 +39,12 @@ public class ColorSensor {
 
         // Check we're actually connected to the sensor
         sensor.read(Constants.ID, 1, whoamiResponse);
-        if ((whoamiResponse[0] != 0x60) && (whoamiResponse[0] != 0x69)) { // Device ID for the TMD37821 Color Sensor part (what we have) should be 0x60
+        // if ((whoamiResponse[0] != 0x39)) { // Device ID for the TMD37821 Color Sensor part (what we have) should be 0x39
             System.out.println(whoamiResponse[0]);
             
-            System.out.println("\nError - whoami Constants mismatch on Color Sensor! Cannot initalize!");
-            return false;
-        }
+        //     System.out.println("\nError - whoami Constants mismatch on Color Sensor! Cannot initalize!" + whoamiResponse );
+        //     return false;
+        // }
 
         // Set the integration time
         sensor.write(Constants.ATIME, Constants.INTEGRATIONTIME_2_4MS);
@@ -223,5 +223,6 @@ public class ColorSensor {
 	    private static final int GAIN_16X = 0x02; // 16x gain
 	    private static final int GAIN_60X = 0x03; // 60x gain
     }
+
 
 }
