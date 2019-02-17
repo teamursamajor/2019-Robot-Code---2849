@@ -11,18 +11,19 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public interface UrsaRobot {
 	//TODO Finalize Ports
 	// Spark Ports
+	//5 and 8 unused, 3 and 4 are temporary
 	public static final int DRIVE_LEFT = 0;
 	public static final int DRIVE_RIGHT = 9;
 
-	public static final int CARGO = 2;
+	public static final int CARGO_INTAKE = 2;
 	public static final int CARGO_LIFT = 6;
 
-	public static final int HATCH = 4;
+	public static final int HATCH = 7;
 
 	public static final int CLIMB_FRONT = 1;
-	public static final int CLIMB_BACK = 8;
+	public static final int CLIMB_BACK = 3;
 	
-	public static final int LAZY_SUSAN = 7;
+	public static final int LAZY_SUSAN = 4;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;

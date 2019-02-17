@@ -41,15 +41,15 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         // hatchMotor.set(hatchOrder.hatchPower);
 
         // TODO test code, delete
-        // if (xbox.getButton(XboxController.BUTTON_B)) { // Goes up
-        //     hatchMotor.set(0.50);
-        // } else if (xbox.getButton(XboxController.BUTTON_A)) { // Goes down
-        //     hatchMotor.set(-0.40);
-        // } else {
-        //     hatchMotor.set(0.0);
-        // }
-        // if((System.currentTimeMillis() - time) % 50 == 0)
-        //     System.out.println("Pot Voltage: " + hatchPot.get());
+        if (xbox.getButton(XboxController.BUTTON_B)) { // Goes up
+            hatchMotor.set(0.50);
+        } else if (xbox.getButton(XboxController.BUTTON_A)) { // Goes down
+            hatchMotor.set(-0.40);
+        } else {
+            hatchMotor.set(0.0);
+        }
+        if((System.currentTimeMillis() - time) % 50 == 0){}
+           // System.out.println("Pot Voltage: " + hatchPot.get());
         
     }
 

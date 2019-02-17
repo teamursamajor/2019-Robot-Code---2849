@@ -1,4 +1,4 @@
-Test all 4 potentiometers
+Test all potentiometers
 Find voltage values for positions
 Make subsystems automatically move when pressing a button on the xbox controller
 Fix color sensor code

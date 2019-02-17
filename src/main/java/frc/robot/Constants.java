@@ -9,7 +9,8 @@ public class Constants implements Runnable {
     private static Object lock = new Object();
 
     public static double hatchPower;
-    public static double cargoPower;
+    public static double cargoPowerUp;
+    public static double cargoPowerDown;
     public static double cargoIntakePower;
     public static double cargoOuttakePower;
     public static double climbPower;
@@ -19,11 +20,12 @@ public class Constants implements Runnable {
     public Constants() {
         hatchPower = 0.5;
         SmartDashboard.putNumber("Hatch Power", 0.5);
-        cargoPower = 0.35;
+        cargoPowerUp = 1.0;
+        cargoPowerDown = -0.10;
         SmartDashboard.putNumber("Cargo Power", 0.35);
         cargoIntakePower = 0.5;
         SmartDashboard.putNumber("Cargo Intake Power", 0.5);
-        cargoOuttakePower = 1;
+        cargoOuttakePower = .8;
         SmartDashboard.putNumber("Cargo Outtake Power", 1);
         climbPower = 0.75;
         SmartDashboard.putNumber("Climb Power", 1);
@@ -49,7 +51,8 @@ public class Constants implements Runnable {
             climbPower = SmartDashboard.getNumber("Climb Power", 0.0);
             cargoIntakePower = SmartDashboard.getNumber("Cargo Intake Power", 0.0);
             susanPower = SmartDashboard.getNumber("Susan Power", 0.0);
-            cargoPower = SmartDashboard.getNumber("Cargo Power", 0.0);
+            //TODO add cargoPowerDown
+            cargoPowerUp = SmartDashboard.getNumber("Cargo Power", 0.0);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
@@ -62,7 +65,7 @@ public class Constants implements Runnable {
     // SmartDashboard.putData()
     public void printTest() {
         System.out.println("SMART DASHBOARD: ");
-        System.out.println("Cargo Power" + cargoPower);
+        System.out.println("Cargo Power" + cargoPowerUp);
         System.out.println("Cargo Intake Power" + cargoIntakePower);
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
         System.out.println("Hatch Power" + hatchPower);
