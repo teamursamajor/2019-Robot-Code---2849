@@ -65,7 +65,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants.startConstants();
 
 
-    //colorSensor = new ColorSensor(new I2C(I2C.Port.kMXP, 0x39));
+    colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 //    colorSensor.init();
 
 
@@ -146,18 +146,18 @@ public class Robot extends TimedRobot implements UrsaRobot {
       System.out.println("climb down working");
       climbPressed = true;
     }
-    // if (xbox.getPOV() == XboxController.POV_LEFT) {
+    if (xbox.getPOV() == XboxController.POV_LEFT) {
       //if(xbox.getButton(XboxController.BUTTON_A)){
-      //climb.setBackMotor(Constants.climbPower);
-      //System.out.println("climb left working");
-      //climbPressed = true;
-    //}
-    // if (xbox.getPOV() == XboxController.POV_RIGHT) {
+      climb.setBackMotor(Constants.climbPower);
+      System.out.println("climb left working");
+      climbPressed = true;
+    }
+    if (xbox.getPOV() == XboxController.POV_RIGHT) {
       //if(xbox.getButton(XboxController.BUTTON_B)){
-      //climb.setBackMotor(-Constants.climbPower);
-      //System.out.println("climb right working");
-      //climbPressed = true;
-    //}
+      climb.setBackMotor(-Constants.climbPower);
+      System.out.println("climb right working");
+      climbPressed = true;
+    }
     if (!climbPressed) {
       climb.stopMotors();
     }
@@ -167,8 +167,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // if (xbox.getButton(XboxController.AXIS_RIGHTTRIGGER)) {
     //   System.out.println("Right Trigger Pressed");
     // }
-    // colorSensor.readColors();
-    // System.out.println(colorSensor.getRed() + "," + colorSensor.getGreen() + "," + colorSensor.getBlue() + "FROM COLOR SENSOR");
+    colorSensor.readColors();
+    System.out.println(colorSensor.getRed() + "," + colorSensor.getGreen() + "," + colorSensor.getBlue() + " FROM COLOR SENSOR");
   }
 
   private double currentTime;

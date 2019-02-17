@@ -23,7 +23,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     public void runSubsystem() {
         // TODO Fix
         updateStateInfo();
-        // CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
+        CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
 
         // TODO Test Code
         if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
@@ -38,9 +38,10 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             cargo.set(-Constants.cargoPower);
         } else if (xbox.getButton(XboxController.BUTTON_START)) {
             cargo.set(Constants.cargoPower);
-        } else {
-            cargo.set(CargoState.cargoPower);
-        }
+        } else if (xbox.getButton(XboxController.BUTTON_Y)) {
+            cargo.set(0);
+        } else 
+            cargo.set(0);
         if((System.currentTimeMillis() - time) % 50 == 0)
             System.out.println("Pot Voltage: " + cargoPot.get());
         

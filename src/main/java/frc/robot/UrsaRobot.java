@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public interface UrsaRobot {
+	//TODO Finalize Ports
 	// Spark Ports
 	public static final int DRIVE_LEFT = 0;
 	public static final int DRIVE_RIGHT = 9;
@@ -19,9 +20,9 @@ public interface UrsaRobot {
 	public static final int HATCH = 4;
 
 	public static final int CLIMB_FRONT = 1;
-	public static final int CLIMB_BACK = 7;
+	public static final int CLIMB_BACK = 8;
 	
-	public static final int LAZY_SUSAN = 8;
+	public static final int LAZY_SUSAN = 7;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
@@ -80,8 +81,8 @@ public interface UrsaRobot {
 	XboxController xbox = new XboxController(0);
 
 	/**
-	 * 2/5/19 - This enum has been redeclared sacred and shall not be deleted, no matter 
-	 * what Evan may say. - Isaac
+	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted, no matter 
+	 * what Evan may say. - Isåàç
 	 */
 	public enum SickoMode {
 		SICKO, BAMBA, SHECK, TRAVIS
