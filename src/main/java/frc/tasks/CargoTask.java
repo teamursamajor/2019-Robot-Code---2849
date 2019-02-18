@@ -116,4 +116,22 @@ public class CargoTask extends Task implements UrsaRobot{
      * 
      * 
      */
+//HOPEFULLY WORKING HATCH PSUEDO CO
+    // public static void stayAtCurrentAngle(double theValueOfThePotWhenYouStopPressingTheButton){
+    //     double desiredAngle = theValueOfThePotWhenYouStopPressingTheButton;
+    //     double angleError = .01;
+    //     //untile the select/start buttons are pressed adjust the
+    //     while (!START_BUTTON_PRESSED_DOWN || !SELECT_BUTTON_PRESSED_DOWN){
+    //         double currentAngle = GET_POT_VALUE;
+    //         if (CURRENT_ANGLE - angleError > desiredAngle ){
+    //             setMotorPower to currentMotorPower--;
+    //         } else if (CURRENT_ANGLE + angleError < desiredAngle){
+    //             setMotorPower to currentMotorPower++;
+    //         }
+    //     }
+
+    // }
+
+
+
 }

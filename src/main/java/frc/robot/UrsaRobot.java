@@ -24,6 +24,10 @@ public interface UrsaRobot {
 	
 	public static final int LAZY_SUSAN = 7;
 
+	//temporary spark piston
+	public static final int EXTEND = 11;
+	public static final int TURNTABLE = 12;
+
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
 

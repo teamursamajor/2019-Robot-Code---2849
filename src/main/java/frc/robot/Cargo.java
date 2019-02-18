@@ -12,6 +12,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     private Spark cargo;
     private Potentiometer cargoPot;
     private long time;
+    //private cargoArmMotorPower;
 
     public Cargo() {
         cargo = new Spark(CARGO_LIFT);
@@ -36,8 +37,10 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
         if (xbox.getButton(XboxController.BUTTON_BACK)) {
             cargo.set(-Constants.cargoPower);
+            //stayAtCurrentAngle(potVal);
         } else if (xbox.getButton(XboxController.BUTTON_START)) {
             cargo.set(Constants.cargoPower);
+            //stayAtCurrentAngle(potVal);
         } else if (xbox.getButton(XboxController.BUTTON_Y)) {
             cargo.set(0);
         } else 
