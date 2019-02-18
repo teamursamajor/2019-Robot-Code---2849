@@ -73,17 +73,14 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     public void updateStateInfo() {
         double currentVoltage = cargoPot.get();
-
         double deltaVolt = currentVoltage - CargoTask.CargoState.cargoVoltage;
         double deltaTime = System.currentTimeMillis() - CargoTask.CargoState.stateTime;
 
         double velocity = (deltaVolt / deltaTime);
 
-        double power = cargoLift.get();
         if (Math.abs(deltaVolt) <= 5 || deltaTime <= 5)
             return;
-
-        CargoTask.CargoState.updateState(power, velocity, currentVoltage);
+        CargoTask.CargoState.updateState(velocity, currentVoltage);
     }
 
     public double getCargoVoltage() {

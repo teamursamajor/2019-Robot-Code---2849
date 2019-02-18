@@ -65,11 +65,10 @@ public class CargoTask extends Task implements UrsaRobot{
     }
 
     public static class CargoState {
-        public static double cargoVelocity = 0.0, cargoVoltage = 0.0, cargoPower = 0.0;
+        public static double cargoVelocity = 0.0, cargoVoltage = 0.0;
         public static long stateTime = System.currentTimeMillis();
         
-        public static void updateState(double cargoPower, double cargoVelocity, double cargoVoltage) {
-            CargoState.cargoPower = cargoPower;
+        public static void updateState( double cargoVelocity, double cargoVoltage) {
             CargoState.cargoVelocity = cargoVelocity;
             CargoState.cargoVoltage = cargoVoltage;
             stateTime = System.currentTimeMillis();

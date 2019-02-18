@@ -9,8 +9,7 @@ public class LazySusan extends Subsystem<SusanTask.SusanMode> implements UrsaRob
 
     private Spark susanMotor;
 
-    // TODO how do you use a potentiometer?
-    private AnalogInput susanPot; // lazy susan potentiometer
+    private AnalogInput susanPot;
 
     public LazySusan() {
         susanMotor = new Spark(LAZY_SUSAN);

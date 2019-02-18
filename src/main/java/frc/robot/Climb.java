@@ -4,16 +4,15 @@ import edu.wpi.first.wpilibj.Spark;
 
 public class Climb implements UrsaRobot {
 
-
     private Spark climbFrontMotor;
     private Spark climbBackMotor;
-    private boolean ClimbStop;
-    private boolean ClimbIsRunning;
-    // Climb time is in milliseconds. 
-    private static final int FrontClimbTimeInit = 1000;
-    private static final int FrontClimbTimeEnd = 1000;
-    private static final int BackClimbTime = 1500;
+    private boolean climbStop;
+    private boolean climbIsRunning;
 
+    // in ms
+    private static final int frontClimbTimeInit = 1000;
+    private static final int frontClimbTimeEnd = 1000;
+    private static final int backClimbTime = 1500;
 
     public Climb() {
         climbFrontMotor = new Spark(CLIMB_FRONT);
@@ -21,88 +20,71 @@ public class Climb implements UrsaRobot {
     }
 
     public void climbInit() {
-        ClimbStop = false;
-        ClimbIsRunning = true;
-        Thread t = new Thread(new Runnable(){
-
+        climbStop = false;
+        climbIsRunning = true;
+        Thread t = new Thread(new Runnable() {
             public void run() {
                 climb();
             }
-            
-        });    
+        });
+
         t.start();
     }
 
-    private void climb() 
-    {
-        //start the front motor
+    private void climb() {
+        // start the front motor
         long start = System.currentTimeMillis();
         climbFrontMotor.set(Constants.climbPower);
-        while(!ClimbStop && (System.currentTimeMillis() - start) < FrontClimbTimeInit)
-        {
-            try
-            {
+        while (!climbStop && (System.currentTimeMillis() - start) < frontClimbTimeInit) {
+            try {
                 Thread.sleep(10);
-            }
-            catch(Exception ex)
-            {
-            
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
-        if(ClimbStop)
-        {
+        if (climbStop) {
             stopMotors();
             return;
         }
 
-        //front is moving, now start the back
+        // front is moving, now start the back
         climbBackMotor.set(Constants.climbPower);
-        while(!ClimbStop && (System.currentTimeMillis() - start) < FrontClimbTimeEnd)
-        {
-            try
-            {
+        while (!climbStop && (System.currentTimeMillis() - start) < frontClimbTimeEnd) {
+            try {
                 Thread.sleep(10);
-            }
-            catch(Exception ex)
-            {
-            
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
-        if(ClimbStop)
-        {
+        if (climbStop) {
             stopMotors();
             return;
         }
 
-        //stop the front
+        // stop the front
         climbFrontMotor.set(0);
-        //but keep the back going
-        while(!ClimbStop && (System.currentTimeMillis() - start) < BackClimbTime)
-        {
-            try
-            {
+
+        // but keep the back going
+        while (!climbStop && (System.currentTimeMillis() - start) < backClimbTime) {
+            try {
                 Thread.sleep(10);
-            }
-            catch(Exception ex)
-            {
-            
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
         stopMotors();
-        ClimbIsRunning = false;
+        climbIsRunning = false;
     }
 
-    public void cancelClimb()
-    {
-        ClimbStop = true;
+    public void cancelClimb() {
+        climbStop = true;
     }
 
-    public boolean isClimbing()
-    {
-        return ClimbIsRunning;
+    public boolean isClimbing() {
+        return climbIsRunning;
     }
 
     public void setFrontMotor(double power) {
@@ -117,5 +99,4 @@ public class Climb implements UrsaRobot {
         climbFrontMotor.set(0.0);
         climbBackMotor.set(0.0);
     }
-
 }

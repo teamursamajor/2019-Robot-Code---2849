@@ -64,7 +64,6 @@ public interface UrsaRobot {
 	public static final double cargoRadius = 5; //TODO Measure cargo arm
 
 	// Hatch angles
-	public static final double startVoltage = 0, bottomVoltage = 0, topVoltage = 0;
 
 	//Cargo Angles
 	public static final double cargoGroundVoltage = 130, cargoBayVoltage = 255;

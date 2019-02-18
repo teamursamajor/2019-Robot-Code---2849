@@ -1,4 +1,4 @@
-Monday To Do List:
+Fix hatch autocompiler
 Test new velocity
 Tune derivative constant of PID loop
 Raise the ground voltage level
@@ -10,8 +10,6 @@ Make sure we've ordered like a bajillion of the black mount pieces and the white
 Light Sensor: Wire the second one and mount them both on the corners of the robot on the hatch side
 Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
 Add another auto align mode which uses drives until the light sensor gets a hit
-
-Make a climber thread and just move everything there. It's just cluttering up Robot tbh
 
 Make sure our code still works for whatever design build team is now using for the hatch/climber
 
