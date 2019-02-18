@@ -174,26 +174,26 @@ public class Robot extends TimedRobot implements UrsaRobot {
     }
     boolean climbPressed = false;
     // POV Up is start all climbing
-    // if (xbox.getPOV() == XboxController.POV_UP && !climb.isClimbing()) {
-    //   climb.climbInit();
-    // }
-    // // POV Down is cancel climb
-    // else if (xbox.getPOV() == XboxController.POV_DOWN) {
-    //   climb.cancelClimb();
-    // }
-    // // POV Left is to retract the front motor
-    // if (xbox.getPOV() == XboxController.POV_LEFT && !climb.isClimbing()) {
-    //   climb.setFrontMotor(Constants.climbPower);
-    //   climbPressed = true;
-    // }
-    // // POV Right is to retract the back motor / cam
-    // if (xbox.getPOV() == XboxController.POV_RIGHT && !climb.isClimbing()) {
-    //   climb.setBackMotor(-Constants.climbPower);
-    //   climbPressed = true;
-    // }
-    // if (!climbPressed && !climb.isClimbing()) {
-    //   climb.stopMotors();
-    // }
+    if (xbox.getPOV() == XboxController.POV_UP && !climb.isClimbing()) {
+      climb.climbInit();
+    }
+    // POV Down is cancel climb
+    else if (xbox.getPOV() == XboxController.POV_DOWN) {
+      climb.cancelClimb();
+    }
+    // POV Left is to retract the front motor
+    if (xbox.getPOV() == XboxController.POV_LEFT && !climb.isClimbing()) {
+      climb.setFrontMotor(Constants.climbPower);
+      climbPressed = true;
+    }
+    // POV Right is to retract the back motor / cam
+    if (xbox.getPOV() == XboxController.POV_RIGHT && !climb.isClimbing()) {
+      climb.setBackMotor(-Constants.climbPower);
+      climbPressed = true;
+    }
+    if (!climbPressed && !climb.isClimbing()) {
+      climb.stopMotors();
+    }
 
   }
 
