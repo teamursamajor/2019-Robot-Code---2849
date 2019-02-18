@@ -30,7 +30,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         if(cargoPot.get() <= 130){
             cargoLift.set(-0.15);
         } else if(cargoPot.get() >= 230){
-            cargoLift.set(-0.15);
+            cargoLift.set(-0.15); //TODO maybe test this being positive?
         }
 
         // TODO Test Code
