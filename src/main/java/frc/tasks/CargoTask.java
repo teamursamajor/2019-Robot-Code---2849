@@ -3,35 +3,42 @@ import frc.robot.*;
 
 public class CargoTask extends Task implements UrsaRobot{
 	public enum CargoMode {
-        LOWROCKET, MIDDLEROCKET, CARGOBAY, PICKUP, TOP, CUSTOM;
+        GROUND, LOWROCKET, CARGOBAY, MIDDLEROCKET, START;
+
+        public CargoMode getNext(){
+            return this.ordinal() < CargoMode.values().length - 1
+                ? CargoMode.values()[this.ordinal() + 1]
+                : START;
+        }
+
+        public CargoMode getPrevious(){
+            return this.ordinal() > 0
+                ? CargoMode.values()[this.ordinal() - 1]
+                : GROUND;
+        }
 
         public CargoOrder callLoop() {
             switch (this) {
-                // TODO change these to their actual distance
-            case TOP:
-                return moveToAngle(UrsaRobot.cargoTopVoltage);
-            case PICKUP:
-                return moveToAngle(UrsaRobot.cargoBottomVoltage);
+            case START:
+                return moveToAngle(UrsaRobot.cargoStartVoltage);
+            case GROUND:
+                return moveToAngle(UrsaRobot.cargoGroundVoltage);
             case LOWROCKET:
                 return moveToAngle(UrsaRobot.lowRocketVoltage);
             case MIDDLEROCKET:
                 return moveToAngle(UrsaRobot.middleRocketVoltage);
             case CARGOBAY:
                 return moveToAngle(UrsaRobot.cargoBayVoltage);
-            case CUSTOM:
-                return moveToAngle(0);
             }
             running = false;
             return new CargoOrder(0.0);  
         }
 
-        //TODO change from distance to voltage
        private CargoOrder moveToAngle(double desiredVoltage) {
-
-            double voltageTolerance = 0.0; //TODO FInd
+            double voltageTolerance = 5.0;
             if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;
-                return new CargoOrder(CargoState.cargoPower);//potieometer value
+                return new CargoOrder(Cargo.getHoldPower());
             }
             
             //TODO Add derivative term to PD loop
@@ -41,14 +48,15 @@ public class CargoTask extends Task implements UrsaRobot{
 			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
 			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage) + kdCargo * CargoState.cargoVelocity;
 
-            if(cargoPower == 0){
-                running = false;
-                return new CargoOrder(0.0);
-            }
+            // //TODO was 0 before, test
+            // if(cargoPower <= 0.1){
+            //     running = false;
+            //     return new CargoOrder(Cargo.getHoldPower());
+            // }
 
-			if (Math.abs(cargoPower) < cargoMinimumPower) {
-				cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
-			}
+			// if (Math.abs(cargoPower) < cargoMinimumPower) {
+			// 	cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
+			// }
             
 			return new CargoOrder(cargoPower);
        }
@@ -76,11 +84,6 @@ public class CargoTask extends Task implements UrsaRobot{
 
     }
 
-	public String toString() {
-        // return "CargoTask: " + cargo.name() + "\n";
-        return " ";
-	}
-
     private static boolean running = true;
 
     public CargoTask(CargoMode mode, Cargo cargo){
@@ -99,39 +102,4 @@ public class CargoTask extends Task implements UrsaRobot{
             }
         }
     }
-    
-
-    /**
-     * 
-     * //get current voltage method
-     * 
-     * stayAtAngle(voltage){
-     * 
-     * 
-     * 
-     * }
-     * 
-     * 
-     * stayAtAngle(currentAngle);
-     * 
-     * 
-     */
-//HOPEFULLY WORKING HATCH PSUEDO CO
-    // public static void stayAtCurrentAngle(double theValueOfThePotWhenYouStopPressingTheButton){
-    //     double desiredAngle = theValueOfThePotWhenYouStopPressingTheButton;
-    //     double angleError = .01;
-    //     //untile the select/start buttons are pressed adjust the
-    //     while (!START_BUTTON_PRESSED_DOWN || !SELECT_BUTTON_PRESSED_DOWN){
-    //         double currentAngle = GET_POT_VALUE;
-    //         if (CURRENT_ANGLE - angleError > desiredAngle ){
-    //             setMotorPower to currentMotorPower--;
-    //         } else if (CURRENT_ANGLE + angleError < desiredAngle){
-    //             setMotorPower to currentMotorPower++;
-    //         }
-    //     }
-
-    // }
-
-
-
 }

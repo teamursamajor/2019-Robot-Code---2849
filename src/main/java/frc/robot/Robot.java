@@ -115,8 +115,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     System.out.println("Auto selected: " + m_autoSelected);
   }
 
-private boolean hitTape = false;
-private  double speed = 0.45;
+  private boolean hitTape = false;
+  private double speed = 0.45;
 
   /**
    * This function is called periodically during autonomous.
@@ -127,7 +127,8 @@ private  double speed = 0.45;
     if (colorSensor.getRed() >= 200) {
       speed = 0.0;
       // System.out.println(
-      //     "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + " Blue: " + colorSensor.getBlue());
+      // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
+      // Blue: " + colorSensor.getBlue());
     }
 
     // switch (m_autoSelected) {
@@ -195,6 +196,16 @@ private  double speed = 0.45;
     // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
     // Blue: " + colorSensor.getBlue());
     // }
+  }
+
+  @Override
+  public void disabledPeriodic() {
+    if (cargo.getCargoVoltage() > 135) {
+      cargo.setCargoLift(-0.15);
+    }
+    else {
+      cargo.setCargoLift(0.0);
+    }
   }
 
 }

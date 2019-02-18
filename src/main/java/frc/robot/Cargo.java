@@ -4,15 +4,16 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import frc.tasks.*;
+import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.CargoTask.CargoState;
 
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     private Spark cargoIntake;
     private Spark cargoLift;
-    private Potentiometer cargoPot;
+    private static Potentiometer cargoPot;
     private long time;
-    //private cargoArmMotorPower;
+    // private cargoArmMotorPower;
 
     public Cargo() {
         cargoLift = new Spark(CARGO_LIFT);
@@ -22,39 +23,32 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public void runSubsystem() {
-        // TODO Fix
-        // updateStateInfo();
-        // CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
+        updateStateInfo();
 
-        //TODO when it goes too high we dont have enough power to move it down
-
-        if(cargoPot.get() <= 130){
-            cargoLift.set(-0.15);
-        } else if(cargoPot.get() >= 230){
-            cargoLift.set(-0.15); //TODO maybe test this being positive?
+        if (xbox.getButton(XboxController.BUTTON_Y)) {
+            subsystemMode = subsystemMode.getNext();
+        } else if (xbox.getButton(XboxController.BUTTON_X)) {
+            subsystemMode = subsystemMode.getPrevious();
+        } else {
+            cargoLift.set(getHoldPower());   
         }
 
-        // TODO Test Code
+        CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
+
+        cargoLift.set(cargoOrder.cargoPower);
+
+        if (cargoPot.get() <= 130) {
+            cargoLift.set(-0.15);
+        } else if (cargoPot.get() >= 245) {
+            cargoLift.set(0.15);
+        }
+
         if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
             cargoIntake.set(Constants.cargoIntakePower);
         } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
             cargoIntake.set(-Constants.cargoOuttakePower);
         } else {
             cargoIntake.set(0);
-        }
-
-        if (xbox.getButton(XboxController.BUTTON_Y)) {
-            cargoLift.set(-Constants.cargoPowerUp);
-        } else if (xbox.getButton(XboxController.BUTTON_X)) {
-            cargoLift.set(Constants.cargoPowerDown);
-        } else {
-            if (cargoPot.get() <= 130) {
-                cargoLift.set(0.0);
-            } else if (cargoPot.get() > 130 && cargoPot.get() <= 190) {
-                cargoLift.set(-0.25);
-            } else if (cargoPot.get() > 190 && cargoPot.get() <= 251) {
-                cargoLift.set(-0.20);
-            } 
         }
 
         if ((System.currentTimeMillis() - time) % 50 == 0)
@@ -66,14 +60,31 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         double currentVoltage = cargoPot.get();
         // Calculate velocity
         // For underclassmen, delta means "change in"
-        double deltaPos = currentVoltage - CargoTask.CargoState.cargoVoltage; // TODO rename position
+        double deltaVolt = currentVoltage - CargoTask.CargoState.cargoVoltage;
         double deltaTime = System.currentTimeMillis() - CargoTask.CargoState.stateTime;
-        double velocity = (deltaPos / deltaTime);
+        double velocity = (deltaVolt / deltaTime);
         double power = cargoLift.get();
-        if (deltaPos == 0)
+        if (Math.abs(deltaVolt) <= 5)
             return;
 
         CargoTask.CargoState.updateState(power, velocity, currentVoltage);
     }
 
+    public double getCargoVoltage() {
+        return cargoPot.get();
+    }
+
+    public void setCargoLift(double speed) {
+        cargoLift.set(speed);
+    }
+
+    public static double getHoldPower() {
+        if (cargoPot.get() > 130 && cargoPot.get() <= 190) {
+            return -0.25;
+        } else if (cargoPot.get() > 190 && cargoPot.get() <= 251) {
+            return -0.20;
+        } else {
+            return 0.0;
+        }
+    }
 }

@@ -52,14 +52,12 @@ public interface UrsaRobot {
 	// Tells the encoder the value of each tick. Must be set in the corresponding
 	// file with encoder.setDistancePerPulse([Name]_PER_TICK);
 	public static final double INCHES_PER_TICK = 0.011505d;
-	public static final double HATCH_DEGREES_PER_TICK = 0.72434608d;
-	public static final double CARGO_DEGREES_PER_TICK = 0.0; // TODO update with encoder
-
+	
 	public static final double ROBOT_WIDTH_INCHES = 28d;
 	public static final double ROBOT_DEPTH_INCHES = 31.5d;
 
-	public static final double ROBOT_WIDTH_FEET = 32.0 / 12.0;
-	public static final double ROBOT_DEPTH_FEET = 28.0 / 12.0;
+	public static final double ROBOT_WIDTH_FEET = ROBOT_WIDTH_INCHES / 12.0;
+	public static final double ROBOT_DEPTH_FEET = ROBOT_WIDTH_FEET / 12.0;
 
 	//Radius of the robot and cargo
 	public static final double robotRadius = 15; // temporary TODO what do we do here
@@ -69,8 +67,8 @@ public interface UrsaRobot {
 	public static final double startVoltage = 0, bottomVoltage = 0, topVoltage = 0;
 
 	//Cargo Angles
-	public static final double cargoBottomVoltage = 0, cargoTopVoltage = 0;
-	public static final double cargoBayVoltage = 0, lowRocketVoltage = 0, middleRocketVoltage = 0;
+	public static final double cargoStartVoltage = 250, cargoGroundVoltage = 133;
+	public static final double cargoBayVoltage = 240, lowRocketVoltage = 210, middleRocketVoltage = 0;
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second
