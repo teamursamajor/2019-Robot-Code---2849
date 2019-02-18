@@ -1,4 +1,5 @@
 Monday To Do List:
+In disabled periodic, make cargo go down slowly
 Cargo PID loop to automatically move to either Rocket or Bay position
 Using voltage values, prevent the cargo from going too low or too high, so that it never gets stuck.
 Fix the vision camera
