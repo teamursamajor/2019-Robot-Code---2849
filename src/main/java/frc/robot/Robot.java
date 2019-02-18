@@ -10,8 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -79,6 +79,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotPeriodic() {
+
     colorSensor.readColors();
     if ((System.currentTimeMillis() >= currentTime + 500)) {
       // System.out.println(
@@ -87,6 +88,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       currentTime = System.currentTimeMillis();
 
     }
+  
     // try {
     // Thread.sleep(500);
     // } catch (InterruptedException e) {
@@ -168,12 +170,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
       climbPressed = true;
     }
     if (xbox.getPOV() == XboxController.POV_LEFT) {
-      // if(xbox.getButton(XboxController.BUTTON_A)){
       climb.setBackMotor(Constants.climbPower);
       climbPressed = true;
     }
     if (xbox.getPOV() == XboxController.POV_RIGHT) {
-      // if(xbox.getButton(XboxController.BUTTON_B)){
       climb.setBackMotor(-Constants.climbPower);
       climbPressed = true;
     }

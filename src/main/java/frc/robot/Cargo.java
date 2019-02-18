@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import frc.tasks.*;
 import frc.tasks.CargoTask.CargoMode;
-import frc.tasks.CargoTask.CargoState;
 
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
@@ -13,12 +12,12 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     private Spark cargoLift;
     private static Potentiometer cargoPot;
     private long time;
-    // private cargoArmMotorPower;
-
+    
     public Cargo() {
         cargoLift = new Spark(CARGO_LIFT);
         cargoPot = new AnalogPotentiometer(0, 360, 0);
         cargoIntake = new Spark(CARGO_INTAKE);
+        subsystemMode = CargoMode.START;
         time = System.currentTimeMillis();
     }
 

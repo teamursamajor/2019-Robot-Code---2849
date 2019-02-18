@@ -1,7 +1,7 @@
 Monday To Do List:
 Test making cargo fall slowly
-Cargo PID loop to automatically move to either Rocket or Bay position
-Using voltage values, prevent the cargo from going too low or too high, so that it never gets stuck.
+Test Cargo PID loop and tune it
+Test that the cargo doesnt go too low or too high
 Fix the vision camera
 Test and see if the cargo intake needs increased specified
 

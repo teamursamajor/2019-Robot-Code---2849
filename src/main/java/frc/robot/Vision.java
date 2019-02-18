@@ -10,18 +10,20 @@ public class Vision implements Runnable {
 	private static CvSink cvSink;
 	private static CvSource outputStream;
 	private static UsbCamera cargoCam;
-	private static Mat image = new Mat();
+	private static Mat image;
 	private static Thread visionRun = null;
 
 	public Vision() {
 		cargoCam = new UsbCamera("Cargo Camera", 0);
-
+		// cargoCam = CameraServer.getInstance().startAutomaticCapture();
 		CameraServer.getInstance().addCamera(cargoCam);
 
 		cargoCam.setResolution(240, 180);
 
-		cvSink = CameraServer.getInstance().getVideo(cargoCam);
+		cvSink = CameraServer.getInstance().getVideo();
 		outputStream = CameraServer.getInstance().putVideo("Cargo Camera", 240, 180);
+
+		image = new Mat();
 	}
 
 	public static void visionInit() {
