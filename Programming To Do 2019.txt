@@ -1,5 +1,8 @@
 Monday To Do List:
-Fix the velocity calculations
+Test new velocity
+Tune derivative constant of PID loop
+Raise the ground voltage level
+Fix the progression of cargo modes
 
 Drive Encoders:
 Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves

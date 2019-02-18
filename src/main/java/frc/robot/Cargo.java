@@ -17,8 +17,8 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     public Cargo() {
         cargoLift = new Spark(CARGO_LIFT);
-        cargoPot = new AnalogPotentiometer(0, 360, 0);
         cargoIntake = new Spark(CARGO_INTAKE);
+        cargoPot = new AnalogPotentiometer(0, 360, 0);
         // subsystemMode = CargoMode.START;
         subsystemMode = CargoMode.GROUND; // temporary
         time = System.currentTimeMillis();
@@ -34,6 +34,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             } else {
                 cargoLift.set(getHoldPower());
             }
+
             CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
 
             if (subsystemMode.equals(CargoMode.GROUND)) {
@@ -42,9 +43,9 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                 cargoLift.set(cargoOrder.cargoPower);
             }
         } else {
-            if (cargoPot.get() < 125) {
+            if (cargoPot.get() < UrsaRobot.cargoGroundVoltage) {
                 cargoLift.set(-0.20);
-            } else if (cargoPot.get() > 270) {
+            } else if (cargoPot.get() > UrsaRobot.startVoltage) {
                 cargoLift.set(0.20);
             } else if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1)) {
                 cargoLift.set(-0.20);
@@ -72,13 +73,14 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     public void updateStateInfo() {
         double currentVoltage = cargoPot.get();
-        // Calculate velocity
-        // For underclassmen, delta means "change in"
+
         double deltaVolt = currentVoltage - CargoTask.CargoState.cargoVoltage;
         double deltaTime = System.currentTimeMillis() - CargoTask.CargoState.stateTime;
+
         double velocity = (deltaVolt / deltaTime);
+
         double power = cargoLift.get();
-        if (Math.abs(deltaVolt) <= 5)
+        if (Math.abs(deltaVolt) <= 5 || deltaTime <= 5)
             return;
 
         CargoTask.CargoState.updateState(power, velocity, currentVoltage);
@@ -93,9 +95,9 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public static double getHoldPower() {
-        if (cargoPot.get() >= 135 && cargoPot.get() < 190) {
+        if (cargoPot.get() >= (UrsaRobot.cargoGroundVoltage + 5) && cargoPot.get() < 190) {
             return -0.25;
-        } else if (cargoPot.get() >= 190 && cargoPot.get() < 260) {
+        } else if (cargoPot.get() >= 190 && cargoPot.get() < (UrsaRobot.cargoBayVoltage + 5)) {
             return -0.20;
         } else {
             return 0.0;
