@@ -1,9 +1,5 @@
 Monday To Do List:
-Test making cargo fall slowly
-Test Cargo PID loop and tune it
-Test that the cargo doesnt go too low or too high
-Fix the vision camera
-Test and see if the cargo intake needs increased specified
+Fix the velocity calculations
 
 Drive Encoders:
 Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves

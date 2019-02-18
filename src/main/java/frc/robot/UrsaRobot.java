@@ -18,10 +18,10 @@ public interface UrsaRobot {
 	public static final int CARGO_INTAKE = 2;
 	public static final int CARGO_LIFT = 6;
 
-	public static final int HATCH = 7;
+	public static final int HATCH = 3;
 
 	public static final int CLIMB_FRONT = 1;
-	public static final int CLIMB_BACK = 3;
+	public static final int CLIMB_BACK = 8;
 	
 	public static final int LAZY_SUSAN = 4;
 
@@ -67,8 +67,7 @@ public interface UrsaRobot {
 	public static final double startVoltage = 0, bottomVoltage = 0, topVoltage = 0;
 
 	//Cargo Angles
-	public static final double cargoStartVoltage = 250, cargoGroundVoltage = 133;
-	public static final double cargoBayVoltage = 240, lowRocketVoltage = 210, middleRocketVoltage = 0;
+	public static final double cargoGroundVoltage = 130, cargoBayVoltage = 255, lowRocketVoltage = 225;
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second

@@ -43,6 +43,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotInit() {
+    CameraServer.getInstance().startAutomaticCapture();
     currentTime = System.currentTimeMillis();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
@@ -160,6 +161,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    if(xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1) || xbox.getAxisGreaterThan(XboxController.AXIS_RIGHTTRIGGER, 0.1)){
+      Cargo.automating = false;
+    } else if(xbox.getSingleButtonPress(XboxController.BUTTON_X) || xbox.getSingleAxisPress(XboxController.BUTTON_Y)){
+      Cargo.automating = true;
+    }
     climbPressed = false;
     if (xbox.getPOV() == XboxController.POV_UP) {
       climb.setFrontMotor(Constants.climbPower);
@@ -201,7 +207,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void disabledPeriodic() {
     if (cargo.getCargoVoltage() > 135) {
-      cargo.setCargoLift(-0.15);
+      cargo.setCargoLift(-0.25);
     }
     else {
       cargo.setCargoLift(0.0);

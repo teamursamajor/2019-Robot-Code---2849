@@ -12,34 +12,47 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     private Spark cargoLift;
     private static Potentiometer cargoPot;
     private long time;
-    
+
+    public static boolean automating = true;
+
     public Cargo() {
         cargoLift = new Spark(CARGO_LIFT);
         cargoPot = new AnalogPotentiometer(0, 360, 0);
         cargoIntake = new Spark(CARGO_INTAKE);
-        subsystemMode = CargoMode.START;
+        // subsystemMode = CargoMode.START;
+        subsystemMode = CargoMode.GROUND; // temporary
         time = System.currentTimeMillis();
     }
 
     public void runSubsystem() {
         updateStateInfo();
+        if (automating) {
+            if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
+                subsystemMode = subsystemMode.getNext();
+            } else if (xbox.getSingleButtonPress(XboxController.BUTTON_X)) {
+                subsystemMode = subsystemMode.getPrevious();
+            } else {
+                cargoLift.set(getHoldPower());
+            }
+            CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
 
-        if (xbox.getButton(XboxController.BUTTON_Y)) {
-            subsystemMode = subsystemMode.getNext();
-        } else if (xbox.getButton(XboxController.BUTTON_X)) {
-            subsystemMode = subsystemMode.getPrevious();
+            if (subsystemMode.equals(CargoMode.GROUND)) {
+                cargoLift.set(0.25);
+            } else {
+                cargoLift.set(cargoOrder.cargoPower);
+            }
         } else {
-            cargoLift.set(getHoldPower());   
-        }
-
-        CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
-
-        cargoLift.set(cargoOrder.cargoPower);
-
-        if (cargoPot.get() <= 130) {
-            cargoLift.set(-0.15);
-        } else if (cargoPot.get() >= 245) {
-            cargoLift.set(0.15);
+            if (cargoPot.get() < 125) {
+                cargoLift.set(-0.20);
+            } else if (cargoPot.get() > 270) {
+                cargoLift.set(0.20);
+            } else if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1)) {
+                cargoLift.set(-0.20);
+            } else if (xbox.getAxisGreaterThan(XboxController.AXIS_RIGHTTRIGGER, 0.1)) {
+                cargoLift.set(0.20);
+            } else {
+                getHoldPower();
+            }
         }
 
         if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
@@ -50,8 +63,10 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             cargoIntake.set(0);
         }
 
-        if ((System.currentTimeMillis() - time) % 50 == 0)
+        if ((System.currentTimeMillis() - time) % 50 == 0) {
             System.out.println("Pot Voltage: " + cargoPot.get());
+            System.out.println(subsystemMode);
+        }
 
     }
 
@@ -78,9 +93,9 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public static double getHoldPower() {
-        if (cargoPot.get() > 130 && cargoPot.get() <= 190) {
+        if (cargoPot.get() >= 135 && cargoPot.get() < 190) {
             return -0.25;
-        } else if (cargoPot.get() > 190 && cargoPot.get() <= 251) {
+        } else if (cargoPot.get() >= 190 && cargoPot.get() < 260) {
             return -0.20;
         } else {
             return 0.0;

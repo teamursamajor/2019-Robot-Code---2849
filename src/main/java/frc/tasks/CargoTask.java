@@ -3,32 +3,30 @@ import frc.robot.*;
 
 public class CargoTask extends Task implements UrsaRobot{
 	public enum CargoMode {
-        GROUND, LOWROCKET, CARGOBAY, MIDDLEROCKET, START;
+        GROUND, CARGOBAY, LOWROCKET, CLIMB;
 
         public CargoMode getNext(){
             return this.ordinal() < CargoMode.values().length - 1
                 ? CargoMode.values()[this.ordinal() + 1]
-                : START;
+                : GROUND;
         }
 
         public CargoMode getPrevious(){
             return this.ordinal() > 0
                 ? CargoMode.values()[this.ordinal() - 1]
-                : GROUND;
+                : LOWROCKET;
         }
 
         public CargoOrder callLoop() {
             switch (this) {
-            case START:
-                return moveToAngle(UrsaRobot.cargoStartVoltage);
             case GROUND:
                 return moveToAngle(UrsaRobot.cargoGroundVoltage);
             case LOWROCKET:
                 return moveToAngle(UrsaRobot.lowRocketVoltage);
-            case MIDDLEROCKET:
-                return moveToAngle(UrsaRobot.middleRocketVoltage);
             case CARGOBAY:
                 return moveToAngle(UrsaRobot.cargoBayVoltage);
+            case CLIMB:
+                return moveToAngle(275);
             }
             running = false;
             return new CargoOrder(0.0);  
@@ -36,18 +34,21 @@ public class CargoTask extends Task implements UrsaRobot{
 
        private CargoOrder moveToAngle(double desiredVoltage) {
             double voltageTolerance = 5.0;
+
             if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;
                 return new CargoOrder(Cargo.getHoldPower());
             }
-            
-            //TODO Add derivative term to PD loop
-            double kpCargo = 1.0 / 40.0;
-            double kdCargo = 0;
-			double cargoMinimumPower = 0.2; //TODO Optimize
-			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage) + kdCargo * CargoState.cargoVelocity;
 
+            //TODO Add derivative term to PD loop
+            double kpCargo = 1.0 / 100.0; //was 1/100
+            double kdCargo = 0;
+			double cargoMinimumPower = 0.15;
+
+            // Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
+			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage);// + kdCargo * CargoState.cargoVelocity;
+            // System.out.println("Cargo Power: " + cargoPower);
+            
             // //TODO was 0 before, test
             // if(cargoPower <= 0.1){
             //     running = false;
@@ -58,7 +59,7 @@ public class CargoTask extends Task implements UrsaRobot{
 			// 	cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
 			// }
             
-			return new CargoOrder(cargoPower);
+			return new CargoOrder(-cargoPower);
        }
     }
 

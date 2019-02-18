@@ -25,9 +25,9 @@ public class Constants implements Runnable {
         SmartDashboard.putNumber("Cargo Power", 0.35);
         cargoIntakePower = 0.5;
         SmartDashboard.putNumber("Cargo Intake Power", 0.5);
-        cargoOuttakePower = .8;
+        cargoOuttakePower = 1;
         SmartDashboard.putNumber("Cargo Outtake Power", 1);
-        climbPower = 0.75;
+        climbPower = 0.90;
         SmartDashboard.putNumber("Climb Power", 1);
         susanPower = 0.25;
         SmartDashboard.putNumber("Susan Power", 0.25);
