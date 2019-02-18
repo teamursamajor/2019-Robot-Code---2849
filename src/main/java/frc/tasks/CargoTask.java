@@ -38,7 +38,8 @@ public class CargoTask extends Task implements UrsaRobot{
             double voltageTolerance = 5.0;
             if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;
-                return new CargoOrder(Cargo.getHoldPower());
+                // return new CargoOrder(Cargo.getHoldPower());
+                return new CargoOrder(0.0);
             }
             
             //TODO Add derivative term to PD loop
