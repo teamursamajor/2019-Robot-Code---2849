@@ -89,7 +89,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       currentTime = System.currentTimeMillis();
 
     }
-  
+
     // try {
     // Thread.sleep(500);
     // } catch (InterruptedException e) {
@@ -166,26 +166,34 @@ public class Robot extends TimedRobot implements UrsaRobot {
     } else if(xbox.getSingleButtonPress(XboxController.BUTTON_X) || xbox.getSingleAxisPress(XboxController.BUTTON_Y)){
       Cargo.automating = true;
     }
+    
     climbPressed = false;
     if (xbox.getPOV() == XboxController.POV_UP) {
       climb.setFrontMotor(Constants.climbPower);
       climbPressed = true;
     }
-    if (xbox.getPOV() == XboxController.POV_DOWN) {
-      climb.setFrontMotor(-Constants.climbPower);
-      climbPressed = true;
-    }
-    if (xbox.getPOV() == XboxController.POV_LEFT) {
-      climb.setBackMotor(Constants.climbPower);
-      climbPressed = true;
-    }
-    if (xbox.getPOV() == XboxController.POV_RIGHT) {
-      climb.setBackMotor(-Constants.climbPower);
-      climbPressed = true;
-    }
-    if (!climbPressed) {
-      climb.stopMotors();
-    }
+    boolean climbPressed = false;
+    // POV Up is start all climbing
+    // if (xbox.getPOV() == XboxController.POV_UP && !climb.isClimbing()) {
+    //   climb.climbInit();
+    // }
+    // // POV Down is cancel climb
+    // else if (xbox.getPOV() == XboxController.POV_DOWN) {
+    //   climb.cancelClimb();
+    // }
+    // // POV Left is to retract the front motor
+    // if (xbox.getPOV() == XboxController.POV_LEFT && !climb.isClimbing()) {
+    //   climb.setFrontMotor(Constants.climbPower);
+    //   climbPressed = true;
+    // }
+    // // POV Right is to retract the back motor / cam
+    // if (xbox.getPOV() == XboxController.POV_RIGHT && !climb.isClimbing()) {
+    //   climb.setBackMotor(-Constants.climbPower);
+    //   climbPressed = true;
+    // }
+    // if (!climbPressed && !climb.isClimbing()) {
+    //   climb.stopMotors();
+    // }
 
   }
 
