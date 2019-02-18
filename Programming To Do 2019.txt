@@ -1,19 +1,34 @@
-Test all 4 potentiometers
+Monday To Do List:
+Cargo PID loop to automatically move to either Rocket or Bay position
+Using voltage values, prevent the cargo from going too low or too high, so that it never gets stuck.
+Fix the vision camera
+Test and see if the cargo intake needs increased specified
+
+Drive Encoders:
+Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves
+
+Light Sensor: Wire the second one and mount them both on the corners of the robot on the hatch side
+Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
+Add another auto align mode which uses drives until the light sensor gets a hit
+
+Make a climber thread and just move everything there. It's just cluttering up Robot tbh
+
+Make sure our code still works for whatever design build team is now using for the hatch/climber
+
+IF the sensor works well, write auto code using the sensor to drop off cargo
+Is our auto selector stuff working? We should do that. Essentially we just tell the SmartDashboard what file to run and it runs it
+
+Older To Do Lists:
+Test all potentiometers
 Find voltage values for positions
 Make subsystems automatically move when pressing a button on the xbox controller
-Fix color sensor code
 Mounting of color sensors, limelight, camera, drive encoders
 	Color sensor: shouldnt take long but we have to write proper code for it first
 	Limelight: its so screwed man, hopefully it works at that weird angle
 	Camera: clamped on top of the eboard
 	Drive Encoders: Ordered the sleeves and black pieces
-Test vision code
 Display raw limelight image on dashboard
 Write auto code using scripting language and path
-
-Move climber code to a thread?
-
-Auto mode selector from smartdashboard
 
 Move all constants/powers to the SmartDashboard so we can change them on the fly
 
