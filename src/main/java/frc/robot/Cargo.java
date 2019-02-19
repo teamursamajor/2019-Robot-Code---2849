@@ -18,9 +18,8 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     public Cargo() {
         cargoLift = new Spark(CARGO_LIFT);
         cargoIntake = new Spark(CARGO_INTAKE);
-        cargoPot = new AnalogPotentiometer(0, 360, 0);
-        // subsystemMode = CargoMode.START;
-        subsystemMode = CargoMode.GROUND; // TODO temporary
+        cargoPot = new AnalogPotentiometer(CARGO_POT_CHANNEL, 360, 0);
+        subsystemMode = CargoMode.GROUND;
         time = System.currentTimeMillis();
     }
 
@@ -31,8 +30,16 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             // ground -> rocket -> bay -> rocket -> ground
             if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
                
-                if (subsystemMode.equals(CargoMode.GROUND))
+                if (subsystemMode.equals(CargoMode.GROUND)) {
+                    // untested, remove if it breaks the robot lol
+                    subsystemMode = CargoMode.LOWROCKET;
+                    try{
+                        Thread.sleep(250);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
                     subsystemMode = CargoMode.CARGOBAY;
+                }
                 else if (subsystemMode.equals(CargoMode.CARGOBAY))
                     subsystemMode = CargoMode.GROUND;
 

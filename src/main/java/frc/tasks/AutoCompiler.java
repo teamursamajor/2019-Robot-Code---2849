@@ -134,10 +134,8 @@ public class AutoCompiler {
 		public HatchToken(String position) {
 			position = position.replace(" ", "");
 
-			if (position.equalsIgnoreCase("IN")) {
-				hatchMode = HatchMode.IN;
-			} else if (position.equalsIgnoreCase("OUT")) {
-				hatchMode = HatchMode.OUT;
+			if (position.equalsIgnoreCase("RUN")) {
+				hatchMode = HatchMode.RUN; 
 			} else if (position.equalsIgnoreCase("WAIT")) {
 				hatchMode = HatchMode.WAIT;
 			} else {
