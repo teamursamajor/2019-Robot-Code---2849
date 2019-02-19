@@ -11,13 +11,11 @@ public class WaitTask extends Task {
 
 	@Override
 	public void run() {
-		// Logger.log("Running wait task", LogLevel.INFO);
 
 		try {
 			Thread.sleep(waitTime);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			// Logger.log("WaitTask run method Thread.sleep call, printStackTrace", LogLevel.ERROR);
 		}
 	}
 	

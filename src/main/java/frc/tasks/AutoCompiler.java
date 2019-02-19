@@ -89,7 +89,6 @@ public class AutoCompiler {
 		}
 
 		public PathTask makeTask() {
-			// Logger.log("[TASK] Path Task", LogLevel.INFO);
 			// return new PathTask(paths);
 			return null;
 		}
