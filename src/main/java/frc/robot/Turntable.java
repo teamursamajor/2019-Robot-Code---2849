@@ -4,7 +4,6 @@ import frc.tasks.*;
 import frc.tasks.TurntableTask.TurntableMode;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements UrsaRobot {

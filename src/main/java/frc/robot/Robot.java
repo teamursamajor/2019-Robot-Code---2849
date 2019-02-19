@@ -55,7 +55,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     turntable = new Turntable();
     turntable.initialize("susanThread");
     hatch = new Hatch();
-    hatch.hatchInit();
+    hatch.initialize("hatchThread");
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");

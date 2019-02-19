@@ -9,9 +9,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public interface UrsaRobot {
-	//TODO Finalize Ports
+	// TODO Finalize Ports
 	// Spark Ports
-	//5 and 8 unused, 3 and 4 are temporary
+	// 5 and 8 unused, 3 and 4 are temporary
 	public static final int DRIVE_LEFT = 0;
 	public static final int DRIVE_RIGHT = 9;
 
@@ -22,18 +22,11 @@ public interface UrsaRobot {
 
 	public static final int CLIMB_FRONT = 1;
 	public static final int CLIMB_BACK = 8;
-	
-	public static final int LAZY_SUSAN = 4;
 
-	//temporary spark piston
-	public static final int EXTEND = 11;
-	public static final int TURNTABLE = 12;
+	public static final int TURNTABLE = 4;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
-
-	//Piston Port
-	public static final int PISTON_PORT = 5;
 
 	public static final int LEFT_ENCODER_CHANNEL_A = 4;
 	public static final int LEFT_ENCODER_CHANNEL_B = 5;
@@ -49,23 +42,20 @@ public interface UrsaRobot {
 
 	public static Encoder climbEncoder = new Encoder(CLIMB_ENCODER_CHANNEL_A, CLIMB_ENCODER_CHANNEL_B);
 
-	// Tells the encoder the value of each tick. Must be set in the corresponding
-	// file with encoder.setDistancePerPulse([Name]_PER_TICK);
+	// Tells encoder the value of each tick. Must be set in the corresponding file
 	public static final double INCHES_PER_TICK = 0.011505d;
-	
+
 	public static final double ROBOT_WIDTH_INCHES = 28d;
 	public static final double ROBOT_DEPTH_INCHES = 31.5d;
 
 	public static final double ROBOT_WIDTH_FEET = ROBOT_WIDTH_INCHES / 12.0;
 	public static final double ROBOT_DEPTH_FEET = ROBOT_WIDTH_FEET / 12.0;
 
-	//Radius of the robot and cargo
-	public static final double robotRadius = 15; // temporary TODO what do we do here
-	public static final double cargoRadius = 5; //TODO Measure cargo arm
+	// Radius of the robot and cargo
+	// TODO not sure what to do with this radius (ie how to measure it). It is used for the turn control loop
+	public static final double robotRadius = 15;
 
-	// Hatch angles
-
-	//Cargo Angles
+	// Cargo Angles
 	public static final double cargoGroundVoltage = 140, cargoBayVoltage = 255;
 	public static final double cargoLowRocketVoltage = 225, cargoStartVoltage = 270;
 
@@ -83,8 +73,8 @@ public interface UrsaRobot {
 	XboxController xbox = new XboxController(0);
 
 	/**
-	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted, no matter 
-	 * what Evan may say. - Isåàç
+	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted, no m
+	 *  tter what Evan may say. - Isåàç
 	 */
 	public enum SickoMode {
 		SICKO, BAMBA, SHECK, TRAVIS

@@ -14,6 +14,15 @@ public class Vision implements Runnable {
 	private static Thread visionRun = null;
 
 	public Vision() {
+		/*
+		 * TODO add the limelight camera
+		 * This means adding:
+		 * 		a) the camera feed itself
+		 * 		b) the functionality to switch pipelines to use limelight for vision processing
+		 * 		c) the functionality to see both cameras at once(if possible)
+		 * 			i) if b is not possible, be able to switch between both cameras at will
+		 * 		d) maybe even the functionality to show the processed pipeline
+		*/
 		cargoCam = new UsbCamera("Cargo Camera", 0);
 		// cargoCam = CameraServer.getInstance().startAutomaticCapture();
 		CameraServer.getInstance().addCamera(cargoCam);
