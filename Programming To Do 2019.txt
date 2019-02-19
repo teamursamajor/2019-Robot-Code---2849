@@ -1,13 +1,12 @@
+Measure voltage values for turntable and make it automated
+	Also allow for manual movement of the turntable?
+
+Camera Mount: Tell build to come up with something more secure than duct tape
+
 Figure out button layouts
-	Make a guide that shows what each button does
+	Make a visual guide that shows what each button does
 
-Consider using getSquaredAxis()
-
-Limelight stuff
-
-Fix hatch autocompiler
-
-Finalize lazy susan code
+Test using getSquaredAxis()
 
 Test new cargo velocity
 	Does it still return infinity/NaN?
@@ -18,8 +17,43 @@ Test new cargo mode progression
 	X should go from ground to rocket and black
 	Y should go from ground to bay and back
 
-Add offset to potentiometers?
-Make cargo stop falling during disabled?
+Limelight stuff:
+	Build a mount
+	Double check detection software and logic
+	Write code to automate pickup and drop off:
+		To automate pickup:
+			The robot should be fairly close to the station at this position
+			Use the navx to make it parallel to the wall (facing 180 degrees)
+			Spin the turntable until the limelight detects a match
+				remember that you dont know which way the limelight needs to spin to see the tapes
+					solutions? maybe if it hits the max voltage on one side make it spin the other way?
+			Once it detects a match, run the hatch arm out and then back in
+		To automate drop off:
+			The robot should be somewhat close as well
+			Turntable should be facing the left or right, depending on what side it is on
+				We need to figure out how the code will know this. Maybe programming driver input or something?
+			Use the navx to make the robot perpendicular to the bay (facing 0 degrees, bay is at -90 degrees)
+			Move forward until the limelight gets a match
+			Run the hatch arm out and then back in
+
+Color Sensor: 
+	Where should we mount them? One in the center of the robot could be used to automate cargo drop off maybe
+	We could also put one on the hatch end of the robot (centered horizontally on the edge)
+	Wire and mount the second sensor
+		Have build start to figure out how to mount them properly (NOT duct tape)
+	Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
+	Add another DriveMode which drives forward until the color sensor gets a match
+
+Vision:
+	Adding second camera (limelight), using it for processing, displaying that and/or the cargoCam to the dashboard
+
+Write auto files using the scripting languge and select them using the AutoSelector
+
+Add offset to potentiometers? Ex: Cargo pot starts from around 125-130, adding an offset would make it stop from 0
+Make cargo stop falling when disabled. 
+	I'm currently trying to use disabledPeriodic to make the cargo move down slowly but its not working
+	My guess is that disabledPeriodic stops all motors from running so it doesn't work :/
+		Need some other solution in that case, if one is even possible?
 
 Drive Encoders:
 Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves
@@ -27,59 +61,7 @@ Make sure we've ordered like a bajillion of the black mount pieces and the white
 Constants:
 Move more powers and stuff to constants
 
-Color Sensor: Wire the second one and mount them both on the corners of the robot on the hatch side
-Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
-Add another auto align mode which uses drives until the light sensor gets a hit
-
-Make sure our code still works for whatever design build team is now using for the hatch/climber
-
-IF the sensor works well, write auto code using the sensor to drop off cargo
-Is our auto selector stuff working? We should do that. Essentially we just tell the SmartDashboard what file to run and it runs it
-
 Older To Do Lists:
-Test all potentiometers
-Find voltage values for positions
-Make subsystems automatically move when pressing a button on the xbox controller
-Mounting of color sensors, limelight, camera, drive encoders
-	Color sensor: shouldnt take long but we have to write proper code for it first
-	Limelight: its so screwed man, hopefully it works at that weird angle
-	Camera: clamped on top of the eboard
-	Drive Encoders: Ordered the sleeves and black pieces
-Display raw limelight image on dashboard
-Write auto code using scripting language and path
-
-Move all constants/powers to the SmartDashboard so we can change them on the fly
-
-Pathmaker:
-	Move old code and PathTask into its own package
-	Once Chris finishes the new one, remove the old package
-
-Look for updates
-
-Pneumatics: Research how to wire a regulator to our current setup so that we can control the pressure in the tank and stop the compressor when it is at 60. Then use the xbox controller to push the piston in and out. Once all this works perfectly, make the code an actual subsystem file instead of test code
-All PD Loops: Start testing these on the actual robot and tuning the proportional constant. It doesn't need to be perfect, just decently close. Then, add in the derivative term and somewhat tune that. We will do this properly once we have the final robot to work with
-
-Auto Code: Since our compiler should be working now, we can start writing actual auto modes. Evan and JJ should be able to explain this; it's a bit annoying to type everything out right now. Essentially its a simple scripting language where you say a command, then any parameters. Ex: "drive 10" or "turn TO 90" or "hatch CARRY". You can find 2D images of the field with measurements on them in pixel and use these to approximate distances, then write out auto code in the scripting language to do any variety of options. Again, ask Evan for specifics since theres a lot of stuff you can do here. As long as you're doing SOMETHING, it'll probably be helpful.
-
-Auto Align to pick up the Hatch: Don't worry about this until AFTER you've figured out how to mount the limelight. Essentially, we want to automate the process of picking up the hatch panel. We could use the limelight to do this, provided we've figured out a way to mount it without losing any functionality. What you should do is turn on the limelight and have the code constantly print out the area of the tape in pixels. Take the model of the loading station and put the reflective tape on it. MAKE SURE TO USE ACCURATE MEASUREMENTS BY CHECKING THE MANUAL. Then, line up the robot behind the loading station so that the limelight can see the entirety of the tapes. Measure how far away it is, and look at what the limelight says the area is in pixels. Using this, we can find a conversion factor to convert the area the limelight sees in pixels to the distance away it is. Do this multiple times from multiple distances and angles and record the data. With this information, we can find some mathematical model that generally tells us how far away the loading station is.
-Auto Align to drop off the Hatch: Again, don't worry about this until AFTER the limelight has been mounted perfectly. First, the code should move the lazy susan to the correct side. Assume it knows which bay it wants to go to and which side this is on. We can probably provide this information in real time using the smartdashboard, and, if we're being optimistic, maybe even through communications with the microsoft surface pros. Since it knows where it is and where it wants to go, you have all the information you need. Drive forward using the auto align PD loop and count the number of pairs you see. Once it reaches the correct number, then it stops! Remember, in between every bay there is a set of "false positive" tapes, where they are facing the wrong way and are actually in between two bays. This means that to reach the third bay you would need to look for 5 pairs, not 3. Then drop off the hatch either manually or through the code, and test to make sure this works correctly.
-
-Automate hatch pick up and drop off:
-	Pick up:
-		Using the limelight, get the angle offset from the pickup location and get the distance away
-			Angle offset is given to us
-			We will have to do some math/testing to find the distance, but we can't do that yet
-			For now just write the logic using a placeholder distance variable
-		We can also investigate using the turret lock (see below)
-	Drop off:
-		**if using hatch v1 (non pneumatics) then we need to drift into the wall**
-		**if using hatch v2 (pneumatics) then we can just line up with the light sensor**
-		Starts from front of cargo bay
-		Move lazy susan to the correct side (hopefully its already where it should be but we can set it too)
-		Uses light sensor, encoders, and limelight to know when it has reached whatever bay it wants to deposit at
-			It will be told what bay to go to by the programming driver or like the number of times the button is pressed or something
-		Using the PD loop, move the robot until its in the right spot, then use the arm to drop off the hatch
-
 Logger:
 	Re use the logger from last year and add Logger calls throughout the code
 	Later, if we have extra time, we can improve the Logger functionality
@@ -91,12 +73,6 @@ Parser:
 		If its a serial/bundle, skip through the string until you find a "}." Once the number of "}" equals the number of "{," use 
 		substrings to recurse and run those commands either in serial or bundle
 		Look at whiteboard pic for more information
-
-PID Loops:
-	Write the loops for the hatch, cargo, turret lock (maybe), etc:
-	Tune the loops:
-		We can tune them slightly when initially testing, but our main tuning will occur when the robot is finished and we have testing 
-		time
 
 Look at all the TODO's in the project and start doing them:
 	We never get to this. Maybe this year it'll be different...
@@ -112,22 +88,16 @@ Config file:
 		Ex: A variable holds the button ID which will be used for the hatch arm. It gets the ID from the config file upon robotInit, and if 
 		the button with that ID is pressed, it runs the hatch dropoff.
 
-Good Vision:
-	-Auto Align:
-		-Working with Limelight
-			-Account for "wrong" pairs. These are pairs of tape made from two ends of different pairs. They do not line up in front of 
-			a target; they line up between targets. If we don't account for these pairs in our detection, we simply account for them in 
-			the count of how many pairs we see before some action
-	-Color Sensor
-		-Wiring them on the very edges of the robot
-		-Writing the code to utilize them alongside Limelight and encoders
 
 Auto:
 	-Write new auto code:
 		-Make new path files
 		-Take a ball or hatch to any spot on the bay
 			-Dont drop the hatch until the driver confirms the position
-			-New naming convention
+			-New naming convention:
+				[L,M,R][1,2][Hatch || Cargo][L,M,R][1,2][Additional Actions].auto
+				Ex: L1HatchL1LoadingStation.auto
+					Start on level 1 from the left, dropping off hatch at L1 station, then move to loading station afterward
 		-5 Start Positions:
 			Level 2: L   R
 			Level 1: L M R
