@@ -213,9 +213,10 @@ public class DriveTask extends Task implements UrsaRobot {
                     -1 * (Math.signum(newAngle)) * outputPower);
         }
 
-        private DriveOrder pathIterate(String pathName) {
-            return null;
-        }
+        // TODO Add Chris's code when ready
+        // private DriveOrder pathIterate(String pathName) {
+        //     return null;
+        // }
     }
 
     /**
