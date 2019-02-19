@@ -58,10 +58,10 @@ public class AutoSelector {
 
 	// TODO update this entire thing
 	public void sendAutoModes(String[] names) {
-		autoList.get(0).addDefault("Select LL auto", "LL");
-		autoList.get(1).addDefault("Select LR auto", "LR");
-		autoList.get(2).addDefault("Select RL auto", "RL");
-		autoList.get(3).addDefault("Select RR auto", "RR");
+		autoList.get(0).setDefaultOption("Select LL auto", "LL");
+		autoList.get(1).setDefaultOption("Select LR auto", "LR");
+		autoList.get(2).setDefaultOption("Select RL auto", "RL");
+		autoList.get(3).setDefaultOption("Select RR auto", "RR");
 
 		for(SendableChooser<String> chooser: autoList){
 			for (String name : names) {
