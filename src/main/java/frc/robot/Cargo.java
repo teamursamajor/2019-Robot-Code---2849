@@ -43,9 +43,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                 cargoLift.set(cargoOrder.cargoPower);
             }
         } else {
-            if (cargoPot.get() < UrsaRobot.cargoGroundVoltage) {
-                cargoLift.set(-0.20);
-            } else if (cargoPot.get() > UrsaRobot.startVoltage) {
+            if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
                 cargoLift.set(0.20);
             } else if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1)) {
                 cargoLift.set(-0.20);

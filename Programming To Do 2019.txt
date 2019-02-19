@@ -1,7 +1,8 @@
+Figure out button layouts
 Fix hatch autocompiler
-Test new velocity
-Tune derivative constant of PID loop
-Raise the ground voltage level
+Finalize lazy susan code
+Test new cargo velocity
+	Tune derivative constant of PID loop
 Fix the progression of cargo modes
 
 Drive Encoders:

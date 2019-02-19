@@ -23,13 +23,13 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
         // TurntableTask.TurntableOrder turntableOrder = subsystemMode.callLoop();
         // turntableMotor.set(turntableOrder.power);
         // TODO delete, test code
-        if (xbox.getButton(XboxController.BUTTON_A)) {
-            turntableMotor.set(-.25);
-        } else if (xbox.getButton(XboxController.BUTTON_B)) {
-             turntableMotor.set(0.25);
-        } else {
-            turntableMotor.set(0.0);
-        }
+        // if (xbox.getButton(XboxController.BUTTON_A)) {
+        //     turntableMotor.set(-.25);
+        // } else if (xbox.getButton(XboxController.BUTTON_B)) {
+        //      turntableMotor.set(0.25);
+        // } else {
+        //     turntableMotor.set(0.0);
+        // }
     }
 
     public void updateStateInfo(){

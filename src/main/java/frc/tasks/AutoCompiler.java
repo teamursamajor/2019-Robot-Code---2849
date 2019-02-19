@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.SusanTask.SusanMode;
 import frc.tasks.DriveTask.DriveMode;
-import frc.tasks.PistonTask.PistonMode;
 import frc.robot.*;
 
 //TODO import logger when ready
@@ -33,14 +32,12 @@ public class AutoCompiler {
 	private Cargo cargo;
 	private Hatch hatch;
 	private LazySusan susan;
-	private Piston piston;
-
-	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, LazySusan susan, Piston piston) {
+	
+	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, LazySusan susan) {
 		this.drive = drive;
 		this.cargo = cargo;
 		this.hatch = hatch;
 		this.susan = susan;
-		this.piston = piston;
 	}
 
 	/**
@@ -189,32 +186,6 @@ public class AutoCompiler {
 				return new SusanTask(susanMode, susan);
 			else
 				return new SusanTask(susanAngle, susan);
-		}
-	}
-
-	/**
-	 * A token that makes the piston go in or out
-	 * 
-	 * @param state State of the piston (in or out)
-	 */
-	class PistonToken implements Token {
-		private PistonMode pistonMode;
-
-		public PistonToken(String state) {
-			state = state.replace(" ", "");
-
-			if (state.equalsIgnoreCase("IN")) {
-				pistonMode = PistonMode.IN;
-			} else if (state.equalsIgnoreCase("OUT")) {
-				pistonMode = PistonMode.OUT;
-			} else { // TODO is this what we want as a default case?
-				pistonMode = PistonMode.IN;
-			}
-		}
-
-		public PistonTask makeTask() {
-			// Logger.log("[TASK] Piston Task", LogLevel.INFO);
-			return new PistonTask(pistonMode, piston);
 		}
 	}
 
@@ -392,9 +363,6 @@ public class AutoCompiler {
 			} else if (line.contains("susan")) {
 				String current = line.substring(line.indexOf("susan") + "susan".length()); // Susan mode
 				tokenList.add(new SusanToken(current));
-			} else if (line.contains("piston")) {
-				String current = line.substring(line.indexOf("piston") + "piston".length()); // Piston mode
-				tokenList.add(new PistonToken(current));
 			} else if (line.contains("print")) {
 				String current = line.substring(line.indexOf("print") + "print".length()); // Text to print
 				tokenList.add(new PrintToken(current));
@@ -445,8 +413,6 @@ public class AutoCompiler {
 				// taskSet.addTask(((HatchToken) t).makeTask());
 			} else if (t instanceof SusanToken) {
 				taskSet.addTask(((SusanToken) t).makeTask());
-			} else if (t instanceof PistonToken) {
-				taskSet.addTask(((PistonToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask bundleSet = new BundleTask();
 				parseAuto(tokenList, bundleSet);

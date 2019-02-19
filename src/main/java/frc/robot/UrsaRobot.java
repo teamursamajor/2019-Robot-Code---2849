@@ -66,7 +66,7 @@ public interface UrsaRobot {
 	// Hatch angles
 
 	//Cargo Angles
-	public static final double cargoGroundVoltage = 130, cargoBayVoltage = 255;
+	public static final double cargoGroundVoltage = 140, cargoBayVoltage = 255;
 	public static final double cargoLowRocketVoltage = 225, cargoStartVoltage = 270;
 
 	// Path settings
