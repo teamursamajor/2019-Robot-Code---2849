@@ -61,7 +61,7 @@ public class TurntableTask extends Task {
         }
     }
 
-    private static double desiredVoltage = 0.0;
+    public static double desiredVoltage = 0.0;
 
     public TurntableTask(TurntableMode mode, Turntable turntable) {
         running = true;
