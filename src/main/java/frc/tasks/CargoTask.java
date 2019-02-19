@@ -82,7 +82,6 @@ public class CargoTask extends Task implements UrsaRobot{
         public CargoOrder(double power) {
             this.cargoPower = power;
         }
-
     }
 
     private static boolean running = true;
@@ -98,7 +97,7 @@ public class CargoTask extends Task implements UrsaRobot{
         while(running){
             try{
                 Thread.sleep(20);
-            } catch(InterruptedException e){
+            } catch(Exception e){
                 e.printStackTrace();
             }
         }

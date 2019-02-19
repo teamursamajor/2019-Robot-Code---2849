@@ -1,41 +1,38 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import frc.tasks.HatchTask;
+import frc.tasks.HatchTask.HatchMode;
 
-public class Hatch implements Runnable, UrsaRobot {
+public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     private Spark hatchMotor;
-    private Thread hatchThread = null;
     private long runTime = 1050; // how long the wheel spins
-    private double power = -0.25; // negative moves out, positive moves in
 
     public Hatch() {
         hatchMotor = new Spark(HATCH);
+        subsystemMode = HatchMode.IN;
     }
 
-    public void hatchInit() {
-        hatchThread = new Thread(new Hatch(), "Hatch Thread");
-        hatchThread.start();
-    }
+    public void runSubsystem() {
 
-    public void run() {
-        while (true) {
-            if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
-                hatchMotor.set(power);
-                try {
-                    Thread.sleep(runTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                hatchMotor.set(0.0);
-            } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) {
-                hatchMotor.set(-power);
-                try {
-                    Thread.sleep(runTime);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
+            subsystemMode = HatchMode.OUT;
+        } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) {
+            subsystemMode = HatchMode.IN;
+        }
+
+        HatchTask.HatchOrder hatchOrder = subsystemMode.callLoop();
+
+        hatchMotor.set(hatchOrder.hatchPower);
+        if(!(hatchOrder.hatchPower == 0)){
+            try {
+                Thread.sleep(runTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+        subsystemMode = HatchMode.WAIT;
     }
+
 }

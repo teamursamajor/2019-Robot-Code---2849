@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.tasks.CargoTask.CargoMode;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.cameraserver.CameraServer;
 
@@ -29,7 +30,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   // private Piston piston;
   private Drive drive;
-  private LazySusan lazySusan;
+  private Turntable turntable;
   private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
@@ -51,8 +52,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     drive = new Drive();
     drive.initialize("driveThread");
-    lazySusan = new LazySusan();
-    lazySusan.initialize("susanThread");
+    turntable = new Turntable();
+    turntable.initialize("susanThread");
     hatch = new Hatch();
     hatch.hatchInit();
     climb = new Climb();
@@ -64,11 +65,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
+    // TODO double check that this works on the HP laptop
     // Vision.visionInit();
 
-    // piston = new Piston();
-    // piston.initialize("pistonThread");
-  }
+   }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
@@ -90,14 +90,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     }
 
-    // try {
-    // Thread.sleep(500);
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
-
-    // System.out.println(colorSensor.getRed() + "," + colorSensor.getGreen() + ","
-    // + colorSensor.getBlue() + " FROM COLOR SENSOR");
   }
 
   /**
@@ -210,8 +202,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   @Override
   public void disabledPeriodic() {
-    if (cargo.getCargoVoltage() > 135) {
-      cargo.setCargoLift(-0.25);
+    if (cargo.getCargoVoltage() > UrsaRobot.cargoGroundVoltage) {
+      cargo.setMode(CargoMode.GROUND);
     }
     else {
       cargo.setCargoLift(0.0);

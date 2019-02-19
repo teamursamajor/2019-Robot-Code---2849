@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.CargoTask.CargoMode;
-import frc.tasks.SusanTask.SusanMode;
 import frc.tasks.DriveTask.DriveMode;
+import frc.tasks.TurntableTask.TurntableMode;
 import frc.robot.*;
 
 //TODO import logger when ready
@@ -31,13 +31,13 @@ public class AutoCompiler {
 	private Drive drive;
 	private Cargo cargo;
 	private Hatch hatch;
-	private LazySusan susan;
+	private Turntable turntable;
 	
-	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, LazySusan susan) {
+	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, Turntable turntable) {
 		this.drive = drive;
 		this.cargo = cargo;
 		this.hatch = hatch;
-		this.susan = susan;
+		this.turntable = turntable;
 	}
 
 	/**
@@ -105,16 +105,16 @@ public class AutoCompiler {
 		private CargoMode cargoMode;
 
 		public CargoToken(String state) {
-			// state = state.replace(" ", "");
-			// if (state.equalsIgnoreCase("DEPLOY")) {
-			// cargoMode = CargoMode.DEPLOY;
-			// } else if (state.equalsIgnoreCase("PICKUP")) {
-			// cargoMode = CargoMode.PICKUP;
-			// } else if (state.equalsIgnoreCase("DROPOFF")) {
-			// cargoMode = CargoMode.DROPOFF;
-			// } else {
-			// cargoMode = CargoMode.DEPLOY;
-			// }
+			state = state.replace(" ", "");
+			if (state.equalsIgnoreCase("GROUND")) {
+			cargoMode = CargoMode.GROUND;
+			} else if (state.equalsIgnoreCase("LOWROCKET")) {
+			cargoMode = CargoMode.LOWROCKET;
+			} else if (state.equalsIgnoreCase("CARGOBAY")) {
+			cargoMode = CargoMode.CARGOBAY;
+			} else {
+			cargoMode = CargoMode.GROUND;
+			}
 		}
 
 		public CargoTask makeTask() {
@@ -153,39 +153,39 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that moves the lazy susan to a given direction
+	 * A token that moves the lazy turntable to a given direction
 	 * 
-	 * @param direction Direction to turn the lazy susan to
+	 * @param direction Direction to turn the lazy turntable to
 	 */
-	class SusanToken implements Token {
-		private SusanMode susanMode;
+	class TurntabelToken implements Token {
+		private TurntableMode turntableMode;
 		private double susanAngle;
 
-		public SusanToken(String direction) {
+		public TurntableToken(String direction) {
 			direction = direction.replace(" ", "");
 
 			if (direction.equalsIgnoreCase("FORWARD")) {
-				susanMode = SusanMode.FORWARD;
+				turntableMode = TurntableMode.FORWARD;
 			} else if (direction.equalsIgnoreCase("LEFT")) {
-				susanMode = SusanMode.LEFT;
+				turntableMode = TurntableMode.LEFT;
 			} else if (direction.equalsIgnoreCase("RIGHT")) {
-				susanMode = SusanMode.RIGHT;
+				turntableMode = TurntableMode.RIGHT;
 			} else {
 				try {
 					susanAngle = Double.parseDouble(direction);
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}
-				susanMode = SusanMode.FORWARD;
+				turntableMode = TurntableMode.FORWARD;
 			}
 		}
 
-		public SusanTask makeTask() {
+		public TurntableTask makeTask() {
 			// Logger.log("[TASK] Susan Task", LogLevel.INFO);
 			if (susanAngle == 0)
-				return new SusanTask(susanMode, susan);
+				return new TurntableTask(turntableMode, turntable);
 			else
-				return new SusanTask(susanAngle, susan);
+				return new TurntableTask(susanAngle, turntable);
 		}
 	}
 
@@ -258,7 +258,7 @@ public class AutoCompiler {
 		}
 
 		public DriveTask makeTask() {
-			// Logger.log("[TASK] Turn Task", LogLevel.INFO);
+			// Logger.log("[TASK] TurntableTask Task", LogLevel.INFO);
 			return new DriveTask(turnAmount, drive, DriveMode.TURN);
 		}
 	}
@@ -348,7 +348,7 @@ public class AutoCompiler {
 				String current = line.substring(line.indexOf("drive") + "drive".length()); // Drive length (feet)
 				tokenList.add(new DriveToken(current));
 			} else if (line.contains("turn")) {
-				String current = line.substring(line.indexOf("align") + "turn".length()); // Turn angle
+				String current = line.substring(line.indexOf("align") + "turn".length()); // TurntableTask angle
 				tokenList.add(new TurnToken(current));
 			} else if (line.contains("align")) {
 				String current = line.substring(line.indexOf("turn") + "turn".length()); // Tape match times
@@ -360,9 +360,9 @@ public class AutoCompiler {
 			} else if (line.contains("cargo")) {
 				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
 				tokenList.add(new CargoToken(current));
-			} else if (line.contains("susan")) {
-				String current = line.substring(line.indexOf("susan") + "susan".length()); // Susan mode
-				tokenList.add(new SusanToken(current));
+			} else if (line.contains("turntable")) {
+				String current = line.substring(line.indexOf("turntable") + "turntable".length()); // Susan mode
+				tokenList.add(new TurntableToken(current));
 			} else if (line.contains("print")) {
 				String current = line.substring(line.indexOf("print") + "print".length()); // Text to print
 				tokenList.add(new PrintToken(current));
@@ -411,8 +411,8 @@ public class AutoCompiler {
 			} else if (t instanceof HatchToken) {
 				// TODO fix
 				// taskSet.addTask(((HatchToken) t).makeTask());
-			} else if (t instanceof SusanToken) {
-				taskSet.addTask(((SusanToken) t).makeTask());
+			} else if (t instanceof TurntableToken) {
+				taskSet.addTask(((TurntableToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask bundleSet = new BundleTask();
 				parseAuto(tokenList, bundleSet);

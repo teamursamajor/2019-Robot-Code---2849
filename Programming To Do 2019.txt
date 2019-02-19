@@ -1,16 +1,25 @@
 Figure out button layouts
 	Make a guide that shows what each button does
+
 Consider using getSquaredAxis()
+
 Limelight stuff
+
 Fix hatch autocompiler
+
 Finalize lazy susan code
+
 Test new cargo velocity
 	Does it still return infinity/NaN?
 	If not try adding a kD constant and see what happens
 		Then tune it
+
 Test new cargo mode progression
 	X should go from ground to rocket and black
 	Y should go from ground to bay and back
+
+Add offset to potentiometers?
+Make cargo stop falling during disabled?
 
 Drive Encoders:
 Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves
