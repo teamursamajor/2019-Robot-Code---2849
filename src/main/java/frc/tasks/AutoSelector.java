@@ -31,8 +31,7 @@ public class AutoSelector {
 		File autoDirectory = new File("/home/lvuser/automodes/");
 		if (autoDirectory.isDirectory()) {
 			autoFiles = autoDirectory.listFiles((File dir, String name) -> {
-				// Regex expression which only checks for files matching our
-                // naming syntax
+				// Regex check for files matching our naming syntax
 				return name.matches("/[LMR][12](hatch|cargo)[LMR][123].*\\.auto/gi");
 			});
 		} else {

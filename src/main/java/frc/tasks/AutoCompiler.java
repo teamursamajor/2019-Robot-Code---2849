@@ -6,9 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Relay.Direction;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// TODO @20XX why the unused imports?
+// import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.Relay.Direction;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
 import frc.tasks.HatchTask.HatchMode;
@@ -17,9 +18,11 @@ import frc.robot.*;
 
 //TODO path (follow) code need to be added!
 
+// TODO actually make this file vvvv
+
 /**
- * // TODO actually make this Check the AutoModes folder for a file named Auto
- * Compiler Syntax.txt It contains all the syntax
+ * Check the AutoModes folder for Auto Compiler Syntax.txt
+ * It contains all the syntax
  * 
  * @author Evan + Sheldon originally wrote this on 1/16/18. Evan updated it for
  *         the 2019 season.
@@ -148,12 +151,12 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that moves the lazy turntable to a given direction
+	 * A token that moves the turntable to a given direction
 	 * 
-	 * @param direction Direction to turn the lazy turntable to
+	 * @param direction Direction to turn the turntable to
 	 */
 	class TurntableToken implements Token {
-		private TurntableMode turntableMode;
+		private TurntableMode turntableMode = TurntableMode.FORWARD;
 		private double turntableAngle;
 
 		public TurntableToken(String direction) {
@@ -172,14 +175,11 @@ public class AutoCompiler {
 					turntableAngle = 0;
 					e.printStackTrace();
 				}
-				// TODO ? Why is this here if we just parsed an angle? Shouldn't it be a custom
-				// angle?
-				turntableMode = TurntableMode.FORWARD;
 			}
 		}
 
 		public TurntableTask makeTask() {
-			// If there is no custom angle, return a mode
+			// If there is no custom angle, return a mode (defaults to forwards)
 			if (turntableAngle == 0)
 				return new TurntableTask(turntableMode, turntable);
 			// If there is a custom angle, return that angle
@@ -341,6 +341,9 @@ public class AutoCompiler {
 			} else if (line.contains("drive")) {
 				String current = line.substring(line.indexOf("drive") + "drive".length()); // Drive length (feet)
 				tokenList.add(new DriveToken(current));
+			} else if (line.contains("turntable")) { // This must go first because "turntable" contains "turn"
+				String current = line.substring(line.indexOf("turntable") + "turntable".length()); // Turntable mode
+				tokenList.add(new TurntableToken(current));
 			} else if (line.contains("turn")) {
 				String current = line.substring(line.indexOf("align") + "turn".length()); // TurntableTask angle
 				tokenList.add(new TurnToken(current));
@@ -353,9 +356,6 @@ public class AutoCompiler {
 			} else if (line.contains("cargo")) {
 				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
 				tokenList.add(new CargoToken(current));
-			} else if (line.contains("turntable")) {
-				String current = line.substring(line.indexOf("turntable") + "turntable".length()); // Turntable mode
-				tokenList.add(new TurntableToken(current));
 			} else if (line.contains("print")) {
 				String current = line.substring(line.indexOf("print") + "print".length()); // Text to print
 				tokenList.add(new PrintToken(current));

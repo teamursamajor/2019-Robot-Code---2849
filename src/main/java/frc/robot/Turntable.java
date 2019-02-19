@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements UrsaRobot {
 
     private Spark turntableMotor;
-
     private Potentiometer turntablePot;
 
     public Turntable() {
@@ -27,7 +26,7 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
         if (xbox.getButton(XboxController.BUTTON_START)) {
             turntableMotor.set(-.4);
         } else if (xbox.getButton(XboxController.BUTTON_BACK)) {
-             turntableMotor.set(0.4);
+            turntableMotor.set(0.4);
         } else {
             turntableMotor.set(0.0);
         }

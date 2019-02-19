@@ -199,7 +199,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // Blue: " + colorSensor.getBlue());
     // }
   }
-
+  
+  /**
+   * This function is called periodically when the robot is disabled
+   */
   @Override
   public void disabledPeriodic() {
     if (cargo.getCargoVoltage() > UrsaRobot.cargoGroundVoltage) {
