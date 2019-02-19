@@ -1,21 +1,20 @@
-Measure voltage values for turntable and make it automated
-	Also allow for manual movement of the turntable?
+Testing:
+	Test using getSquaredAxis()
+		Do the drivers prefer this or not? It's just an option
+	New cargo velocity
+		Does it still return infinity/NaN?
+		If not try adding a kD constant and see what happens
+			Then tune it
+	Test new cargo mode progression
+		X should go from ground to rocket and black
+		Y should go from ground to bay and back
+	Measure voltage values for turntable and make it automated
+		Also allow for manual movement of the turntable? (rest of this will prob happen later)
+			If auto align works perfectly, we have manual movement and one auto align button (3 buttons)
+			If auto align doesn't work we just have manual movement (2 buttons)
+				In either case we need to make a new TurntableMode CUSTOM which moves it to a custom angle
 
 Camera Mount: Tell build to come up with something more secure than duct tape
-
-Figure out button layouts
-	Make a visual guide that shows what each button does
-
-Test using getSquaredAxis()
-
-Test new cargo velocity
-	Does it still return infinity/NaN?
-	If not try adding a kD constant and see what happens
-		Then tune it
-
-Test new cargo mode progression
-	X should go from ground to rocket and black
-	Y should go from ground to bay and back
 
 Limelight stuff:
 	Build a mount
@@ -49,17 +48,21 @@ Vision:
 
 Write auto files using the scripting languge and select them using the AutoSelector
 
-Add offset to potentiometers? Ex: Cargo pot starts from around 125-130, adding an offset would make it stop from 0
-Make cargo stop falling when disabled. 
-	I'm currently trying to use disabledPeriodic to make the cargo move down slowly but its not working
-	My guess is that disabledPeriodic stops all motors from running so it doesn't work :/
-		Need some other solution in that case, if one is even possible?
-
 Drive Encoders:
 Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves
 
-Constants:
-Move more powers and stuff to constants
+Lower Priority:
+	Figure out button layouts
+		Make a visual guide that shows what each button does
+	Constants:
+		Move more powers and stuff to constants
+	Add offset to potentiometers? Ex: Cargo pot starts from around 125-130, adding an offset would make it stop from 0
+	Make cargo stop falling when disabled. 
+		I'm currently trying to use disabledPeriodic to make the cargo move down slowly but its not working
+		My guess is that disabledPeriodic stops all motors from running so it doesn't work :/
+			Need some other solution in that case, if one is even possible?
+
+
 
 Older To Do Lists:
 Logger:

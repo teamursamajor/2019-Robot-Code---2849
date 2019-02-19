@@ -4,28 +4,25 @@ import frc.robot.*;
 
 public class HatchTask extends Task implements UrsaRobot {
     public enum HatchMode {
-        IN, OUT, WAIT;
+        RUN, WAIT;
 
         public HatchOrder callLoop() {
             switch (this) {
-            case IN:
-                return new HatchOrder(Constants.hatchPower, 90); //TODO test value
-            case OUT:
-                return new HatchOrder(-Constants.hatchPower, 180); //TODO test value
+            case RUN:
+                return new HatchOrder(-Constants.hatchPower); //TODO test value
             case WAIT:
-                return new HatchOrder(0.0, 0.0);
+                return new HatchOrder(0.0);
             }
             running = false;
-            return new HatchOrder(0.0, 0.0);
+            return new HatchOrder(0.0);
         }
     }
 
     public static class HatchOrder {
         public double hatchPower, servoAngle;
 
-        public HatchOrder(double hatchPower, double servoAngle) {
+        public HatchOrder(double hatchPower) {
             this.hatchPower = hatchPower;
-            this.servoAngle = servoAngle;
         }
     }
 
