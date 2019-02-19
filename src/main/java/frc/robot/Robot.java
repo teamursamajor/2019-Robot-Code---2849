@@ -54,7 +54,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     lazySusan = new LazySusan();
     lazySusan.initialize("susanThread");
     hatch = new Hatch();
-    hatch.initialize("hatchThread");
+    hatch.hatchInit();
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");

@@ -11,19 +11,15 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	private Spark mRearLeft;
 	private Spark mRearRight;
 
-	// TODO need?
-	// private static boolean square;
-
-	// private double leftPower;
-	// private double rightPower;
-
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
 	 * any time.
 	 */
 
 	public Drive() {
-		// TODO In the future we will want a switch statement here with getMode()
+		// TODO do we want to do auto sandstorm or teleop? The answer to that question
+		// changes what we do here
+		// In the future we will want a switch statement here with getMode()
 		setMode(DriveMode.DRIVE_STICKS);
 
 		mLeft = new Spark(DRIVE_LEFT);
@@ -38,7 +34,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		rightEncoder.setReverseDirection(true);
 
 		leftEncoder.reset();
-		rightEncoder.reset();	
+		rightEncoder.reset();
 	}
 
 	/**
@@ -49,7 +45,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	public void runSubsystem() {
 		updateStateInfo();
 		DriveTask.DriveOrder driveOrder = subsystemMode.callLoop();
-		
+
 		mLeft.set(-driveOrder.leftPower);
 		mRight.set(driveOrder.rightPower);
 		mRearLeft.set(-driveOrder.leftPower);
@@ -58,8 +54,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	public void updateStateInfo() {
-		// TODO remove?
-		// maybe average the encoder distances with limelight? idk
+		// TODO we need to incorporate the limelight recognition differently
 		// double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
 		// double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
 
@@ -75,18 +70,17 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		double rightDeltaPos = rightDistance - DriveTask.DriveState.rightPos;
 		double rightVelocity = (rightDeltaPos / deltaTime);
-		
-		// TODO remove?
+
 		/*
 		 * Our loop updates faster than the limelight. If the limelight hasn't updated
 		 * yet, then our change in position is 0. In this case, we want to skip this
 		 * iteration and wait for the next cycle
 		 */
-		if (leftDeltaPos == 0 || rightDeltaPos == 0)
+		double averageDeltaPos = (leftDeltaPos + rightDeltaPos) / 2.0;
+		if (Math.abs(averageDeltaPos) <= 5 || deltaTime <= 5)
 			return;
 
-		DriveTask.DriveState.updateState(leftVelocity, rightVelocity, leftDistance,
-				rightDistance, getHeading());
+		DriveTask.DriveState.updateState(leftVelocity, rightVelocity, leftDistance, rightDistance, getHeading());
 	}
 
 	/**
@@ -174,19 +168,17 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	public void stop() {
 		mLeft.stopMotor();
 		mRight.stopMotor();
-		// mRearLeft.stopMotor();
-		// mRearRight.stopMotor();
 	}
 
 	/**
-	 * Sets all drive motors to the same power. Accounts for the flip between the left and right sides
+	 * Sets all drive motors to the same power. Accounts for the flip between the
+	 * left and right sides
+	 * 
 	 * @param power
 	 */
 	public void setPower(double power) {
 		mRight.set(-power);
 		mLeft.set(power);
-		// mRearRight.set(-power);
-		// mRearLeft.set(power);
 	}
 
 	public void debugMessage(String message) {

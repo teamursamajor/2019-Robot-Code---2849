@@ -20,17 +20,29 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         cargoIntake = new Spark(CARGO_INTAKE);
         cargoPot = new AnalogPotentiometer(0, 360, 0);
         // subsystemMode = CargoMode.START;
-        subsystemMode = CargoMode.GROUND; // temporary
+        subsystemMode = CargoMode.GROUND; // TODO temporary
         time = System.currentTimeMillis();
     }
 
     public void runSubsystem() {
         updateStateInfo();
         if (automating) {
+            // If we need to save button space, then use one button that goes
+            // ground -> rocket -> bay -> rocket -> ground
             if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
-                subsystemMode = subsystemMode.getNext();
+               
+                if (subsystemMode.equals(CargoMode.GROUND))
+                    subsystemMode = CargoMode.CARGOBAY;
+                else if (subsystemMode.equals(CargoMode.CARGOBAY))
+                    subsystemMode = CargoMode.GROUND;
+
             } else if (xbox.getSingleButtonPress(XboxController.BUTTON_X)) {
-                subsystemMode = subsystemMode.getPrevious();
+               
+                if (subsystemMode.equals(CargoMode.GROUND))
+                    subsystemMode = CargoMode.LOWROCKET;
+                else if (subsystemMode.equals(CargoMode.LOWROCKET))
+                    subsystemMode = CargoMode.GROUND;
+
             } else {
                 cargoLift.set(getHoldPower());
             }
@@ -42,7 +54,8 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             } else {
                 cargoLift.set(cargoOrder.cargoPower);
             }
-        } else {
+
+        } else {            
             if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
                 cargoLift.set(0.20);
             } else if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1)) {

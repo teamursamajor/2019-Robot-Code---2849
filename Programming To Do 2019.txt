@@ -1,14 +1,24 @@
 Figure out button layouts
+	Make a guide that shows what each button does
+Consider using getSquaredAxis()
+Limelight stuff
 Fix hatch autocompiler
 Finalize lazy susan code
 Test new cargo velocity
-	Tune derivative constant of PID loop
-Fix the progression of cargo modes
+	Does it still return infinity/NaN?
+	If not try adding a kD constant and see what happens
+		Then tune it
+Test new cargo mode progression
+	X should go from ground to rocket and black
+	Y should go from ground to bay and back
 
 Drive Encoders:
 Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves
 
-Light Sensor: Wire the second one and mount them both on the corners of the robot on the hatch side
+Constants:
+Move more powers and stuff to constants
+
+Color Sensor: Wire the second one and mount them both on the corners of the robot on the hatch side
 Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
 Add another auto align mode which uses drives until the light sensor gets a hit
 

@@ -9,6 +9,7 @@ public class Climb implements UrsaRobot {
     private boolean climbStop;
     private boolean climbIsRunning;
 
+    // TODO determine what these times should be so we can automate climb
     // in ms
     private static final int frontClimbTimeInit = 1000;
     private static final int frontClimbTimeEnd = 1000;
