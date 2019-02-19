@@ -1,60 +1,67 @@
 package frc.tasks;
 
 import frc.robot.Turntable;
+import frc.robot.UrsaRobot;
 
 public class TurntableTask extends Task {
 
     public enum TurntableMode {
-        FORWARD, LEFT, RIGHT;
+        FORWARD, LEFT, RIGHT, CUSTOM;
 
         /**
          * This method takes the current drive state and iterates the control loop then
          * returns the next drive order for Drive to use
          * 
-         * @return DriveOrder containing the left and right powers
+         * @return TurntableOrder containing the left and right powers
          */
 
         public TurntableOrder callLoop() {
             // "this" refers to the enum that the method is in
             switch (this) {
             case FORWARD:
-                desiredAngle = 0.0;
+                desiredVoltage = UrsaRobot.forwardVoltage;
                 return autoGoToAngle();
             case LEFT:
-                desiredAngle = -90.0;
+                desiredVoltage = UrsaRobot.leftVoltage;
                 return autoGoToAngle();
             case RIGHT:
-                desiredAngle = 90.0;
+                desiredVoltage = UrsaRobot.rightVoltage;
+                return autoGoToAngle();
+            case CUSTOM:
                 return autoGoToAngle();
             }
             return autoGoToAngle();
         }
 
         private TurntableOrder autoGoToAngle() {
-            double newAngle = desiredAngle - TurntableState.voltage;
-            double angleTolerance = 5; //TODO Determine experimentally
-            if (newAngle < angleTolerance) {
+            // TODO update this for use of pots or whatever other sensor we get for the
+            // turntable
+            // if using a pot, use this code...
+            double voltageTolerance = 5; // TODO Determine experimentally
+            if (Math.abs(desiredVoltage - TurntableState.voltage) <= voltageTolerance) {
                 running = false;
                 return new TurntableOrder(0.0);
             }
 
-            //Assuming use of encoders
-            if (newAngle > 90 || newAngle < -90) {
-                newAngle = (newAngle > 90) ? 90 : -90;
-            } 
+            // Assumes that the left side starts at 0 and voltage goes up as it moves to the
+            // right
+            // Prevents the turntable from going past the left or right side
+            if (desiredVoltage < UrsaRobot.leftVoltage || desiredVoltage > UrsaRobot.rightVoltage)
+                desiredVoltage = (desiredVoltage < UrsaRobot.leftVoltage) ? UrsaRobot.leftVoltage
+                        : UrsaRobot.rightVoltage;
 
-            //TODO PD Loop, determine constants
-            double turntableKp = 1/40;
+            // TODO PD Loop, determine constants
+            double turntableKp = 1.0 / 70.0;
             double turntableKd = 0;
 
             double velocity = (TurntableState.velocity > 0) ? TurntableState.velocity : -TurntableState.velocity;
-            double outputPower = turntableKp * newAngle + turntableKd * velocity;
+            double outputPower = turntableKp * (desiredVoltage - TurntableState.voltage) + turntableKd * velocity;
 
             return new TurntableOrder(outputPower);
         }
     }
 
-    private static double desiredAngle = 0.0;
+    private static double desiredVoltage = 0.0;
 
     public TurntableTask(TurntableMode mode, Turntable turntable) {
         running = true;
@@ -63,9 +70,10 @@ public class TurntableTask extends Task {
         t.start();
     }
 
-    public TurntableTask(double angle, Turntable turntable) {
+    public TurntableTask(double voltage, Turntable turntable) {
         running = true;
-        desiredAngle = angle;
+        desiredVoltage = voltage;
+        turntable.setMode(TurntableMode.CUSTOM);
         Thread t = new Thread("Turntable Task");
         t.start();
     }
@@ -87,7 +95,7 @@ public class TurntableTask extends Task {
      * for power, velocity, and position for both the left and right side.
      */
     public static class TurntableState {
-        public static double voltage = 0.0, velocity;
+        public static double voltage = 0.0, velocity = 0.0;
 
         public static long stateTime = System.currentTimeMillis();
 

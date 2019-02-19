@@ -7,7 +7,6 @@ public class BundleTask extends GroupTask {
 	}
 
 	public void run() {
-		// Logger.log("Running bundle task", LogLevel.INFO);
 
 		for (Task t : tasks) {
 			t.start();
@@ -17,8 +16,6 @@ public class BundleTask extends GroupTask {
 				t.join(); // Acts as a Thread.sleep
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-				// Logger.log("BundleTask run method join thread printStackTrace",
-				// LogLevel.ERROR);
 			}
 		}
 	}

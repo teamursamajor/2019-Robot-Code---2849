@@ -37,12 +37,11 @@ public class CargoTask extends Task implements UrsaRobot{
 
             if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;
-                // return new CargoOrder(Cargo.getHoldPower());
-                return new CargoOrder(0.0);
+                return new CargoOrder(Cargo.getHoldPower());
             }
 
             //TODO Add derivative term to PD loop
-            double kpCargo = 1.0 / 100.0; //was 1/100
+            double kpCargo = 1.0 / 100.0;
             double kdCargo = 0;
 			double cargoMinimumPower = 0.15;
 
@@ -50,7 +49,7 @@ public class CargoTask extends Task implements UrsaRobot{
 			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage);// + kdCargo * CargoState.cargoVelocity;
             // System.out.println("Cargo Power: " + cargoPower);
             
-            // //TODO was 0 before, test
+            // //TODO was 0 before, test by using auto code
             // if(cargoPower <= 0.1){
             //     running = false;
             //     return new CargoOrder(Cargo.getHoldPower());

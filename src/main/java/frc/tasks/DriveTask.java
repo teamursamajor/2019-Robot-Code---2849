@@ -22,7 +22,7 @@ public class DriveTask extends Task implements UrsaRobot {
          */
 
         public DriveOrder callLoop() {
-            // "this" refers to the enum that the method is in
+            // "this" refers to the subsystemMode that is calling this method
             switch (this) {
             case AUTO:
                 return autoCalculator();
@@ -45,9 +45,10 @@ public class DriveTask extends Task implements UrsaRobot {
          * @return A DriveOrder object containing the new left and right powers
          */
         private DriveOrder autoCalculator() {
+            // TODO test driveTolerance, kpDrive, and kdDrive
             double leftOutputPower = 0.0, rightOutputPower = 0.0;
             double currentDistance = DriveState.averagePos;
-            double driveTolerance = 0.0; // TODO set a real value here
+            double driveTolerance = 4.0;
 
             double kdDrive = 2; // Derivative coefficient for PID controller
             double kpDrive = 1.0 / 33.0; // Proportional coefficient for PID controller
@@ -60,16 +61,21 @@ public class DriveTask extends Task implements UrsaRobot {
             }
 
             // TODO someone double check this
+            // If moving forward, everything is like normal
             if (direction > 0) {
                 leftOutputPower = kpDrive * (desiredLocation - DriveState.leftPos) + kdDrive * DriveState.leftVelocity;
                 rightOutputPower = kpDrive * (desiredLocation - DriveState.rightPos)
                         + kdDrive * DriveState.rightVelocity;
-            } else if (direction < 0) {
+            }
+            // If moving backwards, find our error term minus velocity term
+            else if (direction < 0) {
                 leftOutputPower = kpDrive * (DriveState.leftPos - desiredLocation)
                         + kdDrive * (-1 * DriveState.leftVelocity);
+                // Cant remember why I did this, but I think it might be necessary. Test?
                 leftOutputPower *= -1.0;
                 rightOutputPower = kpDrive * (DriveState.rightPos - desiredLocation)
                         + kdDrive * (-1 * DriveState.rightVelocity);
+                // Cant remember why I did this, but I think it might be necessary. Test?
                 rightOutputPower *= -1.0;
             }
 
@@ -112,8 +118,10 @@ public class DriveTask extends Task implements UrsaRobot {
             while (hatchCount < matchPairs) {
                 // Count the number of valid tape pairs we've encountered
                 tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
-                if (tapePairPresent == 1) count++;
-                if (count % 2 == 1) hatchCount++; // skips "even" pairs to avoid false positives
+                if (tapePairPresent == 1)
+                    count++;
+                if (count % 2 == 1)
+                    hatchCount++; // skips "even" pairs to avoid false positives
                 System.out.println("Count: " + count);
                 System.out.println("Hatch Count: " + hatchCount);
                 // Wait before trying to match a pair of tape again
@@ -133,9 +141,9 @@ public class DriveTask extends Task implements UrsaRobot {
 
             // PD equations power = kp * change in distance (aka error) + kd * velocity
             double leftOutputPower = kpAutoAlign * (limelightTable.getEntry("tx").getDouble(Double.NaN) - goalPosition)
-            + kdAutoAlign * DriveState.leftVelocity;
+                    + kdAutoAlign * DriveState.leftVelocity;
             double rightOutputPower = kpAutoAlign * (limelightTable.getEntry("tx").getDouble(Double.NaN) - goalPosition)
-            + kdAutoAlign * DriveState.rightVelocity;
+                    + kdAutoAlign * DriveState.rightVelocity;
 
             if (leftOutputPower == 0 && rightOutputPower == 0) {
                 driving = false;
@@ -162,16 +170,20 @@ public class DriveTask extends Task implements UrsaRobot {
          */
         private DriveOrder sticksBox() {
             // Arcade Drive
+            // TODO test using squared axis and see how it feels. Might be better for small
+            // movements
+            // double leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
+            // double rightStickX = xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
             double leftStickY = xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y) * (0.75);
             double rightStickX = -xbox.getAxis(XboxController.AXIS_RIGHTSTICK_X) * (0.75);
             double leftSpeed = leftStickY + rightStickX;
             double rightSpeed = leftStickY - rightStickX;
             double max = Math.max(leftSpeed, rightSpeed);
             double min = Math.min(leftSpeed, rightSpeed);
-            if(max > 1){
+            if (max > 1) {
                 leftSpeed /= max;
                 rightSpeed /= max;
-            } else if (min < -1){
+            } else if (min < -1) {
                 leftSpeed /= -min;
                 rightSpeed /= -min;
             }
@@ -179,9 +191,9 @@ public class DriveTask extends Task implements UrsaRobot {
         }
 
         private DriveOrder turnTo() {
-            double newAngle = desiredAngle - DriveState.currentAngle;
-            double angleTolerance = 5; //TODO set experimentally
-            if(newAngle < angleTolerance){
+            double newAngle = desiredAngle - DriveState.currentHeading;
+            double angleTolerance = 5; // TODO set experimentally
+            if (newAngle < angleTolerance) {
                 driving = false;
                 return new DriveOrder(0.0, 0.0);
             }
@@ -189,8 +201,8 @@ public class DriveTask extends Task implements UrsaRobot {
             if (newAngle < 0 && Math.abs(newAngle) > 180)
                 newAngle += 360;
 
-            //TODO PD Loop
-            double turningKp = 1.0/40.0;
+            // TODO PD Loop
+            double turningKp = 1.0 / 40.0;
             double turningKd = 0.0;
 
             double velocity = (DriveState.leftVelocity > 0) ? DriveState.leftVelocity : DriveState.rightVelocity;
@@ -198,14 +210,13 @@ public class DriveTask extends Task implements UrsaRobot {
             double outputPower = turningKp * newAngle + turningKd * (velocity / UrsaRobot.robotRadius);
 
             return new DriveOrder(1 * (Math.signum(newAngle) * outputPower),
-					-1 * (Math.signum(newAngle)) * outputPower);
+                    -1 * (Math.signum(newAngle)) * outputPower);
         }
 
         private DriveOrder pathIterate(String pathName) {
             return null;
         }
     }
-    
 
     /**
      * This holds information about the current state of the robot. It holds values
@@ -213,16 +224,17 @@ public class DriveTask extends Task implements UrsaRobot {
      */
     public static class DriveState {
         public static double leftVelocity = 0.0, rightVelocity = 0.0, leftPos = 0.0, rightPos = 0.0;
-        public static double averagePos = 0.0, currentAngle = 0.0;
+        public static double averagePos = 0.0, currentHeading = 0.0;
         public static long stateTime = System.currentTimeMillis();
 
-        public static void updateState(double leftVelocity, double rightVelocity, double leftPos, double rightPos, double currentAngle) {
+        public static void updateState(double leftVelocity, double rightVelocity, double leftPos, double rightPos,
+                double currentHeading) {
             DriveState.leftVelocity = leftVelocity;
             DriveState.rightVelocity = rightVelocity;
             DriveState.leftPos = leftPos;
             DriveState.rightPos = rightPos;
             DriveState.averagePos = (leftPos + rightPos) / 2.0;
-            DriveState.currentAngle = currentAngle;
+            DriveState.currentHeading = currentHeading;
             stateTime = System.currentTimeMillis();
         }
 
@@ -269,7 +281,8 @@ public class DriveTask extends Task implements UrsaRobot {
     /**
      * Used for turning or aligning
      * 
-     * @param argument  The desired angle to turn to or the number of times to check for tape pairs
+     * @param argument  The desired angle to turn to or the number of times to check
+     *                  for tape pairs
      * @param drive     Instance of the drive object
      * @param otherMode Should be TURN or ALIGN
      */
@@ -290,25 +303,26 @@ public class DriveTask extends Task implements UrsaRobot {
             alignThread.start();
             break;
         default:
-            System.out.println("This constructor is being used incorrectly to drive the robot. It should be used only for turning or aligning.");
+            System.out.println(
+                    "This constructor is being used incorrectly to drive the robot. It should be used only for turning or aligning.");
             break;
         }
     }
 
-    //TODO this when it's ready
+    // TODO this when it's ready
 
     /**
      * Used for following paths
      * 
-     * @param pathName  The name of the path file to follow
-     * @param drive     Instance of the drive object
+     * @param pathName The name of the path file to follow
+     * @param drive    Instance of the drive object
      */
     // public DriveTask(PathReader pathReader, Drive drive) {
-    //     this.pathReader = pathReader;
-    //     driving = true;
-    //     drive.setMode(DriveMode.PATH);
-    //     Thread pathThread = new Thread("PathTask");
-    //     pathThread.start();
+    // this.pathReader = pathReader;
+    // driving = true;
+    // drive.setMode(DriveMode.PATH);
+    // Thread pathThread = new Thread("PathTask");
+    // pathThread.start();
     // }
 
     public void run() {
