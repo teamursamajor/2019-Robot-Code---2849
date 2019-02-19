@@ -36,6 +36,9 @@ public interface UrsaRobot {
 	public static final int CLIMB_ENCODER_CHANNEL_A = 0;
 	public static final int CLIMB_ENCODER_CHANNEL_B = 1;
 
+	// Hatch Servo
+	public static final int HATCH_SERVO = 0;
+
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
