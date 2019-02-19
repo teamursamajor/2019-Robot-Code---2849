@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
+import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.TurntableTask.TurntableMode;
 import frc.robot.*;
 
-//TODO import logger when ready
 //TODO path (follow) code need to be added!
 
 /**
@@ -32,7 +32,7 @@ public class AutoCompiler {
 	private Cargo cargo;
 	private Hatch hatch;
 	private Turntable turntable;
-	
+
 	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, Turntable turntable) {
 		this.drive = drive;
 		this.cargo = cargo;
@@ -68,7 +68,6 @@ public class AutoCompiler {
 
 		// Creates a new instance of PrintTask class
 		public PrintTask makeTask() {
-			// Logger.log("[TASK] Print Task", LogLevel.INFO);
 			return new PrintTask(str);
 		}
 	}
@@ -99,7 +98,7 @@ public class AutoCompiler {
 	/**
 	 * A token that sets the cargo arm to a given state
 	 * 
-	 * @param state State of the cargo arm (picking up, dropping off, or deploying)
+	 * @param state State of the cargo arm (picking up, dropping off, etc)
 	 */
 	class CargoToken implements Token {
 		private CargoMode cargoMode;
@@ -107,18 +106,17 @@ public class AutoCompiler {
 		public CargoToken(String state) {
 			state = state.replace(" ", "");
 			if (state.equalsIgnoreCase("GROUND")) {
-			cargoMode = CargoMode.GROUND;
+				cargoMode = CargoMode.GROUND;
 			} else if (state.equalsIgnoreCase("LOWROCKET")) {
-			cargoMode = CargoMode.LOWROCKET;
+				cargoMode = CargoMode.LOWROCKET;
 			} else if (state.equalsIgnoreCase("CARGOBAY")) {
-			cargoMode = CargoMode.CARGOBAY;
+				cargoMode = CargoMode.CARGOBAY;
 			} else {
-			cargoMode = CargoMode.GROUND;
+				cargoMode = CargoMode.GROUND;
 			}
 		}
 
 		public CargoTask makeTask() {
-			// Logger.log("[TASK] Cargo Task", LogLevel.INFO);
 			return new CargoTask(cargoMode, cargo);
 		}
 	}
@@ -129,27 +127,25 @@ public class AutoCompiler {
 	 * @param position Position to move the hatch arm to
 	 */
 	class HatchToken implements Token {
-		// TODO IMPLEMENT HATCH AUTO
-		// private HatchMode hatchMode;
+		private HatchMode hatchMode;
 
-		// public HatchToken(String position) {
-		// position = position.replace(" ", "");
+		public HatchToken(String position) {
+			position = position.replace(" ", "");
 
-		// if (position.equalsIgnoreCase("START")) {
-		// hatchMode = HatchMode.START;
-		// } else if (position.equalsIgnoreCase("BOTTOM")) {
-		// hatchMode = HatchMode.BOTTOM;
-		// } else if (position.equalsIgnoreCase("TOP")) {
-		// hatchMode = HatchMode.TOP;
-		// } else {
-		// hatchMode = HatchMode.BOTTOM;
-		// }
-		// }
+			if (position.equalsIgnoreCase("IN")) {
+				hatchMode = HatchMode.IN;
+			} else if (position.equalsIgnoreCase("OUT")) {
+				hatchMode = HatchMode.OUT;
+			} else if (position.equalsIgnoreCase("WAIT")) {
+				hatchMode = HatchMode.WAIT;
+			} else {
+				hatchMode = HatchMode.WAIT;
+			}
+		}
 
-		// public HatchTask makeTask() {
-		// // Logger.log("[TASK] Hatch Task", LogLevel.INFO);
-		// return new HatchTask(hatchMode, hatch);
-		// }
+		public HatchTask makeTask() {
+			return new HatchTask(hatchMode, hatch);
+		}
 	}
 
 	/**
@@ -157,9 +153,9 @@ public class AutoCompiler {
 	 * 
 	 * @param direction Direction to turn the lazy turntable to
 	 */
-	class TurntabelToken implements Token {
+	class TurntableToken implements Token {
 		private TurntableMode turntableMode;
-		private double susanAngle;
+		private double turntableAngle;
 
 		public TurntableToken(String direction) {
 			direction = direction.replace(" ", "");
@@ -172,20 +168,24 @@ public class AutoCompiler {
 				turntableMode = TurntableMode.RIGHT;
 			} else {
 				try {
-					susanAngle = Double.parseDouble(direction);
+					turntableAngle = Double.parseDouble(direction);
 				} catch (NumberFormatException e) {
+					turntableAngle = 0;
 					e.printStackTrace();
 				}
+				// TODO ? Why is this here if we just parsed an angle? Shouldn't it be a custom
+				// angle?
 				turntableMode = TurntableMode.FORWARD;
 			}
 		}
 
 		public TurntableTask makeTask() {
-			// Logger.log("[TASK] Susan Task", LogLevel.INFO);
-			if (susanAngle == 0)
+			// If there is no custom angle, return a mode
+			if (turntableAngle == 0)
 				return new TurntableTask(turntableMode, turntable);
+			// If there is a custom angle, return that angle
 			else
-				return new TurntableTask(susanAngle, turntable);
+				return new TurntableTask(turntableAngle, turntable);
 		}
 	}
 
@@ -209,7 +209,6 @@ public class AutoCompiler {
 		}
 
 		public WaitTask makeTask() {
-			// Logger.log("[TASK] Wait Task", LogLevel.INFO);
 			return new WaitTask((long) (wait * 1000.0d));
 		}
 	}
@@ -258,7 +257,6 @@ public class AutoCompiler {
 		}
 
 		public DriveTask makeTask() {
-			// Logger.log("[TASK] TurntableTask Task", LogLevel.INFO);
 			return new DriveTask(turnAmount, drive, DriveMode.TURN);
 		}
 	}
@@ -286,7 +284,6 @@ public class AutoCompiler {
 		}
 
 		public DriveTask makeTask() {
-			// Logger.log("[TASK] Align Task", LogLevel.INFO);
 			return new DriveTask(matchPairs, drive, DriveMode.ALIGN);
 		}
 	}
@@ -311,8 +308,6 @@ public class AutoCompiler {
 		}
 
 		public DriveTask makeTask() {
-			// Logger.log("[TASK] Drive Task", LogLevel.INFO);
-			// return new DriveTask((int) dist, drive);
 			return new DriveTask(dist, drive);
 		}
 	}
@@ -334,12 +329,12 @@ public class AutoCompiler {
 			if (line.contains("#")) { // # means a comment, so the tokenizer ignores lines beginning with it
 				continue;
 			} else if (line.contains("follow")) {
-				String current = line.substring(line.indexOf("follow") + "follow".length()); // Path to follow (file
-																								// name)
+				// Path to follow (file name)
+				String current = line.substring(line.indexOf("follow") + "follow".length()); 
 				tokenList.add(new PathToken(current));
 			} else if (line.contains("execute")) {
-				String current = line.substring(line.indexOf("execute") + "execute".length()); // Automode to execute
-																								// (file name)
+				// Automode to execute (file name)
+				String current = line.substring(line.indexOf("execute") + "execute".length()); 
 				tokenList.add(new ExecuteToken(current));
 			} else if (line.contains("wait")) {
 				String current = line.substring(line.indexOf("wait") + "wait".length()); // Wait length (seconds)
@@ -355,13 +350,12 @@ public class AutoCompiler {
 				tokenList.add(new AlignToken(current));
 			} else if (line.contains("hatch")) {
 				String current = line.substring(line.indexOf("hatch") + "hatch".length()); // Hatch mode
-				// TODO fix
-				// tokenList.add(new HatchToken(current));
+				tokenList.add(new HatchToken(current));
 			} else if (line.contains("cargo")) {
 				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
 				tokenList.add(new CargoToken(current));
 			} else if (line.contains("turntable")) {
-				String current = line.substring(line.indexOf("turntable") + "turntable".length()); // Susan mode
+				String current = line.substring(line.indexOf("turntable") + "turntable".length()); // Turntable mode
 				tokenList.add(new TurntableToken(current));
 			} else if (line.contains("print")) {
 				String current = line.substring(line.indexOf("print") + "print".length()); // Text to print
@@ -387,7 +381,6 @@ public class AutoCompiler {
 	 */
 	private Task parseAuto(ArrayList<Token> tokenList, GroupTask taskSet) {
 		if (tokenList.size() == 0) {
-			// Logger.log("[TASK] Wait Task", LogLevel.INFO);
 			return new WaitTask(0);
 		}
 
@@ -409,8 +402,7 @@ public class AutoCompiler {
 			} else if (t instanceof CargoToken) {
 				taskSet.addTask(((CargoToken) t).makeTask());
 			} else if (t instanceof HatchToken) {
-				// TODO fix
-				// taskSet.addTask(((HatchToken) t).makeTask());
+				taskSet.addTask(((HatchToken) t).makeTask());
 			} else if (t instanceof TurntableToken) {
 				taskSet.addTask(((TurntableToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
@@ -441,8 +433,6 @@ public class AutoCompiler {
 			return parseAuto(tokenize(filename), new SerialTask());
 		} catch (IOException e) {
 			e.printStackTrace();
-			// Logger.log("AutoBuilder buildAutoMode method parseAuto printStackTrace",
-			// LogLevel.ERROR);
 			return null;
 		}
 	}
