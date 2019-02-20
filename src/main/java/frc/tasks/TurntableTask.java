@@ -6,7 +6,7 @@ import frc.robot.UrsaRobot;
 public class TurntableTask extends Task {
 
     public enum TurntableMode {
-        FORWARD, LEFT, RIGHT, CUSTOM;
+        FORWARD, LEFT, RIGHT, AUTO_ALIGN, CUSTOM;
 
         /**
          * This method takes the current drive state and iterates the control loop then
@@ -26,6 +26,8 @@ public class TurntableTask extends Task {
                 return autoGoToAngle();
             case RIGHT:
                 desiredVoltage = UrsaRobot.rightVoltage;
+                return autoGoToAngle();
+            case AUTO_ALIGN:
                 return autoGoToAngle();
             case CUSTOM:
                 return autoGoToAngle();

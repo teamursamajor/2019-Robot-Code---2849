@@ -1,4 +1,5 @@
 Testing:
+	Test Hatch in general
 	Test using getSquaredAxis()
 		Do the drivers prefer this or not? It's just an option
 	New cargo velocity
@@ -14,10 +15,9 @@ Testing:
 			If auto align doesn't work we just have manual movement (2 buttons)
 				In either case we need to make a new TurntableMode CUSTOM which moves it to a custom angle
 
-Camera Mount: Tell build to come up with something more secure than duct tape
-
+Camera Mount: In progress but check on it
 Limelight stuff:
-	Build a mount
+	Safety concerns with the mount? make sure the limelight doesn't break
 	Double check detection software and logic
 	Write code to automate pickup and drop off:
 		To automate pickup:
@@ -51,18 +51,15 @@ Write auto files using the scripting languge and select them using the AutoSelec
 Drive Encoders:
 Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves
 
+Make sure all software is up to date:
+	Bridge, RoboRIO, Driver Station, etc.
+
 Lower Priority:
 	Figure out button layouts
 		Make a visual guide that shows what each button does
 	Constants:
 		Move more powers and stuff to constants
 	Add offset to potentiometers? Ex: Cargo pot starts from around 125-130, adding an offset would make it stop from 0
-	Make cargo stop falling when disabled. 
-		I'm currently trying to use disabledPeriodic to make the cargo move down slowly but its not working
-		My guess is that disabledPeriodic stops all motors from running so it doesn't work :/
-			Need some other solution in that case, if one is even possible?
-
-
 
 Older To Do Lists:
 Logger:

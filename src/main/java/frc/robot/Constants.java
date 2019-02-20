@@ -32,6 +32,7 @@ public class Constants implements Runnable {
         susanPower = 0.25;
         SmartDashboard.putNumber("Susan Power", 0.25);
         startConstants();
+        
     }
 
     public void startConstants() {

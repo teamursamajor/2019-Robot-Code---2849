@@ -12,6 +12,9 @@ public interface UrsaRobot {
 	// TODO Finalize Ports
 	// Spark Ports
 	// 5 and 8 unused, 3 and 4 are temporary
+	public static final double defaultCameraPipeline = 0;
+	public static final double visionCameraPipeline=1;
+
 	public static final int DRIVE_LEFT = 0;
 	public static final int DRIVE_RIGHT = 9;
 

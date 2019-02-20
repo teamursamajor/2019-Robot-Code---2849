@@ -205,12 +205,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void disabledPeriodic() {
-    if (cargo.getCargoVoltage() > UrsaRobot.cargoGroundVoltage) {
-      cargo.setMode(CargoMode.GROUND);
-    }
-    else {
-      cargo.setCargoLift(0.0);
-    }
+
   }
 
 }

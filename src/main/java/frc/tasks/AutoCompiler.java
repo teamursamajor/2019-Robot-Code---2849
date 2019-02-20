@@ -154,7 +154,7 @@ public class AutoCompiler {
 	 * @param direction Direction to turn the turntable to
 	 */
 	class TurntableToken implements Token {
-		private TurntableMode turntableMode = TurntableMode.FORWARD;
+		private TurntableMode turntableMode = TurntableMode.CUSTOM;
 		private double turntableAngle;
 
 		public TurntableToken(String direction) {
