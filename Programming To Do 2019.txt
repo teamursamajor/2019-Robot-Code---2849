@@ -73,16 +73,8 @@ Lower Priority:
 
 Older To Do Lists:
 Logger:
-	Re use the logger from last year and add Logger calls throughout the code
+	Add Logger calls throughout the code
 	Later, if we have extra time, we can improve the Logger functionality
-
-Parser:
-	Parse through the auto file line by line
-		Read the whole file in as a single string
-		Read the first line and if its a command you run it. Ex: if it says drive 10, then run a drive task to move 10 inches
-		If its a serial/bundle, skip through the string until you find a "}." Once the number of "}" equals the number of "{," use 
-		substrings to recurse and run those commands either in serial or bundle
-		Look at whiteboard pic for more information
 
 Look at all the TODO's in the project and start doing them:
 	We never get to this. Maybe this year it'll be different...
@@ -91,12 +83,6 @@ Turret Lock:
 	Use the limelight camera to make the turret (lazy susan) lock onto the vision target regardless of the robot orientation.
 	Even if the front of the robot is 30 degrees off from facing forward, we can use limelight to make sure the lazy susan (turret) is 
 	still facing forward relative to the vision tape. If the angle offset starts going up, we move the turret. This is a control loop
-
-Config file:
-	If desired, you can make a .config file of some sort allowing for quick changes to control layouts.
-	The code would read the config files and look for the specified buttons/axis assigned to a specified action, then execute that action
-		Ex: A variable holds the button ID which will be used for the hatch arm. It gets the ID from the config file upon robotInit, and if 
-		the button with that ID is pressed, it runs the hatch dropoff.
 
 
 Auto:

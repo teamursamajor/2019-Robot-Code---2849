@@ -7,25 +7,37 @@ import java.util.HashMap;
  */
 public class ControlMap {
 
-    static HashMap<String, Integer> controlMap = new HashMap<String,Integer>();
+    public HashMap<String, Integer> map = new HashMap<String,Integer>();
 
     public ControlMap() {
 
-        // Cargo intake/outtake wheels
-        controlMap.put("cargo_intake", XboxController.BUTTON_LEFTBUMPER);
-        controlMap.put("cargo_outtake", XboxController.BUTTON_RIGHTBUMPER);
+        // Drive sticks
+        map.put("drive_straight", XboxController.AXIS_LEFTSTICK_Y);
+        map.put("drive_turn", XboxController.AXIS_RIGHTSTICK_X);
+
+        // Climb
+        map.put("climb_start", XboxController.BUTTON_START);
+        map.put("climb_stop", XboxController.BUTTON_BACK);
+
+        // Turntable
+        map.put("turntable_left", XboxController.AXIS_LEFTTRIGGER);
+        map.put("turntable_right", XboxController.AXIS_RIGHTTRIGGER);
+
+        // Hatch
+        map.put("hatch_run", XboxController.BUTTON_A);
+        map.put("hatch_wait", XboxController.BUTTON_B);
+
+        // Cargo arm toggle lifting
+        map.put("cargo_bay", XboxController.BUTTON_Y);
+        map.put("cargo_rocket", XboxController.BUTTON_X);
 
         // Cargo arm manual lifting
-        controlMap.put("cargoarm_up", XboxController.POV_UP);
-        controlMap.put("cargoarm_down", XboxController.POV_DOWN);
+        map.put("cargo_up", XboxController.POV_UP);
+        map.put("cargo_down", XboxController.POV_DOWN);
 
-        // Cargo arm toggling
-        controlMap.put("cargotoggle_bay", XboxController.BUTTON_Y);
-        controlMap.put("cargotoggle_rocket", XboxController.BUTTON_X);
-
-        // Drive sticks
-        controlMap.put("drivestick", XboxController.AXIS_LEFTSTICK_Y);
-        controlMap.put("turnstick", XboxController.AXIS_RIGHTSTICK_X);
+        // Cargo wheels intake/outtake
+        map.put("cargo_intake", XboxController.BUTTON_LEFTBUMPER);
+        map.put("cargo_outtake", XboxController.BUTTON_RIGHTBUMPER);
 
     }
 

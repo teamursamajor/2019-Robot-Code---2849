@@ -85,6 +85,9 @@ public interface UrsaRobot {
 	// Xbox Controller
 	XboxController xbox = new XboxController(0);
 
+	// Control Map
+	ControlMap controls = new ControlMap();
+
 	/**
 	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted, no m
 	 *  tter what Evan may say. - Isåàç
