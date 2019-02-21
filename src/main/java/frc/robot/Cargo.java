@@ -28,7 +28,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         if (automating) {
             // If we need to save button space, then use one button that goes
             // ground -> rocket -> bay -> rocket -> ground
-            if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
+            if (xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
                
                 if (subsystemMode.equals(CargoMode.GROUND)) {
                     // untested, remove if it breaks the robot lol
@@ -43,7 +43,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                 else if (subsystemMode.equals(CargoMode.CARGOBAY))
                     subsystemMode = CargoMode.GROUND;
 
-            } else if (xbox.getSingleButtonPress(XboxController.BUTTON_X)) {
+            } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))) {
                
                 if (subsystemMode.equals(CargoMode.GROUND))
                     subsystemMode = CargoMode.LOWROCKET;
@@ -65,18 +65,18 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         } else {            
             if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
                 cargoLift.set(0.20);
-            } else if (xbox.getPOV() == XboxController.POV_UP) {
+            } else if (xbox.getPOV() == controls.map.get("cargo_up")) {
                 cargoLift.set(-0.20);
-            } else if (xbox.getPOV() == XboxController.POV_DOWN) {
+            } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
                 cargoLift.set(0.20);
             } else {
                 getHoldPower();
             }
         }
 
-        if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
+        if (xbox.getButton(controls.map.get("cargo_intake"))) {
             cargoIntake.set(Constants.cargoIntakePower);
-        } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
+        } else if (xbox.getButton(controls.map.get("cargo_outtake"))) {
             cargoIntake.set(-Constants.cargoOuttakePower);
         } else {
             cargoIntake.set(0);

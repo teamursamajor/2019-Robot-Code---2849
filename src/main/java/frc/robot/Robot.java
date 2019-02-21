@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.tasks.CargoTask.CargoMode;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.cameraserver.CameraServer;
 
@@ -146,48 +145,22 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopInit() {
   }
 
-  private boolean climbPressed;
-
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    if(xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1) || xbox.getAxisGreaterThan(XboxController.AXIS_RIGHTTRIGGER, 0.1)){
+    if(xbox.getPOV() == controls.map.get("cargo_up") || xbox.getPOV() == controls.map.get("cargo_down")){
       Cargo.automating = false;
-    } else if(xbox.getSingleButtonPress(XboxController.BUTTON_X) || xbox.getSingleAxisPress(XboxController.BUTTON_Y)){
+    } else if(xbox.getSingleButtonPress(controls.map.get("cargo_rocket")) || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))){
       Cargo.automating = true;
     }
 
-    if (xbox.getButton(XboxController.BUTTON_START)) {
+    if (xbox.getButton(controls.map.get("climb_start"))) {
       climb.climbInit();
-    } else if (xbox.getButton(XboxController.BUTTON_BACK)) {
+    } else if (xbox.getButton(controls.map.get("climb_stop"))) {
       climb.cancelClimb();
     }
-    
-    // climbPressed = false;
-    // boolean climbPressed = false;
-    // // POV Up is start all climbing
-    // if (xbox.getPOV() == XboxController.POV_UP && !climb.isClimbing()) {
-    //   climb.climbInit();
-    // }
-    // // POV Down is cancel climb
-    // else if (xbox.getPOV() == XboxController.POV_DOWN) {
-    //   climb.cancelClimb();
-    // }
-    // // POV Left is to retract the front motor
-    // if (xbox.getPOV() == XboxController.POV_LEFT && !climb.isClimbing()) {
-    //   climb.setFrontMotor(Constants.climbPower);
-    //   climbPressed = true;
-    // }
-    // // POV Right is to retract the back motor / cam
-    // if (xbox.getPOV() == XboxController.POV_RIGHT && !climb.isClimbing()) {
-    //   climb.setBackMotor(-Constants.climbPower);
-    //   climbPressed = true;
-    // }
-    // if (!climbPressed && !climb.isClimbing()) {
-    //   climb.stopMotors();
-    // }
 
   }
 

@@ -174,8 +174,8 @@ public class DriveTask extends Task implements UrsaRobot {
             // movements
             // double leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
             // double rightStickX = xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
-            double leftStickY = xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y) * (0.75);
-            double rightStickX = -xbox.getAxis(XboxController.AXIS_RIGHTSTICK_X) * (0.75);
+            double leftStickY = xbox.getAxis(controls.map.get("drive_straight")) * (0.75);
+            double rightStickX = -xbox.getAxis(controls.map.get("drive_turn")) * (0.75);
             double leftSpeed = leftStickY + rightStickX;
             double rightSpeed = leftStickY - rightStickX;
             double max = Math.max(leftSpeed, rightSpeed);

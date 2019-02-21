@@ -19,11 +19,11 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     }
 
     public void runSubsystem() {
-        if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) { // runs hatch and flips servo
+        if (xbox.getSingleButtonPress(controls.map.get("hatch_run"))) { // runs hatch and flips servo
             subsystemMode = HatchMode.RUN;
             // // this does the same thing as servoUp = !servoUp
             // servoUp = servoUp ? false : true;
-        } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) { // flips servo, does not run hatch
+        } else if (xbox.getSingleButtonPress(controls.map.get("hatch_wait"))) { // flips servo, does not run hatch
             subsystemMode = HatchMode.WAIT;
         }
 
