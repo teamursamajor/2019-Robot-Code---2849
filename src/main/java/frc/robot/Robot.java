@@ -159,6 +159,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       Cargo.automating = true;
     }
     
+    // TODO climber code
     // climbPressed = false;
     // boolean climbPressed = false;
     // // POV Up is start all climbing

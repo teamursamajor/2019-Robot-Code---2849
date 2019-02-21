@@ -21,8 +21,6 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     public void runSubsystem() {
         if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) { // runs hatch and flips servo
             subsystemMode = HatchMode.RUN;
-            // // this does the same thing as servoUp = !servoUp
-            // servoUp = servoUp ? false : true;
         } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) { // flips servo, does not run hatch
             subsystemMode = HatchMode.WAIT;
         }
@@ -31,19 +29,21 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
         if(subsystemMode.equals(HatchMode.RUN)){
             long startTime = System.currentTimeMillis();
-            if(servoUp) { // this means the servo was originally up and we are dropping off
+            if(servoUp) { // servo was originally up and we are dropping off
                 try {
                     hatchMotor.set(hatchOrder.hatchPower); // goes out
-                    Thread.sleep(maxRunTime); // wait
+                    Thread.sleep(maxRunTime);
+                    //TODO test number
                     hatchServo.setAngle(180); // servo down
                     servoUp = false;
-                    hatchMotor.set(-hatchOrder.hatchPower); // goes in
-                    Thread.sleep(maxRunTime); // wait
+                    hatchMotor.set(-hatchOrder.hatchPower); // comes in
+                    Thread.sleep(maxRunTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            } else { // this means the servo was originally down and we are picking up
+            } else { // servo was originally down and we are picking up
                 hatchMotor.set(hatchOrder.hatchPower);
+                // TODO test number
                 while((hatchServo.getAngle() < 90) && (System.currentTimeMillis() - startTime) < maxRunTime){
                     try {
                         Thread.sleep(10);
@@ -52,6 +52,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
                     }
                 }
                 long currentRunTime = System.currentTimeMillis() - startTime;
+                // TODO test number
                 hatchServo.setAngle(90);
                 servoUp = true;
                 hatchMotor.set(-hatchOrder.hatchPower);
