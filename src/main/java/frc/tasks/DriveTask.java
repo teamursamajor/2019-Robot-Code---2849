@@ -1,7 +1,6 @@
 package frc.tasks;
 
 import frc.robot.UrsaRobot;
-import frc.robot.XboxController;
 import frc.robot.Drive;
 
 public class DriveTask extends Task implements UrsaRobot {
