@@ -9,7 +9,7 @@ public class HatchTask extends Task implements UrsaRobot {
         public HatchOrder callLoop() {
             switch (this) {
             case RUN:
-                return new HatchOrder(-Constants.hatchPower); //TODO test value
+                return new HatchOrder(-Constants.hatchPower);
             case WAIT:
                 return new HatchOrder(0.0);
             }

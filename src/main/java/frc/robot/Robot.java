@@ -36,7 +36,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Cargo cargo;
 
   private Constants constants;
-  private ColorSensor colorSensor;
+  // private ColorSensor colorSensor;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -44,7 +44,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotInit() {
-    CameraServer.getInstance().startAutomaticCapture();
+    // CameraServer.getInstance().startAutomaticCapture();
     currentTime = System.currentTimeMillis();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
@@ -63,7 +63,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants = new Constants();
     constants.startConstants();
 
-    colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
+    // colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
     // TODO double check that this works on the HP laptop
     // Vision.visionInit();
@@ -81,7 +81,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void robotPeriodic() {
 
-    colorSensor.readColors();
+    // colorSensor.readColors();
     if ((System.currentTimeMillis() >= currentTime + 500)) {
       // System.out.println(
       // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
@@ -119,12 +119,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void autonomousPeriodic() {
     drive.setPower(speed);
-    if (colorSensor.getRed() >= 200) {
-      speed = 0.0;
+    // if (colorSensor.getRed() >= 200) {
+    //   speed = 0.0;
       // System.out.println(
       // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
       // Blue: " + colorSensor.getBlue());
-    }
+    // }
 
     // switch (m_autoSelected) {
     // case kCustomAuto:
@@ -199,7 +199,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    colorSensor.readColors();
+    // colorSensor.readColors();
     // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
     // System.out.println(
     // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "

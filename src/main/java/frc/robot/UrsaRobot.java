@@ -16,7 +16,7 @@ public interface UrsaRobot {
 	public static final double visionCameraPipeline=1;
 
 	public static final int DRIVE_LEFT = 0;
-	public static final int DRIVE_RIGHT = 9;
+	public static final int DRIVE_RIGHT = 11;
 
 	public static final int CARGO_INTAKE = 2;
 	public static final int CARGO_LIFT = 6;
@@ -25,7 +25,7 @@ public interface UrsaRobot {
 	public static final int HATCH = 5;
 
 	public static final int CLIMB_FRONT = 1;
-	public static final int CLIMB_BACK = 8;
+	public static final int CLIMB_BACK = 9;
 
 	// TODO originally 4
 	public static final int TURNTABLE = 3;
@@ -44,7 +44,7 @@ public interface UrsaRobot {
 	public static final int CARGO_POT_CHANNEL = 3;
 
 	// Hatch Servo TODO originally 1
-	public static final int HATCH_SERVO = 9;
+	public static final int HATCH_SERVO = 8;
 
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
