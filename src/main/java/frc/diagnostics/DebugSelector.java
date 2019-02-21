@@ -3,9 +3,9 @@ package frc.diagnostics;
 import frc.diagnostics.Logger.LogLevel;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableValue;
+// import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.buttons.NetworkButton;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DebugSelector {

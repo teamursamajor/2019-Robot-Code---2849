@@ -30,7 +30,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  // private Piston piston;
   private Drive drive;
   private Turntable turntable;
   private Hatch hatch;
@@ -40,7 +39,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Constants constants;
   private ColorSensor colorSensor;
 
-  private AutoSelector autoSelect;
+  // TODO integrate AutoSelector
+  // private AutoSelector autoSelect;
   private AutoCompiler autoCompiler;
   
   private DebugSelector debugSelect;
@@ -76,7 +76,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
     autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
-    autoSelect = new AutoSelector();
+    // autoSelect = new AutoSelector();
 
     // TODO double check that this works on the HP laptop
     // Vision.visionInit();
@@ -133,7 +133,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     Logger.setLevel(debugSelect.getLevel());
   }
 
-  private boolean hitTape = false;
+  // TODO do we need this?
+  // private boolean hitTape = false;
   private double speed = 0.45;
 
   /**
