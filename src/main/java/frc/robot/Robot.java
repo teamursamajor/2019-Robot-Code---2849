@@ -158,6 +158,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
     } else if(xbox.getSingleButtonPress(XboxController.BUTTON_X) || xbox.getSingleAxisPress(XboxController.BUTTON_Y)){
       Cargo.automating = true;
     }
+
+    if (xbox.getButton(XboxController.BUTTON_START)) {
+      climb.climbInit();
+    } else if (xbox.getButton(XboxController.BUTTON_BACK)) {
+      climb.cancelClimb();
+    }
     
     // TODO climber code
     // climbPressed = false;

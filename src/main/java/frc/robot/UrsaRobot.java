@@ -21,12 +21,14 @@ public interface UrsaRobot {
 	public static final int CARGO_INTAKE = 2;
 	public static final int CARGO_LIFT = 6;
 
-	public static final int HATCH = 3;
+	// TODO originally 3
+	public static final int HATCH = 5;
 
 	public static final int CLIMB_FRONT = 1;
 	public static final int CLIMB_BACK = 8;
 
-	public static final int TURNTABLE = 4;
+	// TODO originally 4
+	public static final int TURNTABLE = 3;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
@@ -41,8 +43,8 @@ public interface UrsaRobot {
 
 	public static final int CARGO_POT_CHANNEL = 3;
 
-	// Hatch Servo
-	public static final int HATCH_SERVO = 1;
+	// Hatch Servo TODO originally 1
+	public static final int HATCH_SERVO = 9;
 
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);

@@ -31,9 +31,9 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
 
 
         // TODO test code
-        if (xbox.getButton(XboxController.BUTTON_START)) {
+        if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1)) {
             turntableMotor.set(-.4);
-        } else if (xbox.getButton(XboxController.BUTTON_BACK)) {
+        } else if (xbox.getAxisGreaterThan(XboxController.AXIS_RIGHTTRIGGER, 0.1)) {
             turntableMotor.set(0.4);
         }
         // else if (xbox.getButton(XboxController.BUTTON_LEFTSTICK)){
