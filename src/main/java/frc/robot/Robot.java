@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.cameraserver.CameraServer;
+import frc.diagnostics.*;
+import frc.diagnostics.Logger.LogLevel;
+import frc.tasks.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,12 +40,20 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Constants constants;
   private ColorSensor colorSensor;
 
+  private AutoSelector autoSelect;
+  private AutoCompiler autoCompiler;
+  
+  private DebugSelector debugSelect;
+  private String robotMode;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
+    Logger.setLevel(LogLevel.DEBUG);
+		Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
     CameraServer.getInstance().startAutomaticCapture();
     currentTime = System.currentTimeMillis();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -52,7 +63,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     drive = new Drive();
     drive.initialize("driveThread");
     turntable = new Turntable();
-    turntable.initialize("susanThread");
+    turntable.initialize("turntableThread");
     hatch = new Hatch();
     hatch.initialize("hatchThread");
     climb = new Climb();
@@ -64,8 +75,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
+    autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
+    autoSelect = new AutoSelector();
+
     // TODO double check that this works on the HP laptop
     // Vision.visionInit();
+
+    debugSelect = new DebugSelector();
+		Logger.setLevel(debugSelect.getLevel());
 
    }
 
@@ -102,11 +119,18 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void autonomousInit() {
+    Logger.log("Started Autonomous mode", LogLevel.INFO);
+		robotMode = "Autonomous";
     speed = 0.45;
     m_autoSelected = m_chooser.getSelected();
     // autoSelected = SmartDashboard.getString("Auto Selector",
     // defaultAuto);
+    Task task = autoCompiler.buildAutoMode(m_autoSelected);
+		task.start();
+		System.out.println(task.toString());
     System.out.println("Auto selected: " + m_autoSelected);
+    Logger.log("Current Auto Mode: " + m_autoSelected, LogLevel.INFO);
+    Logger.setLevel(debugSelect.getLevel());
   }
 
   private boolean hitTape = false;
@@ -135,6 +159,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // // Put default auto code here
     // break;
     // }
+    
   }
 
   /**
@@ -143,6 +168,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopInit() {
+    Logger.log("Started Teleop mode", LogLevel.INFO);
+    robotMode = "Teleop";
+    Logger.setLevel(debugSelect.getLevel());
   }
 
   /**
@@ -167,6 +195,16 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private double currentTime;
 
   /**
+   * This function is run when test mode is first started up and should be used
+   * for any test initialization code.
+   */
+  @Override
+  public void testInit() {
+    Logger.log("Started Test mode", LogLevel.INFO);
+		robotMode = "Test";
+  }
+  
+  /**
    * This function is called periodically during test mode.
    */
   @Override
@@ -180,7 +218,17 @@ public class Robot extends TimedRobot implements UrsaRobot {
   }
   
   /**
-   * This function is called periodically when the robot is disabled
+	 * This function is run when a mode is initially disabled and should be
+	 * used for any disabling code.
+	 */
+	@Override
+	public void disabledInit() {
+		Logger.log("Disabled " + robotMode + " mode", LogLevel.INFO);
+		Logger.closeWriters();
+  }
+  
+  /**
+   * This function is called periodically when a mode is disabled.
    */
   @Override
   public void disabledPeriodic() {
