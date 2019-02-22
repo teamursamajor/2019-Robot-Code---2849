@@ -1,6 +1,7 @@
 package frc.tasks;
 
 import frc.robot.UrsaRobot;
+import frc.robot.XboxController;
 import frc.robot.Drive;
 // import frc.path.PathReader;
 
@@ -171,10 +172,10 @@ public class DriveTask extends Task implements UrsaRobot {
             // Arcade Drive
             // TODO test using squared axis and see how it feels. Might be better for small
             // movements
-            // double leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
-            // double rightStickX = xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
-            double leftStickY = xbox.getAxis(controls.map.get("drive_straight")) * (0.75);
-            double rightStickX = -xbox.getAxis(controls.map.get("drive_turn")) * (0.75);
+            double leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
+            double rightStickX = xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
+            // double leftStickY = xbox.getAxis(controls.map.get("drive_straight")) * (0.75);
+            // double rightStickX = -xbox.getAxis(controls.map.get("drive_turn")) * (0.75);
             double leftSpeed = leftStickY + rightStickX;
             double rightSpeed = leftStickY - rightStickX;
             double max = Math.max(leftSpeed, rightSpeed);
@@ -278,6 +279,10 @@ public class DriveTask extends Task implements UrsaRobot {
     private static int matchPairs = 0;
 
     /**
+<<<<<<< HEAD
+     * 
+=======
+>>>>>>> dad54100c83907145e7172017721c9eb9ffe2697
      * Used for turning or aligning
      * 
      * @param argument  The desired angle to turn to or the number of times to check
