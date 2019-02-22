@@ -39,20 +39,15 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     }
 
     public void runSubsystem() {
-        hatchServo.setAngle(hatchServo.getAngle() + 1);
+        System.out.println("Test print");
         if(xbox.getButton(XboxController.BUTTON_A)){
-            hatchServo.setPosition(1);
-            System.out.println(1);
+            hatchServo.setAngle(hatchServo.getAngle() + 5);
+            System.out.println("Angle: " + hatchServo.getAngle());
         } else if(xbox.getButton(XboxController.BUTTON_B)){
-            hatchServo.setPosition(2);
-            System.out.println(2);
-        } else if(xbox.getButton(XboxController.BUTTON_X)){
-            hatchServo.setPosition(3);
-            System.out.println(3);
-        } else if(xbox.getButton(XboxController.BUTTON_Y)){
-            hatchServo.setPosition(4);
-            System.out.println(4);
-        }
+            hatchServo.setAngle(hatchServo.getAngle() - 5);
+            System.out.println("Angle: " + hatchServo.getAngle());
+        } else 
+            hatchMotor.stopMotor();
         // System.out.println(hatchServo.get());
         // System.out.println(hatchServo.getAngle());
         // System.out.println("Get " + hatchServo.get());
