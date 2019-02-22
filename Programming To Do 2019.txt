@@ -1,3 +1,4 @@
+Fix hatch
 Testing:
 	Test all of Hatch 
 		Servo readings
@@ -15,11 +16,11 @@ Testing:
 		Does it still return infinity/NaN?
 		If not try adding a kD constant and see what happens
 			Then tune it
-	Measure voltage values for turntable and make it automated
-		Also allow for manual movement of the turntable? (rest of this will prob happen later)
-			If auto align works perfectly, we have manual movement and one auto align button (3 buttons)
-			If auto align doesn't work we just have manual movement (2 buttons)
-				In either case we need to make a new TurntableMode CUSTOM which moves it to a custom angle
+
+Allow for manual movement of the turntable
+		If auto align works perfectly, we have manual movement and one auto align button (3 buttons)
+		If auto align doesn't work we just have manual movement (2 buttons)
+			In either case we need to make a new TurntableMode CUSTOM which moves it to a custom angle
 
 Camera Mount: In progress but check on it
 
