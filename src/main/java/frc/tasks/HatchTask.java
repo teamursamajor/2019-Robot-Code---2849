@@ -4,12 +4,14 @@ import frc.robot.*;
 
 public class HatchTask extends Task implements UrsaRobot {
     public enum HatchMode {
-        RUN, WAIT;
+        RUN, FLIP, WAIT;
 
         public HatchOrder callLoop() {
             switch (this) {
             case RUN:
                 return new HatchOrder(-Constants.hatchPower);
+            case FLIP:
+                return new HatchOrder(0.0);
             case WAIT:
                 return new HatchOrder(0.0);
             }

@@ -53,7 +53,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void robotInit() {
     Logger.setLevel(LogLevel.DEBUG);
 		Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
-    CameraServer.getInstance().startAutomaticCapture();
+    // CameraServer.getInstance().startAutomaticCapture();
     currentTime = System.currentTimeMillis();
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
