@@ -3,6 +3,7 @@ package frc.tasks;
 import frc.robot.UrsaRobot;
 import frc.robot.XboxController;
 import frc.robot.Drive;
+// import frc.path.PathReader;
 
 public class DriveTask extends Task implements UrsaRobot {
 
@@ -101,8 +102,7 @@ public class DriveTask extends Task implements UrsaRobot {
          * @return A DriveOrder object containing the new left and right powers
          */
         private DriveOrder autoAlign() {
-            // TODO move to a constants java file which communicates with the
-            // dashboard/UrsaRobot
+            // TODO move to a constants java file which communicates with the dashboard/UrsaRobot
 
             double kdAutoAlign = 2; // Derivative coefficient for PID controller
             double kpAutoAlign = 1.0 / 33.0; // Proportional coefficient for PID controller
@@ -277,10 +277,12 @@ public class DriveTask extends Task implements UrsaRobot {
 
     private static double desiredAngle = 0.0;
     private static int matchPairs = 0;
-    // private static PathReader;
 
     /**
+<<<<<<< HEAD
      * 
+=======
+>>>>>>> dad54100c83907145e7172017721c9eb9ffe2697
      * Used for turning or aligning
      * 
      * @param argument  The desired angle to turn to or the number of times to check
@@ -311,7 +313,8 @@ public class DriveTask extends Task implements UrsaRobot {
         }
     }
 
-    // TODO this when it's ready
+    // TODO when it's ready
+    // private static PathReader pathReader;
 
     /**
      * Used for following paths
