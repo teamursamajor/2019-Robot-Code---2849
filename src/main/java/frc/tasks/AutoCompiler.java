@@ -136,8 +136,8 @@ public class AutoCompiler {
 
 			if (position.equalsIgnoreCase("RUN")) {
 				hatchMode = HatchMode.RUN; 
-			} else if (position.equalsIgnoreCase("WAIT")) {
-				hatchMode = HatchMode.WAIT;
+			} else if (position.equalsIgnoreCase("FLIP")) {
+				hatchMode = HatchMode.FLIP;
 			} else {
 				hatchMode = HatchMode.WAIT;
 			}
@@ -182,7 +182,7 @@ public class AutoCompiler {
 				return new TurntableTask(turntableMode, turntable);
 			// If there is a custom angle, return that angle
 			else
-				return new TurntableTask(turntableAngle, turntable);
+				return new TurntableTask(TurntableMode.CUSTOM, turntable);
 		}
 	}
 

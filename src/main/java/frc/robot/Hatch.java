@@ -40,8 +40,9 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
                     hatchServo.setAngle(hatchServo.getAngle() - 90); // servo down
                     Thread.sleep(servoTime);
 
-                    hatchMotor.set(-hatchOrder.hatchPower + .08); // comes in
-                    Thread.sleep(maxRunTime + 300);
+                    //TODO modified
+                    hatchMotor.set(-hatchOrder.hatchPower + .05); // comes in
+                    Thread.sleep(maxRunTime + 200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

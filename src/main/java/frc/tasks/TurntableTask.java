@@ -2,57 +2,138 @@ package frc.tasks;
 
 import frc.robot.Turntable;
 import frc.robot.UrsaRobot;
+import frc.robot.Constants;
+import frc.robot.XboxController;
 
-public class TurntableTask extends Task {
+import edu.wpi.first.networktables.*;
+
+public class TurntableTask extends Task implements UrsaRobot {
 
     public enum TurntableMode {
         FORWARD, LEFT, RIGHT, AUTO_ALIGN, CUSTOM;
 
-        /**
-         * This method takes the current drive state and iterates the control loop then
-         * returns the next drive order for Drive to use
-         * 
-         * @return TurntableOrder containing the left and right powers
-         */
-
         public TurntableOrder callLoop() {
-            // "this" refers to the enum that the method is in
+            // TODO remove or write code for FORWARD, LEFT, and RIGHT
+            // "this" refers to subsystemMode
             switch (this) {
             case FORWARD:
-                desiredVoltage = UrsaRobot.forwardVoltage;
-                return autoGoToAngle();
+                // desiredVoltage = UrsaRobot.forwardVoltage;
+                // return autoGoToAngle();
             case LEFT:
-                desiredVoltage = UrsaRobot.leftVoltage;
-                return autoGoToAngle();
+                // desiredVoltage = UrsaRobot.leftVoltage;
+                // return autoGoToAngle();
             case RIGHT:
-                desiredVoltage = UrsaRobot.rightVoltage;
-                return autoGoToAngle();
+                // desiredVoltage = UrsaRobot.rightVoltage;
+                // return autoGoToAngle();
             case AUTO_ALIGN:
-                return autoGoToAngle();
+                return autoAlign();
             case CUSTOM:
-                return autoGoToAngle();
+                System.out.println("custom");
+                return triggersBox();
             }
-            return autoGoToAngle();
+            return new TurntableOrder(0.0);
         }
 
-        private TurntableOrder autoGoToAngle() {
-            return new TurntableOrder(0.0); // TODO write code
+        private static boolean turning = true;
+
+        /**
+         * Auto aligns the turntable to the vision targets
+         * 
+         * @param matchPairs the number of pairs of targets to match before stopping.
+         *                   This includes "wrong" pairs, so for "real" pairs use 1, 3,
+         *                   or 5
+         * @return A TurntableOrder which contains the power for the turntable
+         */
+        private TurntableOrder autoAlign() {
+            int matchPairs = 1; // TODO update
+
+            double kpAutoAlign = 1.0 / 200.0; // Proportional coefficient for PID controller
+            double autoAlignTolerance = 0.1;
+            double autoAlignMinimumPower = 0.15;
+
+            double goalPosition = 0.0; // on the limelight, 0.0 is the center
+
+            // Loop through pairs of tape
+            int hatchCount = 0; // actual number of hatches
+            int count = 0; // general counter variable
+            int tapePairPresent;
+
+            NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+            NetworkTableEntry tx = table.getEntry("tx");
+            NetworkTableEntry ty = table.getEntry("ty");
+            NetworkTableEntry ta = table.getEntry("ta");
+
+            // read values periodically
+            double x = tx.getDouble(0.0);
+            double y = ty.getDouble(0.0);
+            double area = ta.getDouble(0.0);
+
+            // //post to smart dashboard periodically
+            // SmartDashboard.putNumber("LimelightX", x);
+            // SmartDashboard.putNumber("LimelightY", y);
+            // SmartDashboard.putNumber("LimelightArea", area);e
+
+            // while (hatchCount < matchPairs) {
+            //     // Count the number of valid tape pairs we've encountered
+            //     tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
+            //     if (tapePairPresent == 1)
+            //         count++;
+            //     if (count % 2 == 1) // if (count is odd)
+            //         hatchCount++; // skips "even" pairs to avoid false positives
+            //     System.out.println("Count: " + count);
+            //     System.out.println("Hatch Count: " + hatchCount);
+            //     // Wait before trying to match a pair of tape again
+            //     try {
+            //         Thread.sleep(250); // TODO adjust if necessary
+            //     } catch (InterruptedException e) {
+            //         e.printStackTrace();
+            //     }
+            // }
+
+            // If we're already close enough to the tapes, then simply stop
+            double centerPos = limelightTable.getEntry("tx").getDouble(Double.NaN);
+            if (Math.abs(centerPos) < autoAlignTolerance) {
+                turning = false;
+                return new TurntableOrder(0.0);
+            }
+
+            // PD equations power = kp * change in distance (aka error) + kd * velocity
+            double outputPower = kpAutoAlign * (limelightTable.getEntry("tx").getDouble(Double.NaN) - goalPosition);
+
+            if (outputPower == 0) {
+                turning = false;
+            }
+
+            if (Math.abs(outputPower) < autoAlignMinimumPower) {
+                outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
+            }
+
+            return new TurntableOrder(outputPower);
+
+        }
+
+        private TurntableOrder triggersBox() {
+            if(xbox.getButton(XboxController.BUTTON_X)){
+                return new TurntableOrder(-0.25);
+            } else if (xbox.getButton(XboxController.BUTTON_Y)){
+                return new TurntableOrder(-0.25);
+            }
+            if (xbox.getAxisGreaterThan(controls.map.get("turntable_left"), 0.1)) {
+                System.out.println("left");
+                return new TurntableOrder(-Constants.turntablePower);
+            } else if (xbox.getAxisGreaterThan(controls.map.get("turntable_right"), 0.1)) {
+                System.out.println("right");
+                return new TurntableOrder(Constants.turntablePower);
+            } else {
+                return new TurntableOrder(0.0);
+            }
         }
     }
 
-    public static double desiredVoltage = 0.0;
-
+    // TODO update this to use a timer
     public TurntableTask(TurntableMode mode, Turntable turntable) {
         running = true;
         turntable.setMode(mode);
-        Thread t = new Thread("Turntable Task");
-        t.start();
-    }
-
-    public TurntableTask(double voltage, Turntable turntable) {
-        running = true;
-        desiredVoltage = voltage;
-        turntable.setMode(TurntableMode.CUSTOM);
         Thread t = new Thread("Turntable Task");
         t.start();
     }
@@ -70,25 +151,8 @@ public class TurntableTask extends Task {
     }
 
     /**
-     * This holds information about the current state of the robot. It holds values
-     * for power, velocity, and position for both the left and right side.
-     */
-    public static class TurntableState {
-        public static double voltage = 0.0, velocity = 0.0;
-
-        public static long stateTime = System.currentTimeMillis();
-
-        public static void updateState(double voltage, double velocity) {
-            TurntableState.voltage = voltage;
-            TurntableState.velocity = velocity;
-            stateTime = System.currentTimeMillis();
-        }
-
-    }
-
-    /**
-     * This is returned by the DriveTask and holds values for the new left and right
-     * powers to be set by Drive
+     * This is returned by the TurntableTask and holds values for the new left and
+     * right powers to be set by Turntable
      */
     public static class TurntableOrder {
         public double power;

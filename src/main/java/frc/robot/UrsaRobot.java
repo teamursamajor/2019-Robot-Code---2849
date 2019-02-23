@@ -22,7 +22,7 @@ public interface UrsaRobot {
 ;
 
 	public static final int CARGO_INTAKE = 4;
-	public static final int CARGO_LIFT = 8;
+	public static final int CARGO_LIFT = 11;
 
 	// TODO originally 3
 	public static final int HATCH = 5;

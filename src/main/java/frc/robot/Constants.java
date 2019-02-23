@@ -14,13 +14,13 @@ public class Constants implements Runnable {
     public static double cargoIntakePower;
     public static double cargoOuttakePower;
     public static double climbPower;
-    public static double susanPower;
+    public static double turntablePower;
     //TODO ... other constants here
 
     public Constants() {
         hatchPower = 0.25;
         SmartDashboard.putNumber("Hatch Power", hatchPower);
-        cargoPowerUp = -1.0;
+        cargoPowerUp = -.35;
         cargoPowerDown = -0.10;
         SmartDashboard.putNumber("Cargo Power", cargoPowerDown);
         cargoIntakePower = 0.5;
@@ -29,10 +29,9 @@ public class Constants implements Runnable {
         SmartDashboard.putNumber("Cargo Outtake Power", cargoOuttakePower);
         climbPower = 0.90;
         SmartDashboard.putNumber("Climb Power", climbPower);
-        susanPower = 0.25;
-        SmartDashboard.putNumber("Susan Power", susanPower);
+        turntablePower = 0.25;
+        SmartDashboard.putNumber("Turntable Power", turntablePower);
         startConstants();
-        
     }
 
     public void startConstants() {
@@ -51,7 +50,7 @@ public class Constants implements Runnable {
             hatchPower = SmartDashboard.getNumber("Hatch Power", 0.0);
             climbPower = SmartDashboard.getNumber("Climb Power", 0.0);
             cargoIntakePower = SmartDashboard.getNumber("Cargo Intake Power", 0.0);
-            susanPower = SmartDashboard.getNumber("Susan Power", 0.0);
+            turntablePower = SmartDashboard.getNumber("Susan Power", 0.0);
             //TODO add cargoPowerDown
             cargoPowerUp = SmartDashboard.getNumber("Cargo Power", 0.0);
             try {
@@ -71,6 +70,6 @@ public class Constants implements Runnable {
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
         System.out.println("Hatch Power" + hatchPower);
         System.out.println("Climb Power" + climbPower);
-        System.out.println("Susan Power" + susanPower);
+        System.out.println("Susan Power" + turntablePower);
     }
 }
