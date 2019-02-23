@@ -11,10 +11,6 @@ public class ControlMap {
 
     public ControlMap() {
 
-        // Drive sticks
-        map.put("drive_straight", XboxController.AXIS_LEFTSTICK_Y);
-        map.put("drive_turn", XboxController.AXIS_RIGHTSTICK_X);
-
         // Climb
         map.put("climb_start", XboxController.BUTTON_START);
         map.put("climb_stop", XboxController.BUTTON_BACK);
@@ -25,7 +21,7 @@ public class ControlMap {
 
         // Hatch
         map.put("hatch_run", XboxController.BUTTON_A);
-        map.put("hatch_wait", XboxController.BUTTON_B);
+        map.put("hatch_flip", XboxController.BUTTON_B);
 
         // Cargo arm toggle lifting
         map.put("cargo_bay", XboxController.BUTTON_Y);

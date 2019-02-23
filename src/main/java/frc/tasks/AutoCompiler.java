@@ -136,8 +136,8 @@ public class AutoCompiler {
 
 			if (position.equalsIgnoreCase("RUN")) {
 				hatchMode = HatchMode.RUN; 
-			} else if (position.equalsIgnoreCase("WAIT")) {
-				hatchMode = HatchMode.WAIT;
+			} else if (position.equalsIgnoreCase("FLIP")) {
+				hatchMode = HatchMode.FLIP;
 			} else {
 				hatchMode = HatchMode.WAIT;
 			}

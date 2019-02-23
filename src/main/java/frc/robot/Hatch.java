@@ -20,9 +20,9 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public void runSubsystem() {
         // TODO dropping off goes well, picking up only flips the servo, not actually run anything
-        if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) { // runs hatch and flips servo
+        if (xbox.getSingleButtonPress(controls.map.get("hatch_run"))) { // runs hatch and flips servo
             subsystemMode = HatchMode.RUN;
-        } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) { // flips servo, does not run hatch
+        } else if (xbox.getSingleButtonPress(controls.map.get("hatch_flip"))) { // flips servo, does not run hatch
             subsystemMode = HatchMode.FLIP; // this works!
         }
 
