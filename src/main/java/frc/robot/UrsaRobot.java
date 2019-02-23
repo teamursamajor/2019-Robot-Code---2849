@@ -15,11 +15,14 @@ public interface UrsaRobot {
 	public static final double defaultCameraPipeline = 0;
 	public static final double visionCameraPipeline=1;
 
-	public static final int DRIVE_LEFT = 0;
-	public static final int DRIVE_RIGHT = 11;
+	public static final int DRIVE_BACK_LEFT = 2;// Temporary DRIVE_LEFT = 0;
+	public static final int DRIVE_BACK_RIGHT = 6;// Temporary DRIVE_RIGHT = 11;
+	public static final int DRIVE_FRONT_LEFT = 3;
+	public static final int DRIVE_FRONT_RIGHT = 7
+;
 
-	public static final int CARGO_INTAKE = 2;
-	public static final int CARGO_LIFT = 6;
+	public static final int CARGO_INTAKE = 4;
+	public static final int CARGO_LIFT = 8;
 
 	// TODO originally 3
 	public static final int HATCH = 5;
@@ -28,7 +31,7 @@ public interface UrsaRobot {
 	public static final int CLIMB_BACK = 9;
 
 	// TODO originally 4
-	public static final int TURNTABLE = 3;
+	public static final int TURNTABLE = 0;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;

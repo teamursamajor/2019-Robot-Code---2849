@@ -12,6 +12,13 @@ public class Logger {
 	/**
 	 * Level of severity of the log information. Used to specify severity for
 	 * Logger.log method and getLogData method in subsystems
+	 * 
+	 * ERROR - Used for logging literal errors or other code-breaking issues
+	 * 
+	 * INFO - Used for logging information that could prove useful to see when
+	 * testing
+	 * 
+	 * DEBUG - Used for logging all information possible to help debug code
 	 */
 	public enum LogLevel {
 		ERROR, INFO, DEBUG
@@ -24,8 +31,7 @@ public class Logger {
 	private static boolean writersOpened = false;
 
 	/**
-	 * @return Date in the format MM/DD/YYYY HH:MM:SS (example: 01/19/2018
-	 *         18:55:03)
+	 * @return Date in the format MM/DD/YYYY HH:MM:SS (example: 01/19/2018 18:55:03)
 	 */
 	public static String getDate() {
 		DateFormat dateFormat = new SimpleDateFormat("MM_dd");
@@ -40,19 +46,18 @@ public class Logger {
 	}
 
 	/**
-	 * Takes date, level of severity, and info and assembles it into a log
-	 * output string
+	 * Takes date, level of severity, and info and assembles it into a log output
+	 * string
 	 * 
-	 * @param info
-	 *            Info to be written in the log after the date and level
-	 * @param lev
-	 *            Level of severity; can be LogLevel.DEBUG, LogLevel.ERROR, or
-	 *            LogLevel.INFO
+	 * @param info Info to be written in the log after the date and level
+	 * @param lev  Level of severity; can be LogLevel.DEBUG, LogLevel.ERROR, or
+	 *             LogLevel.INFO
 	 * @return Log output in the format HH:MM:SS [LEVEL] <info>
 	 */
 	public static void log(String info, LogLevel lev, boolean writePrefix) {
 		if (level.compareTo(lev) >= 0) {
-			//TODO this toString might print incorrectly; in that case use ifs to set to a string
+			// TODO this toString might print incorrectly; in that case use ifs to set to a
+			// string
 			if (writePrefix) {
 				write(getTime() + " [" + lev.toString() + "] " + info, file);
 			} else {
@@ -68,9 +73,8 @@ public class Logger {
 	/**
 	 * Appends log output to log file specified in the class
 	 * 
-	 * @param data
-	 *            Log output from Logger.log method or getLogData method in
-	 *            subsystems
+	 * @param data Log output from Logger.log method or getLogData method in
+	 *             subsystems
 	 */
 	public static synchronized void write(String data, File file) {
 		if (!writersOpened) {

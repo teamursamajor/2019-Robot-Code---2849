@@ -11,6 +11,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     private Servo hatchServo;
     private boolean servoUp = true;
     private long maxRunTime = 900; // how long the wheel spins
+    private long servoTime = 500; // wait time for the servo to move
 
     public Hatch() {
         hatchMotor = new Spark(HATCH);
@@ -19,55 +20,67 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     }
 
     public void runSubsystem() {
-        // TODO dropping off goes well, picking up only flips the servo, not actually run anything
         if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) { // runs hatch and flips servo
             subsystemMode = HatchMode.RUN;
         } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) { // flips servo, does not run hatch
-            subsystemMode = HatchMode.FLIP; // this works!
+            subsystemMode = HatchMode.FLIP;
         }
 
-        HatchTask.HatchOrder hatchOrder = subsystemMode.callLoop();
+        HatchTask.HatchOrder hatchOrder = subsystemMode.callLoop(); // returns a constant for RUN, 0.0 for FLIP/WAIT
 
         if (subsystemMode.equals(HatchMode.RUN)) {
             long startTime = System.currentTimeMillis();
-            if (servoUp) { // servo was originally up and we are dropping off
+            if (servoUp) { // Dropping off
                 try {
-                    hatchMotor.set(-hatchOrder.hatchPower); // goes out
+                    hatchMotor.set(hatchOrder.hatchPower); // goes out
                     Thread.sleep(maxRunTime);
 
                     hatchMotor.set(0.0);
                     servoUp = false;
                     hatchServo.setAngle(hatchServo.getAngle() - 90); // servo down
-                    Thread.sleep(500);
+                    Thread.sleep(servoTime);
 
-                    hatchMotor.set(-hatchOrder.hatchPower); // comes in
-                    Thread.sleep(maxRunTime);
+                    hatchMotor.set(-hatchOrder.hatchPower + .08); // comes in
+                    Thread.sleep(maxRunTime + 300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             } else { // servo was originally down and we are picking up
-                hatchMotor.set(hatchOrder.hatchPower);
-                // TODO wont work, rewrite with a sensor or something
-                while ((hatchServo.getAngle() <= 180 && hatchServo.getAngle() > 90)
-                        && (System.currentTimeMillis() - startTime) < maxRunTime) {
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                long currentRunTime = System.currentTimeMillis() - startTime;
-                hatchMotor.set(0.0);
-
-                hatchServo.setAngle(hatchServo.getAngle() + 90);
-                servoUp = true;
-
-                hatchMotor.set(-hatchOrder.hatchPower);
                 try {
-                    Thread.sleep(currentRunTime);
-                } catch (InterruptedException e) {
+                    hatchMotor.set(hatchOrder.hatchPower);
+                    Thread.sleep(maxRunTime);
+
+                    hatchMotor.set(0.0);
+                    servoUp = true;
+                    hatchServo.setAngle(hatchServo.getAngle() + 90);
+                    Thread.sleep(servoTime);
+
+                    hatchMotor.set(-hatchOrder.hatchPower);
+                    Thread.sleep(maxRunTime);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+                // TODO wont work, rewrite with a sensor or something
+                // while ((hatchServo.getAngle() <= 180 && hatchServo.getAngle() > 90)
+                // && (System.currentTimeMillis() - startTime) < maxRunTime) {
+                // try {
+                // Thread.sleep(10);
+                // } catch (InterruptedException e) {
+                // e.printStackTrace();
+                // }
+                // }
+                // long currentRunTime = System.currentTimeMillis() - startTime;
+                // hatchMotor.set(0.0);
+
+                // hatchServo.setAngle(hatchServo.getAngle() + 90);
+                // servoUp = true;
+
+                // hatchMotor.set(-hatchOrder.hatchPower);
+                // try {
+                // Thread.sleep(currentRunTime);
+                // } catch (InterruptedException e) {
+                // e.printStackTrace();
+                // }
             }
             hatchMotor.set(0.0);
         } else if (subsystemMode.equals(HatchMode.FLIP)) {
@@ -79,7 +92,6 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
                 servoUp = true;
             }
             hatchMotor.set(0.0);
-
         } else {
             hatchMotor.set(0.0);
         }

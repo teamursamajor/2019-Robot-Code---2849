@@ -36,30 +36,7 @@ public class TurntableTask extends Task {
         }
 
         private TurntableOrder autoGoToAngle() {
-            // TODO update this for use of pots or whatever other sensor we get for the
-            // turntable
-            // if using a pot, use this code...
-            double voltageTolerance = 5; // TODO Determine experimentally
-            if (Math.abs(desiredVoltage - TurntableState.voltage) <= voltageTolerance) {
-                running = false;
-                return new TurntableOrder(0.0);
-            }
-
-            // Assumes that the left side starts at 0 and voltage goes up as it moves to the
-            // right
-            // Prevents the turntable from going past the left or right side
-            if (desiredVoltage < UrsaRobot.leftVoltage || desiredVoltage > UrsaRobot.rightVoltage)
-                desiredVoltage = (desiredVoltage < UrsaRobot.leftVoltage) ? UrsaRobot.leftVoltage
-                        : UrsaRobot.rightVoltage;
-
-            // TODO PD Loop, determine constants
-            double turntableKp = 1.0 / 70.0;
-            double turntableKd = 0;
-
-            double velocity = (TurntableState.velocity > 0) ? TurntableState.velocity : -TurntableState.velocity;
-            double outputPower = turntableKp * (desiredVoltage - TurntableState.voltage) + turntableKd * velocity;
-
-            return new TurntableOrder(outputPower);
+            return new TurntableOrder(0.0); // TODO write code
         }
     }
 

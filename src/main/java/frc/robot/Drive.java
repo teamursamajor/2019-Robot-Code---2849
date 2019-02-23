@@ -6,10 +6,16 @@ import frc.tasks.DriveTask.DriveMode;
 
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
-	private Spark mLeft;
-	private Spark mRight;
+	//TODO Uncomment this
+	// private Spark mLeft;
+	// // private Spark mRight;
+	// private Spark mRearLeft;
+	// private Spark mRearRight;
+
 	private Spark mRearLeft;
 	private Spark mRearRight;
+	private Spark mFrontLeft;
+	private Spark mFrontRight;
 
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
@@ -22,13 +28,17 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		// In the future we will want a switch statement here with getMode()
 		setMode(DriveMode.DRIVE_STICKS);
 
-		mLeft = new Spark(DRIVE_LEFT);
-		mRight = new Spark(DRIVE_RIGHT);
-		mRearLeft = mLeft;
-		mRearRight = mRight;
-		// mRearLeft = new Spark(DRIVE_LEFT);
-		// mRearRight = new Spark(DRIVE_RIGHT);
+		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
+		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
+		mRearLeft = new Spark(DRIVE_BACK_LEFT);
+		mRearRight = new Spark(DRIVE_BACK_RIGHT);
 
+		// TODO uncomment this for real robot
+		// mLeft = new Spark(DRIVE_LEFT);
+		// mRight = new Spark(DRIVE_RIGHT);
+		// mRearLeft = mLeft;
+		// mRearRight = mRight;
+		
 		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setReverseDirection(true);
@@ -46,8 +56,11 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		updateStateInfo();
 		DriveTask.DriveOrder driveOrder = subsystemMode.callLoop();
 
-		mLeft.set(-driveOrder.leftPower);
-		mRight.set(driveOrder.rightPower);
+		//TODO Replace and uncomment
+		// mLeft.set(-driveOrder.leftPower); // mFrontLeft
+		// mRight.set(driveOrder.rightPower); // mFrontRight
+		mFrontLeft.set(-driveOrder.leftPower);
+		mFrontRight.set(driveOrder.rightPower);
 		mRearLeft.set(-driveOrder.leftPower);
 		mRearRight.set(driveOrder.rightPower);
 
@@ -166,8 +179,13 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * and slide slightly
 	 */
 	public void stop() {
-		mLeft.stopMotor();
-		mRight.stopMotor();
+		//TODO Uncomment
+		// mLeft.stopMotor();
+		// mRight.stopMotor();
+		mFrontLeft.stopMotor();
+		mFrontRight.stopMotor();
+		mRearLeft.stopMotor();
+		mRearRight.stopMotor();
 	}
 
 	/**
@@ -177,8 +195,13 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * @param power
 	 */
 	public void setPower(double power) {
-		mRight.set(-power);
-		mLeft.set(power);
+		// TDO Uncomment
+		// mRight.set(-power);
+		// mLeft.set(power);
+		mFrontRight.set(power);
+		mFrontLeft.set(-power);
+		mRearLeft.set(-power);
+		mRearRight.set(power);
 	}
 
 	public void debugMessage(String message) {
