@@ -28,7 +28,7 @@ public class TurntableTask extends Task implements UrsaRobot {
             case AUTO_ALIGN:
                 return autoAlign();
             case CUSTOM:
-                System.out.println("custom");
+                // System.out.println("custom");
                 return triggersBox();
             }
             return new TurntableOrder(0.0);

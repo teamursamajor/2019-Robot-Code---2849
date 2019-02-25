@@ -10,7 +10,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     private Spark hatchMotor;
     private Servo hatchServo;
-    private DigitalInput bumperSwitch;
+    private DigitalInput bumperReleased; // Released returns true
     private boolean servoUp = true;
     private long maxRunTime = 900; // how long the wheel spins
     private long servoTime = 500; // wait time for the servo to move
@@ -19,7 +19,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         hatchMotor = new Spark(HATCH);
         hatchServo = new Servo(HATCH_SERVO);
         subsystemMode = HatchMode.WAIT;
-        bumperSwitch = new DigitalInput(UrsaRobot.BUMPER_SWITCH_CHANNEL);
+        bumperReleased = new DigitalInput(UrsaRobot.BUMPER_SWITCH_CHANNEL);
     }
 
     public void runSubsystem() {
@@ -29,7 +29,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
             subsystemMode = HatchMode.FLIP;
         }
 
-        System.out.println(bumperSwitch.get());
+        // System.out.println(bumperReleased.get());
 
         HatchTask.HatchOrder hatchOrder = subsystemMode.callLoop(); // returns a constant for RUN, 0.0 for FLIP/WAIT
 
@@ -63,7 +63,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
                     hatchMotor.set(-hatchOrder.hatchPower);
 
-                    while (!bumperSwitch.get() && System.currentTimeMillis() - startTime < maxRunTime) {
+                    while (bumperReleased.get() && System.currentTimeMillis() - startTime < maxRunTime) {
                         Thread.sleep(20);
                     }
                 } catch (Exception e) {

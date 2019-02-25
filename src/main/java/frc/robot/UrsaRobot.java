@@ -46,7 +46,7 @@ public interface UrsaRobot {
 
 	public static final int CARGO_POT_CHANNEL = 3;
 
-	public static final int BUMPER_SWITCH_CHANNEL = 0;
+	public static final int BUMPER_SWITCH_CHANNEL = 6;
 
 	// Hatch Servo TODO originally 1
 	public static final int HATCH_SERVO = 8;

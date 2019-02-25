@@ -24,7 +24,6 @@ public class Vision implements Runnable {
 		 * 		d) maybe even the functionality to show the processed pipeline
 		*/
 		cargoCam = new UsbCamera("Cargo Camera", 0);
-		// cargoCam = CameraServer.getInstance().startAutomaticCapture();
 		CameraServer.getInstance().addCamera(cargoCam);
 
 		cargoCam.setResolution(240, 180);

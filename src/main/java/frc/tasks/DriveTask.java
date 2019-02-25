@@ -186,7 +186,7 @@ public class DriveTask extends Task implements UrsaRobot {
             int count = 0; // general counter variable
             int tapePairPresent;
             while (hatchCount < matchPairs) {
-                // Count the number of valid tape pairs we've encountered
+                // Count the number of valid tape pairs wezz've encountered
                 tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
                 if (tapePairPresent == 1)
                     count++;
