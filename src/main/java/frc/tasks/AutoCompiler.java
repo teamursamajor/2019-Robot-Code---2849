@@ -263,19 +263,22 @@ public class AutoCompiler {
 	/**
 	 * A token that aligns the robot to the nearest pair of reflective tape
 	 * 
-	 * @param times Number of pairs of reflective tape to check for
+	 * @param line The whole string to parse
 	 */
 	class AlignToken implements Token {
 		private int matchPairs = 1;
+		private String task = "";
 		private String mode = "";
 
-		public AlignToken(String times) {
-			times = times.replace(" ", "").toUpperCase();
-			if (times.contains("BAY")) mode = "BAY";
+		public AlignToken(String line) {
+			if (line.contains("drive")) task = "drive";
+			else if (line.contains("turntable")) task = "turntable";
+			line = line.replace(" ", "").toUpperCase();
+			if (line.contains("BAY")) mode = "BAY";
 			else mode = "FLOOR";
 			try {
-				if (Integer.parseInt(times.substring(times.indexOf(mode))) > 0) {
-					matchPairs = Integer.parseInt(times);
+				if (Integer.parseInt(line.substring(line.indexOf(mode))) > 0) {
+					matchPairs = Integer.parseInt(line);
 				}
 				if (matchPairs > 3) {
 					matchPairs = 3;
@@ -349,7 +352,7 @@ public class AutoCompiler {
 				String current = line.substring(line.indexOf("turntable") + "turntable".length()); // Turntable mode
 				tokenList.add(new TurntableToken(current));
 			} else if (line.contains("turn")) {
-				String current = line.substring(line.indexOf("align") + "turn".length()); // TurntableTask angle
+				String current = line.substring(line.indexOf("turn") + "turn".length()); // TurntableTask angle
 				tokenList.add(new TurnToken(current));
 			} else if (line.contains("hatch")) {
 				String current = line.substring(line.indexOf("hatch") + "hatch".length()); // Hatch mode
@@ -357,8 +360,8 @@ public class AutoCompiler {
 			} else if (line.contains("cargo")) {
 				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
 				tokenList.add(new CargoToken(current));
-			} else if (line.contains("align")) { // This must go later because some tasks have align modes
-				String current = line.substring(line.indexOf("turn") + "turn".length()); // Tape match times
+			} else if (line.contains("align")) {
+				String current = line; // This is a modifier for drive and turntable tasks, so it takes the whole line.
 				tokenList.add(new AlignToken(current));
 			} else if (line.contains("print")) {
 				String current = line.substring(line.indexOf("print") + "print".length()); // Text to print
