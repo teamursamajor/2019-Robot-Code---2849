@@ -73,6 +73,7 @@ public class TurntableTask extends Task implements UrsaRobot {
             // SmartDashboard.putNumber("LimelightY", y);
             // SmartDashboard.putNumber("LimelightArea", area);e
 
+            // TODO do we need this? if so i can add a keyword to autocompiler
             // while (hatchCount < matchPairs) {
             //     // Count the number of valid tape pairs we've encountered
             //     tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
