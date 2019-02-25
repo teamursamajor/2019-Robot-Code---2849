@@ -116,7 +116,7 @@ public class TurntableTask extends Task implements UrsaRobot {
             if(xbox.getButton(XboxController.BUTTON_X)){
                 return new TurntableOrder(-0.25);
             } else if (xbox.getButton(XboxController.BUTTON_Y)){
-                return new TurntableOrder(-0.25);
+                return new TurntableOrder(0.25);
             }
             if (xbox.getAxisGreaterThan(controls.map.get("turntable_left"), 0.1)) {
                 System.out.println("left");

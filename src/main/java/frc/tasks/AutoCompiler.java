@@ -166,6 +166,8 @@ public class AutoCompiler {
 				turntableMode = TurntableMode.LEFT;
 			} else if (direction.equalsIgnoreCase("RIGHT")) {
 				turntableMode = TurntableMode.RIGHT;
+			} else if (direction.equalsIgnoreCase("ALIGN")) {
+				turntableMode = TurntableMode.AUTO_ALIGN;
 			} else {
 				try {
 					turntableAngle = Double.parseDouble(direction);
@@ -265,11 +267,14 @@ public class AutoCompiler {
 	 */
 	class AlignToken implements Token {
 		private int matchPairs = 1;
+		private String mode = "";
 
 		public AlignToken(String times) {
-			times = times.replace(" ", "");
+			times = times.replace(" ", "").toUpperCase();
+			if (times.contains("BAY")) mode = "BAY";
+			else mode = "FLOOR";
 			try {
-				if (Integer.parseInt(times) > 0) {
+				if (Integer.parseInt(times.substring(times.indexOf(mode))) > 0) {
 					matchPairs = Integer.parseInt(times);
 				}
 				if (matchPairs > 3) {
@@ -281,7 +286,8 @@ public class AutoCompiler {
 		}
 
 		public DriveTask makeTask() {
-			return new DriveTask(matchPairs, drive, DriveMode.ALIGN);
+			if (mode.equals("BAY")) return new DriveTask(matchPairs, drive, DriveMode.ALIGN_BAY);
+			else return new DriveTask(matchPairs, drive, DriveMode.ALIGN_FLOOR);
 		}
 	}
 
