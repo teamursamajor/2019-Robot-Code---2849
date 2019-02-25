@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import frc.tasks.HatchTask;
@@ -9,6 +10,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     private Spark hatchMotor;
     private Servo hatchServo;
+    private DigitalInput bumperSwitch;
     private boolean servoUp = true;
     private long maxRunTime = 900; // how long the wheel spins
     private long servoTime = 500; // wait time for the servo to move
@@ -17,6 +19,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         hatchMotor = new Spark(HATCH);
         hatchServo = new Servo(HATCH_SERVO);
         subsystemMode = HatchMode.WAIT;
+        bumperSwitch = new DigitalInput(UrsaRobot.BUMPER_SWITCH_CHANNEL);
     }
 
     public void runSubsystem() {
@@ -25,6 +28,8 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) { // flips servo, does not run hatch
             subsystemMode = HatchMode.FLIP;
         }
+
+        System.out.println(bumperSwitch.get());
 
         HatchTask.HatchOrder hatchOrder = subsystemMode.callLoop(); // returns a constant for RUN, 0.0 for FLIP/WAIT
 
@@ -40,7 +45,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
                     hatchServo.setAngle(hatchServo.getAngle() - 90); // servo down
                     Thread.sleep(servoTime);
 
-                    //TODO modified
+                    // TODO modified
                     hatchMotor.set(-hatchOrder.hatchPower + .05); // comes in
                     Thread.sleep(maxRunTime + 200);
                 } catch (InterruptedException e) {
@@ -57,31 +62,13 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
                     Thread.sleep(servoTime);
 
                     hatchMotor.set(-hatchOrder.hatchPower);
-                    Thread.sleep(maxRunTime);
+
+                    while (!bumperSwitch.get() && System.currentTimeMillis() - startTime < maxRunTime) {
+                        Thread.sleep(20);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                // TODO wont work, rewrite with a sensor or something
-                // while ((hatchServo.getAngle() <= 180 && hatchServo.getAngle() > 90)
-                // && (System.currentTimeMillis() - startTime) < maxRunTime) {
-                // try {
-                // Thread.sleep(10);
-                // } catch (InterruptedException e) {
-                // e.printStackTrace();
-                // }
-                // }
-                // long currentRunTime = System.currentTimeMillis() - startTime;
-                // hatchMotor.set(0.0);
-
-                // hatchServo.setAngle(hatchServo.getAngle() + 90);
-                // servoUp = true;
-
-                // hatchMotor.set(-hatchOrder.hatchPower);
-                // try {
-                // Thread.sleep(currentRunTime);
-                // } catch (InterruptedException e) {
-                // e.printStackTrace();
-                // }
             }
             hatchMotor.set(0.0);
         } else if (subsystemMode.equals(HatchMode.FLIP)) {
