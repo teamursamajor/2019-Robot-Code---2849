@@ -351,15 +351,15 @@ public class AutoCompiler {
 			} else if (line.contains("turn")) {
 				String current = line.substring(line.indexOf("align") + "turn".length()); // TurntableTask angle
 				tokenList.add(new TurnToken(current));
-			} else if (line.contains("align")) {
-				String current = line.substring(line.indexOf("turn") + "turn".length()); // Tape match times
-				tokenList.add(new AlignToken(current));
 			} else if (line.contains("hatch")) {
 				String current = line.substring(line.indexOf("hatch") + "hatch".length()); // Hatch mode
 				tokenList.add(new HatchToken(current));
 			} else if (line.contains("cargo")) {
 				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
 				tokenList.add(new CargoToken(current));
+			} else if (line.contains("align")) { // This must go later because some tasks have align modes
+				String current = line.substring(line.indexOf("turn") + "turn".length()); // Tape match times
+				tokenList.add(new AlignToken(current));
 			} else if (line.contains("print")) {
 				String current = line.substring(line.indexOf("print") + "print".length()); // Text to print
 				tokenList.add(new PrintToken(current));
