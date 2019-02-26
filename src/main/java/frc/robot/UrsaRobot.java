@@ -18,7 +18,7 @@ public interface UrsaRobot {
 	public static final int DRIVE_BACK_LEFT = 2;// Temporary DRIVE_LEFT = 0;
 	public static final int DRIVE_BACK_RIGHT = 6;// Temporary DRIVE_RIGHT = 11;
 	public static final int DRIVE_FRONT_LEFT = 3;
-	public static final int DRIVE_FRONT_RIGHT = 7
+	public static final int DRIVE_FRONT_RIGHT = 7;
 ;
 
 	public static final int CARGO_INTAKE = 4;

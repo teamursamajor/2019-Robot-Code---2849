@@ -5,6 +5,8 @@ import frc.robot.UrsaRobot;
 import frc.robot.Constants;
 import frc.robot.XboxController;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.networktables.*;
 
 public class TurntableTask extends Task implements UrsaRobot {
@@ -105,9 +107,11 @@ public class TurntableTask extends Task implements UrsaRobot {
                 turning = false;
             }
 
-            if (Math.abs(outputPower) < autoAlignMinimumPower) {
-                outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
-            }
+            // if (Math.abs(outputPower) < autoAlignMinimumPower) {
+            //     outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
+            // }
+
+            SmartDashboard.putNumber("Testing Turntable outputPower", outputPower);
 
             return new TurntableOrder(outputPower);
 
