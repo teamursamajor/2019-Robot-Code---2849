@@ -1,3 +1,16 @@
+Thursday 2/28 To Do:
+Check if riolog is working on the hp laptop
+	If it is we gucci
+	If not fix that
+Mount limelight and clean up wiring (make valerie do this)
+Then test that it can auto align
+	If it works we gucci
+		Make any improvements if needed
+	If not fix that
+Plug in all drive motors
+Write auto code using the scripting language that will use auto align to drop off
+	Test that if possible
+
 Constants is returning 0.0 and -0.0 for turntable
 Undo the changes in drive for the real robot
 Color sensor code for cargo (come at the line at an angle, kill motors/start turning, drive forward and drop off)
@@ -24,7 +37,6 @@ Camera Mount: In progress but check on it
 
 Limelight stuff:
 	Safety concerns with the mount? make sure the limelight doesn't break
-	Think about potentially mounting the limelight somewhere on cargo and using it to automate that
 	Write code to automate pickup and drop off:
 		To automate pickup:
 			The robot should be fairly close to the station at this position
