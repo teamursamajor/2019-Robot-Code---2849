@@ -18,7 +18,7 @@ public class Constants implements Runnable {
     //TODO ... other constants here
 
     public Constants() {
-        hatchPower = 0.25;
+        hatchPower = 0.30;
         SmartDashboard.putNumber("Hatch Power", hatchPower);
         cargoPowerUp = -.35;
         cargoPowerDown = -0.10;
@@ -29,7 +29,7 @@ public class Constants implements Runnable {
         SmartDashboard.putNumber("Cargo Outtake Power", cargoOuttakePower);
         climbPower = 0.90;
         SmartDashboard.putNumber("Climb Power", climbPower);
-        turntablePower = 0.25;
+        turntablePower = 0.3;
         SmartDashboard.putNumber("Turntable Power", turntablePower);
         startConstants();
     }

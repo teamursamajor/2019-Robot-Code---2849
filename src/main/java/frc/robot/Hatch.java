@@ -12,9 +12,10 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     private Servo hatchServo;
     private DigitalInput bumperReleased; // Released returns true
     private boolean servoUp = true;
-    private long maxRunTime = 900; // how long the wheel spins
+    private long runTime = 600; // how long the wheel spins
+    private long maxRunTime = 800;
     private long servoTime = 500; // wait time for the servo to move
-
+    private long startTime;
     public Hatch() {
         hatchMotor = new Spark(HATCH);
         hatchServo = new Servo(HATCH_SERVO);
@@ -29,32 +30,33 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
             subsystemMode = HatchMode.FLIP;
         }
 
-        System.out.println(bumperReleased.get());
+        // System.out.println(bumperReleased.get());
 
         HatchTask.HatchOrder hatchOrder = subsystemMode.callLoop(); // returns a constant for RUN, 0.0 for FLIP/WAIT
 
         if (subsystemMode.equals(HatchMode.RUN)) {
-            long startTime = System.currentTimeMillis();
             if (servoUp) { // Dropping off
                 try {
                     hatchMotor.set(hatchOrder.hatchPower); // goes out
-                    Thread.sleep(maxRunTime);
+                    Thread.sleep(runTime);
 
                     hatchMotor.set(0.0);
                     servoUp = false;
                     hatchServo.setAngle(hatchServo.getAngle() - 90); // servo down
                     Thread.sleep(servoTime);
 
-                    // TODO modified
-                    hatchMotor.set(-hatchOrder.hatchPower + .05); // comes in
-                    Thread.sleep(maxRunTime + 200);
+                    hatchMotor.set(-hatchOrder.hatchPower);
+                    startTime = System.currentTimeMillis();
+                    while (bumperReleased.get() && System.currentTimeMillis() - startTime < maxRunTime) {
+                        Thread.sleep(20);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             } else { // servo was originally down and we are picking up
                 try {
                     hatchMotor.set(hatchOrder.hatchPower);
-                    Thread.sleep(maxRunTime);
+                    Thread.sleep(runTime);
 
                     hatchMotor.set(0.0);
                     servoUp = true;
@@ -63,6 +65,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
                     hatchMotor.set(-hatchOrder.hatchPower);
 
+                    startTime = System.currentTimeMillis();
                     while (bumperReleased.get() && System.currentTimeMillis() - startTime < maxRunTime) {
                         Thread.sleep(20);
                     }

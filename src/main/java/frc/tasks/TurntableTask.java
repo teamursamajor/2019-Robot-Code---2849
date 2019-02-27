@@ -118,17 +118,12 @@ public class TurntableTask extends Task implements UrsaRobot {
         }
 
         private TurntableOrder triggersBox() {
-            // if(xbox.getButton(XboxController.BUTTON_X)){
-            // return new TurntableOrder(-0.25);
-            // } else if (xbox.getButton(XboxController.BUTTON_Y)){
-            // return new TurntableOrder(0.25);
-            // }
             if (xbox.getAxisGreaterThan(controls.map.get("turntable_left"), 0.1)) {
-                System.out.println("left");
-                return new TurntableOrder(-Constants.turntablePower);
+                return new TurntableOrder(0.3);
+                // return new TurntableOrder(-Constants.turntablePower);
             } else if (xbox.getAxisGreaterThan(controls.map.get("turntable_right"), 0.1)) {
-                System.out.println("right");
-                return new TurntableOrder(Constants.turntablePower);
+                return new TurntableOrder(-0.3);
+                // return new TurntableOrder(Constants.turntablePower);
             } else {
                 return new TurntableOrder(0.0);
             }
