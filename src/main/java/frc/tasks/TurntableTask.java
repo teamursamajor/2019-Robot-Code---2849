@@ -77,20 +77,20 @@ public class TurntableTask extends Task implements UrsaRobot {
 
             // TODO do we need this? if so i can add a keyword to autocompiler
             // while (hatchCount < matchPairs) {
-            //     // Count the number of valid tape pairs we've encountered
-            //     tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
-            //     if (tapePairPresent == 1)
-            //         count++;
-            //     if (count % 2 == 1) // if (count is odd)
-            //         hatchCount++; // skips "even" pairs to avoid false positives
-            //     System.out.println("Count: " + count);
-            //     System.out.println("Hatch Count: " + hatchCount);
-            //     // Wait before trying to match a pair of tape again
-            //     try {
-            //         Thread.sleep(250); // TODO adjust if necessary
-            //     } catch (InterruptedException e) {
-            //         e.printStackTrace();
-            //     }
+            // // Count the number of valid tape pairs we've encountered
+            // tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
+            // if (tapePairPresent == 1)
+            // count++;
+            // if (count % 2 == 1) // if (count is odd)
+            // hatchCount++; // skips "even" pairs to avoid false positives
+            // System.out.println("Count: " + count);
+            // System.out.println("Hatch Count: " + hatchCount);
+            // // Wait before trying to match a pair of tape again
+            // try {
+            // Thread.sleep(250); // TODO adjust if necessary
+            // } catch (InterruptedException e) {
+            // e.printStackTrace();
+            // }
             // }
 
             // If we're already close enough to the tapes, then simply stop
@@ -108,7 +108,7 @@ public class TurntableTask extends Task implements UrsaRobot {
             }
 
             // if (Math.abs(outputPower) < autoAlignMinimumPower) {
-            //     outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
+            // outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
             // }
 
             SmartDashboard.putNumber("Testing Turntable outputPower", outputPower);
@@ -119,9 +119,9 @@ public class TurntableTask extends Task implements UrsaRobot {
 
         private TurntableOrder triggersBox() {
             // if(xbox.getButton(XboxController.BUTTON_X)){
-            //     return new TurntableOrder(-0.25);
+            // return new TurntableOrder(-0.25);
             // } else if (xbox.getButton(XboxController.BUTTON_Y)){
-            //     return new TurntableOrder(0.25);
+            // return new TurntableOrder(0.25);
             // }
             if (xbox.getAxisGreaterThan(controls.map.get("turntable_left"), 0.1)) {
                 System.out.println("left");
