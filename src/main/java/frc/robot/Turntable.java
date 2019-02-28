@@ -13,12 +13,12 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
 
     public Turntable() {
         turntableMotor = new Spark(TURNTABLE);
-        subsystemMode = TurntableMode.CUSTOM; // TODO Change back
+        subsystemMode = TurntableMode.AUTO_ALIGN; // TODO Change back
     }
 
     public void runSubsystem() {
         TurntableTask.TurntableOrder turntableOrder = subsystemMode.callLoop();
-        // System.out.println(turntableOrder.power);
+        System.out.println(turntableOrder.power);
         turntableMotor.set(turntableOrder.power);
 
         // if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1)) {
