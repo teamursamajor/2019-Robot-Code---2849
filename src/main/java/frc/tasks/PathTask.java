@@ -4,7 +4,11 @@ import frc.robot.UrsaRobot;
 
 public class PathTask extends Task implements UrsaRobot{
     //TODO this entire thing. I left you code from 2018 if you wanna try to figure it out cause I'm not lol
-
+    /*
+     * This should follow a given path by setting the Drive subsystemMode to Path, then using a method in DriveTask
+     * (or one in PathTask that is called by DriveTask) return a DriveOrder with the two powers (left and right) that
+     * the robot should use for the current iteration
+    */
     // private Path leftPath;
 	// private Path rightPath;
 	// private Pathfollower follower;

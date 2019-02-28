@@ -7,7 +7,6 @@ public class SerialTask extends GroupTask {
     }
 
     public void run() {
-		// Logger.log("Running serial task", LogLevel.INFO);
 
 		for (Task t : tasks) {
 			t.run();

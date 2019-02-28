@@ -11,7 +11,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.cameraserver.CameraServer;
+import frc.diagnostics.*;
+import frc.diagnostics.Logger.LogLevel;
+import frc.tasks.*;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -26,14 +29,21 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  // private Piston piston;
   private Drive drive;
-  private LazySusan lazySusan;
+  private Turntable turntable;
   private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
 
-  private boolean climbPressed;
+  private Constants constants;
+  // private ColorSensor colorSensor;
+
+  // TODO integrate AutoSelector
+  // private AutoSelector autoSelect;
+  private AutoCompiler autoCompiler;
+  
+  private DebugSelector debugSelect;
+  private String robotMode;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -41,40 +51,64 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotInit() {
-    CameraServer.getInstance().startAutomaticCapture();
-    //m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    //m_chooser.addOption("My Auto", kCustomAuto);
-    //SmartDashboard.putData("Auto choices", m_chooser);
+    Logger.setLevel(LogLevel.DEBUG);
+    Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
+        
+    currentTime = System.currentTimeMillis();
+    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    m_chooser.addOption("My Auto", kCustomAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
 
     /*
     drive = new Drive();
     drive.initialize("driveThread");
-    lazySusan = new LazySusan();
-    lazySusan.initialize("susanThread");
+    turntable = new Turntable();
+    turntable.initialize("turntableThread");
     hatch = new Hatch();
     hatch.initialize("hatchThread");
     climb = new Climb();
-    
     cargo = new Cargo();
     cargo.initialize("cargoThread");
     */
     //I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
     
 
-    // piston = new Piston();
-  }
+    constants = new Constants();
+    constants.startConstants();
+
+    // colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
+
+    autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
+    // autoSelect = new AutoSelector();
+
+    // TODO double check that this works on the HP laptop
+    // Vision.visionInit();
+
+    debugSelect = new DebugSelector();
+		Logger.setLevel(debugSelect.getLevel());
+
+   }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
    * items like diagnostics that you want ran during disabled, autonomous,
    * teleoperated and test.
    *
-   * <p>
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
+
+    // colorSensor.readColors();
+    if ((System.currentTimeMillis() >= currentTime + 500)) {
+      // System.out.println(
+      // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
+      // Blue: " + colorSensor.getBlue());
+      currentTime = System.currentTimeMillis();
+
+    }
+
   }
 
   /**
@@ -82,35 +116,54 @@ public class Robot extends TimedRobot implements UrsaRobot {
    * between different autonomous modes using the dashboard. The sendable chooser
    * code works with the Java SmartDashboard.
    *
-   * <p>
    * You can add additional auto modes by adding additional comparisons to the
    * switch structure below with additional strings. If using the SendableChooser
    * make sure to add them to the chooser code above as well.
    */
   @Override
   public void autonomousInit() {
-    //m_autoSelected = m_chooser.getSelected();
+    Logger.log("Started Autonomous mode", LogLevel.INFO);
+		robotMode = "Autonomous";
+    speed = 0.45;
+    m_autoSelected = m_chooser.getSelected();
     // autoSelected = SmartDashboard.getString("Auto Selector",
     // defaultAuto);
-    //System.out.println("Auto selected: " + m_autoSelected);
-
+    Task task = autoCompiler.buildAutoMode(m_autoSelected);
+		task.start();
+		System.out.println(task.toString());
+    System.out.println("Auto selected: " + m_autoSelected);
+    Logger.log("Current Auto Mode: " + m_autoSelected, LogLevel.INFO);
+    Logger.setLevel(debugSelect.getLevel());
   }
+
+  // TODO do we need this?
+  // private boolean hitTape = false;
+  private double speed = 0.45;
 
   /**
    * This function is called periodically during autonomous.
    */
   @Override
   public void autonomousPeriodic() {
-    //switch (m_autoSelected) {
-    //case kCustomAuto:
-      // Put custom auto code here
-      //break;
+    drive.setPower(speed);
+    // if (colorSensor.getRed() >= 200) {
+    //   speed = 0.0;
+      // System.out.println(
+      // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
+      // Blue: " + colorSensor.getBlue());
+    // }
 
-    //case kDefaultAuto:
-    //default:
-      // Put default auto code here
-      //break;
-    //}
+    // switch (m_autoSelected) {
+    // case kCustomAuto:
+    // // Put custom auto cosde here
+    // break;
+
+    // case kDefaultAuto:
+    // default:
+    // // Put default auto code here
+    // break;
+    // }
+    
   }
 
   /**
@@ -119,6 +172,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopInit() {
+    Logger.log("Started Teleop mode", LogLevel.INFO);
+    robotMode = "Teleop";
+    Logger.setLevel(debugSelect.getLevel());
   }
 
   /**
@@ -126,34 +182,86 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    // TODO Should this be here or in a climber thread?
-    //climbPressed = false;
-    //double power = 1.0;
-    //if (xbox.getButton(XboxController.POV_UP)) {
-      //climb.setFrontMotor(power);
-      //climbPressed = true;
-    //}
-    //if (xbox.getButton(XboxController.POV_DOWN)) {
-      //climb.setFrontMotor(-power);
-      //climbPressed = true;
-    //}
-    //if (xbox.getButton(XboxController.POV_LEFT)) {
-      //climb.setBackMotor(power);
-      //climbPressed = true;
-    //}
-    //if (xbox.getButton(XboxController.POV_RIGHT)) {
-      //climb.setBackMotor(-power);
-      //climbPressed = true;
-    //}
-    //if (!climbPressed) {
-      //climb.stopMotors();
-    //}
+    if(xbox.getPOV() == controls.map.get("cargo_up") || xbox.getPOV() == controls.map.get("cargo_down")){
+      Cargo.automating = false;
+    } else if(xbox.getSingleButtonPress(controls.map.get("cargo_rocket")) || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))){
+      Cargo.automating = true;
+    }
+
+    if (xbox.getButton(controls.map.get("climb_start"))) {
+      climb.climbInit();
+    } else if (xbox.getButton(controls.map.get("climb_stop"))) {
+      climb.cancelClimb();
+    }
+    
+    // TODO climber code
+    // climbPressed = false;
+    // boolean climbPressed = false;
+    // // POV Up is start all climbing
+    // if (xbox.getPOV() == XboxController.POV_UP && !climb.isClimbing()) {
+    //   climb.climbInit();
+    // }
+    // // POV Down is cancel climb
+    // else if (xbox.getPOV() == XboxController.POV_DOWN) {
+    //   climb.cancelClimb();
+    // }
+    // // POV Left is to retract the front motor
+    // if (xbox.getPOV() == XboxController.POV_LEFT && !climb.isClimbing()) {
+    //   climb.setFrontMotor(Constants.climbPower);
+    //   climbPressed = true;
+    // }
+    // // POV Right is to retract the back motor / cam
+    // if (xbox.getPOV() == XboxController.POV_RIGHT && !climb.isClimbing()) {
+    //   climb.setBackMotor(-Constants.climbPower);
+    //   climbPressed = true;
+    // }
+    // if (!climbPressed && !climb.isClimbing()) {
+    //   climb.stopMotors();
+    // }
+
   }
 
+  private double currentTime;
+
+  /**
+   * This function is run when test mode is first started up and should be used
+   * for any test initialization code.
+   */
+  @Override
+  public void testInit() {
+    Logger.log("Started Test mode", LogLevel.INFO);
+		robotMode = "Test";
+  }
+  
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
+    // colorSensor.readColors();
+    // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
+    // System.out.println(
+    // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
+    // Blue: " + colorSensor.getBlue());
+    // }
   }
+  
+  /**
+	 * This function is run when a mode is initially disabled and should be
+	 * used for any disabling code.
+	 */
+	@Override
+	public void disabledInit() {
+		Logger.log("Disabled " + robotMode + " mode", LogLevel.INFO);
+		Logger.closeWriters();
+  }
+  
+  /**
+   * This function is called periodically when a mode is disabled.
+   */
+  @Override
+  public void disabledPeriodic() {
+
+  }
+
 }

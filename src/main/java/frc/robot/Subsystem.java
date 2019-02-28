@@ -2,27 +2,30 @@ package frc.robot;
 
 public abstract class Subsystem<E> implements Runnable {
 
-    /* This class is meant to act as a skeleton for subsystems and reduce redundant code.
-     * It creates a subsystem thread and methods to get/set different modes (according to enums).
-     * Subsystem classes then extend it and run its constructor so they get the thread and methods.
-     * It uses the generic E so that subsystem classes can substitute this with their mode enums.
+    /*
+     * This class is meant to act as a skeleton for subsystems and reduce redundant
+     * code. It creates a subsystem thread and methods to get/set different modes
+     * (according to enums). Subsystem classes then extend it and run its
+     * constructor so they get the thread and methods. It uses the generic E so that
+     * subsystem classes can substitute this with their mode enums.
      */
 
     public static boolean running = false;
     private static Object lock = new Object();
-    
+
     private Thread t;
-    
-    //Constructor for starting threads for each subsystem
+
+    // Constructor for starting threads for each subsystem
     public Subsystem() {
 
     }
 
-    //Thread Methods
+    // Thread Methods
 
     public void run() {
         while (running) {
-            //When the thread is interrupted to set a mode (see below), it will just restart itself.
+            // When the thread is interrupted to set a mode (see below), it will just
+            // restart itself.
             try {
                 runSubsystem();
                 Thread.sleep(20);
@@ -36,17 +39,17 @@ public abstract class Subsystem<E> implements Runnable {
      * Checks if subsystem thread is running.
      */
     public static boolean getRunning() {
-		return running;
+        return running;
     }
-    
-    /**
-	 * Kills subsystem thread.
-	 */
-	public void kill() {
-		running = false;
-	}
 
-    //Mode Setter/Getter Methods
+    /**
+     * Kills subsystem thread.
+     */
+    public void kill() {
+        running = false;
+    }
+
+    // Mode Setter/Getter Methods
 
     protected E subsystemMode;
 
@@ -66,16 +69,19 @@ public abstract class Subsystem<E> implements Runnable {
 
     /**
      * Abstract method for subsystems to do stuff in their individual threads.
-     * @throws InterruptedException in case the thread is interrupted to change modes.
+     * 
+     * @throws InterruptedException in case the thread is interrupted to change
+     *                              modes.
      */
     public abstract void runSubsystem() throws InterruptedException;
 
-    public void initialize(String threadName){
-        //Used to prevent ("lock") a thread from starting again if constructor is run again
-        synchronized (lock) {
-			// if (running)
-			// 	return;
-			running = true;
+    public void initialize(String threadName) {
+        // Used to prevent ("lock") a thread from starting again if constructor is run
+        // again
+        synchronized (lock) { // TODO this isnt doing anything right now, can we remove it?
+            // if (running)
+            // return;
+            running = true;
         }
         t = new Thread(this, threadName);
         t.start();

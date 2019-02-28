@@ -11,7 +11,6 @@ public class PrintTask extends Task {
 	
 	//Prints the string to System.out
 	public void run() {
-		// Logger.log("Running print task", LogLevel.INFO);
 		System.out.println(str);
 	}
 	

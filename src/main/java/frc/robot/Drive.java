@@ -6,16 +6,16 @@ import frc.tasks.DriveTask.DriveMode;
 
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
-	private Spark mFrontLeft;
-	private Spark mFrontRight;
+	//TODO Uncomment this
+	// private Spark mLeft;
+	// // private Spark mRight;
+	// private Spark mRearLeft;
+	// private Spark mRearRight;
+
 	private Spark mRearLeft;
 	private Spark mRearRight;
-
-	// TODO need?
-	// private static boolean square;
-
-	// private double leftPower;
-	// private double rightPower;
+	private Spark mFrontLeft;
+	private Spark mFrontRight;
 
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
@@ -23,20 +23,28 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 */
 
 	public Drive() {
-		// TODO In the future we will want a switch statement here with getMode()
+		// TODO do we want to do auto sandstorm or teleop? The answer to that question
+		// changes what we do here
+		// In the future we will want a switch statement here with getMode()
 		setMode(DriveMode.DRIVE_STICKS);
 
-		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
-		mRearLeft = new Spark(DRIVE_REAR_LEFT);
-		mRearRight = new Spark(DRIVE_REAR_RIGHT);
+		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
+		mRearLeft = new Spark(DRIVE_BACK_LEFT);
+		mRearRight = new Spark(DRIVE_BACK_RIGHT);
 
+		// TODO uncomment this for real robot
+		// mLeft = new Spark(DRIVE_LEFT);
+		// mRight = new Spark(DRIVE_RIGHT);
+		// mRearLeft = mLeft;
+		// mRearRight = mRight;
+		
 		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setReverseDirection(true);
 
 		leftEncoder.reset();
-		rightEncoder.reset();	
+		rightEncoder.reset();
 	}
 
 	/**
@@ -47,16 +55,19 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	public void runSubsystem() {
 		updateStateInfo();
 		DriveTask.DriveOrder driveOrder = subsystemMode.callLoop();
-		
+
+		//TODO Replace and uncomment
+		// mLeft.set(-driveOrder.leftPower); // mFrontLeft
+		// mRight.set(driveOrder.rightPower); // mFrontRight
 		mFrontLeft.set(-driveOrder.leftPower);
 		mFrontRight.set(driveOrder.rightPower);
 		mRearLeft.set(-driveOrder.leftPower);
 		mRearRight.set(driveOrder.rightPower);
+
 	}
 
 	public void updateStateInfo() {
-		// TODO remove?
-		// maybe average the encoder distances with limelight? idk
+		// TODO we need to incorporate the limelight recognition differently
 		// double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
 		// double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
 
@@ -72,18 +83,17 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		double rightDeltaPos = rightDistance - DriveTask.DriveState.rightPos;
 		double rightVelocity = (rightDeltaPos / deltaTime);
-		
-		// TODO remove?
+
 		/*
 		 * Our loop updates faster than the limelight. If the limelight hasn't updated
 		 * yet, then our change in position is 0. In this case, we want to skip this
 		 * iteration and wait for the next cycle
 		 */
-		if (leftDeltaPos == 0 || rightDeltaPos == 0)
+		double averageDeltaPos = (leftDeltaPos + rightDeltaPos) / 2.0;
+		if (Math.abs(averageDeltaPos) <= 5 || deltaTime <= 5)
 			return;
 
-		DriveTask.DriveState.updateState(leftVelocity, rightVelocity, leftDistance,
-				rightDistance, getHeading());
+		DriveTask.DriveState.updateState(leftVelocity, rightVelocity, leftDistance, rightDistance, getHeading());
 	}
 
 	/**
@@ -169,6 +179,9 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * and slide slightly
 	 */
 	public void stop() {
+		//TODO Uncomment
+		// mLeft.stopMotor();
+		// mRight.stopMotor();
 		mFrontLeft.stopMotor();
 		mFrontRight.stopMotor();
 		mRearLeft.stopMotor();
@@ -176,14 +189,19 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	/**
-	 * Sets all drive motors to the same power. Accounts for the flip between the left and right sides
+	 * Sets all drive motors to the same power. Accounts for the flip between the
+	 * left and right sides
+	 * 
 	 * @param power
 	 */
 	public void setPower(double power) {
-		mFrontRight.set(-power);
-		mFrontLeft.set(power);
-		mRearRight.set(-power);
-		mRearLeft.set(power);
+		// TDO Uncomment
+		// mRight.set(-power);
+		// mLeft.set(power);
+		mFrontRight.set(power);
+		mFrontLeft.set(-power);
+		mRearLeft.set(-power);
+		mRearRight.set(power);
 	}
 
 	public void debugMessage(String message) {

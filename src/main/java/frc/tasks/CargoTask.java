@@ -3,77 +3,84 @@ import frc.robot.*;
 
 public class CargoTask extends Task implements UrsaRobot{
 	public enum CargoMode {
-        DEPLOY, PICKUP, DROPOFF;
+        GROUND, CARGOBAY, LOWROCKET, CLIMB;
+
+        public CargoMode getNext(){
+            return this.ordinal() < CargoMode.values().length - 1
+                ? CargoMode.values()[this.ordinal() + 1]
+                : GROUND;
+        }
+
+        public CargoMode getPrevious(){
+            return this.ordinal() > 0
+                ? CargoMode.values()[this.ordinal() - 1]
+                : LOWROCKET;
+        }
 
         public CargoOrder callLoop() {
             switch (this) {
-                // TODO change these to their actual distance
-            case DEPLOY:
-                return moveToDistance(0.0);
-            case PICKUP:
-                return moveToDistance(0.0);
-            case DROPOFF:
-                return moveToDistance(0.0);
+            case GROUND:
+                return moveToAngle(UrsaRobot.cargoGroundVoltage);
+            case LOWROCKET:
+                return moveToAngle(UrsaRobot.cargoLowRocketVoltage);
+            case CARGOBAY:
+                return moveToAngle(UrsaRobot.cargoBayVoltage);
+            case CLIMB:
+                return moveToAngle(UrsaRobot.cargoStartVoltage);
             }
             running = false;
             return new CargoOrder(0.0);  
         }
 
-       private CargoOrder moveToDistance(double distance) {
+       private CargoOrder moveToAngle(double desiredVoltage) {
+            double voltageTolerance = 5.0;
 
-            double distanceTolerance = 5;
-            if(Math.abs(CargoState.position - distance) < distanceTolerance) {
+            if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;
-                return new CargoOrder(0.0);
+                return new CargoOrder(Cargo.getHoldPower());
             }
-            
             //TODO Add derivative term to PD loop
-            double kpCargo = 1.0 / 40.0;
+            double kpCargo = 1.0 / 100.0;
             double kdCargo = 0;
+			double cargoMinimumPower = 0.15;
 
-			double cargoMinimumPower = 0.2; //TODO Optimize
-			// Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-			double cargoPower = kpCargo * (distance - CargoState.position) + kdCargo * CargoState.velocity;
-
-            if(cargoPower == 0){
-                running = false;
-                return new CargoOrder(0.0);
-            }
-
-			if (Math.abs(cargoPower) < cargoMinimumPower) {
-				cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
-			}
+            // Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
+			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage);// + kdCargo * CargoState.cargoVelocity;
+            // System.out.println("Cargo Power: " + cargoPower);
             
-			return new CargoOrder(cargoPower);
+            // //TODO was 0 before, test by using auto code
+            // if(cargoPower <= 0.1){
+            //     running = false;
+            //     return new CargoOrder(Cargo.getHoldPower());
+            // }
+
+			// if (Math.abs(cargoPower) < cargoMinimumPower) {
+			// 	cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
+			// }
+            
+			return new CargoOrder(-cargoPower);
        }
     }
 
     public static class CargoState {
-        public static double position = 0.0;
-        public static double velocity = 0.0;
+        public static double cargoVelocity = 0.0, cargoVoltage = 0.0;
         public static long stateTime = System.currentTimeMillis();
-
-        public static void updateState(double velocity, double position) {
-            CargoState.velocity = velocity;
-            CargoState.position = position;
+        
+        public static void updateState( double cargoVelocity, double cargoVoltage) {
+            CargoState.cargoVelocity = cargoVelocity;
+            CargoState.cargoVoltage = cargoVoltage;
             stateTime = System.currentTimeMillis();
         }
         
     }
 
     public static class CargoOrder {
-        public double cargoPower = 0.0;
+        public double cargoPower;
 
         public CargoOrder(double power) {
-            cargoPower = power;
+            this.cargoPower = power;
         }
-
     }
-
-	public String toString() {
-        // return "CargoTask: " + cargo.name() + "\n";
-        return " ";
-	}
 
     private static boolean running = true;
 
@@ -88,9 +95,9 @@ public class CargoTask extends Task implements UrsaRobot{
         while(running){
             try{
                 Thread.sleep(20);
-            } catch(InterruptedException e){
+            } catch(Exception e){
                 e.printStackTrace();
             }
         }
-	}
+    }
 }

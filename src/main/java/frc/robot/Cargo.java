@@ -1,69 +1,121 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import frc.tasks.*;
+import frc.tasks.CargoTask.CargoMode;
 
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     private Spark cargoIntake;
-    private Spark cargo;
+    private Spark cargoLift;
+    private static Potentiometer cargoPot;
+    private long time;
+
+    public static boolean automating = true;
 
     public Cargo() {
-        cargoIntake = new Spark(CARGO_FRONT);
-        cargo = new Spark(CARGO);
-        cargoEncoder.setDistancePerPulse(CARGO_DEGREES_PER_TICK);
-        cargoEncoder.reset();
+        cargoLift = new Spark(CARGO_LIFT);
+        cargoIntake = new Spark(CARGO_INTAKE);
+        cargoPot = new AnalogPotentiometer(CARGO_POT_CHANNEL, 360, 0);
+        subsystemMode = CargoMode.GROUND;
+        time = System.currentTimeMillis();
     }
 
     public void runSubsystem() {
-        //TODO Fix
-        // updateStateInfo();
-        // CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
-        // cargoIntake.set(cargoOrder.cargoPower);
+        updateStateInfo();
+        if (automating) {
+            // If we need to save button space, then use one button that goes
+            // ground -> rocket -> bay -> rocket -> ground
+            if (xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
+               
+                if (subsystemMode.equals(CargoMode.GROUND)) {
+                    // untested, remove if it breaks the robot lol
+                    subsystemMode = CargoMode.LOWROCKET;
+                    try{
+                        Thread.sleep(250);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    subsystemMode = CargoMode.CARGOBAY;
+                }
+                else if (subsystemMode.equals(CargoMode.CARGOBAY))
+                    subsystemMode = CargoMode.GROUND;
 
-        //TODO Test Code
-        if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
-            cargoIntake.set(-0.75);
-        } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
-            cargoIntake.set(0.5);
+            } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))) {
+               
+                if (subsystemMode.equals(CargoMode.GROUND))
+                    subsystemMode = CargoMode.LOWROCKET;
+                else if (subsystemMode.equals(CargoMode.LOWROCKET))
+                    subsystemMode = CargoMode.GROUND;
+
+            } else {
+                cargoLift.set(getHoldPower());
+            }
+
+            CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
+
+            if (subsystemMode.equals(CargoMode.GROUND)) {
+                cargoLift.set(0.25);
+            } else {
+                cargoLift.set(cargoOrder.cargoPower);
+            }
+
+        } else {            
+            if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
+                cargoLift.set(0.20);
+            } else if (xbox.getPOV() == controls.map.get("cargo_up")) {
+                cargoLift.set(-0.20);
+            } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
+                cargoLift.set(0.20);
+            } else {
+                getHoldPower();
+            }
+        }
+
+        if (xbox.getButton(controls.map.get("cargo_intake"))) {
+            cargoIntake.set(Constants.cargoIntakePower);
+        } else if (xbox.getButton(controls.map.get("cargo_outtake"))) {
+            cargoIntake.set(-Constants.cargoOuttakePower);
         } else {
             cargoIntake.set(0);
         }
 
-        if (xbox.getButton(XboxController.BUTTON_BACK)) {
-            cargo.set(-0.35);
-        } else if (xbox.getButton(XboxController.BUTTON_START)) {
-            cargo.set(0.35);
-        } else {
-            cargo.set(-0.2);
+        if ((System.currentTimeMillis() - time) % 50 == 0) {
+            // System.out.println("Pot Voltage: " + cargoPot.get());
+            // System.out.println(subsystemMode);
         }
-    }
 
-    public double getCargoDistance() {
-        return cargoEncoder.getDistance();
     }
-    
 
     public void updateStateInfo() {
-        // TODO remove?
-		
-        
-        // Calculate velocity
-        // For underclassmen, delta means "change in"
+        double currentVoltage = cargoPot.get();
+        double deltaVolt = currentVoltage - CargoTask.CargoState.cargoVoltage;
         double deltaTime = System.currentTimeMillis() - CargoTask.CargoState.stateTime;
-		double deltaPos = getCargoDistance() - CargoTask.CargoState.position;
-		double velocity = (deltaPos / deltaTime);
 
-        // TODO remove?
-		/*
-		 * Our loop updates faster than the limelight. If the limelight hasn't updated
-		 * yet, then our change in position is 0. In this case, we want to skip this
-		 * iteration and wait for the next cycle
-		 */
-		if (deltaPos == 0)
+        double velocity = (deltaVolt / deltaTime);
+
+        if (Math.abs(deltaVolt) <= 5 || deltaTime <= 5)
             return;
-           
-        CargoTask.CargoState.updateState(velocity, getCargoDistance());
+        CargoTask.CargoState.updateState(velocity, currentVoltage);
     }
-    
+
+    public double getCargoVoltage() {
+        return cargoPot.get();
+    }
+
+    public void setCargoLift(double speed) {
+        cargoLift.set(speed);
+    }
+
+    public static double getHoldPower() {
+        if (cargoPot.get() >= (UrsaRobot.cargoGroundVoltage + 5) && cargoPot.get() < 190) {
+            return -0.25;
+        } else if (cargoPot.get() >= 190 && cargoPot.get() < (UrsaRobot.cargoBayVoltage + 5)) {
+            return -0.20;
+        } else {
+            return 0.0;
+        }
+    }
 }
