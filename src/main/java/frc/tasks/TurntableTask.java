@@ -119,11 +119,9 @@ public class TurntableTask extends Task implements UrsaRobot {
 
         private TurntableOrder triggersBox() {
             if (xbox.getAxisGreaterThan(controls.map.get("turntable_left"), 0.1)) {
-                return new TurntableOrder(0.3);
-                // return new TurntableOrder(-Constants.turntablePower);
+                return new TurntableOrder(-Constants.turntablePower);
             } else if (xbox.getAxisGreaterThan(controls.map.get("turntable_right"), 0.1)) {
-                return new TurntableOrder(-0.3);
-                // return new TurntableOrder(Constants.turntablePower);
+                return new TurntableOrder(Constants.turntablePower);
             } else {
                 return new TurntableOrder(0.0);
             }

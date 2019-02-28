@@ -29,19 +29,19 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
         //     turntableMotor.set(0.0);
         // }
         // TODO test code
-        // if (xbox.getPOV() == XboxController.POV_RIGHT) {
-        // turntableCamera = true;
-        // } else if (xbox.getPOV() == XboxController.POV_LEFT) {
-        // turntableCamera = false;
-        // }
+        if (xbox.getPOV() == XboxController.POV_RIGHT) {
+        turntableCamera = true;
+        } else if (xbox.getPOV() == XboxController.POV_LEFT) {
+        turntableCamera = false;
+        }
 
-        // if (turntableCamera) {
-        // subsystemMode = TurntableMode.AUTO_ALIGN;
-        // limelightTable.getEntry("pipeline").setDouble(0);
-        // } else {
-        // subsystemMode = TurntableMode.CUSTOM;
-        // limelightTable.getEntry("pipeline").setDouble(2);
-        // }
+        if (turntableCamera) {
+        //subsystemMode = TurntableMode.AUTO_ALIGN;
+        limelightTable.getEntry("pipeline").setDouble(0);
+        } else {
+        //subsystemMode = TurntableMode.CUSTOM;
+        limelightTable.getEntry("pipeline").setDouble(2);
+        }
 
         // // TODO make loop
         // // ALSO check to make sure we won't hit the eboard and see if we need to move

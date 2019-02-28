@@ -189,7 +189,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     } else if (xbox.getButton(controls.map.get("climb_stop"))) {
       climb.cancelClimb();
     }
-    
+
     // TODO climber code
     // climbPressed = false;
     // boolean climbPressed = false;
