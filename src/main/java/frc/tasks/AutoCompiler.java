@@ -1,14 +1,14 @@
 package frc.tasks;
 
 import java.io.BufferedReader;
-import java.io.File;
+// import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Relay.Direction;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.Relay.Direction;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.SusanTask.SusanMode;
@@ -72,14 +72,14 @@ public class AutoCompiler {
 	 * 
 	 * @param filename Path file to run
 	 */
-    //TODO Implement with changes to path
+    // TODO Implement with changes to path
 	class PathToken implements Token {
 		// private Path[] paths;
 
 		public PathToken(String filename) {
 			filename = filename.replace(" ", "");
-			//TODO put all paths into /automodes/paths
-			// paths = new PathReader("/home/lvuser/automodes/paths/" + filename + ".path", false).getPaths();
+			// TODO put all paths into /paths
+			// paths = new PathReader("/home/lvuser/paths/" + filename + ".path", false).getPaths();
 		}
 
 		public PathTask makeTask() {
@@ -140,8 +140,7 @@ public class AutoCompiler {
 
 		public HatchTask makeTask() {
 			// Logger.log("[TASK] Hatch Task", LogLevel.INFO);
-			//return new HatchTask(hatchMode, hatch);
-			return null;
+			return new HatchTask(hatchMode, hatch);
 		}
 	}
 	
@@ -152,6 +151,7 @@ public class AutoCompiler {
 	 */
 	class SusanToken implements Token {
 		private SusanMode susanMode;
+		private double susanAngle = 0;
 
 		public SusanToken(String direction) {
 			direction = direction.replace(" ", "");
@@ -163,14 +163,15 @@ public class AutoCompiler {
 			} else if (direction.equalsIgnoreCase("RIGHT")) {
 				susanMode = SusanMode.RIGHT;
 			} else {
+				susanAngle = Double.parseDouble(direction);
 				susanMode = SusanMode.FORWARD;
 			}
 		}
 
 		public SusanTask makeTask() {
 			// Logger.log("[TASK] Susan Task", LogLevel.INFO);
-            // return new SusanTask(susanMode, susan);
-            return null;
+			if (susanAngle == 0) return new SusanTask(susanMode, susan);
+			else return new SusanTask(susanAngle, susan);
 		}
     }
 

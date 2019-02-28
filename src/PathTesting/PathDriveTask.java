@@ -1,10 +1,10 @@
 package frc.tasks;
 
-import frc.robot.UrsaRobot;
+import PathTesting.RobotTester;
 import frc.robot.XboxController;
-import frc.robot.Drive;
+import PathTesting.Drive;
 
-public class DriveTask extends Task implements UrsaRobot {
+public class PathDriveTask extends Task implements UrsaRobot {
 
     /*
      * An enum is a list of predefined constants. Ex: Directions - North South East
@@ -12,7 +12,7 @@ public class DriveTask extends Task implements UrsaRobot {
      * represent Autonomous and Teleop
      */
     public enum DriveMode {
-        AUTO, ALIGN, DRIVE_STICKS, TURN;
+        PATH;
 
         /**
          * This method takes the current drive state and iterates the control loop then
@@ -22,16 +22,9 @@ public class DriveTask extends Task implements UrsaRobot {
          */
 
         public DriveOrder callLoop() {
-            // "this" refers to the enum that the method is in
             switch (this) {
-            case AUTO:
-                return autoCalculator();
-            case ALIGN:
-                return autoAlign();
-            case DRIVE_STICKS:
-                return sticksBox();
-            case TURN:
-                return turnTo();
+                case PATH:
+                // TODO add path integration here. Needs to return a DriveOrder object with left and right power.
             }
             return new DriveOrder(0.0, 0.0);
         }
@@ -42,7 +35,7 @@ public class DriveTask extends Task implements UrsaRobot {
          * 
          * @return A DriveOrder object containing the new left and right powers
          */
-        private DriveOrder autoCalculator() {
+        private DriveOrder driveBy(double desiredLocation) {
             double leftOutputPower = 0.0, rightOutputPower = 0.0;
             double currentDistance = DriveState.averagePos;
             double driveTolerance = 0.0; // TODO set a real value here
@@ -87,82 +80,7 @@ public class DriveTask extends Task implements UrsaRobot {
             return new DriveOrder(leftOutputPower, rightOutputPower);
         }
 
-        /**
-         * Iterates the AutoAlign control loop and calculates the new powers for Drive
-         * 
-         * @return A DriveOrder object containing the new left and right powers
-         */
-        private DriveOrder autoAlign() {
-            // TODO move to a constants java file which communicates with the
-            // dashboard/UrsaRobot
-
-            double kdAutoAlign = 2; // Derivative coefficient for PID controller
-            double kpAutoAlign = 1.0 / 33.0; // Proportional coefficient for PID controller
-            double autoAlignTolerance = 0.1;
-            double autoAlignMinimumPower = 0.25;
-
-            double goalPosition = 0.0; // on the limelight, 0.0 is the center
-
-            // Loop through pairs of tape
-            int hatchCount = 0; // actual number of hatches
-            int count = 0; // general counter variable
-            int tapePairPresent;
-            while (hatchCount < matchPairTimes) {
-                // Count the number of valid tape pairs we've encountered
-                tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
-                if (tapePairPresent == 1) count++;
-                if (count % 2 == 1) hatchCount++; // skips "even" pairs to avoid false positives
-
-                // Wait before trying to match a pair of tape again
-                try {
-                    Thread.sleep(1000); // TODO adjust if necessary
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // If we're already close enough to the tapes, then simply stop
-            double centerPos = limelightTable.getEntry("tx").getDouble(Double.NaN);
-            if (Math.abs(centerPos) < autoAlignTolerance) {
-                driving = false;
-                return new DriveOrder(0.0, 0.0);
-            }
-
-            // PD equations power = kp * change in distance (aka error) + kd * velocity
-            double leftOutputPower = kpAutoAlign * (limelightTable.getEntry("tx").getDouble(Double.NaN) - goalPosition)
-            + kdAutoAlign * DriveState.leftVelocity;
-            double rightOutputPower = kpAutoAlign * (limelightTable.getEntry("tx").getDouble(Double.NaN) - goalPosition)
-            + kdAutoAlign * DriveState.rightVelocity;
-
-            if (leftOutputPower == 0 && rightOutputPower == 0) {
-                driving = false;
-                return new DriveOrder(0.0, 0.0);
-            }
-
-            if (Math.abs(leftOutputPower) < autoAlignMinimumPower) {
-                leftOutputPower = Math.signum(leftOutputPower) * autoAlignMinimumPower;
-            }
-
-            if (Math.abs(rightOutputPower) < autoAlignMinimumPower) {
-                rightOutputPower = Math.signum(rightOutputPower) * autoAlignMinimumPower;
-            }
-
-            return new DriveOrder(leftOutputPower, rightOutputPower);
-        }
-
-        /**
-         * "Iterates" the DriveSticks control loop. This is called a Box because it just
-         * takes in the DriveState and returns the Xbox controller axis values. It is
-         * not actually calculating anything.
-         * 
-         * @return DriveOrder containing the values from the XboxController
-         */
-        private DriveOrder sticksBox() {
-            return new DriveOrder(xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y),
-                    xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y));
-        }
-
-        private DriveOrder turnTo() {
+        private DriveOrder turnTo(double desiredAngle) {
             double newAngle = desiredAngle - DriveState.currentAngle;
             double angleTolerance = 5; //TODO set experimentally
             if(newAngle < angleTolerance){
@@ -220,7 +138,7 @@ public class DriveTask extends Task implements UrsaRobot {
         }
     }
 
-    private static double desiredLocation = 0.0, startDistance = 0.0, direction = 1.0;
+    private static double startDistance = 0.0, direction = 1.0;
     private static boolean driving = true;
 
     /**
@@ -230,48 +148,15 @@ public class DriveTask extends Task implements UrsaRobot {
      *                        negative is backwards
      * @param drive           Instance of drive object
      */
-    public DriveTask(double desiredDistance, Drive drive) {
+    public PathDriveTask(double desiredDistance, Drive drive) {
         direction = Math.signum(desiredLocation); // Moving Forwards: 1, Moving Backwards: -1
         startDistance = DriveState.averagePos;
         desiredLocation = startDistance + desiredDistance;
 
         driving = true;
-        drive.setMode(DriveMode.AUTO); // TODO does this work?
-        Thread t = new Thread("DriveTask");
+        drive.setMode(DriveMode.PATH);
+        Thread t = new Thread("PathTask");
         t.start();
-    }
-
-    private static double desiredAngle = 0.0;
-    private static int matchPairTimes = 0;
-
-    /**
-     * Used for turning or aligning
-     * 
-     * @param argument  The desired angle to turn to or the number of times to check for tape pairs
-     * @param drive     Instance of the drive object
-     * @param otherMode Should be TURN or ALIGN
-     */
-    public DriveTask(double argument, Drive drive, DriveMode otherMode) {
-        switch (otherMode) {
-        case TURN:
-            desiredAngle = argument;
-            driving = true;
-            drive.setMode(DriveMode.TURN);
-            Thread turnThread = new Thread("TurnTask");
-            turnThread.start();
-            break;
-        case ALIGN:
-            matchPairTimes = (int) argument;
-            driving = true;
-            drive.setMode(DriveMode.ALIGN);
-            Thread alignThread = new Thread("AlignTask");
-            alignThread.start();
-            break;
-        default:
-            System.out.println("This constructor is being used incorrectly to drive the robot. It should be used only for turning or aligning.");
-            break;
-            
-        }
     }
 
     public void run() {

@@ -1,10 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
-import frc.tasks.*;
-import frc.tasks.DriveTask.DriveMode;
+import PathTesting.PathDriveTask.DriveMode;
 
-public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
+public class Drive extends Subsystem<DriveTask.DriveMode> implements RobotTester {
 
 	private Spark mFrontLeft;
 	private Spark mFrontRight;
@@ -24,19 +23,16 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	public Drive() {
 		// TODO In the future we will want a switch statement here with getMode()
-		setMode(DriveMode.DRIVE_STICKS);
+		setMode(DriveMode.PATH);
 
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mRearLeft = new Spark(DRIVE_REAR_LEFT);
 		mRearRight = new Spark(DRIVE_REAR_RIGHT);
 
-		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
-		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);
-		rightEncoder.setReverseDirection(true);
-
-		leftEncoder.reset();
-		rightEncoder.reset();	
+		testEncoder.setDistancePerPulse(INCHES_PER_TICK);
+		testEncoder.reset();
+		
 	}
 
 	/**
@@ -46,7 +42,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 */
 	public void runSubsystem() {
 		updateStateInfo();
-		DriveTask.DriveOrder driveOrder = subsystemMode.callLoop();
+		PathDriveTask.DriveOrder driveOrder = subsystemMode.callLoop();
+		// TODO Change this to whatever you need. All you need to do is return a DriveOrder from somewhere
 		
 		mFrontLeft.set(-driveOrder.leftPower);
 		mFrontRight.set(driveOrder.rightPower);
@@ -60,17 +57,16 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		// double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
 		// double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
 
-		double leftDistance = getLeftEncoder();
-		double rightDistance = getRightEncoder();
+		double distance = getEncoder();
 
 		// Calculate robot velocity
 		// For underclassmen, delta means "change in"
-		double deltaTime = System.currentTimeMillis() - DriveTask.DriveState.stateTime;
+		double deltaTime = System.currentTimeMillis() - PathDriveTask.DriveState.stateTime;
 
-		double leftDeltaPos = leftDistance - DriveTask.DriveState.leftPos;
+		double leftDeltaPos = leftDistance - PathDriveTask.DriveState.leftPos;
 		double leftVelocity = (leftDeltaPos / deltaTime);
 
-		double rightDeltaPos = rightDistance - DriveTask.DriveState.rightPos;
+		double rightDeltaPos = rightDistance - PathDriveTask.DriveState.rightPos;
 		double rightVelocity = (rightDeltaPos / deltaTime);
 		
 		// TODO remove?
@@ -82,7 +78,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		if (leftDeltaPos == 0 || rightDeltaPos == 0)
 			return;
 
-		DriveTask.DriveState.updateState(leftVelocity, rightVelocity, leftDistance,
+		PathDriveTask.DriveState.updateState(leftVelocity, rightVelocity, leftDistance,
 				rightDistance, getHeading());
 	}
 
@@ -121,12 +117,8 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		return heading;
 	}
 
-	public double getLeftEncoder() {
-		return leftEncoder.getDistance();
-	}
-
-	public double getRightEncoder() {
-		return rightEncoder.getDistance();
+	public double getEncoder() {
+		return testEncoder.getDistance();
 	}
 
 	/**
@@ -134,25 +126,15 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * @return Get the current rate of the encoder. Units are distance per second as
 	 *         scaled by the value from setDistancePerPulse().
 	 */
-	public double getLeftRate() {
-		return leftEncoder.getRate();
-	}
-
-	/**
-	 * 
-	 * @return Get the current rate of the encoder. Units are distance per second as
-	 *         scaled by the value from setDistancePerPulse().
-	 */
-	public double getRightRate() {
-		return rightEncoder.getRate();
+	public double getRate() {
+		return testEncoder.getRate();
 	}
 
 	/**
 	 * Resets the current encoder distance to zero
 	 */
-	public void resetEncoders() {
-		leftEncoder.reset();
-		rightEncoder.reset();
+	public void resetEncoder() {
+		testEncoder.reset();
 	}
 
 	/**

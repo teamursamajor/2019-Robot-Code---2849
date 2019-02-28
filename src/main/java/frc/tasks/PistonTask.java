@@ -3,7 +3,7 @@ package frc.tasks;
 import frc.robot.Hatch;
 import frc.robot.UrsaRobot;
 
-public class HatchTask extends Task {
+public class PistonTask extends Task {
 
 	/**
 	 * Start: The position at the start of the match - Holding a hatch and within
@@ -77,9 +77,9 @@ public class HatchTask extends Task {
 		}
 	}
 
-	public HatchTask(HatchMode mode, Hatch hatch) {
+	public PistonTask(HatchMode mode, Hatch hatch) {
 		running = true;
-		hatch.setMode(mode);
+		//hatch.setMode(mode);
 		Thread t = new Thread("HatchTask");
 		t.start();
 	}

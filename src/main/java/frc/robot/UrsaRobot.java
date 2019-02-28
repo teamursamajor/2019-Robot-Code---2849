@@ -15,22 +15,22 @@ public interface UrsaRobot {
 	// TODO For testing 2/5 DRIVE_FRONT_RIGHT is 0. Change to 2 when done.
 	public static final int DRIVE_FRONT_RIGHT = 0; // Originally 0
 	// TODO For testing 2/5 DRIVE_REAR_LEFT is 6. Change to 0 when done.
-	public static final int DRIVE_REAR_LEFT = 5; //Originally 6
+	public static final int DRIVE_REAR_LEFT = 5; //Originally 6; 5 leads to spark 6
 	// TODO For testing 2/5 DRIVE_REAR_RIGHT is 1. Change to 3 when done.
-	public static final int DRIVE_REAR_RIGHT = 1; 
+	public static final int DRIVE_REAR_RIGHT = 7; 
 
-	// TODO do we need both of these?
-	public static final int CARGO = 7;
-	public static final int CARGO_FRONT = 5; //Changed from 6
+	// TODO do we need both of these? idk 
+	public static final int CARGO = 2;
+	public static final int CARGO_FRONT = 1; //Changed from 6
 
-	public static final int HATCH = 2;
+	public static final int HATCH = 6;
 
 	public static final int CLIMB_FRONT = 8;
 	public static final int CLIMB_BACK = 9; //Originally 4
 	
 	// public static final int LAZY_SUSAN = 4;
 	// TODO For testing 2/5 LAZY_SUSAN is 9. Undo when done.
-	public static final int LAZY_SUSAN = 4; //Originally 9
+	public static final int LAZY_SUSAN = 4; //Originally 9; 4 leads to spark 9
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
@@ -66,6 +66,10 @@ public interface UrsaRobot {
 
 	public static final double ROBOT_WIDTH_FEET = 32.0 / 12.0;
 	public static final double ROBOT_DEPTH_FEET = 28.0 / 12.0;
+
+	//Radius of the robot and cargo
+	public static final double robotRadius = 15; // temporary TODO what do we do here
+	public static final double cargoRadius = 5; //TODO Measure cargo arm
 
 	// Hatch angles
 	public static final double startAngle = 0, bottomAngle = 0, topAngle = 0;
