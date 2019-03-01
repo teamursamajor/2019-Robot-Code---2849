@@ -62,7 +62,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    /*
     drive = new Drive();
     drive.initialize("driveThread");
     turntable = new Turntable();
@@ -72,7 +71,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");
-    */
+
     //I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
     
 
