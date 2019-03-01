@@ -39,7 +39,6 @@ public class CargoTask extends Task implements UrsaRobot{
                 running = false;
                 return new CargoOrder(Cargo.getHoldPower());
             }
-
             //TODO Add derivative term to PD loop
             double kpCargo = 1.0 / 100.0;
             double kdCargo = 0;

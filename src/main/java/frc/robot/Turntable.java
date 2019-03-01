@@ -13,7 +13,7 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
 
     public Turntable() {
         turntableMotor = new Spark(TURNTABLE);
-        subsystemMode = TurntableMode.CUSTOM; // TODO Change back
+        subsystemMode = TurntableMode.CUSTOM;
     }
 
     public void runSubsystem() {

@@ -55,7 +55,7 @@ public interface UrsaRobot {
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 	//NetworkTable encoder1 = NetworkTableInstance.getDefault().getTable("limelight");
-	
+	NetworkTable leftEncoderTable = NetworkTableInstance.getDefault().getTable("encoder");
 
 	public static Encoder climbEncoder = new Encoder(CLIMB_ENCODER_CHANNEL_A, CLIMB_ENCODER_CHANNEL_B);
 

@@ -11,7 +11,7 @@ public class TestBot {
 	
     private double angle = 0;
     
-	public void setHeading(int degree){
+	public void setHeading(double degree){
         this.navXValue = (double) degree;
         System.out.println(degree);
 	}
