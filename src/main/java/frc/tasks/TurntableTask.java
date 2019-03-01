@@ -47,18 +47,13 @@ public class TurntableTask extends Task implements UrsaRobot {
          * @return A TurntableOrder which contains the power for the turntable
          */
         private TurntableOrder autoAlign() {
-            int matchPairs = 1; // TODO update
 
-            double kpAutoAlign = 1.0 / 200.0; // Proportional coefficient for PID controller
+            double kpAutoAlign = 1.0 / 100.0; // Proportional coefficient for PID controller
             double autoAlignTolerance = 0.1;
             double autoAlignMinimumPower = 0.15;
+            double autoAlignMaximumPower = 0.3;
 
             double goalPosition = 0.0; // on the limelight, 0.0 is the center
-
-            // Loop through pairs of tape
-            int hatchCount = 0; // actual number of hatches
-            int count = 0; // general counter variable
-            int tapePairPresent;
 
             NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
             NetworkTableEntry tx = table.getEntry("tx");
@@ -73,25 +68,8 @@ public class TurntableTask extends Task implements UrsaRobot {
             // //post to smart dashboard periodically
             // SmartDashboard.putNumber("LimelightX", x);
             // SmartDashboard.putNumber("LimelightY", y);
-            // SmartDashboard.putNumber("LimelightArea", area);e
+            // SmartDashboard.putNumber("LimelightArea", area);
 
-            // TODO do we need this? if so i can add a keyword to autocompiler
-            // while (hatchCount < matchPairs) {
-            // // Count the number of valid tape pairs we've encountered
-            // tapePairPresent = (int) limelightTable.getEntry("tv").getDouble(0);
-            // if (tapePairPresent == 1)
-            // count++;
-            // if (count % 2 == 1) // if (count is odd)
-            // hatchCount++; // skips "even" pairs to avoid false positives
-            // System.out.println("Count: " + count);
-            // System.out.println("Hatch Count: " + hatchCount);
-            // // Wait before trying to match a pair of tape again
-            // try {
-            // Thread.sleep(250); // TODO adjust if necessary
-            // } catch (InterruptedException e) {
-            // e.printStackTrace();
-            // }
-            // }
 
             // If we're already close enough to the tapes, then simply stop
             double centerPos = limelightTable.getEntry("tx").getDouble(Double.NaN);
@@ -107,9 +85,13 @@ public class TurntableTask extends Task implements UrsaRobot {
                 turning = false;
             }
 
-            // if (Math.abs(outputPower) < autoAlignMinimumPower) {
-            // outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
-            // }
+            if (Math.abs(outputPower) < autoAlignMinimumPower) {
+                outputPower = Math.signum(outputPower) * autoAlignMinimumPower;
+            }
+
+            if (Math.abs(outputPower) > autoAlignMaximumPower) {
+                outputPower = Math.signum(outputPower) * autoAlignMaximumPower;
+            }
 
             SmartDashboard.putNumber("Testing Turntable outputPower", outputPower);
 
@@ -119,11 +101,9 @@ public class TurntableTask extends Task implements UrsaRobot {
 
         private TurntableOrder triggersBox() {
             if (xbox.getAxisGreaterThan(controls.map.get("turntable_left"), 0.1)) {
-                return new TurntableOrder(0.3);
-                // return new TurntableOrder(-Constants.turntablePower);
+                return new TurntableOrder(Constants.turntablePower);
             } else if (xbox.getAxisGreaterThan(controls.map.get("turntable_right"), 0.1)) {
-                return new TurntableOrder(-0.3);
-                // return new TurntableOrder(Constants.turntablePower);
+                return new TurntableOrder(-Constants.turntablePower);
             } else {
                 return new TurntableOrder(0.0);
             }

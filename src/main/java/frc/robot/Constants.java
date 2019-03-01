@@ -50,7 +50,7 @@ public class Constants implements Runnable {
             hatchPower = SmartDashboard.getNumber("Hatch Power", 0.0);
             climbPower = SmartDashboard.getNumber("Climb Power", 0.0);
             cargoIntakePower = SmartDashboard.getNumber("Cargo Intake Power", 0.0);
-            turntablePower = SmartDashboard.getNumber("Susan Power", 0.0);
+            turntablePower = SmartDashboard.getNumber("Turntable Power", 0.0);
             //TODO add cargoPowerDown
             cargoPowerUp = SmartDashboard.getNumber("Cargo Power", 0.0);
             try {
@@ -70,6 +70,6 @@ public class Constants implements Runnable {
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
         System.out.println("Hatch Power" + hatchPower);
         System.out.println("Climb Power" + climbPower);
-        System.out.println("Susan Power" + turntablePower);
+        System.out.println("Turntable Power" + turntablePower);
     }
 }
