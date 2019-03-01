@@ -1,9 +1,6 @@
-Thursday 2/28 To Do:
-Check if riolog is working on the hp laptop
-	If it is we gucci
-	If not fix that 
-		possible fix, use driver station console
-Mount limelight and clean up wiring (make valerie do this)
+Riolog still broken, fix or use driverstation
+Once hatch is remounted, finalize wiring
+Make schedule for out of bag: include updating competition Rio
 Then test that it can auto align
 	If it works we gucci
 		Make any improvements if needed
@@ -12,14 +9,25 @@ Plug in all drive motors
 Write auto code using the scripting language that will use auto align to drop off
 	Test that if possible
 
-Undo the changes in drive for the real robot
+Color Sensor: 
+	Where should we mount them? One in the center of the robot could be used to automate cargo drop off maybe
+	We could also put one on the hatch end of the robot (centered horizontally on the edge)
+	Wire and mount the second sensor
+		Have build start to figure out how to mount them properly (NOT duct tape)
+	Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
+	Add another DriveMode which drives forward until the color sensor gets a match
+
+Drive Encoders
+
 Color sensor code for cargo (come at the line at an angle, kill motors/start turning, drive forward and drop off)
 Write auto code for all 3 rows:
 	Far Hatch -> Mid Hatch for both sides
 	Mid Hatch -> Close Cargo for both sides
 	Front Hatch/Cargo -> ?
 	Default drive forward mode
+
 Switch "front" with a button
+
 Testing:
 	Test using getSquaredAxis()
 		Do the drivers prefer this or not? It's just an option
@@ -53,25 +61,6 @@ Limelight stuff:
 			Move forward until the limelight gets a match
 			Run the hatch arm out and then back in
 
-Color Sensor: 
-	Where should we mount them? One in the center of the robot could be used to automate cargo drop off maybe
-	We could also put one on the hatch end of the robot (centered horizontally on the edge)
-	Wire and mount the second sensor
-		Have build start to figure out how to mount them properly (NOT duct tape)
-	Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
-	Add another DriveMode which drives forward until the color sensor gets a match
-
-Vision:
-	Adding second camera (limelight), using it for processing, displaying that and/or the cargoCam to the dashboard
-
-Write auto files using the scripting languge and select them using the AutoSelector
-
-Drive Encoders:
-Make sure we've ordered like a bajillion of the black mount pieces and the white sleeves
-
-Make sure all software is up to date:
-	Bridge, RoboRIO, Driver Station, etc.
-
 Lower Priority:
 	Constants:
 		Move more powers and stuff to constants
@@ -103,7 +92,3 @@ Auto:
 			Level 1: L M R
 	-SmartDashboard integration
 	-Improve scripting language
-	
-Misc:
-	-Create a Programming Phamplet of all the cool stuff we do this year
-	-Create an Auto Modes Booklet for all of our auto modes (if we have a lot)
