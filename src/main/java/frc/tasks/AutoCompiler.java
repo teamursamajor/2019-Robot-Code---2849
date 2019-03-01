@@ -155,34 +155,42 @@ public class AutoCompiler {
 	 */
 	class TurntableToken implements Token {
 		private TurntableMode turntableMode = TurntableMode.CUSTOM;
-		private double turntableAngle;
+		private double power;
+		private double time;
+		private int slashIndex;
 
 		public TurntableToken(String direction) {
+			//.5/250
 			direction = direction.replace(" ", "");
 
-			if (direction.equalsIgnoreCase("FORWARD")) {
-				turntableMode = TurntableMode.FORWARD;
-			} else if (direction.equalsIgnoreCase("LEFT")) {
-				turntableMode = TurntableMode.LEFT;
-			} else if (direction.equalsIgnoreCase("RIGHT")) {
-				turntableMode = TurntableMode.RIGHT;
-			} else if (direction.equalsIgnoreCase("ALIGN")) {
+			// if (direction.equalsIgnoreCase("FORWARD")) {
+			// 	turntableMode = TurntableMode.FORWARD;
+			// } else if (direction.equalsIgnoreCase("LEFT")) {
+			// 	turntableMode = TurntableMode.LEFT;
+			// } else if (direction.equalsIgnoreCase("RIGHT")) {
+			// 	turntableMode = TurntableMode.RIGHT;
+
+			//TODO figure out what's wrong with this and add a slash separator
+			if (direction.equalsIgnoreCase("ALIGN")) {
 				turntableMode = TurntableMode.AUTO_ALIGN;
 			} else {
-				try {
-					turntableAngle = Double.parseDouble(direction);
-				} catch (NumberFormatException e) {
-					turntableAngle = 0;
+				//try {
+					slashIndex = direction.indexOf("/");
+					//power = Double.parseDouble(direction.substring(0, slashIndex));
+
+					
+			//	} catch (NumberFormatException e) {
+					power = 0;
 					e.printStackTrace();
-				}
+				//}
 			}
 		}
 
 		public TurntableTask makeTask() {
-			// If there is no custom angle, return a mode (defaults to forwards)
-			if (turntableAngle == 0)
-				return new TurntableTask(turntableMode, turntable);
-			// If there is a custom angle, return that angle
+			// If there is no custom power/time, auto align
+			if (turntableMode == TurntableMode.AUTO_ALIGN)
+				return new TurntableTask(TurntableMode.AUTO_ALIGN, turntable);
+			// If there is a custom power/time, return that power/time
 			else
 				return new TurntableTask(TurntableMode.CUSTOM, turntable);
 		}

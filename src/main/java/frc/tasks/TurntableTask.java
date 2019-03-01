@@ -12,26 +12,30 @@ import edu.wpi.first.networktables.*;
 public class TurntableTask extends Task implements UrsaRobot {
 
     public enum TurntableMode {
-        FORWARD, LEFT, RIGHT, AUTO_ALIGN, CUSTOM;
+        //FORWARD, LEFT, RIGHT, 
+        AUTO_ALIGN, TRIGGERS, CUSTOM;
 
         public TurntableOrder callLoop() {
             // TODO remove or write code for FORWARD, LEFT, and RIGHT
             // "this" refers to subsystemMode
             switch (this) {
-            case FORWARD:
+            //case FORWARD:
                 // desiredVoltage = UrsaRobot.forwardVoltage;
                 // return autoGoToAngle();
-            case LEFT:
+            //case LEFT:
                 // desiredVoltage = UrsaRobot.leftVoltage;
                 // return autoGoToAngle();
-            case RIGHT:
+            //case RIGHT:
                 // desiredVoltage = UrsaRobot.rightVoltage;
                 // return autoGoToAngle();
             case AUTO_ALIGN:
                 return autoAlign();
+            case TRIGGERS:
+                // System.out.println("triggers");
+                return triggersBox();
             case CUSTOM:
                 // System.out.println("custom");
-                return triggersBox();
+                return null;
             }
             return new TurntableOrder(0.0);
         }
