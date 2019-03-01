@@ -35,6 +35,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
+  private Vision vision;
 
   private Constants constants;
   // private ColorSensor colorSensor;
@@ -69,6 +70,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");
+
+    Vision.hatch = hatch;
 
     constants = new Constants();
     constants.startConstants();

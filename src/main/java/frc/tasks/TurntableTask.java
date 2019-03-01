@@ -2,6 +2,7 @@ package frc.tasks;
 
 import frc.robot.Turntable;
 import frc.robot.UrsaRobot;
+import frc.robot.Vision;
 import frc.robot.Constants;
 import frc.robot.XboxController;
 
@@ -47,7 +48,6 @@ public class TurntableTask extends Task implements UrsaRobot {
          * @return A TurntableOrder which contains the power for the turntable
          */
         private TurntableOrder autoAlign() {
-
             double kpAutoAlign = 1.0 / 100.0; // Proportional coefficient for PID controller
             double autoAlignTolerance = 0.1;
             double autoAlignMinimumPower = 0.15;

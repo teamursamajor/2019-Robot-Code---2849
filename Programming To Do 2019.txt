@@ -1,3 +1,8 @@
+Finish Auto Selector
+Draw paths
+Add timers to turntable and make sure we dont hit the eboard
+Finish auto align code
+
 Riolog still broken, fix or use driverstation
 Once hatch is remounted, finalize wiring
 Make schedule for out of bag: include updating competition Rio

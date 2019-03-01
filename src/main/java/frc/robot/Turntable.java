@@ -8,44 +8,60 @@ import edu.wpi.first.wpilibj.Spark;
 
 public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements UrsaRobot {
 
-    private Spark turntableMotor;
+    public static Spark turntableMotor;
     private boolean turntableCamera = false;
 
     public Turntable() {
         turntableMotor = new Spark(TURNTABLE);
-        subsystemMode = TurntableMode.AUTO_ALIGN; // TODO Change back
+        subsystemMode = TurntableMode.CUSTOM; // TODO Change back
     }
 
     public void runSubsystem() {
+        // if(autoAlignButton){
+        //      subsystemMode = TurntableMode.AUTO_ALIGN;
+        // }
+
+        if(subsystemMode.equals(TurntableMode.AUTO_ALIGN)){
+            Vision.autoAlign();
+
+            // waits for auto align to end before proceeding
+            while(Vision.visionRunning){
+                try{
+                    Thread.sleep(20);
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            subsystemMode = TurntableMode.CUSTOM;
+        }
+
         TurntableTask.TurntableOrder turntableOrder = subsystemMode.callLoop();
-        System.out.println(turntableOrder.power);
+        // System.out.println(turntableOrder.power);
         turntableMotor.set(turntableOrder.power);
 
         // if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1)) {
-        //     turntableMotor.set(0.3);
+        // turntableMotor.set(0.3);
         // } else if (xbox.getAxisGreaterThan(XboxController.AXIS_RIGHTTRIGGER, 0.1)) {
-        //     turntableMotor.set(-0.3);
+        // turntableMotor.set(-0.3);
         // } else {
-        //     turntableMotor.set(0.0);
+        // turntableMotor.set(0.0);
         // }
+
         // TODO test code
         if (xbox.getPOV() == XboxController.POV_RIGHT) {
-        turntableCamera = true;
+            turntableCamera = true;
         } else if (xbox.getPOV() == XboxController.POV_LEFT) {
-        turntableCamera = false;
+            turntableCamera = false;
         }
 
         if (turntableCamera) {
-        //subsystemMode = TurntableMode.AUTO_ALIGN;
-        limelightTable.getEntry("pipeline").setDouble(0);
+            // subsystemMode = TurntableMode.AUTO_ALIGN;
+            limelightTable.getEntry("pipeline").setDouble(0);
         } else {
-        //subsystemMode = TurntableMode.CUSTOM;
-        limelightTable.getEntry("pipeline").setDouble(2);
+            // subsystemMode = TurntableMode.CUSTOM;
+            limelightTable.getEntry("pipeline").setDouble(2);
         }
-
-        // // TODO make loop
-        // // ALSO check to make sure we won't hit the eboard and see if we need to move
-        // left or right
 
     }
 
