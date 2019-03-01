@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.I2C;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
 import frc.tasks.*;
+import edu.wpi.first.networktables.*;
+import frc.robot.UrsaRobot;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -106,7 +108,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
       // Blue: " + colorSensor.getBlue());
       currentTime = System.currentTimeMillis();
-
+     // NetworkTable leftEncoder
     }
 
   }
@@ -176,12 +178,29 @@ public class Robot extends TimedRobot implements UrsaRobot {
     robotMode = "Teleop";
     Logger.setLevel(debugSelect.getLevel());
   }
-
+  
+  public enum VisionDirection{
+    LEFT, RIGHT;
+  }
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
+    NetworkTableEntry tcornx = UrsaRobot.limelightTable.getEntry("tcornx");
+    NetworkTableEntry tcorny = UrsaRobot.limelightTable.getEntry("tcorny");
+    VisionDirection turnDirection;
+    int[] cornerX, cornerY; // remove this and get values from limelight
+    cornerY = new int[2];
+
+    if(cornerY[0] > cornerY[1]) {
+      turnDirection = VisionDirection.RIGHT;
+    }
+    else {
+      turnDirection = VisionDirection.LEFT;
+    }
+    System.out.println(turnDirection);
+
     if(xbox.getPOV() == controls.map.get("cargo_up") || xbox.getPOV() == controls.map.get("cargo_down")){
       Cargo.automating = false;
     } else if(xbox.getSingleButtonPress(controls.map.get("cargo_rocket")) || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))){
