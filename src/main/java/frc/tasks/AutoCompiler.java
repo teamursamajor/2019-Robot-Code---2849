@@ -181,7 +181,7 @@ public class AutoCompiler {
 					
 			//	} catch (NumberFormatException e) {
 					power = 0;
-					e.printStackTrace();
+					//e.printStackTrace();
 				//}
 			}
 		}
