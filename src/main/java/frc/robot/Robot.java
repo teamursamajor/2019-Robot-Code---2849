@@ -37,8 +37,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
-  private Turntable turntable;
-  private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
 
@@ -86,13 +84,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     //I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
     
-
     constants = new Constants();
     constants.startConstants();
 
     // colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
-    autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
+    autoCompiler = new AutoCompiler(drive, cargo);
     // autoSelect = new AutoSelector();
 
     // TODO double check that this works on the HP laptop

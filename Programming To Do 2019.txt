@@ -1,11 +1,10 @@
-Riolog still broken, fix or use driverstation
-Once hatch is remounted, finalize wiring
+New Design: Cargo and Climb
+Finish Auto Selector and test it
+Write auto files/draw paths
+Automate cargo using encoders or color sensor
+Write climb code to automate climb
 Make schedule for out of bag: include updating competition Rio
-Then test that it can auto align
-	If it works we gucci
-		Make any improvements if needed
-	If not fix that
-Plug in all drive motors
+
 Write auto code using the scripting language that will use auto align to drop off
 	Test that if possible
 
@@ -26,8 +25,6 @@ Write auto code for all 3 rows:
 	Front Hatch/Cargo -> ?
 	Default drive forward mode
 
-Switch "front" with a button
-
 Testing:
 	Test using getSquaredAxis()
 		Do the drivers prefer this or not? It's just an option
@@ -43,24 +40,6 @@ Testing:
 
 Camera Mount: In progress but check on it
 
-Limelight stuff:
-	Safety concerns with the mount? make sure the limelight doesn't break
-	Write code to automate pickup and drop off:
-		To automate pickup:
-			The robot should be fairly close to the station at this position
-			Use the navx to make it parallel to the wall (facing 180 degrees)
-			Spin the turntable until the limelight detects a match
-				remember that you dont know which way the limelight needs to spin to see the tapes
-					solutions? maybe if it hits the max voltage on one side make it spin the other way?
-			Once it detects a match, run the hatch arm out and then back in
-		To automate drop off:
-			The robot should be somewhat close as well
-			Turntable should be facing the left or right, depending on what side it is on
-				We need to figure out how the code will know this. Maybe programming driver input or something?
-			Use the navx to make the robot perpendicular to the bay (facing 0 degrees, bay is at -90 degrees)
-			Move forward until the limelight gets a match
-			Run the hatch arm out and then back in
-
 Lower Priority:
 	Constants:
 		Move more powers and stuff to constants
@@ -73,11 +52,6 @@ Add Logger calls throughout the code
 Look at all the TODO's in the project and start doing them:
 	We never get to this. Maybe this year it'll be different...
 	
-Turret Lock:
-	Use the limelight camera to make the turret (lazy susan) lock onto the vision target regardless of the robot orientation.
-	Even if the front of the robot is 30 degrees off from facing forward, we can use limelight to make sure the lazy susan (turret) is 
-	still facing forward relative to the vision tape. If the angle offset starts going up, we move the turret. This is a control loop
-
 Auto:
 	-Write new auto code:
 		-Make new path files
