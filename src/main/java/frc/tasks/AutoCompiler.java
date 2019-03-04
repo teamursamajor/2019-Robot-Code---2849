@@ -36,6 +36,11 @@ public class AutoCompiler {
 	private Hatch hatch;
 	private Turntable turntable;
 
+	public AutoCompiler(Drive drive, Cargo cargo){
+		this.drive = drive;
+		this.cargo = cargo;
+	}
+
 	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, Turntable turntable) {
 		this.drive = drive;
 		this.cargo = cargo;

@@ -33,11 +33,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
-  private Turntable turntable;
-  private Hatch hatch;
+  // private Turntable turntable;
+  // private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
-  private Vision vision;
+  // private Vision vision;
 
   private Constants constants;
   // private ColorSensor colorSensor;
@@ -63,28 +63,29 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    /*
+    
     drive = new Drive();
     drive.initialize("driveThread");
-    turntable = new Turntable();
-    turntable.initialize("turntableThread");
-    hatch = new Hatch();
-    hatch.initialize("hatchThread");
+    // turntable = new Turntable();
+    // turntable.initialize("turntableThread");
+    // hatch = new Hatch();
+    // hatch.initialize("hatchThread");
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");
-    */
+    
     //I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
     
 
-    Vision.hatch = hatch;
+    // Vision.hatch = hatch;
 
     constants = new Constants();
     constants.startConstants();
 
     // colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
-    autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
+    autoCompiler = new AutoCompiler(drive, cargo);
+    // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
     // autoSelect = new AutoSelector();
 
     // TODO double check that this works on the HP laptop
