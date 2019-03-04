@@ -255,6 +255,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
+    NetworkTableEntry tcorny = limelightTable.getEntry("tcorny");
+    double[] cornerY = tcorny.getDoubleArray(new double[2]);
+    System.out.println(cornerY);
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
     // System.out.println(
