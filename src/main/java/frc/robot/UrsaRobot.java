@@ -45,6 +45,7 @@ public interface UrsaRobot {
 	public static final int CLIMB_ENCODER_CHANNEL_B = 1;
 
 	public static final int CARGO_POT_CHANNEL = 3;
+	public static final int CLIMB_POT_CHANNEL = 4;
 
 	public static final int BUMPER_SWITCH_CHANNEL = 6;
 
@@ -54,7 +55,7 @@ public interface UrsaRobot {
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
-	//NetworkTable encoder1 = NetworkTableInstance.getDefault().getTable("limelight");
+
 	NetworkTable leftEncoderTable = NetworkTableInstance.getDefault().getTable("encoder");
 
 	public static Encoder climbEncoder = new Encoder(CLIMB_ENCODER_CHANNEL_A, CLIMB_ENCODER_CHANNEL_B);
