@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Spark;
 public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements UrsaRobot {
 
     public static Spark turntableMotor;
-    private boolean turntableCamera = false;
 
     public Turntable() {
         turntableMotor = new Spark(TURNTABLE);
@@ -47,21 +46,6 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
         // } else {
         // turntableMotor.set(0.0);
         // }
-
-        // TODO test code
-        if (xbox.getPOV() == XboxController.POV_RIGHT) {
-            turntableCamera = true;
-        } else if (xbox.getPOV() == XboxController.POV_LEFT) {
-            turntableCamera = false;
-        }
-
-        if (turntableCamera) {
-            // subsystemMode = TurntableMode.AUTO_ALIGN;
-            limelightTable.getEntry("pipeline").setDouble(0);
-        } else {
-            // subsystemMode = TurntableMode.CUSTOM;
-            limelightTable.getEntry("pipeline").setDouble(2);
-        }
 
     }
 

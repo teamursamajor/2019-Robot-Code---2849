@@ -1,9 +1,12 @@
+Get Cargo Voltage values
+
+
+
 New Design: Cargo and Climb
 
 Finish Auto Selector and test it
 Write auto files/draw paths
 Automate cargo using encoders or color sensor
-Make schedule for out of bag: include updating competition Rio
 
 Write auto code using the scripting language that will use auto align to drop off
 	Test that if possible

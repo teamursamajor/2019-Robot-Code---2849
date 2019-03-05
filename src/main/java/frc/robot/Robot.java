@@ -114,13 +114,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void robotPeriodic() {
 
     // colorSensor.readColors();
-    if ((System.currentTimeMillis() >= currentTime + 500)) {
+    // if ((System.currentTimeMillis() >= currentTime + 500)) {
       // System.out.println(
       // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
       // Blue: " + colorSensor.getBlue());
-      currentTime = System.currentTimeMillis();
+      // currentTime = System.currentTimeMillis();
       // NetworkTable leftEncoder
-    }
+    // }
     // str += time elapsed
     String str = drive.getHeading() + "\n";
     str += drive.getLeftEncoder() + "\n";
@@ -134,10 +134,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   }
 
   /*
-   * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-   * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-   * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-   * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* This autonomous (along with the chooser
+   * This autonomous (along with the chooser
    * code above) shows how to select between different autonomous modes using the
    * dashboard. The sendable chooser code works with the Java SmartDashboard.
    *
@@ -161,8 +158,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     Logger.setLevel(debugSelect.getLevel());
   }
 
-  // TODO do we need this?
-  // private boolean hitTape = false;
   private double speed = 0.45;
 
   /**
@@ -202,42 +197,48 @@ public class Robot extends TimedRobot implements UrsaRobot {
     Logger.setLevel(debugSelect.getLevel());
   }
 
-  public enum VisionDirection {
-    LEFT, RIGHT;
-  }
-
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    NetworkTableEntry tcornx = UrsaRobot.limelightTable.getEntry("tcornx");
-    NetworkTableEntry tcorny = UrsaRobot.limelightTable.getEntry("tcorny");
-    VisionDirection turnDirection;
-    int[] cornerX, cornerY; // remove this and get values from limelight
-    cornerY = new int[2];
+    //TODO UNCOMMENT
+    // if (xbox.getPOV() == controls.map.get("cargo_up") || xbox.getPOV() == controls.map.get("cargo_down")) {
+    //   Cargo.automating = false;
+    // } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
+    //     || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
+    //   Cargo.automating = true;
+    // }
 
-    if (cornerY[0] > cornerY[1]) {
-      turnDirection = VisionDirection.RIGHT;
+    if(xbox.getPOV() == XboxController.POV_UP){
+      climb.setFrontMotor(Constants.climbPower);
+      System.out.println(climbEncoder.getDistance());
+    } else if(xbox.getPOV() == XboxController.POV_DOWN){
+      climb.setFrontMotor(-Constants.climbPower);
+      System.out.println(climbEncoder.getDistance());
+    } else if(xbox.getPOV() == XboxController.POV_LEFT){
+      climb.setBackMotor(Constants.climbPower);
+      System.out.println(Climb.climbPot.get());
+    } else if(xbox.getPOV() == XboxController.POV_RIGHT){
+      climb.setBackMotor(-Constants.climbPower);
+      System.out.println(Climb.climbPot.get());
     } else {
-      turnDirection = VisionDirection.LEFT;
-    }
-    System.out.println(turnDirection);
-
-    if (xbox.getPOV() == controls.map.get("cargo_up") || xbox.getPOV() == controls.map.get("cargo_down")) {
-      Cargo.automating = false;
-    } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
-        || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
-      Cargo.automating = true;
+      climb.stopMotors();
     }
 
-    if (xbox.getButton(controls.map.get("climb_start"))) {
-      climb.climbInit();
-    } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-      climb.cancelClimb();
-    }
+    // TODO  uncomment for the final robot
+    // if (xbox.getButton(controls.map.get("climb_start"))) {
+    //   climb.climbInit();
+    // } else if (xbox.getButton(controls.map.get("climb_stop"))) {
+    //   climb.cancelClimb();
+    // }
 
-    // TODO climber code
+    // if(xbox.getPOV() == XboxController.POV_LEFT){
+    //    Vision.autoAlign();
+    // } else if(xbox.getPOV() == XboxController.POV_RIGHT){
+    //    Vision.visionStop = true;
+      // }
+
     // climbPressed = false;
     // boolean climbPressed = false;
     // // POV Up is start all climbing
@@ -281,18 +282,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    NetworkTableEntry tcorny = limelightTable.getEntry("tcorny");
-    NetworkTableEntry tcornx = limelightTable.getEntry("tcornx");
-    double[] cornerY = tcorny.getDoubleArray(new double[2]);
-    double[] cornerX = tcornx.getDoubleArray(new double[2]);
-    System.out.println(cornerY[0] + " " + cornerY[1] + " " + cornerY[2]);
-    System.out.println(cornerX[0] + " " + cornerX[1] + " " + cornerX[2]);
-
-    if (cornerY[0] > cornerY[1]) {
-      System.out.println("Right");
-    } else {
-      System.out.println("Left");
-    }
+    // NetworkTableEntry tcorny = limelightTable.getEntry("tcorny");
+    // NetworkTableEntry tcornx = limelightTable.getEntry("tcornx");
+    // double[] cornerY = tcorny.getDoubleArray(new double[4]);
+    // double[] cornerX = tcornx.getDoubleArray(new double[4]);
+    // System.out.println("Y: " + cornerY[0] + " " + cornerY[1] + " " + cornerY[2] + " " + cornerY[3]);
+    // System.out.println("X: " + cornerX[0] + " " + cornerX[1] + " " + cornerX[2] + " " + cornerX[3]);
+    // System.out.println(cornerY.length);
+    
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
     // System.out.println(

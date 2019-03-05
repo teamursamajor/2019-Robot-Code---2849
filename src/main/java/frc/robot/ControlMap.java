@@ -7,8 +7,14 @@ import java.util.HashMap;
  */
 public class ControlMap {
 
-    public HashMap<String, Integer> map = new HashMap<String,Integer>();
+    public HashMap<String, Integer> map = new HashMap<String, Integer>();
 
+    /*
+     * PLEASE NOTE: If you change the type of an input (as in Button, Axis, or POV)
+     * you have to change the method used to get that input whereever this control
+     * is called. Ex: If you change the turntable from the triggers to a button, you
+     * need to go to Turntable and change the xbox method to getButton() too.
+     */
     public ControlMap() {
 
         // Climb
@@ -37,8 +43,4 @@ public class ControlMap {
 
     }
 
-    
-    
-
-    
 }

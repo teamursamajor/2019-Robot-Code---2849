@@ -65,11 +65,14 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         } else {            
             if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
                 cargoLift.set(0.20);
-            } else if (xbox.getPOV() == controls.map.get("cargo_up")) {
-                cargoLift.set(-0.20);
-            } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
-                cargoLift.set(0.20);
-            } else {
+            } 
+            //TODO UNCOMMENT
+            // else if (xbox.getPOV() == controls.map.get("cargo_up")) {
+            //     cargoLift.set(-0.20);
+            // } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
+            //     cargoLift.set(0.20);
+            // } 
+            else {
                 getHoldPower();
             }
         }

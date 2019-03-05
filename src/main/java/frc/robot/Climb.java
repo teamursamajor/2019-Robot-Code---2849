@@ -20,7 +20,8 @@ public class Climb implements UrsaRobot {
     private boolean climbStop;
     private boolean climbIsRunning;
 
-    private Potentiometer climbPot;
+    public static Potentiometer climbPot;
+    // private Potentiometer climbPot;
 
     // TODO determine values
     private double camPerpendicularVoltage = 0.0;
@@ -95,7 +96,7 @@ public class Climb implements UrsaRobot {
         climbBackMotor.set(0.0);
 
         // drive forward
-        Drive.setPower(0.5);
+        Drive.setPower(0.4);
         try {
             Thread.sleep(driveTime);
         } catch (Exception e) {
