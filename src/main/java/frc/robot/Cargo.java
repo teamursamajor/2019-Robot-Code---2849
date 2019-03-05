@@ -24,58 +24,65 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public void runSubsystem() {
-        updateStateInfo();
-        if (automating) {
-            // If we need to save button space, then use one button that goes
-            // ground -> rocket -> bay -> rocket -> ground
-            if (xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
-               
-                if (subsystemMode.equals(CargoMode.GROUND)) {
-                    // untested, remove if it breaks the robot lol
-                    subsystemMode = CargoMode.LOWROCKET;
-                    try{
-                        Thread.sleep(250);
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-                    subsystemMode = CargoMode.CARGOBAY;
-                }
-                else if (subsystemMode.equals(CargoMode.CARGOBAY))
-                    subsystemMode = CargoMode.GROUND;
-
-            } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))) {
-               
-                if (subsystemMode.equals(CargoMode.GROUND))
-                    subsystemMode = CargoMode.LOWROCKET;
-                else if (subsystemMode.equals(CargoMode.LOWROCKET))
-                    subsystemMode = CargoMode.GROUND;
-
-            } else {
-                cargoLift.set(getHoldPower());
-            }
-
-            CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
-
-            if (subsystemMode.equals(CargoMode.GROUND)) {
-                cargoLift.set(0.25);
-            } else {
-                cargoLift.set(cargoOrder.cargoPower);
-            }
-
-        } else {            
-            if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
-                cargoLift.set(0.20);
-            } 
-            //TODO UNCOMMENT
-            // else if (xbox.getPOV() == controls.map.get("cargo_up")) {
-            //     cargoLift.set(-0.20);
-            // } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
-            //     cargoLift.set(0.20);
-            // } 
-            else {
-                getHoldPower();
-            }
+        if(xbox.getButton(XboxController.BUTTON_Y)){
+            cargoLift.set(-0.75);
+        } else if(xbox.getButton(XboxController.BUTTON_X)){
+            cargoLift.set(0.10);
+        } else {
+            cargoLift.set(0.0);
         }
+        // updateStateInfo();
+        // if (automating) {
+        //     // If we need to save button space, then use one button that goes
+        //     // ground -> rocket -> bay -> rocket -> ground
+        //     if (xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
+               
+        //         if (subsystemMode.equals(CargoMode.GROUND)) {
+        //             // untested, remove if it breaks the robot lol
+        //             subsystemMode = CargoMode.LOWROCKET;
+        //             try{
+        //                 Thread.sleep(250);
+        //             } catch(Exception e){
+        //                 e.printStackTrace();
+        //             }
+        //             subsystemMode = CargoMode.CARGOBAY;
+        //         }
+        //         else if (subsystemMode.equals(CargoMode.CARGOBAY))
+        //             subsystemMode = CargoMode.GROUND;
+
+        //     } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))) {
+               
+        //         if (subsystemMode.equals(CargoMode.GROUND))
+        //             subsystemMode = CargoMode.LOWROCKET;
+        //         else if (subsystemMode.equals(CargoMode.LOWROCKET))
+        //             subsystemMode = CargoMode.GROUND;
+
+        //     } else {
+        //         cargoLift.set(getHoldPower());
+        //     }
+
+        //     CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
+
+        //     if (subsystemMode.equals(CargoMode.GROUND)) {
+        //         cargoLift.set(0.25);
+        //     } else {
+        //         cargoLift.set(cargoOrder.cargoPower);
+        //     }
+
+        // } else {            
+        //     if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
+        //         cargoLift.set(0.20);
+        //     } 
+        //     //TODO UNCOMMENT
+        //     // else if (xbox.getPOV() == controls.map.get("cargo_up")) {
+        //     //     cargoLift.set(-0.20);
+        //     // } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
+        //     //     cargoLift.set(0.20);
+        //     // } 
+        //     else {
+        //         getHoldPower();
+        //     }
+        // }
 
         if (xbox.getButton(controls.map.get("cargo_intake"))) {
             cargoIntake.set(Constants.cargoIntakePower);

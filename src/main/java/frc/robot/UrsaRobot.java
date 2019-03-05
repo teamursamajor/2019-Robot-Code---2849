@@ -9,29 +9,23 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public interface UrsaRobot {
-	// TODO Finalize Ports
 	// Spark Ports
-	// 5 and 8 unused, 3 and 4 are temporary
-	public static final double defaultCameraPipeline = 0;
-	public static final double visionCameraPipeline=1;
-
-	public static final int DRIVE_BACK_LEFT = 2;// Temporary DRIVE_LEFT = 0;
-	public static final int DRIVE_BACK_RIGHT = 6;// Temporary DRIVE_RIGHT = 11;
-	public static final int DRIVE_FRONT_LEFT = 3;
-	public static final int DRIVE_FRONT_RIGHT = 7;
+	// 5 and 7 unused
+	public static final int DRIVE_FRONT_LEFT = 0;
+	public static final int DRIVE_BACK_LEFT = 0;// Temporary DRIVE_LEFT = 0;
+	public static final int DRIVE_FRONT_RIGHT = 9;
+	public static final int DRIVE_BACK_RIGHT = 9;// Temporary DRIVE_RIGHT = 11;
 ;
 
-	public static final int CARGO_INTAKE = 4;
-	public static final int CARGO_LIFT = 11;
+	public static final int CARGO_INTAKE = 1;
+	public static final int CARGO_LIFT = 6;
 
-	// TODO originally 3
-	public static final int HATCH = 5;
+	public static final int HATCH = 4;
 
-	public static final int CLIMB_FRONT = 1;
-	public static final int CLIMB_BACK = 9;
+	public static final int CLIMB_FRONT = 2;
+	public static final int CLIMB_BACK = 8;
 
-	// TODO originally 4
-	public static final int TURNTABLE = 0;
+	public static final int TURNTABLE = 3;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
@@ -45,12 +39,12 @@ public interface UrsaRobot {
 	public static final int CLIMB_ENCODER_CHANNEL_B = 1;
 
 	public static final int CARGO_POT_CHANNEL = 3;
-	public static final int CLIMB_POT_CHANNEL = 4;
+	public static final int CLIMB_POT_CHANNEL = 0;
 
 	public static final int BUMPER_SWITCH_CHANNEL = 6;
 
-	// Hatch Servo TODO originally 1
-	public static final int HATCH_SERVO = 8;
+	// Hatch Servo
+	public static final int HATCH_SERVO = 7;
 
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
@@ -74,8 +68,8 @@ public interface UrsaRobot {
 	public static final double robotRadius = 15;
 
 	// Cargo Voltages
-	public static final double cargoGroundVoltage = 140, cargoBayVoltage = 255;
-	public static final double cargoLowRocketVoltage = 225, cargoStartVoltage = 270;
+	public static final double cargoGroundVoltage = 17.1, cargoBayVoltage = 19.4;
+	public static final double cargoLowRocketVoltage = 17.6, cargoStartVoltage = 21;
 
 	// Turntable Voltages
 	public static final double forwardVoltage = 0, leftVoltage = 0, rightVoltage = 0;
@@ -95,6 +89,11 @@ public interface UrsaRobot {
 
 	// Control Map
 	ControlMap controls = new ControlMap();
+
+	public static final double defaultCameraPipeline = 0;
+	public static final double visionCameraSinglePipeline = 1;
+	public static final double visionCameraDoublePipeline = 2;
+
 
 	/**
 	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted, no m

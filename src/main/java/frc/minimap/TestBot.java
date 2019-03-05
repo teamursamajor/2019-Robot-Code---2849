@@ -10,6 +10,26 @@ public class TestBot {
 	// Drive d = new Drive();
 
 	private double angle = 0;
+	private int numberOfEncoders = 2;
+	//File Reader
+
+	public void update(){
+		//Navx = parse double
+		
+		encoderValue = 0;
+
+		//read 
+		encoderValue /= numberOfEncoders;
+
+		
+	}
+
+
+
+
+
+
+
 
 	public void setHeading(int degree) {
 		this.navXValue = (double) degree;
