@@ -37,6 +37,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
+  // private Turntable turntable;
+  // private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
 
@@ -68,28 +70,30 @@ public class Robot extends TimedRobot implements UrsaRobot {
     try {
       writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
     } catch (Exception e){
-
+      System.out.println("COULD NOT CREATE FILE WRITER");
     }
     
 
     drive = new Drive();
     drive.initialize("driveThread");
-    turntable = new Turntable();
-    turntable.initialize("turntableThread");
-    hatch = new Hatch();
-    hatch.initialize("hatchThread");
+    // turntable = new Turntable();
+    // turntable.initialize("turntableThread");
+    // hatch = new Hatch();
+    // hatch.initialize("hatchThread");
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");
 
     //I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
     
+
     constants = new Constants();
     constants.startConstants();
 
     // colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
     autoCompiler = new AutoCompiler(drive, cargo);
+    // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
     // autoSelect = new AutoSelector();
 
     // TODO double check that this works on the HP laptop
@@ -127,7 +131,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
      writer.write(str);
     } 
     catch (Exception e){
-
+      System.out.println("COULD NOT WRITE TO FILE");
     }
     
   }
