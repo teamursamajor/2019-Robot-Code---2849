@@ -129,6 +129,10 @@ public class AutoCompiler {
 	}
 
 	/**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 902a72ff9277f9f60a7432fc57328506c5561cfd
 	 * A token that moves the hatch arm to a preset position
 	 * 
 	 * @param position Position to move the hatch arm to

@@ -10,6 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.io.FileWriter;
+import java.io.File;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.I2C;
 import frc.diagnostics.*;
@@ -33,8 +37,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
+  // private Turntable turntable;
+  // private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
+
+  private FileWriter writer;
 
   private Constants constants;
   // private ColorSensor colorSensor;
@@ -59,8 +67,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-
+    try {
+      writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
+    } catch (Exception e){
+      System.out.println("COULD NOT CREATE FILE WRITER");
+    }
     
+
     drive = new Drive();
     drive.initialize("driveThread");
     // turntable = new Turntable();
@@ -70,15 +83,17 @@ public class Robot extends TimedRobot implements UrsaRobot {
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");
-    
+
     //I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
     
+
     constants = new Constants();
     constants.startConstants();
 
     // colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
     autoCompiler = new AutoCompiler(drive, cargo);
+    // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
     // autoSelect = new AutoSelector();
 
     // TODO double check that this works on the HP laptop
@@ -108,10 +123,20 @@ public class Robot extends TimedRobot implements UrsaRobot {
       currentTime = System.currentTimeMillis();
      // NetworkTable leftEncoder
     }
-
+    //str += time elapsed
+    String str = drive.getHeading() + "\n";
+    str += drive.getLeftEncoder() + "\n";
+    str += drive.getRightEncoder() + "";
+    try {
+     writer.write(str);
+    } 
+    catch (Exception e){
+      System.out.println("COULD NOT WRITE TO FILE");
+    }
+    
   }
 
-  /**
+  /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*
    * This autonomous (along with the chooser code above) shows how to select
    * between different autonomous modes using the dashboard. The sendable chooser
    * code works with the Java SmartDashboard.
@@ -282,6 +307,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void disabledPeriodic() {
 
+  }
+
+  private void writeValues(){
+    
   }
 
 }

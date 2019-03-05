@@ -31,7 +31,7 @@ public class Gui {
 	
 	public static void main(String[] args) throws IOException {
 //		BufferedImage fieldImage = ImageIO.read(new File(System.getProperty("user.dir") + "/../2019 Field.jpg"));
-		BufferedImage fieldImage = ImageIO.read(new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
+		BufferedImage fieldImage = ImageIO.read(new File("C:/Users/Ursa Major/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
 		testBot = new TestBot();
 		map = new MapPanel(fieldImage, testBot);
 		compass = new Compass(75, testBot);
@@ -40,12 +40,12 @@ public class Gui {
 
 		JFrame frame = new JFrame("2019 Mini Map");
 		frame.setSize(1000, 1000);
-		File ursaMajorBearIcon = new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/Icon.png");
+		File ursaMajorBearIcon = new File("C:/Users/Ursa Major/git/2019-Robot-Code---2849/src/main/java/frc/minimap/Icon.png");
         frame.setIconImage(new ImageIcon(ursaMajorBearIcon.toString()).getImage());
 		frame.setLayout(null);
 		setMenu(frame);
 		
-		//frame.
+		//frame.C:\Users\Ursa Major\git\2019-Robot-Code---2849\src\main\java\frc\minimap\Icon.png
 		
 		frame.add(map);
 		
@@ -170,7 +170,7 @@ public class Gui {
 		
 		rotateL.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				testBot.setHeading(testBot.getHeading() + 10);
+				//testBot.setHeading(testBot.getHeading() + 10);
 				testBot.setEncoder(0);
 				map.update();
 				compass.repaint();
@@ -179,7 +179,7 @@ public class Gui {
 		
 		rotateR.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				testBot.setHeading(testBot.getHeading() - 10);
+				//testBot.setHeading(testBot.getHeading() - 10);
 				testBot.setEncoder(0);
 				map.update();
 				compass.repaint();
