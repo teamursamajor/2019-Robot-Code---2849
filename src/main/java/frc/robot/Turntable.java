@@ -13,7 +13,7 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
 
     public Turntable() {
         turntableMotor = new Spark(TURNTABLE);
-        subsystemMode = TurntableMode.CUSTOM;
+        subsystemMode = TurntableMode.TRIGGERS;
     }
 
     public void runSubsystem() {
@@ -33,7 +33,7 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
                 }
             }
 
-            subsystemMode = TurntableMode.CUSTOM;
+            subsystemMode = TurntableMode.TRIGGERS;
         }
 
         TurntableTask.TurntableOrder turntableOrder = subsystemMode.callLoop();

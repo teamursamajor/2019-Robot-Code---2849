@@ -37,12 +37,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
-  // private Turntable turntable;
-  // private Hatch hatch;
+  private Turntable turntable;
+  private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
 
-  private FileWriter writer;
+  // private FileWriter writer;
 
   private Constants constants;
   // private ColorSensor colorSensor;
@@ -50,7 +50,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   // TODO integrate AutoSelector
   // private AutoSelector autoSelect;
   private AutoCompiler autoCompiler;
-  
+
   private DebugSelector debugSelect;
   private String robotMode;
 
@@ -68,24 +68,22 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     try {
-      writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
-    } catch (Exception e){
+      // writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
+    } catch (Exception e) {
       System.out.println("COULD NOT CREATE FILE WRITER");
     }
-    
 
     drive = new Drive();
     drive.initialize("driveThread");
-    // turntable = new Turntable();
-    // turntable.initialize("turntableThread");
-    // hatch = new Hatch();
-    // hatch.initialize("hatchThread");
+    turntable = new Turntable();
+    turntable.initialize("turntableThread");
+    hatch = new Hatch();
+    hatch.initialize("hatchThread");
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");
 
-    //I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
-    
+    // I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
 
     constants = new Constants();
     constants.startConstants();
@@ -100,9 +98,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // Vision.visionInit();
 
     debugSelect = new DebugSelector();
-		Logger.setLevel(debugSelect.getLevel());
+    Logger.setLevel(debugSelect.getLevel());
 
-   }
+  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for
@@ -121,25 +119,27 @@ public class Robot extends TimedRobot implements UrsaRobot {
       // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
       // Blue: " + colorSensor.getBlue());
       currentTime = System.currentTimeMillis();
-     // NetworkTable leftEncoder
+      // NetworkTable leftEncoder
     }
-    //str += time elapsed
+    // str += time elapsed
     String str = drive.getHeading() + "\n";
     str += drive.getLeftEncoder() + "\n";
     str += drive.getRightEncoder() + "";
     try {
-     writer.write(str);
-    } 
-    catch (Exception e){
+      // writer.write(str);
+    } catch (Exception e) {
       System.out.println("COULD NOT WRITE TO FILE");
     }
-    
+
   }
 
-  /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*
-   * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable chooser
-   * code works with the Java SmartDashboard.
+  /*
+   * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+   * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+   * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+   * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* This autonomous (along with the chooser
+   * code above) shows how to select between different autonomous modes using the
+   * dashboard. The sendable chooser code works with the Java SmartDashboard.
    *
    * You can add additional auto modes by adding additional comparisons to the
    * switch structure below with additional strings. If using the SendableChooser
@@ -148,14 +148,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void autonomousInit() {
     Logger.log("Started Autonomous mode", LogLevel.INFO);
-		robotMode = "Autonomous";
+    robotMode = "Autonomous";
     speed = 0.45;
     m_autoSelected = m_chooser.getSelected();
     // autoSelected = SmartDashboard.getString("Auto Selector",
     // defaultAuto);
     Task task = autoCompiler.buildAutoMode(m_autoSelected);
-		task.start();
-		System.out.println(task.toString());
+    task.start();
+    System.out.println(task.toString());
     System.out.println("Auto selected: " + m_autoSelected);
     Logger.log("Current Auto Mode: " + m_autoSelected, LogLevel.INFO);
     Logger.setLevel(debugSelect.getLevel());
@@ -170,12 +170,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    drive.setPower(speed);
+    // drive.setPower(speed);
     // if (colorSensor.getRed() >= 200) {
-    //   speed = 0.0;
-      // System.out.println(
-      // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
-      // Blue: " + colorSensor.getBlue());
+    // speed = 0.0;
+    // System.out.println(
+    // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
+    // Blue: " + colorSensor.getBlue());
     // }
 
     // switch (m_autoSelected) {
@@ -188,7 +188,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // // Put default auto code here
     // break;
     // }
-    
+
   }
 
   /**
@@ -201,10 +201,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     robotMode = "Teleop";
     Logger.setLevel(debugSelect.getLevel());
   }
-  
-  public enum VisionDirection{
+
+  public enum VisionDirection {
     LEFT, RIGHT;
   }
+
   /**
    * This function is called periodically during operator control.
    */
@@ -216,17 +217,17 @@ public class Robot extends TimedRobot implements UrsaRobot {
     int[] cornerX, cornerY; // remove this and get values from limelight
     cornerY = new int[2];
 
-    if(cornerY[0] > cornerY[1]) {
+    if (cornerY[0] > cornerY[1]) {
       turnDirection = VisionDirection.RIGHT;
-    }
-    else {
+    } else {
       turnDirection = VisionDirection.LEFT;
     }
     System.out.println(turnDirection);
 
-    if(xbox.getPOV() == controls.map.get("cargo_up") || xbox.getPOV() == controls.map.get("cargo_down")){
+    if (xbox.getPOV() == controls.map.get("cargo_up") || xbox.getPOV() == controls.map.get("cargo_down")) {
       Cargo.automating = false;
-    } else if(xbox.getSingleButtonPress(controls.map.get("cargo_rocket")) || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))){
+    } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
+        || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
       Cargo.automating = true;
     }
 
@@ -241,24 +242,24 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // boolean climbPressed = false;
     // // POV Up is start all climbing
     // if (xbox.getPOV() == XboxController.POV_UP && !climb.isClimbing()) {
-    //   climb.climbInit();
+    // climb.climbInit();
     // }
     // // POV Down is cancel climb
     // else if (xbox.getPOV() == XboxController.POV_DOWN) {
-    //   climb.cancelClimb();
+    // climb.cancelClimb();
     // }
     // // POV Left is to retract the front motor
     // if (xbox.getPOV() == XboxController.POV_LEFT && !climb.isClimbing()) {
-    //   climb.setFrontMotor(Constants.climbPower);
-    //   climbPressed = true;
+    // climb.setFrontMotor(Constants.climbPower);
+    // climbPressed = true;
     // }
     // // POV Right is to retract the back motor / cam
     // if (xbox.getPOV() == XboxController.POV_RIGHT && !climb.isClimbing()) {
-    //   climb.setBackMotor(-Constants.climbPower);
-    //   climbPressed = true;
+    // climb.setBackMotor(-Constants.climbPower);
+    // climbPressed = true;
     // }
     // if (!climbPressed && !climb.isClimbing()) {
-    //   climb.stopMotors();
+    // climb.stopMotors();
     // }
 
   }
@@ -272,17 +273,26 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void testInit() {
     Logger.log("Started Test mode", LogLevel.INFO);
-		robotMode = "Test";
+    robotMode = "Test";
   }
-  
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
     NetworkTableEntry tcorny = limelightTable.getEntry("tcorny");
+    NetworkTableEntry tcornx = limelightTable.getEntry("tcornx");
     double[] cornerY = tcorny.getDoubleArray(new double[2]);
-    System.out.println(cornerY);
+    double[] cornerX = tcornx.getDoubleArray(new double[2]);
+    System.out.println(cornerY[0] + " " + cornerY[1] + " " + cornerY[2]);
+    System.out.println(cornerX[0] + " " + cornerX[1] + " " + cornerX[2]);
+
+    if (cornerY[0] > cornerY[1]) {
+      System.out.println("Right");
+    } else {
+      System.out.println("Left");
+    }
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
     // System.out.println(
@@ -290,17 +300,17 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // Blue: " + colorSensor.getBlue());
     // }
   }
-  
+
   /**
-	 * This function is run when a mode is initially disabled and should be
-	 * used for any disabling code.
-	 */
-	@Override
-	public void disabledInit() {
-		Logger.log("Disabled " + robotMode + " mode", LogLevel.INFO);
-		Logger.closeWriters();
+   * This function is run when a mode is initially disabled and should be used for
+   * any disabling code.
+   */
+  @Override
+  public void disabledInit() {
+    Logger.log("Disabled " + robotMode + " mode", LogLevel.INFO);
+    Logger.closeWriters();
   }
-  
+
   /**
    * This function is called periodically when a mode is disabled.
    */
@@ -309,8 +319,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   }
 
-  private void writeValues(){
-    
+  private void writeValues() {
+
   }
 
 }

@@ -116,14 +116,11 @@ public class TurntableTask extends Task implements UrsaRobot {
                 return new TurntableOrder(0.0);
             }
         }
-<<<<<<< HEAD
 
         private TurntableOrder autoCalculator() {
             // TODO code this
             return new TurntableOrder(0.0);
         }
-=======
->>>>>>> 902a72ff9277f9f60a7432fc57328506c5561cfd
     }
 
     // TODO update this to use a timer
@@ -134,7 +131,6 @@ public class TurntableTask extends Task implements UrsaRobot {
         t.start();
     }
 
-<<<<<<< HEAD
     public TurntableTask(double power, long time, Turntable turntable) {
         running = true;
         this.power = power;
@@ -144,8 +140,6 @@ public class TurntableTask extends Task implements UrsaRobot {
         t.start();
     }
 
-=======
->>>>>>> 902a72ff9277f9f60a7432fc57328506c5561cfd
     public static boolean running = true;
 
     public void run() {
