@@ -96,13 +96,13 @@ public class Climb implements UrsaRobot {
         climbBackMotor.set(0.0);
 
         // drive forward
-        Drive.setPower(0.4);
-        try {
-            Thread.sleep(driveTime);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Drive.stop();
+        // Drive.setPower(0.4);
+        // try {
+        //     Thread.sleep(driveTime);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+        // Drive.stop();
         climbIsRunning = false;
         climbStop = true;
     }

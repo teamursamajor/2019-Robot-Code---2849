@@ -34,8 +34,8 @@ public class ControlMap {
         map.put("cargo_rocket", XboxController.BUTTON_X);
 
         // Cargo arm manual lifting
-        map.put("cargo_up", XboxController.POV_UP);
-        map.put("cargo_down", XboxController.POV_DOWN);
+        map.put("cargo_up", XboxController.AXIS_RIGHTTRIGGER);
+        map.put("cargo_down", XboxController.AXIS_LEFTTRIGGER);
 
         // Cargo wheels intake/outtake
         map.put("cargo_intake", XboxController.BUTTON_LEFTBUMPER);

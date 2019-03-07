@@ -73,12 +73,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
       System.out.println("COULD NOT CREATE FILE WRITER");
     }
 
+    CameraServer.getInstance().startAutomaticCapture();
+
     drive = new Drive();
     drive.initialize("driveThread");
-    turntable = new Turntable();
-    turntable.initialize("turntableThread");
-    hatch = new Hatch();
-    hatch.initialize("hatchThread");
+    // turntable = new Turntable();
+    // turntable.initialize("turntableThread");
+    // hatch = new Hatch();
+    // hatch.initialize("hatchThread");
     climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");
@@ -93,9 +95,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     autoCompiler = new AutoCompiler(drive, cargo);
     // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
     // autoSelect = new AutoSelector();
-
-    // TODO double check that this works on the HP laptop
-    // Vision.visionInit();
 
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
@@ -202,13 +201,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //TODO UNCOMMENT
-    // if (xbox.getPOV() == controls.map.get("cargo_up") || xbox.getPOV() == controls.map.get("cargo_down")) {
-    //   Cargo.automating = false;
-    // } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
-    //     || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
-    //   Cargo.automating = true;
-    // }
+    System.out.println("Cargo Voltage: " + Cargo.cargoPot.get());
+
+    if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1) || xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)){
+      Cargo.automating = false;
+    } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
+        || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
+      Cargo.automating = true;
+    }
 
     if(xbox.getPOV() == XboxController.POV_UP){
       climb.setFrontMotor(Constants.climbPower);
