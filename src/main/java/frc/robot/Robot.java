@@ -187,9 +187,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    NetworkTableEntry tcornx = UrsaRobot.limelightTable.getEntry("tcornx");
-    NetworkTableEntry tcorny = UrsaRobot.limelightTable.getEntry("tcorny");
-    VisionDirection turnDirection;
+    // NetworkTableEntry tcornx = UrsaRobot.limelightTable.getEntry("tcornx");
+    // NetworkTableEntry tcorny = UrsaRobot.limelightTable.getEntry("tcorny");
+    // VisionDirection turnDirection;
     int[] cornerX, cornerY; // remove this and get values from limelight
     cornerY = new int[2];
 
