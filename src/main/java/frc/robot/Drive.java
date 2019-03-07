@@ -6,12 +6,6 @@ import frc.tasks.DriveTask.DriveMode;
 
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
-	//TODO Uncomment this
-	// private Spark mLeft;
-	// // private Spark mRight;
-	// private Spark mRearLeft;
-	// private Spark mRearRight;
-
 	public static Spark mFrontLeft;
 	public static Spark mFrontRight;
 	public static Spark mRearLeft;
@@ -30,14 +24,12 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
-		mRearLeft = new Spark(DRIVE_BACK_LEFT);
-		mRearRight = new Spark(DRIVE_BACK_RIGHT);
+		// mRearLeft = new Spark(DRIVE_BACK_LEFT);
+		// mRearRight = new Spark(DRIVE_BACK_RIGHT);
 
 		// TODO uncomment this for real robot
-		// mFrontLeft = new Spark(DRIVE_LEFT);
-		// mFrontRight = new Spark(DRIVE_RIGHT);
-		// mRearLeft = mFrontLeft;
-		// mRearRight = mRearRight;
+		mRearLeft = mFrontLeft;
+		mRearRight = mFrontRight;
 		
 		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);

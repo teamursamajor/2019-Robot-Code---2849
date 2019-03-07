@@ -29,16 +29,14 @@ Write auto code for all 3 rows:
 	Default drive forward mode
 
 Testing:
-	Test using getSquaredAxis()
-		Do the drivers prefer this or not? It's just an option
 	Test new cargo mode progression
-		X should go from ground to rocket and black
+		X should go from ground to rocket and back
 		Y should go from ground to bay and back
-	If the ground to bay is still really bouncy after the subsystem hotfix then remove it
 	New cargo velocity
 		Does it still return infinity/NaN?
 		If not try adding a kD constant and see what happens
 			Then tune it
+
 	Test limelight turntable movement
 
 Camera Mount: In progress but check on it

@@ -49,7 +49,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                     subsystemMode = CargoMode.LOWROCKET;
                 else if (subsystemMode.equals(CargoMode.LOWROCKET))
                     subsystemMode = CargoMode.GROUND;
-
+                
             } else {
                 cargoLift.set(getHoldPower());
             }
@@ -71,7 +71,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                 cargoLift.set(0.20);
             }
 
-            // manual movement of cargo lift
+            // manual movement of cargo lift pov
             // else if (xbox.getPOV() == controls.map.get("cargo_up")) {
             // cargoLift.set(-0.20);
             // } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
@@ -105,7 +105,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         double deltaTime = System.currentTimeMillis() - CargoTask.CargoState.stateTime;
 
         double velocity = (deltaVolt / deltaTime);
-
+        System.out.println(velocity);
         if (Math.abs(deltaVolt) <= 5 || deltaTime <= 5)
             return;
         CargoTask.CargoState.updateState(velocity, currentVoltage);

@@ -212,10 +212,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     if(xbox.getPOV() == XboxController.POV_UP){
       climb.setFrontMotor(Constants.climbPower);
-      System.out.println(climbEncoder.getDistance());
+      // System.out.println(climbEncoder.getDistance());
     } else if(xbox.getPOV() == XboxController.POV_DOWN){
       climb.setFrontMotor(-Constants.climbPower);
-      System.out.println(climbEncoder.getDistance());
+      // System.out.println(climbEncoder.getDistance());
     } else if(xbox.getPOV() == XboxController.POV_LEFT){
       climb.setBackMotor(Constants.climbPower);
       System.out.println(Climb.climbPot.get());

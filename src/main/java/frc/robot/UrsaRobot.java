@@ -9,29 +9,21 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public interface UrsaRobot {
-	// TODO Finalize Ports
 	// Spark Ports
-	// 5 and 8 unused, 3 and 4 are temporary
-	public static final double defaultCameraPipeline = 0;
-	public static final double visionCameraPipeline=1;
+	// 5 and 7 unused
+	public static final int DRIVE_FRONT_LEFT = 0;
+	public static final int DRIVE_BACK_LEFT = 0;
+	public static final int DRIVE_FRONT_RIGHT = 9;
+	public static final int DRIVE_BACK_RIGHT = 9;
 
-	public static final int DRIVE_BACK_LEFT = 2;// Temporary DRIVE_LEFT = 0;
-	public static final int DRIVE_BACK_RIGHT = 6;// Temporary DRIVE_RIGHT = 11;
-	public static final int DRIVE_FRONT_LEFT = 3;
-	public static final int DRIVE_FRONT_RIGHT = 7;
-;
-
-	public static final int CARGO_INTAKE = 4;
-	public static final int CARGO_LIFT = 11;
-
-	// TODO originally 3
-	public static final int HATCH = 5;
-
-	public static final int CLIMB_FRONT = 1;
-	public static final int CLIMB_BACK = 9;
-
-	// TODO originally 4
-	public static final int TURNTABLE = 0;
+	public static final int CARGO_INTAKE = 1;
+	public static final int CARGO_LIFT = 6;
+	
+	public static final int CLIMB_FRONT = 2;
+	public static final int CLIMB_BACK = 8;
+	
+	public static final int HATCH = 4;
+	public static final int TURNTABLE = 3;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
@@ -45,20 +37,18 @@ public interface UrsaRobot {
 	public static final int CLIMB_ENCODER_CHANNEL_B = 1;
 
 	public static final int CARGO_POT_CHANNEL = 3;
-	public static final int CLIMB_POT_CHANNEL = 4;
+	public static final int CLIMB_POT_CHANNEL = 0;
 
 	public static final int BUMPER_SWITCH_CHANNEL = 6;
-
-	// Hatch Servo TODO originally 1
-	public static final int HATCH_SERVO = 8;
+	public static final int HATCH_SERVO = 7;
 
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
-
-	NetworkTable leftEncoderTable = NetworkTableInstance.getDefault().getTable("encoder");
-
 	public static Encoder climbEncoder = new Encoder(CLIMB_ENCODER_CHANNEL_A, CLIMB_ENCODER_CHANNEL_B);
+
+	// TODO do we need this?
+	NetworkTable leftEncoderTable = NetworkTableInstance.getDefault().getTable("encoder");
 
 	// Tells encoder the value of each tick. Must be set in the corresponding file
 	public static final double INCHES_PER_TICK = 0.011505d;
@@ -74,8 +64,8 @@ public interface UrsaRobot {
 	public static final double robotRadius = 15;
 
 	// Cargo Voltages
-	public static final double cargoGroundVoltage = 140, cargoBayVoltage = 255;
-	public static final double cargoLowRocketVoltage = 225, cargoStartVoltage = 270;
+	public static final double cargoGroundVoltage = 17.1, cargoBayVoltage = 19.4;
+	public static final double cargoLowRocketVoltage = 18.4, cargoStartVoltage = 21.8;
 
 	// Turntable Voltages
 	public static final double forwardVoltage = 0, leftVoltage = 0, rightVoltage = 0;
@@ -95,6 +85,11 @@ public interface UrsaRobot {
 
 	// Control Map
 	ControlMap controls = new ControlMap();
+
+	public static final double defaultCameraPipeline = 0;
+	public static final double visionCameraSinglePipeline = 1;
+	public static final double visionCameraDoublePipeline = 2;
+
 
 	/**
 	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted, no m
