@@ -6,16 +6,10 @@ import frc.tasks.DriveTask.DriveMode;
 
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
-	//TODO Uncomment this
-	// private Spark mLeft;
-	// // private Spark mRight;
-	// private Spark mRearLeft;
-	// private Spark mRearRight;
-
-	private Spark mRearLeft;
-	private Spark mRearRight;
-	private Spark mFrontLeft;
-	private Spark mFrontRight;
+	public static Spark mFrontLeft;
+	public static Spark mFrontRight;
+	public static Spark mRearLeft;
+	public static Spark mRearRight;
 
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
@@ -30,14 +24,12 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
-		mRearLeft = new Spark(DRIVE_BACK_LEFT);
-		mRearRight = new Spark(DRIVE_BACK_RIGHT);
+		// mRearLeft = new Spark(DRIVE_BACK_LEFT);
+		// mRearRight = new Spark(DRIVE_BACK_RIGHT);
 
 		// TODO uncomment this for real robot
-		// mLeft = new Spark(DRIVE_LEFT);
-		// mRight = new Spark(DRIVE_RIGHT);
-		// mRearLeft = mLeft;
-		// mRearRight = mRight;
+		mRearLeft = mFrontLeft;
+		mRearRight = mFrontRight;
 		
 		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);
@@ -56,9 +48,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		updateStateInfo();
 		DriveTask.DriveOrder driveOrder = subsystemMode.callLoop();
 
-		//TODO Replace and uncomment
-		// mLeft.set(-driveOrder.leftPower); // mFrontLeft
-		// mRight.set(driveOrder.rightPower); // mFrontRight
 		mFrontLeft.set(-driveOrder.leftPower);
 		mFrontRight.set(driveOrder.rightPower);
 		mRearLeft.set(-driveOrder.leftPower);
@@ -67,10 +56,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	public void updateStateInfo() {
-		// TODO we need to incorporate the limelight recognition differently
-		// double leftDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
-		// double rightDistance = limelightTable.getEntry("tx").getDouble(Double.NaN);
-
 		double leftDistance = getLeftEncoder();
 		double rightDistance = getRightEncoder();
 
@@ -84,11 +69,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		double rightDeltaPos = rightDistance - DriveTask.DriveState.rightPos;
 		double rightVelocity = (rightDeltaPos / deltaTime);
 
-		/*
-		 * Our loop updates faster than the limelight. If the limelight hasn't updated
-		 * yet, then our change in position is 0. In this case, we want to skip this
-		 * iteration and wait for the next cycle
-		 */
 		double averageDeltaPos = (leftDeltaPos + rightDeltaPos) / 2.0;
 		if (Math.abs(averageDeltaPos) <= 5 || deltaTime <= 5)
 			return;
@@ -178,10 +158,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * Stops all four motors. Remember that robot will still have forward momentum
 	 * and slide slightly
 	 */
-	public void stop() {
-		//TODO Uncomment
-		// mLeft.stopMotor();
-		// mRight.stopMotor();
+	public static void stop() {
 		mFrontLeft.stopMotor();
 		mFrontRight.stopMotor();
 		mRearLeft.stopMotor();
@@ -194,10 +171,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * 
 	 * @param power
 	 */
-	public void setPower(double power) {
-		// TDO Uncomment
-		// mRight.set(-power);
-		// mLeft.set(power);
+	public static void setPower(double power) {
 		mFrontRight.set(power);
 		mFrontLeft.set(-power);
 		mRearLeft.set(-power);

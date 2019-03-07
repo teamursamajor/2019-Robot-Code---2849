@@ -2,6 +2,7 @@ package frc.tasks;
 
 import frc.robot.Turntable;
 import frc.robot.UrsaRobot;
+import frc.robot.Vision;
 import frc.robot.Constants;
 import frc.robot.XboxController;
 
@@ -11,27 +12,34 @@ import edu.wpi.first.networktables.*;
 
 public class TurntableTask extends Task implements UrsaRobot {
 
+    public double power;
+    public long time;
+
     public enum TurntableMode {
-        FORWARD, LEFT, RIGHT, AUTO_ALIGN, CUSTOM;
+        //FORWARD, LEFT, RIGHT, 
+        AUTO_ALIGN, TRIGGERS, CUSTOM;
 
         public TurntableOrder callLoop() {
             // TODO remove or write code for FORWARD, LEFT, and RIGHT
             // "this" refers to subsystemMode
             switch (this) {
-            case FORWARD:
+            //case FORWARD:
                 // desiredVoltage = UrsaRobot.forwardVoltage;
                 // return autoGoToAngle();
-            case LEFT:
+            //case LEFT:
                 // desiredVoltage = UrsaRobot.leftVoltage;
                 // return autoGoToAngle();
-            case RIGHT:
+            //case RIGHT:
                 // desiredVoltage = UrsaRobot.rightVoltage;
                 // return autoGoToAngle();
             case AUTO_ALIGN:
                 return autoAlign();
+            case TRIGGERS:
+                // System.out.println("triggers");
+                return triggersBox();
             case CUSTOM:
                 // System.out.println("custom");
-                return triggersBox();
+                return autoCalculator();
             }
             return new TurntableOrder(0.0);
         }
@@ -108,12 +116,26 @@ public class TurntableTask extends Task implements UrsaRobot {
                 return new TurntableOrder(0.0);
             }
         }
+
+        private TurntableOrder autoCalculator() {
+            // TODO code this
+            return new TurntableOrder(0.0);
+        }
     }
 
     // TODO update this to use a timer
     public TurntableTask(TurntableMode mode, Turntable turntable) {
         running = true;
         turntable.setMode(mode);
+        Thread t = new Thread("Turntable Task");
+        t.start();
+    }
+
+    public TurntableTask(double power, long time, Turntable turntable) {
+        running = true;
+        this.power = power;
+        this.time = time;
+        turntable.setMode(TurntableMode.CUSTOM);
         Thread t = new Thread("Turntable Task");
         t.start();
     }

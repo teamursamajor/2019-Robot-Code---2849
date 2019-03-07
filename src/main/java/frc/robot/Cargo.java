@@ -10,7 +10,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     private Spark cargoIntake;
     private Spark cargoLift;
-    private static Potentiometer cargoPot;
+    public static Potentiometer cargoPot;
     private long time;
 
     public static boolean automating = true;
@@ -25,31 +25,31 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     public void runSubsystem() {
         updateStateInfo();
+        // automated cargo code
         if (automating) {
             // If we need to save button space, then use one button that goes
             // ground -> rocket -> bay -> rocket -> ground
             if (xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
-               
+
                 if (subsystemMode.equals(CargoMode.GROUND)) {
                     // untested, remove if it breaks the robot lol
-                    subsystemMode = CargoMode.LOWROCKET;
-                    try{
-                        Thread.sleep(250);
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
+                    // subsystemMode = CargoMode.LOWROCKET;
+                    // try{
+                    // Thread.sleep(250);
+                    // } catch(Exception e){
+                    // e.printStackTrace();
+                    // }
                     subsystemMode = CargoMode.CARGOBAY;
-                }
-                else if (subsystemMode.equals(CargoMode.CARGOBAY))
+                } else if (subsystemMode.equals(CargoMode.CARGOBAY))
                     subsystemMode = CargoMode.GROUND;
 
             } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))) {
-               
+
                 if (subsystemMode.equals(CargoMode.GROUND))
                     subsystemMode = CargoMode.LOWROCKET;
                 else if (subsystemMode.equals(CargoMode.LOWROCKET))
                     subsystemMode = CargoMode.GROUND;
-
+                
             } else {
                 cargoLift.set(getHoldPower());
             }
@@ -62,18 +62,28 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                 cargoLift.set(cargoOrder.cargoPower);
             }
 
-        } else {            
+        } else {
             if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
                 cargoLift.set(0.20);
-            } else if (xbox.getPOV() == controls.map.get("cargo_up")) {
+            } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)) {
                 cargoLift.set(-0.20);
-            } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
+            } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
                 cargoLift.set(0.20);
-            } else {
+            }
+
+            // manual movement of cargo lift pov
+            // else if (xbox.getPOV() == controls.map.get("cargo_up")) {
+            // cargoLift.set(-0.20);
+            // } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
+            // cargoLift.set(0.20);
+            // }
+            
+            else {
                 getHoldPower();
             }
         }
 
+        // cargo intake code
         if (xbox.getButton(controls.map.get("cargo_intake"))) {
             cargoIntake.set(Constants.cargoIntakePower);
         } else if (xbox.getButton(controls.map.get("cargo_outtake"))) {
@@ -83,7 +93,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         }
 
         if ((System.currentTimeMillis() - time) % 50 == 0) {
-            // System.out.println("Pot Voltage: " + cargoPot.get());
+            System.out.println("Pot Voltage: " + cargoPot.get());
             // System.out.println(subsystemMode);
         }
 
@@ -95,7 +105,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         double deltaTime = System.currentTimeMillis() - CargoTask.CargoState.stateTime;
 
         double velocity = (deltaVolt / deltaTime);
-
+        System.out.println(velocity);
         if (Math.abs(deltaVolt) <= 5 || deltaTime <= 5)
             return;
         CargoTask.CargoState.updateState(velocity, currentVoltage);

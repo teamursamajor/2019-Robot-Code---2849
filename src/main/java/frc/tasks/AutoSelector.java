@@ -32,6 +32,7 @@ public class AutoSelector {
 		if (autoDirectory.isDirectory()) {
 			autoFiles = autoDirectory.listFiles((File dir, String name) -> {
 				// Regex check for files matching our naming syntax
+				// TODO change LMR123 to LR1234
 				return name.matches("/[LMR][12](hatch|cargo)[LMR][123].*\\.auto/gi");
 			});
 		} else {
