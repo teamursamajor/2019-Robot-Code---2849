@@ -181,7 +181,7 @@ public class AutoCompiler {
 
 			//TODO figure out what's wrong with this and add a slash separator
 			if (direction.equalsIgnoreCase("ALIGN")) {
-				turntableMode = TurntableMode.AUTO_ALIGN;
+				// turntableMode = TurntableMode.AUTO_ALIGN;
 			} else {
 				try {
 					slashIndex = direction.indexOf("/");
@@ -196,10 +196,10 @@ public class AutoCompiler {
 
 		public TurntableTask makeTask() {
 			// If there is no custom power/time, auto align
-			if (turntableMode == TurntableMode.AUTO_ALIGN)
-				return new TurntableTask(TurntableMode.AUTO_ALIGN, turntable);
+			// if (turntableMode == TurntableMode.AUTO_ALIGN)
+				// return new TurntableTask(TurntableMode.AUTO_ALIGN, turntable);
 			// If there is a custom power/time, return that power/time
-			else
+			// else
 				return new TurntableTask(TurntableMode.CUSTOM, turntable);
 		}
 	}

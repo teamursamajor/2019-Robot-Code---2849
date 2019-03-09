@@ -11,7 +11,7 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
 
     public Turntable() {
         turntableMotor = new Spark(TURNTABLE);
-        subsystemMode = TurntableMode.TRIGGERS;
+        subsystemMode = TurntableMode.MANUAL;
     }
 
     public void runSubsystem() {
@@ -25,7 +25,6 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
                 }
             }
 
-            subsystemMode = TurntableMode.TRIGGERS;
         }
 
         TurntableTask.TurntableOrder turntableOrder = subsystemMode.callLoop();

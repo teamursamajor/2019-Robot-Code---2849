@@ -13,6 +13,14 @@ public class DriveTask extends Task implements UrsaRobot {
      * represent Autonomous and Teleop
      */
     public enum DriveMode {
+        /*
+         * AUTO is for autonomous codes
+         * ALIGN_BAY is for limelight iirc
+         * ALIGN_FLOOR is for color sensor
+         * DRIVE_STICKS is for manual control
+         * TURN is for autonomous turning
+         * PATH is for following Path files
+         */
         AUTO, ALIGN_BAY, ALIGN_FLOOR, DRIVE_STICKS, TURN, PATH;
 
         /**
@@ -108,7 +116,7 @@ public class DriveTask extends Task implements UrsaRobot {
             // TODO move to a constants java file which communicates with the
             // dashboard/UrsaRobot
 
-            double kdAutoAlign = 2; // Derivative coefficient for PID controller
+            double kdAutoAlign = 0; // Derivative coefficient for PID controller
             double kpAutoAlign = 1.0 / 33.0; // Proportional coefficient for PID controller
             double autoAlignTolerance = 0.1;
             double autoAlignMinimumPower = 0.25;

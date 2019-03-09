@@ -45,20 +45,20 @@ public class CargoTask extends Task implements UrsaRobot{
 			double cargoMinimumPower = 0.15;
 
             // Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage);// + kdCargo * CargoState.cargoVelocity;
-            // System.out.println("Cargo Power: " + cargoPower);
+            System.out.println("Cargo Velocity: " + CargoState.cargoVelocity);
+			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage); // + kdCargo * CargoState.cargoVelocity;
             
-            // //TODO was 0 before, test by using auto code
             // if(cargoPower <= 0.1){
             //     running = false;
             //     return new CargoOrder(Cargo.getHoldPower());
             // }
 
-			// if (Math.abs(cargoPower) < cargoMinimumPower) {
-			// 	cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
-			// }
+			if (Math.abs(cargoPower) < cargoMinimumPower) {
+                System.out.println("PID Power too weak, using cargoMinimumPower");
+				cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
+			}
             
-			return new CargoOrder(-cargoPower);
+			return new CargoOrder(-cargoPower); // returns negative because negative goes up, pos goes down
        }
     }
 
