@@ -10,7 +10,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     public static double cargoGroundVoltage, cargoLowRocketVoltage, cargoBayVoltage, cargoStartVoltage;
 
-    private Spark cargoInta                            ke;
+    private Spark cargoIntake;
     private Spark cargoLift;
     public static Potentiometer cargoPot;
     private long time;
