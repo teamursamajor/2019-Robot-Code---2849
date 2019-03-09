@@ -3,10 +3,10 @@
 
 *This README should now be fully updated for the 2019 season. Please contact Hershal through GroupMe if something is missing, needs clarification, or contains errors.*
 
-####Git Quick Reference for team members
+#### Git Quick Reference for team members
 We are going to be using VSCode this year instead of Eclipse. This will be our first year using it, as it has just become the official FIRST idea this year. This guide will cover how to go from nothing to setting up the entire work environment.
 
-####Getting Started
+#### Getting Started
 Git Bash:
 
 This program allows you to utilize Git for your projects through a command line. You can install it at https://git-scm.com/downloads. Tutorials on how to use Git Bash are further below.
@@ -36,10 +36,10 @@ JRE (Java Runtime Environment):
 
 If Strings or other basic objects are throwing errors, you are missing your JRE. Install it from https://java.com/en/download/manual.jsp
 
-####Using Git Bash
+#### Using Git Bash
 While VSCode does have built-in integration with Git, we can also use Git from the command line or terminal (aka Git Bash). This allows for greater control and ease of access and is generally preferable. If you followed the above installation guides, then you should also have Git Bash accessable through the VSCode terminal, which is really nice.
 
-####Add the repo to your computer
+#### Add the repo to your computer
 
 In the command line, type
 
@@ -59,7 +59,7 @@ Ex: git add Drive.java Lift.java Intake.java
 
 would add all three files.
 
-####Deleting files 
+#### Deleting files 
 
 If you want to remove a file from the repository, type
 
@@ -67,7 +67,7 @@ git rm Drive.java
 
 or whatever file you want to delete. **This deletes the file from your computer as well.**
 
-####Checking your files 
+#### Checking your files 
 
 Typing
 
@@ -81,7 +81,7 @@ git log
 
 and it will bring up a list of prior commits, commit messages, and the author/date. Press "q" to leave the list and return to the command line.
 
-####Committing:
+#### Committing:
 
 After editing a file (or adding a file) your code needs to be committed. Otherwise, the changes will only stay on your computer and not be added to the online repository. 
 Typing
@@ -104,7 +104,7 @@ git add -A
 
 Commit often, push when you want others to use your work, and always Commit, Pull, then Push at the end of the day.
 
-####Pulling:
+#### Pulling:
 
 When you start your work for the day, always be sure to Pull immediately before doing anything. This adds changes made on other computers to your project. 
 
@@ -116,7 +116,7 @@ git pull
 
 and git will automatically add changes to your local project. If any issues require a merge, to the ###Merge section.
 
-####Pushing: 
+#### Pushing: 
 
 After committing, you must push your code to the repository to save your changes. Simply type
 
@@ -126,7 +126,7 @@ and you will be prompted for your username and password. *Use teamursamajor's us
 
 Good practice is to commit often and push your commits at the end of the day. This is your responsibility. *Sign your commits with your name or your programming name at the end of each commit.*
 
-####Merge
+#### Merge
 
 When you have edited and commited code which has also been changed on the repository, you will run into a merge conflict (occurs after you commit code then pull changes).
 
@@ -136,7 +136,7 @@ Keep the code you want to commit and delete any code or text you do not want. If
 
 There are special programs called Merge Tools that will handle this process much better, but they will not be covered here. I recommend Meld if you want to try one.
 
-####Using Git in VSCode
+#### Using Git in VSCode
 
 Now, generally you should always use Git Bash and the terminal for your version control needs. However, **after** you have learned to use all of the commands above, you can use the VSCode integration with Git for convenience.
 
@@ -146,6 +146,6 @@ Next, you can type the commit message in the box above it, then press CTRL + Ent
 
 If you need to refresh so that VSCode recognizes new changes, just click on the Refresh icon in the middle of the bar. (**Do NOT press F5; in VSCode F5 will attempt to run and debug your code, not refresh!**)
 
-####Hardware Overview
+#### Hardware Overview
 
 If you’re ever confused about the function of any hardware on the eboard, look at https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/599672-frc-control-system-hardware-overview
