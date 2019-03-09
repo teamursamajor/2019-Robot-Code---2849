@@ -64,17 +64,11 @@ public interface UrsaRobot {
 	// TODO not sure what to do with this radius (ie how to measure it). It is used for the turn control loop
 	public static final double robotRadius = 15;
 
-	// Cargo Voltages
-<<<<<<< HEAD
-	public static final double cargoGroundVoltage = 16.8, cargoBayVoltage = 21.8;
-	public static final double cargoLowRocketVoltage = 19.5, cargoStartVoltage = 24.8;
-
 	// Turntable Voltages
 	public static final double forwardVoltage = 0, leftVoltage = 0, rightVoltage = 0;
-=======
+
 	// public static final double cargoGroundVoltage = 17.1, cargoBayVoltage = 19.4;
 	// public static final double cargoLowRocketVoltage = 18.4, cargoStartVoltage = 21.8;
->>>>>>> d93e69f0394d11f9684d394af7530ffba575975c
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second
