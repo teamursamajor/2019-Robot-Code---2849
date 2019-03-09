@@ -105,7 +105,8 @@ public class DriveTask extends Task implements UrsaRobot {
          * @return A DriveOrder object containing the new left and right powers
          */
         private DriveOrder autoAlignBay() {
-            // TODO move to a constants java file which communicates with the dashboard/UrsaRobot
+            // TODO move to a constants java file which communicates with the
+            // dashboard/UrsaRobot
 
             double kdAutoAlign = 2; // Derivative coefficient for PID controller
             double kpAutoAlign = 1.0 / 33.0; // Proportional coefficient for PID controller
@@ -170,9 +171,10 @@ public class DriveTask extends Task implements UrsaRobot {
          * 
          * @return A DriveOrder object containing the new left and right powers
          */
-        //TODO make this work exclusively with the color sensor!!!
+        // TODO make this work exclusively with the color sensor!!!
         private DriveOrder autoAlignFloor() {
-            // TODO move to a constants java file which communicates with the dashboard/UrsaRobot
+            // TODO move to a constants java file which communicates with the
+            // dashboard/UrsaRobot
 
             double kdAutoAlign = 2; // Derivative coefficient for PID controller
             double kpAutoAlign = 1.0 / 33.0; // Proportional coefficient for PID controller
@@ -239,23 +241,26 @@ public class DriveTask extends Task implements UrsaRobot {
          * @return DriveOrder containing the values from the XboxController
          */
         private DriveOrder sticksBox() {
-            // Arcade Drive
-            // TODO test using squared axis and see how it feels. Might be better for small
-            // movements
-            double leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
-            double rightStickX = xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
-            // double leftStickY = xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y) * (0.75);
-            // double rightStickX = -xbox.getAxis(XboxController.AXIS_RIGHTSTICK_X) * (0.75);
-            double leftSpeed = leftStickY + rightStickX;
-            double rightSpeed = leftStickY - rightStickX;
-            double max = Math.max(leftSpeed, rightSpeed);
-            double min = Math.min(leftSpeed, rightSpeed);
-            if (max > 1) {
-                leftSpeed /= max;
-                rightSpeed /= max;
-            } else if (min < -1) {
-                leftSpeed /= -min;
-                rightSpeed /= -min;
+            double leftSpeed, rightSpeed;
+            if (isArcadeDrive) {
+                // Arcade Drive
+                double leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
+                double rightStickX = xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
+                leftSpeed = leftStickY + rightStickX;
+                rightSpeed = leftStickY - rightStickX;
+                double max = Math.max(leftSpeed, rightSpeed);
+                double min = Math.min(leftSpeed, rightSpeed);
+                if (max > 1) {
+                    leftSpeed /= max;
+                    rightSpeed /= max;
+                } else if (min < -1) {
+                    leftSpeed /= -min;
+                    rightSpeed /= -min;
+                }
+            } else {
+                // Tank Drive
+                leftSpeed = xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y) * (0.75);
+                rightSpeed = -xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y) * (0.75);
             }
             return new DriveOrder(leftSpeed, rightSpeed);
         }
@@ -285,7 +290,7 @@ public class DriveTask extends Task implements UrsaRobot {
 
         // TODO Add Chris's code when ready
         // private DriveOrder pathIterate(String pathName) {
-        //     return null;
+        // return null;
         // }
     }
 

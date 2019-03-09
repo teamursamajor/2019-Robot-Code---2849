@@ -9,6 +9,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public interface UrsaRobot {
+	// Arcade vs Tank drive
+	public static boolean isArcadeDrive = true;
+
 	// Spark Ports
 	// 5 and 7 unused
 	public static final int DRIVE_FRONT_LEFT = 0;
