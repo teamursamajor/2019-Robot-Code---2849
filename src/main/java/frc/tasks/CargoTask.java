@@ -40,7 +40,8 @@ public class CargoTask extends Task implements UrsaRobot{
                 return new CargoOrder(Cargo.getHoldPower());
             }
             //TODO Add derivative term to PD loop
-            double kpCargo = 1.0 / 100.0;
+            // double kpCargo = 1.0 / 100.0;
+            double kpCargo = 1.0 / 25.0; // try this and go from there. My math says it should be about .45 but I don't trust it
             double kdCargo = 0;
 			double cargoMinimumPower = 0.15;
 
