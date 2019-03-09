@@ -65,8 +65,8 @@ public interface UrsaRobot {
 	public static final double robotRadius = 15;
 
 	// Cargo Voltages
-	public static final double cargoGroundVoltage = 17.1, cargoBayVoltage = 19.4;
-	public static final double cargoLowRocketVoltage = 18.4, cargoStartVoltage = 21.8;
+	// public static final double cargoGroundVoltage = 17.1, cargoBayVoltage = 19.4;
+	// public static final double cargoLowRocketVoltage = 18.4, cargoStartVoltage = 21.8;
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second

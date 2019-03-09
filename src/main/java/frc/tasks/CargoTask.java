@@ -20,13 +20,13 @@ public class CargoTask extends Task implements UrsaRobot{
         public CargoOrder callLoop() {
             switch (this) {
             case GROUND:
-                return moveToAngle(UrsaRobot.cargoGroundVoltage);
+                return moveToAngle(Cargo.cargoGroundVoltage);
             case LOWROCKET:
-                return moveToAngle(UrsaRobot.cargoLowRocketVoltage);
+                return moveToAngle(Cargo.cargoLowRocketVoltage);
             case CARGOBAY:
-                return moveToAngle(UrsaRobot.cargoBayVoltage);
+                return moveToAngle(Cargo.cargoBayVoltage);
             case CLIMB:
-                return moveToAngle(UrsaRobot.cargoStartVoltage);
+                return moveToAngle(Cargo.cargoStartVoltage);
             }
             running = false;
             return new CargoOrder(0.0);  

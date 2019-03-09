@@ -8,6 +8,8 @@ import frc.tasks.CargoTask.CargoMode;
 
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
+    public static double cargoGroundVoltage, cargoLowRocketVoltage, cargoBayVoltage, cargoStartVoltage;
+
     private Spark cargoIntake;
     private Spark cargoLift;
     public static Potentiometer cargoPot;
@@ -21,6 +23,13 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         cargoPot = new AnalogPotentiometer(CARGO_POT_CHANNEL, 360, 0);
         subsystemMode = CargoMode.GROUND;
         time = System.currentTimeMillis();
+
+        // gets the current cargo voltage (should be for start) so the rest can be
+        // calculated relative to it
+        cargoStartVoltage = cargoPot.get();
+        cargoGroundVoltage = cargoStartVoltage - 4.7;
+        cargoLowRocketVoltage = cargoStartVoltage - 3.4;
+        cargoBayVoltage = cargoStartVoltage - 2.4;
     }
 
     public void runSubsystem() {
@@ -49,7 +58,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                     subsystemMode = CargoMode.LOWROCKET;
                 else if (subsystemMode.equals(CargoMode.LOWROCKET))
                     subsystemMode = CargoMode.GROUND;
-                
+
             } else {
                 cargoLift.set(getHoldPower());
             }
@@ -63,7 +72,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             }
 
         } else {
-            if (cargoPot.get() > UrsaRobot.cargoStartVoltage) {
+            if (cargoPot.get() > cargoStartVoltage) {
                 cargoLift.set(0.20);
             } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)) {
                 cargoLift.set(-0.20);
@@ -77,7 +86,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             // } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
             // cargoLift.set(0.20);
             // }
-            
+
             else {
                 getHoldPower();
             }
@@ -120,9 +129,9 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public static double getHoldPower() {
-        if (cargoPot.get() >= (UrsaRobot.cargoGroundVoltage + 5) && cargoPot.get() < 190) {
+        if (cargoPot.get() >= (cargoGroundVoltage + 5) && cargoPot.get() < 190) {
             return -0.25;
-        } else if (cargoPot.get() >= 190 && cargoPot.get() < (UrsaRobot.cargoBayVoltage + 5)) {
+        } else if (cargoPot.get() >= 190 && cargoPot.get() < (cargoBayVoltage + 5)) {
             return -0.20;
         } else {
             return 0.0;
