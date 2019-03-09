@@ -8,6 +8,8 @@ import frc.tasks.CargoTask.CargoMode;
 
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
+    public static double cargoGroundVoltage, cargoLowRocketVoltage, cargoBayVoltage, cargoStartVoltage;
+
     private Spark cargoIntake;
     private Spark cargoLift;
     public static Potentiometer cargoPot;
@@ -21,6 +23,13 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         cargoPot = new AnalogPotentiometer(CARGO_POT_CHANNEL, 360, 0);
         subsystemMode = CargoMode.GROUND;
         time = System.currentTimeMillis();
+
+        // gets the current cargo voltage (should be for start) so the rest can be
+        // calculated relative to it
+        cargoStartVoltage = cargoPot.get();
+        cargoGroundVoltage = cargoStartVoltage - 5;
+        cargoLowRocketVoltage = cargoStartVoltage - 3.4;
+        cargoBayVoltage = cargoStartVoltage - 2.4;
     }
 
     public void runSubsystem() {
@@ -48,7 +57,10 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                 } else if (subsystemMode.equals(CargoMode.LOWROCKET)) {
                     System.out.println("to ground");
                     subsystemMode = CargoMode.GROUND;
+<<<<<<< HEAD
                 }
+=======
+>>>>>>> d93e69f0394d11f9684d394af7530ffba575975c
 
             } else {
                 cargoLift.set(getHoldPower());
@@ -63,6 +75,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             }
 
         } else {
+<<<<<<< HEAD
             System.out.println("Cargo Voltage: " + cargoPot.get());
             if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)) {
                 // System.out.println("up");
@@ -75,6 +88,25 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             } else {
                 // System.out.println(getHoldPower());
                 cargoLift.set(getHoldPower());
+=======
+            if (cargoPot.get() > cargoStartVoltage) {
+                cargoLift.set(0.20);
+            } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)) {
+                cargoLift.set(-0.20);
+            } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
+                cargoLift.set(0.20);
+            }
+
+            // manual movement of cargo lift pov
+            // else if (xbox.getPOV() == controls.map.get("cargo_up")) {
+            // cargoLift.set(-0.20);
+            // } else if (xbox.getPOV() == controls.map.get("cargo_down")) {
+            // cargoLift.set(0.20);
+            // }
+
+            else {
+                getHoldPower();
+>>>>>>> d93e69f0394d11f9684d394af7530ffba575975c
             }
         }
 
@@ -111,6 +143,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public static double getHoldPower() {
+<<<<<<< HEAD
         if (cargoPot.get() >= (UrsaRobot.cargoGroundVoltage + 0.2)
                 && cargoPot.get() < UrsaRobot.cargoLowRocketVoltage) {
             return -0.25;
@@ -143,6 +176,12 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             return 0.15;
         } else if (cargoPot.get() >= UrsaRobot.cargoStartVoltage) {
             return 0.35;
+=======
+        if (cargoPot.get() >= (cargoGroundVoltage + 5) && cargoPot.get() < 190) {
+            return -0.25;
+        } else if (cargoPot.get() >= 190 && cargoPot.get() < (cargoBayVoltage + 5)) {
+            return -0.20;
+>>>>>>> d93e69f0394d11f9684d394af7530ffba575975c
         } else {
             return 0.0;
         }

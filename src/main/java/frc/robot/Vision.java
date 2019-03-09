@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.networktables.*;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import frc.tasks.HatchTask.HatchMode;
 
@@ -34,16 +33,22 @@ public class Vision implements UrsaRobot {
         // set pipeline to single target
         limelightTable.getEntry("pipeline").setDouble(1);
 
-        // looking at the corners, determine what direction to move in
+        // using the coords of the corners, determine what direction to move in
         NetworkTableEntry tcorny = limelightTable.getEntry("tcorny");
 
         cornerY = tcorny.getDoubleArray(new double[2]);
 
-        //(0,0) is the top left of the camera, so if Y is greater then it is actually lower
-        if (cornerY[0] > cornerY[3]) {
-            turnDirection = VisionDirection.LEFT;
-        } else if (cornerY[0] < cornerY[3]) {
-            turnDirection = VisionDirection.RIGHT;
+        // (0,0) is the top left of the camera, so if Y is numerically greater then it
+        // is actually physically lower
+        try {
+            if (cornerY[0] > cornerY[3]) {
+                turnDirection = VisionDirection.LEFT;
+            } else if (cornerY[0] < cornerY[3]) {
+                turnDirection = VisionDirection.RIGHT;
+            }
+        } catch (Exception e) {
+            System.out.println("Error with Vision corner processing!");
+            e.printStackTrace();
         }
 
         // set pipeline to double target
@@ -51,7 +56,7 @@ public class Vision implements UrsaRobot {
 
         // move in that direction until you get a hit
         while (limelightTable.getEntry("tv").getDouble(0.0) != 1.0) {
-            if(visionStop){
+            if (visionStop) {
                 killVision();
                 return;
             }
@@ -77,11 +82,11 @@ public class Vision implements UrsaRobot {
         // set pipeline to raw camera
         limelightTable.getEntry("pipeline").setDouble(0);
 
-        if(visionStop){
+        if (visionStop) {
             killVision();
             return;
         }
-        
+
         // run hatch
         hatch.setMode(HatchMode.RUN);
         visionRunning = false;
@@ -90,7 +95,7 @@ public class Vision implements UrsaRobot {
     private static void visionPID() {
         turning = true;
         while (turning) {
-            if(visionStop){
+            if (visionStop) {
                 killVision();
                 return;
             }
@@ -103,7 +108,7 @@ public class Vision implements UrsaRobot {
 
             NetworkTableEntry tx = limelightTable.getEntry("tx");
             NetworkTableEntry ty = limelightTable.getEntry("ty");
-            // NetworkTableEntry ta = limelightTable.getEntry("ta");
+            // NetworkTableEntry ta = limelightTable.getEntry("ta"); // target area
 
             // read values periodically
             double x = tx.getDouble(0.0);
@@ -111,7 +116,7 @@ public class Vision implements UrsaRobot {
             // double area = ta.getDouble(0.0);
 
             // If we're already close enough to the tapes, then simply stop
-            double centerPos = limelightTable.getEntry("tx").getDouble(Double.NaN);
+            double centerPos = x;
             if (Math.abs(centerPos) < autoAlignTolerance) {
                 turning = false;
                 Turntable.turntableMotor.set(0.0);
@@ -119,9 +124,9 @@ public class Vision implements UrsaRobot {
             }
 
             // PD equations power = kp * change in distance (aka error) + kd * velocity
-            double outputPower = kpAutoAlign * (limelightTable.getEntry("tx").getDouble(Double.NaN) - goalPosition);
+            double outputPower = kpAutoAlign * (x - goalPosition);
 
-            if (outputPower == 0) {
+            if (Math.abs(outputPower) <= 0.05) {
                 turning = false;
                 return;
             }
@@ -138,9 +143,9 @@ public class Vision implements UrsaRobot {
         }
     }
 
-    private static void killVision(){
-            limelightTable.getEntry("pipeline").setDouble(0);
-            Turntable.turntableMotor.set(0.0);
-            Vision.hatch.setMode(HatchMode.WAIT);
-        }
+    private static void killVision() {
+        limelightTable.getEntry("pipeline").setDouble(0);
+        Turntable.turntableMotor.set(0.0);
+        Vision.hatch.setMode(HatchMode.WAIT);
+    }
 }

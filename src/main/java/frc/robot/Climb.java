@@ -34,11 +34,6 @@ public class Climb implements UrsaRobot {
     private final long maxBackClimbTime = 2000; // max time back can move forward for
     private final long driveTime = 1000; // how long the robot drives forward after climbing up
 
-    // old, don't use
-    private static final int frontClimbTimeInit = 1000;
-    private static final int frontClimbTimeEnd = 1000;
-    private static final int backClimbTime = 1500;
-
     public Climb() {
         climbFrontMotor = new Spark(CLIMB_FRONT);
         climbBackMotor = new Spark(CLIMB_BACK);
@@ -106,59 +101,6 @@ public class Climb implements UrsaRobot {
         climbIsRunning = false;
         climbStop = true;
     }
-
-    /**
-     * DO NOT USE, DEPRECATED
-     */
-    private void timedClimb() {
-        // start the front motor
-        long start = System.currentTimeMillis();
-        climbFrontMotor.set(Constants.climbPower);
-        while (!climbStop && (System.currentTimeMillis() - start) < frontClimbTimeInit) {
-            try {
-                Thread.sleep(10);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (climbStop) {
-            stopMotors();
-            return;
-        }
-
-        // front is moving, now start the back
-        climbBackMotor.set(Constants.climbPower);
-        while (!climbStop && (System.currentTimeMillis() - start) < frontClimbTimeEnd) {
-            try {
-                Thread.sleep(10);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (climbStop) {
-            stopMotors();
-            return;
-        }
-
-        // stop the front
-        climbFrontMotor.set(0);
-
-        // but keep the back going
-        while (!climbStop && (System.currentTimeMillis() - start) < backClimbTime) {
-            try {
-                Thread.sleep(10);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        stopMotors();
-        climbIsRunning = false;
-    }
-
-
 
     public void cancelClimb() {
         climbStop = true;

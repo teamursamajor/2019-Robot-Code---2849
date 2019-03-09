@@ -27,7 +27,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		// mRearLeft = new Spark(DRIVE_BACK_LEFT);
 		// mRearRight = new Spark(DRIVE_BACK_RIGHT);
 
-		// TODO uncomment this for real robot
 		mRearLeft = mFrontLeft;
 		mRearRight = mFrontRight;
 		
