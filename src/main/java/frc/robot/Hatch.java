@@ -30,8 +30,6 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
             subsystemMode = HatchMode.FLIP;
         }
 
-        // System.out.println(bumperReleased.get());
-
         HatchTask.HatchOrder hatchOrder = subsystemMode.callLoop(); // returns a constant for RUN, 0.0 for FLIP/WAIT
 
         if (subsystemMode.equals(HatchMode.RUN)) {

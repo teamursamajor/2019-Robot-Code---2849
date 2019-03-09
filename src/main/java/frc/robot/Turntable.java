@@ -2,7 +2,6 @@ package frc.robot;
 
 import frc.tasks.*;
 import frc.tasks.TurntableTask.TurntableMode;
-import edu.wpi.first.networktables.NetworkTableEntry;
 
 import edu.wpi.first.wpilibj.Spark;
 
@@ -16,13 +15,7 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
     }
 
     public void runSubsystem() {
-        // if(autoAlignButton){
-        //      subsystemMode = TurntableMode.AUTO_ALIGN;
-        // }
-
-        if(subsystemMode.equals(TurntableMode.AUTO_ALIGN)){
-            Vision.autoAlign();
-
+        if(Vision.visionRunning){
             // waits for auto align to end before proceeding
             while(Vision.visionRunning){
                 try{
@@ -36,17 +29,8 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
         }
 
         TurntableTask.TurntableOrder turntableOrder = subsystemMode.callLoop();
-        // System.out.println(turntableOrder.power);
+
         turntableMotor.set(turntableOrder.power);
-
-        // if (xbox.getAxisGreaterThan(XboxController.AXIS_LEFTTRIGGER, 0.1)) {
-        // turntableMotor.set(0.3);
-        // } else if (xbox.getAxisGreaterThan(XboxController.AXIS_RIGHTTRIGGER, 0.1)) {
-        // turntableMotor.set(-0.3);
-        // } else {
-        // turntableMotor.set(0.0);
-        // }
-
     }
 
 }

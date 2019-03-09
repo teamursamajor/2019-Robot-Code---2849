@@ -28,6 +28,8 @@ public interface UrsaRobot {
 	public static final int HATCH = 4;
 	public static final int TURNTABLE = 3;
 
+	public static final int HATCH_SERVO = 7;
+
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
 
@@ -43,15 +45,11 @@ public interface UrsaRobot {
 	public static final int CLIMB_POT_CHANNEL = 0;
 
 	public static final int BUMPER_SWITCH_CHANNEL = 6;
-	public static final int HATCH_SERVO = 7;
 
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 	public static Encoder climbEncoder = new Encoder(CLIMB_ENCODER_CHANNEL_A, CLIMB_ENCODER_CHANNEL_B);
-
-	// TODO do we need this?
-	NetworkTable leftEncoderTable = NetworkTableInstance.getDefault().getTable("encoder");
 
 	// Tells encoder the value of each tick. Must be set in the corresponding file
 	public static final double INCHES_PER_TICK = 0.011505d;
@@ -69,9 +67,6 @@ public interface UrsaRobot {
 	// Cargo Voltages
 	public static final double cargoGroundVoltage = 17.1, cargoBayVoltage = 19.4;
 	public static final double cargoLowRocketVoltage = 18.4, cargoStartVoltage = 21.8;
-
-	// Turntable Voltages
-	public static final double forwardVoltage = 0, leftVoltage = 0, rightVoltage = 0;
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second

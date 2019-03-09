@@ -67,23 +67,45 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    try {
-      // writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
-    } catch (Exception e) {
-      System.out.println("COULD NOT CREATE FILE WRITER");
-    }
 
+    // try {
+    // writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
+    // } catch (Exception e) {
+    // System.out.println("COULD NOT CREATE FILE WRITER");
+    // }
+
+    // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
     CameraServer.getInstance().startAutomaticCapture();
 
     drive = new Drive();
     drive.initialize("driveThread");
-    // turntable = new Turntable();
-    // turntable.initialize("turntableThread");
-    // hatch = new Hatch();
-    // hatch.initialize("hatchThread");
-    climb = new Climb();
     cargo = new Cargo();
     cargo.initialize("cargoThread");
+
+    if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
+      turntable = new Turntable();
+      turntable.initialize("turntableThread");
+
+      hatch = new Hatch();
+      hatch.initialize("hatchThread");
+
+      // auto align
+    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
+      climb = new Climb();
+      // manual climb controls
+    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
+      turntable = new Turntable();
+      turntable.initialize("turntableThread");
+
+      hatch = new Hatch();
+      hatch.initialize("hatchThread");
+
+      // auto align
+
+      climb = new Climb();
+    } else {
+      climb = new Climb();
+    }
 
     // I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
 
@@ -114,28 +136,29 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() >= currentTime + 500)) {
-      // System.out.println(
-      // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
-      // Blue: " + colorSensor.getBlue());
-      // currentTime = System.currentTimeMillis();
-      // NetworkTable leftEncoder
+    // System.out.println(
+    // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
+    // Blue: " + colorSensor.getBlue());
+    // currentTime = System.currentTimeMillis();
+    // NetworkTable leftEncoder
     // }
+
     // str += time elapsed
-    String str = drive.getHeading() + "\n";
-    str += drive.getLeftEncoder() + "\n";
-    str += drive.getRightEncoder() + "";
-    try {
-      // writer.write(str);
-    } catch (Exception e) {
-      System.out.println("COULD NOT WRITE TO FILE");
-    }
+    // String str = drive.getHeading() + "\n";
+    // str += drive.getLeftEncoder() + "\n";
+    // str += drive.getRightEncoder() + "";
+    // try {
+    // writer.write(str);
+    // } catch (Exception e) {
+    // System.out.println("COULD NOT WRITE TO FILE");
+    // }
 
   }
 
   /*
-   * This autonomous (along with the chooser
-   * code above) shows how to select between different autonomous modes using the
-   * dashboard. The sendable chooser code works with the Java SmartDashboard.
+   * This autonomous (along with the chooser code above) shows how to select
+   * between different autonomous modes using the dashboard. The sendable chooser
+   * code works with the Java SmartDashboard.
    *
    * You can add additional auto modes by adding additional comparisons to the
    * switch structure below with additional strings. If using the SendableChooser
@@ -144,17 +167,17 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void autonomousInit() {
     Logger.log("Started Autonomous mode", LogLevel.INFO);
-    robotMode = "Autonomous";
-    speed = 0.45;
-    m_autoSelected = m_chooser.getSelected();
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
-    Task task = autoCompiler.buildAutoMode(m_autoSelected);
-    task.start();
-    System.out.println(task.toString());
-    System.out.println("Auto selected: " + m_autoSelected);
-    Logger.log("Current Auto Mode: " + m_autoSelected, LogLevel.INFO);
-    Logger.setLevel(debugSelect.getLevel());
+    // robotMode = "Autonomous";
+    // speed = 0.45;
+    // m_autoSelected = m_chooser.getSelected();
+    // // autoSelected = SmartDashboard.getString("Auto Selector",
+    // // defaultAuto);
+    // Task task = autoCompiler.buildAutoMode(m_autoSelected);
+    // task.start();
+    // System.out.println(task.toString());
+    // System.out.println("Auto selected: " + m_autoSelected);
+    // Logger.log("Current Auto Mode: " + m_autoSelected, LogLevel.INFO);
+    // Logger.setLevel(debugSelect.getLevel());
   }
 
   private double speed = 0.45;
@@ -203,65 +226,77 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopPeriodic() {
     System.out.println("Cargo Voltage: " + Cargo.cargoPot.get());
 
-    if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1) || xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)){
+    // determines if cargo is being moved manually or automatically
+    if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)
+        || xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
       Cargo.automating = false;
     } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
         || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
       Cargo.automating = true;
     }
 
-    if(xbox.getPOV() == XboxController.POV_UP){
-      climb.setFrontMotor(Constants.climbPower);
-      // System.out.println(climbEncoder.getDistance());
-    } else if(xbox.getPOV() == XboxController.POV_DOWN){
-      climb.setFrontMotor(-Constants.climbPower);
-      // System.out.println(climbEncoder.getDistance());
-    } else if(xbox.getPOV() == XboxController.POV_LEFT){
-      climb.setBackMotor(Constants.climbPower);
-      System.out.println(Climb.climbPot.get());
-    } else if(xbox.getPOV() == XboxController.POV_RIGHT){
-      climb.setBackMotor(-Constants.climbPower);
-      System.out.println(Climb.climbPot.get());
+    if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
+      // run and cancel auto align
+      if (xbox.getButton(controls.map.get("auto_align"))) {
+        Vision.autoAlign();
+      } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
+        Vision.visionStop = true;
+      }
+
+    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
+
+      // run and kill auto climb
+      if (xbox.getButton(controls.map.get("climb_start"))) {
+        climb.climbInit();
+      } else if (xbox.getButton(controls.map.get("climb_stop"))) {
+        climb.cancelClimb();
+      }
+
+      boolean climbPressed = false;
+      // custom climb controls
+      if (xbox.getPOV() == controls.map.get("climb_arm_up") && !climb.isClimbing()) { // front arm up
+        climb.setFrontMotor(Constants.climbPower);
+        climbPressed = true;
+        System.out.println(climbEncoder.getDistance());
+      } else if (xbox.getPOV() == controls.map.get("climb_arm_down") && !climb.isClimbing()) { // front arm down
+        climb.setFrontMotor(-Constants.climbPower);
+        climbPressed = true;
+        System.out.println(climbEncoder.getDistance());
+      } else if (xbox.getPOV() == controls.map.get("cam_up") && !climb.isClimbing()) { // TODO double check CAM up
+        climb.setBackMotor(-Constants.climbPower);
+        climbPressed = true;
+        System.out.println(Climb.climbPot.get());
+      } else if (xbox.getPOV() == controls.map.get("cam_down") && !climb.isClimbing()) { // TODO double check CAM down
+        climb.setBackMotor(Constants.climbPower);
+        climbPressed = true;
+        System.out.println(Climb.climbPot.get());
+      } else if (!climbPressed && !climb.isClimbing()) {
+        climb.stopMotors();
+      }
+
+    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
+      // NO MANUAL CLIMB
+      // run and cancel auto align
+      if (xbox.getPOV() == controls.map.get("auto_align")) {
+        Vision.autoAlign();
+      } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
+        Vision.visionStop = true;
+      }
+
+      // run and kill auto climb
+      if (xbox.getButton(controls.map.get("climb_start"))) {
+        climb.climbInit();
+      } else if (xbox.getButton(controls.map.get("climb_stop"))) {
+        climb.cancelClimb();
+      }
+
     } else {
-      climb.stopMotors();
+      // defaults to allowing user to cancel auto align and climb stop with BACK
+      if (xbox.getButton(XboxController.BUTTON_BACK)) {
+        Vision.visionStop = true;
+        climb.cancelClimb();
+      }
     }
-
-    // TODO  uncomment for the final robot
-    // if (xbox.getButton(controls.map.get("climb_start"))) {
-    //   climb.climbInit();
-    // } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-    //   climb.cancelClimb();
-    // }
-
-    // if(xbox.getPOV() == XboxController.POV_LEFT){
-    //    Vision.autoAlign();
-    // } else if(xbox.getPOV() == XboxController.POV_RIGHT){
-    //    Vision.visionStop = true;
-      // }
-
-    // climbPressed = false;
-    // boolean climbPressed = false;
-    // // POV Up is start all climbing
-    // if (xbox.getPOV() == XboxController.POV_UP && !climb.isClimbing()) {
-    // climb.climbInit();
-    // }
-    // // POV Down is cancel climb
-    // else if (xbox.getPOV() == XboxController.POV_DOWN) {
-    // climb.cancelClimb();
-    // }
-    // // POV Left is to retract the front motor
-    // if (xbox.getPOV() == XboxController.POV_LEFT && !climb.isClimbing()) {
-    // climb.setFrontMotor(Constants.climbPower);
-    // climbPressed = true;
-    // }
-    // // POV Right is to retract the back motor / cam
-    // if (xbox.getPOV() == XboxController.POV_RIGHT && !climb.isClimbing()) {
-    // climb.setBackMotor(-Constants.climbPower);
-    // climbPressed = true;
-    // }
-    // if (!climbPressed && !climb.isClimbing()) {
-    // climb.stopMotors();
-    // }
 
   }
 
@@ -282,14 +317,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    // NetworkTableEntry tcorny = limelightTable.getEntry("tcorny");
-    // NetworkTableEntry tcornx = limelightTable.getEntry("tcornx");
-    // double[] cornerY = tcorny.getDoubleArray(new double[4]);
-    // double[] cornerX = tcornx.getDoubleArray(new double[4]);
-    // System.out.println("Y: " + cornerY[0] + " " + cornerY[1] + " " + cornerY[2] + " " + cornerY[3]);
-    // System.out.println("X: " + cornerX[0] + " " + cornerX[1] + " " + cornerX[2] + " " + cornerX[3]);
-    // System.out.println(cornerY.length);
-    
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
     // System.out.println(
