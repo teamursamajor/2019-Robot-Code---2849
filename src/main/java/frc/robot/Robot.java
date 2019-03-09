@@ -201,7 +201,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    System.out.println("Cargo Voltage: " + Cargo.cargoPot.get());
+    // System.out.println("Cargo Voltage: " + Cargo.cargoPot.get());
 
     if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1) || xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)){
       Cargo.automating = false;

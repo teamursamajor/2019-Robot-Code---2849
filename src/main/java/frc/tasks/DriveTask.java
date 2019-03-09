@@ -243,7 +243,7 @@ public class DriveTask extends Task implements UrsaRobot {
             // TODO test using squared axis and see how it feels. Might be better for small
             // movements
             double leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
-            double rightStickX = xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
+            double rightStickX = -xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
             // double leftStickY = xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y) * (0.75);
             // double rightStickX = -xbox.getAxis(XboxController.AXIS_RIGHTSTICK_X) * (0.75);
             double leftSpeed = leftStickY + rightStickX;

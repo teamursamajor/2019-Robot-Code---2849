@@ -1,9 +1,20 @@
 package frc.tasks;
 import frc.robot.*;
+import java.util.Map;
+import java.util.HashMap;
 
 public class CargoTask extends Task implements UrsaRobot{
 	public enum CargoMode {
         GROUND, CARGOBAY, LOWROCKET, CLIMB;
+
+        // private interface angles {
+        //     double GROUND_ANGLE = 0.0; //0deg = 0% of pot range
+        //     double CARGO_BAY_ANGLE = 0.0;//FIND
+        //     double LOW_ROCKET_ANGLE = 0.0;
+        //     double CLIMB_ANGLE = 0.0;
+        // }
+
+        
 
         public CargoMode getNext(){
             return this.ordinal() < CargoMode.values().length - 1
@@ -33,14 +44,20 @@ public class CargoTask extends Task implements UrsaRobot{
         }
 
        private CargoOrder moveToAngle(double desiredVoltage) {
-            double voltageTolerance = 5.0;
+            double voltageTolerance = 0.25;
 
-            if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
+            // if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
+            //     running = false;
+            //     return new CargoOrder(Cargo.getHoldPower());
+            // }
+
+            if(CargoState.cargoVoltage - desiredVoltage == 0){
                 running = false;
                 return new CargoOrder(Cargo.getHoldPower());
             }
+
             //TODO Add derivative term to PD loop
-            double kpCargo = 1.0 / 100.0;
+            double kpCargo = 1.0 / 10.0;
             double kdCargo = 0;
 			double cargoMinimumPower = 0.15;
 
@@ -54,9 +71,9 @@ public class CargoTask extends Task implements UrsaRobot{
             //     return new CargoOrder(Cargo.getHoldPower());
             // }
 
-			// if (Math.abs(cargoPower) < cargoMinimumPower) {
-			// 	cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
-			// }
+			if (Math.abs(cargoPower) < cargoMinimumPower) {
+				cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
+			}
             
 			return new CargoOrder(-cargoPower);
        }
@@ -100,4 +117,8 @@ public class CargoTask extends Task implements UrsaRobot{
             }
         }
     }
+
+    
+
+
 }

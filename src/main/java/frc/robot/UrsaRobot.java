@@ -64,8 +64,8 @@ public interface UrsaRobot {
 	public static final double robotRadius = 15;
 
 	// Cargo Voltages
-	public static final double cargoGroundVoltage = 17.1, cargoBayVoltage = 19.4;
-	public static final double cargoLowRocketVoltage = 18.4, cargoStartVoltage = 21.8;
+	public static final double cargoGroundVoltage = 16.8, cargoBayVoltage = 21.8;
+	public static final double cargoLowRocketVoltage = 19.5, cargoStartVoltage = 24.8;
 
 	// Turntable Voltages
 	public static final double forwardVoltage = 0, leftVoltage = 0, rightVoltage = 0;
@@ -76,7 +76,7 @@ public interface UrsaRobot {
 
 	// Nav-X
 	AHRS ahrs = new AHRS(SPI.Port.kMXP);
-
+	
 	// Limelight
 	NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
