@@ -69,12 +69,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     // try {
-    // writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
+    // writer =  new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
     // } catch (Exception e) {
     // System.out.println("COULD NOT CREATE FILE WRITER");
     // }
 
     // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
+    // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
     CameraServer.getInstance().startAutomaticCapture();
 
     drive = new Drive();
@@ -167,6 +168,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void autonomousInit() {
     Logger.log("Started Autonomous mode", LogLevel.INFO);
+    Cargo.cargoStartVoltage = Cargo.cargoPot.get();
+    // Hatch.hatchServo.setAngle(Hatch.hatchServo.getAngle() - );
     // robotMode = "Autonomous";
     // speed = 0.45;
     // m_autoSelected = m_chooser.getSelected();
@@ -187,6 +190,13 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)
+        || xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
+      Cargo.automating = false;
+    } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
+        || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
+      Cargo.automating = true;
+    }
     // drive.setPower(speed);
     // if (colorSensor.getRed() >= 200) {
     // speed = 0.0;
@@ -214,6 +224,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopInit() {
+    // Cargo.cargoStartVoltage = Cargo.cargoPot.get();
     Logger.log("Started Teleop mode", LogLevel.INFO);
     robotMode = "Teleop";
     Logger.setLevel(debugSelect.getLevel());
@@ -238,8 +249,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
       // run and cancel auto align
       if (xbox.getButton(controls.map.get("auto_align"))) {
+        System.out.println("Auto align!");
         Vision.autoAlign();
       } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
+        System.out.println("Canceling auto align :(");
         Vision.visionStop = true;
       }
 

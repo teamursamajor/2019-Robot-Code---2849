@@ -32,7 +32,7 @@ public class TurntableTask extends Task implements UrsaRobot {
                     || ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
                 if (xbox.getDPad(controls.map.get("turntable_left"))) {
                     return new TurntableOrder(Constants.turntablePower);
-                } else if (xbox.getDPad(controls.map.get("turntable)right"))) {
+                } else if (xbox.getDPad(controls.map.get("turntable_right"))) {
                     return new TurntableOrder(-Constants.turntablePower);
                 }
             }
