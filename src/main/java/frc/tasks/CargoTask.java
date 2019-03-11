@@ -46,24 +46,23 @@ public class CargoTask extends Task implements UrsaRobot{
        private CargoOrder moveToAngle(double desiredVoltage) {
             double voltageTolerance = 0.25;
 
-            // if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
-            //     running = false;
-            //     return new CargoOrder(Cargo.getHoldPower());
-            // }
+            // System.out.println("desired volt: " + desiredVoltage);
 
-            if(CargoState.cargoVoltage - desiredVoltage == 0){
+            if(Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;
+                // System.out.println("running is false");
                 return new CargoOrder(Cargo.getHoldPower());
             }
 
             //TODO Add derivative term to PD loop
-            // double kpCargo = 1.0 / 100.0;
-            double kpCargo = 1.0 / 25.0; // try this and go from there. My math says it should be about .45 but I don't trust it
-            double kdCargo = 0;
-			double cargoMinimumPower = 0.15;
+            double kpCargo = 1.0 / 30.0; // try this and go from there. My math says it should be about .45 but I don't trust it
+            // double kdCargo = 1.0 / 50.0;
+            double cargoDownMinimumPower = 0.15;
+            double cargoDownMaxPower = .2;
+            double cargoUpMinimumPower = 0.5;
 
             // Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
-            System.out.println("Cargo Velocity: " + CargoState.cargoVelocity);
+            // System.out.println("Cargo Velocity: " + CargoState.cargoVelocity);
 			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage); // + kdCargo * CargoState.cargoVelocity;
             
             // if(cargoPower <= 0.1){
@@ -71,12 +70,18 @@ public class CargoTask extends Task implements UrsaRobot{
             //     return new CargoOrder(Cargo.getHoldPower());
             // }
 
-			if (Math.abs(cargoPower) < cargoMinimumPower) {
+            if (cargoPower < 0 && Math.abs(cargoPower) < cargoUpMinimumPower) { // going up
                 System.out.println("PID Power too weak, using cargoMinimumPower");
-				cargoPower = Math.signum(cargoPower) * cargoMinimumPower;
-			}
+				cargoPower = Math.signum(cargoPower) * cargoUpMinimumPower;
+            } else if (cargoPower > 0 && Math.abs(cargoPower) < cargoDownMinimumPower){
+                cargoPower = Math.signum(cargoPower) * cargoDownMinimumPower;
+            }
+            if(cargoPower > 0 && Math.abs(cargoPower) > cargoDownMaxPower){
+                cargoPower = cargoDownMaxPower;
+            }
             
-			return new CargoOrder(-cargoPower); // returns negative because negative goes up, pos goes down
+            System.out.println("Cargo Power: " + cargoPower);
+			return new CargoOrder(cargoPower); // returns negative because negative goes up, pos goes down
        }
     }
 

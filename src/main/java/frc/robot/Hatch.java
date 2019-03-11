@@ -9,7 +9,7 @@ import frc.tasks.HatchTask.HatchMode;
 public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     private Spark hatchMotor;
-    private Servo hatchServo;
+    public static Servo hatchServo;
     private DigitalInput bumperReleased; // Released returns true
     private boolean servoUp = true;
     private long runTime = 600; // how long the wheel spins
