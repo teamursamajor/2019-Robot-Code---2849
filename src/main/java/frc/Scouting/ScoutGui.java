@@ -45,7 +45,7 @@ public class ScoutGui {
 			"Bottom Right", "Bottom Middle", "Bottom Left", "Top Right", "Top Left"
 		};
 		String[] TEXT_F = {
-			"Auto", "Tele-operated", "Mixed        ", "N/A (unknown)"-	, "None       "
+			"Auto", "Tele-operated", "Mixed        ", "N/A (unknown)" , "None       "
 		};
 	}
 	
