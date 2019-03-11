@@ -6,6 +6,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "CodeLens (Launch) - ScoutGui",
+      "request": "launch",
+      "mainClass": "frc.Scouting.ScoutGui",
+      "projectName": "2019-Robot-Code---2849"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - ScoutGui",
+      "request": "launch",
+      "mainClass": "ScoutGui",
+      "projectName": "2019-Robot-Code---2849"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - Gui",
+      "request": "launch",
+      "mainClass": "Gui",
+      "projectName": "2019-Robot-Code---2849"
+    },
+    {
+      "type": "java",
       "name": "CodeLens (Launch) - Gui",
       "request": "launch",
       "mainClass": "frc.minimap.Gui",

@@ -18,8 +18,7 @@ import javax.swing.border.EtchedBorder;
 
 //import minimap.Path.*;
 
-//NAVX returns an accumulative value 0-360 360-720 use val from drive
-
+ 
 public class Gui {
 
 	static Border blackLine = BorderFactory.createLineBorder(Color.BLACK);
@@ -31,7 +30,7 @@ public class Gui {
 	
 	public static void main(String[] args) throws IOException {
 //		BufferedImage fieldImage = ImageIO.read(new File(System.getProperty("user.dir") + "/../2019 Field.jpg"));
-		BufferedImage fieldImage = ImageIO.read(new File("C:/Users/Ursa Major/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
+		BufferedImage fieldImage = ImageIO.read(new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
 		testBot = new TestBot();
 		map = new MapPanel(fieldImage, testBot);
 		compass = new Compass(75, testBot);
@@ -40,7 +39,7 @@ public class Gui {
 
 		JFrame frame = new JFrame("2019 Mini Map");
 		frame.setSize(1000, 1000);
-		File ursaMajorBearIcon = new File("C:/Users/Ursa Major/git/2019-Robot-Code---2849/src/main/java/frc/minimap/Icon.png");
+		File ursaMajorBearIcon = new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/Icon.png");
         frame.setIconImage(new ImageIcon(ursaMajorBearIcon.toString()).getImage());
 		frame.setLayout(null);
 		setMenu(frame);
