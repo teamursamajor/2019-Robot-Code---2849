@@ -3,85 +3,65 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
-//<p><b>TESTED</b></p> = tested but not finished
-//<p><b>UN-TESTED</b></p> = latest change not finished
-//<p><b>FINISHED</b></p> = finished and working
-//<p><b>NOT WRITTEN</b></p> = need to write
-//<p><b>FINISHED</b></p> = finished and working 100% optimally
-//<p><b>NOT OPTIMIZED</b></p> = finished but not working 100% optimally
+
 public class ScrewClimb implements UrsaRobot {
-    /**
-     * The value that the ultrasonic sensor should be in the range of WHILE climbing
-     * (in inches)
-     */
-    private double wallDist = 2.0;
 
-    /**
-     * This interface contains the motors/sensors used for climb <b>TODO - CHANGE
-     * SPARK VALUES FOR WHATEVER WE CALL THEM IN URSA ROBOT</b>
-     */
-    private interface ClimbMechanism {
-        // Sparks
-        Spark platformWheel = new Spark(CLIMB_FRONT);// This wheel is on the platform - drives the screws
-        Spark screwSpark = new Spark(CLIMB_BACK);
+    private Spark frameWheel, leadscrew;
+    private double distanceTolerance = 2.0; // max distance before the sensor tells the leadscrews to stop
+    private double leadscrewSpeed = 0.5;
+    private double frameWheelSpeed = 0.5;
+    private boolean leadscrewsUp = false;
+    private Ultrasonic distanceSensor;
 
-        // Sensors
-        // Ultra sonic
+    public ScrewClimb() {
+        frameWheel = new Spark(CLIMB_FRONT);
+        leadscrew = new Spark(CLIMB_BACK);
+
         // https://wpilib.screenstepslive.com/s/currentCS/m/java/l/599715-ultrasonic-sensors-measuring-robot-distance-to-a-surface
-        Ultrasonic sensor = new Ultrasonic(1, 1);// Output, input
-        double noise = 0;// how exact it needs to be
-        // Ohms law voltage = crnt in * resistance
-
+        distanceSensor = new Ultrasonic(1, 1);// Output, input
     }
 
-    /**
-     * <p>
-     * <b>NOT WRITTEN</b>
-     * </p>
-     * Climbs <b>NEED TO TEST; NEED TO WRITE</b>
-     */
-    public void climb() {
-        runSensor(true);
-        while (isClimbing()) {
-            extendPlatform(true);
-        }
-        runSensor(false);
-        // TODO - until we start driving
-        while (true) {
-            extendPlatform(false);
-        }
-    }
+    public void initialize(){
+        Thread t = new Thread("Climb Thread");
+        t.start();
+    }    
 
-    /**
-     * <p>
-     * <b>NOT WRITTEN</b>
-     * </p>
-     * Whether or not we are high enough
-     */
-    private boolean isClimbing() {
-        if (ClimbMechanism.sensor.getRangeInches() < wallDist - ClimbMechanism.noise) {
-            return true;
+
+    public void run(){
+        System.out.println("Distance: " + distanceSensor.getRangeInches());
+        if(xbox.getSingleButtonPress(XboxController.BUTTON_START) && !leadscrewsUp){ // start leadscrews
+            leadscrewsUp = true;
+            while(distanceSensor.getRangeInches() <= distanceTolerance){
+                leadscrew.set(leadscrewSpeed);
+
+                // TODO do we need a sleep here? not sure
+                try {
+                    Thread.sleep(20);
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            // the driver could either wait to see this print or use the camera
+            System.out.println("Leadscrews are up! Drive the frame wheel!");
+
+            leadscrew.set(0.0);
+        }
+
+        if(xbox.getButton(XboxController.BUTTON_BACK)){ // run frame wheel
+            frameWheel.set(frameWheelSpeed);
+        } 
+
+        if(xbox.getButton(XboxController.BUTTON_BACK) && leadscrewsUp) { // brings leadscrews up while the button is pressed
+            leadscrew.set(-leadscrewSpeed);
         } else {
-            return false;
+            leadscrew.set(0.0);
         }
-    }
 
-    /**
-     * moves the platform down/up; true = down
-     */
-    private void extendPlatform(boolean down) {
-        System.out.println(ClimbMechanism.sensor.getRangeInches());
-        if (down) {
-            System.out.println("Down");
-            ClimbMechanism.screwSpark.set(1);
-        } else {
-            System.out.println("Up");
-            ClimbMechanism.screwSpark.set(-1);
+        try {
+            Thread.sleep(20);
+        } catch(Exception e){
+            e.printStackTrace();
         }
-    }
-
-    // TODO - add timer just in case
-    private void runSensor(boolean on) {
-        ClimbMechanism.sensor.setAutomaticMode(true);
     }
 }

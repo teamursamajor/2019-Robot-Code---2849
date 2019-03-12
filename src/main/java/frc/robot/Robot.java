@@ -246,6 +246,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       Cargo.automating = true;
     }
 
+    // TODO clean this whole thing up once climb/hatch is more finalized
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
       // run and cancel auto align
       if (xbox.getButton(controls.map.get("auto_align"))) {
@@ -260,32 +261,32 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
       // run and kill auto climb
       if (xbox.getButton(controls.map.get("climb_start"))) {
-        climb.climbInit();
+        //climb.climbInit();
       } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-        climb.cancelClimb();
+        //climb.cancelClimb();
       }
 
       boolean climbPressed = false;
       // custom climb controls
-      if (xbox.getPOV() == controls.map.get("climb_arm_up") && !climb.isClimbing()) { // front arm up
-        climb.setFrontMotor(Constants.climbPower);
-        climbPressed = true;
-        System.out.println(climbEncoder.getDistance());
-      } else if (xbox.getPOV() == controls.map.get("climb_arm_down") && !climb.isClimbing()) { // front arm down
-        climb.setFrontMotor(-Constants.climbPower);
-        climbPressed = true;
-        System.out.println(climbEncoder.getDistance());
-      } else if (xbox.getPOV() == controls.map.get("cam_up") && !climb.isClimbing()) { // TODO double check CAM up
-        climb.setBackMotor(-Constants.climbPower);
-        climbPressed = true;
-        System.out.println(Climb.climbPot.get());
-      } else if (xbox.getPOV() == controls.map.get("cam_down") && !climb.isClimbing()) { // TODO double check CAM down
-        climb.setBackMotor(Constants.climbPower);
-        climbPressed = true;
-        System.out.println(Climb.climbPot.get());
-      } else if (!climbPressed && !climb.isClimbing()) {
-        climb.stopMotors();
-      }
+      // if (xbox.getPOV() == controls.map.get("climb_arm_up") && !climb.isClimbing()) { // front arm up
+      //   climb.setFrontMotor(Constants.climbPower);
+      //   climbPressed = true;
+      //   System.out.println(climbEncoder.getDistance());
+      // } else if (xbox.getPOV() == controls.map.get("climb_arm_down") && !climb.isClimbing()) { // front arm down
+      //   climb.setFrontMotor(-Constants.climbPower);
+      //   climbPressed = true;
+      //   System.out.println(climbEncoder.getDistance());
+      // } else if (xbox.getPOV() == controls.map.get("cam_up") && !climb.isClimbing()) { // TODO double check CAM up
+      //   climb.setBackMotor(-Constants.climbPower);
+      //   climbPressed = true;
+      //   System.out.println(Climb.climbPot.get());
+      // } else if (xbox.getPOV() == controls.map.get("cam_down") && !climb.isClimbing()) { // TODO double check CAM down
+      //   climb.setBackMotor(Constants.climbPower);
+      //   climbPressed = true;
+      //   System.out.println(Climb.climbPot.get());
+      // } else if (!climbPressed && !climb.isClimbing()) {
+      //   climb.stopMotors();
+      // }
 
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
       // NO MANUAL CLIMB
@@ -297,11 +298,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
       }
 
       // run and kill auto climb
-      if (xbox.getButton(controls.map.get("climb_start"))) {
-        climb.climbInit();
-      } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-        climb.cancelClimb();
-      }
+      // if (xbox.getButton(controls.map.get("climb_start"))) {
+      //   climb.climbInit();
+      // } else if (xbox.getButton(controls.map.get("climb_stop"))) {
+      //   climb.cancelClimb();
+      // }
 
     } else {
       // defaults to allowing user to cancel auto align and climb stop with BACK
