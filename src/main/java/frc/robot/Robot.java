@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.FileWriter;
+
 import java.io.File;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -21,6 +22,8 @@ import frc.diagnostics.Logger.LogLevel;
 import frc.tasks.*;
 import edu.wpi.first.networktables.*;
 import frc.robot.UrsaRobot;
+
+import edu.wpi.first.wpilibj.Servo;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -316,6 +319,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private double currentTime;
 
+  // private Servo vexServo = new Servo(7);
+
   /**
    * This function is run when test mode is first started up and should be used
    * for any test initialization code.
@@ -331,6 +336,17 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
+    // System.out.println("Voltage: " + ScrewClimb.distanceSensor.getVoltage() + " Value: " + ScrewClimb.distanceSensor.getValue());
+
+    // if(xbox.getSingleButtonPress(XboxController.BUTTON_A)){
+    //   vexServo.setAngle(0.0);
+    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)){
+    //   vexServo.setAngle(160);
+    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_X)){
+    //   vexServo.setAngle(-160);
+    // }
+    // System.out.println(vexServo.getAngle());
+
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
     // System.out.println(
