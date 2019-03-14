@@ -16,7 +16,6 @@ import java.io.FileWriter;
 import java.io.File;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.I2C;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
 import frc.tasks.*;
@@ -48,7 +47,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   // private FileWriter writer;
 
   private Constants constants;
-  // private ColorSensor colorSensor;
 
   // TODO integrate AutoSelector
   // private AutoSelector autoSelect;
@@ -76,6 +74,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // } catch (Exception e) {
     // System.out.println("COULD NOT CREATE FILE WRITER");
     // }
+
+    // distanceSensor.setEnabled(true);
 
     // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
     // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
@@ -111,12 +111,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
       climb = new Climb();
     }
 
-    // I2C i2c = new I2C(I2C.Port.kMXP, 0x39);
-
     constants = new Constants();
     constants.startConstants();
-
-    // colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
     autoCompiler = new AutoCompiler(drive, cargo);
     // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
@@ -138,6 +134,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void robotPeriodic() {
 
+    // System.out.println(distanceSensor.getRangeInches());
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() >= currentTime + 500)) {
     // System.out.println(

@@ -1,6 +1,8 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
@@ -46,6 +48,8 @@ public interface UrsaRobot {
 
 	public static final int BUMPER_SWITCH_CHANNEL = 6;
 
+	// public static final int ULTRASONIC_CHANNEL = 7;
+
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
@@ -82,6 +86,12 @@ public interface UrsaRobot {
 
 	// Xbox Controller
 	XboxController xbox = new XboxController(0);
+
+	// Color Sensor
+	// ColorSensor colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
+
+	// Distance Sensor
+	// Ultrasonic distanceSensor = new Ultrasonic(7, 8); // TODO figure out what the actual ping and echo channels are
 
 	// Control Map
 	ControlMap controls = new ControlMap();
