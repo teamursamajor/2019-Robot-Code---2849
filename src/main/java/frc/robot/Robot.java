@@ -323,8 +323,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private double currentTime;
 
-  private Servo vexServo = new Servo(7);
-
   /**
    * This function is run when test mode is first started up and should be used
    * for any test initialization code.
@@ -335,6 +333,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     robotMode = "Test";
   }
 
+  private Servo vexServo = new Servo(7);
+
   /**
    * This function is called periodically during test mode.
    */
@@ -343,27 +343,29 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // System.out.println("Voltage: " + ScrewClimb.distanceSensor.getVoltage() + "
     // Value: " + ScrewClimb.distanceSensor.getValue());
 
-    if (xbox.getButton(XboxController.BUTTON_A)) {
-      vexServo.setAngle(160);
-    } else if (xbox.getButton(XboxController.BUTTON_B)) {
-      vexServo.setAngle(-160);
-    } else if (xbox.getButton(XboxController.BUTTON_X)) {
-      vexServo.set(0);
-    } else {
-      vexServo.set(0);
-    }
-    System.out.println(vexServo.getAngle());
+    // if (xbox.getButton(XboxController.BUTTON_A)) {
+    // vexServo.setAngle(160);
+    // } else if (xbox.getButton(XboxController.BUTTON_B)) {
+    // vexServo.setAngle(-160);
+    // } else if (xbox.getButton(XboxController.BUTTON_X)) {
+    // vexServo.set(0);
+    // } else {
+    // vexServo.set(0);
+    // }
+    // System.out.println(vexServo.getAngle());
 
-    /*
-     * if(xbox.getSingleButtonPress(XboxController.BUTTON_A)){
-     * vexServo.setAngle(vexServo.getAngle() + 10); } else if
-     * (xbox.getSingleButtonPress(XboxController.BUTTON_B)){
-     * vexServo.setAngle(vexServo.getAngle() - 10); } else if
-     * (xbox.getSingleButtonPress(XboxController.BUTTON_X)){
-     * System.out.println("button x"); vexServo.setAngle(0.0); } else if
-     * (xbox.getSingleButtonPress(XboxController.BUTTON_Y)){
-     * vexServo.setAngle(180.0); } System.out.println(vexServo.getAngle());
-     */
+    // if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
+    //   vexServo.setAngle(vexServo.getAngle() + 10);
+    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) {
+    //   vexServo.setAngle(vexServo.getAngle() - 10);
+    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_X)) {
+    //   System.out.println("button x");
+    //   vexServo.setAngle(0.0);
+    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
+    //   vexServo.setAngle(180.0);
+    // }
+    // System.out.println(vexServo.getAngle());
+
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
     // System.out.println(
