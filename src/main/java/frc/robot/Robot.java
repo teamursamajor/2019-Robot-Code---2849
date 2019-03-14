@@ -91,7 +91,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       turntable.initialize("turntableThread");
 
       hatch = new Hatch();
-      hatch.initialize("hatchThread");
+      hatch.hatchInit();
 
       // auto align
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
@@ -102,7 +102,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       turntable.initialize("turntableThread");
 
       hatch = new Hatch();
-      hatch.initialize("hatchThread");
+      hatch.hatchInit();
 
       // auto align
 

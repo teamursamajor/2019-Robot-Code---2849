@@ -87,8 +87,7 @@ public class Vision implements UrsaRobot {
             return;
         }
 
-        // run hatch
-        hatch.setMode(HatchMode.RUN);
+        // TODO run hatch
         visionRunning = false;
     }
 
@@ -146,6 +145,7 @@ public class Vision implements UrsaRobot {
     private static void killVision() {
         limelightTable.getEntry("pipeline").setDouble(0);
         Turntable.turntableMotor.set(0.0);
-        Vision.hatch.setMode(HatchMode.WAIT);
+        // TODO fix later
+        // Vision.hatch.setMode(HatchMode.WAIT);
     }
 }
