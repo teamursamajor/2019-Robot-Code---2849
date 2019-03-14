@@ -19,19 +19,19 @@ public class ClawHatch implements UrsaRobot, Runnable {
 
     public void run() {
         while (true) {
-            if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) { // runs hatch and flips servo
-                hatchServo.setAngle(extendAngle);
-            } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) { // flips servo, does not run hatch
-                hatchServo.setAngle(0.0);
-            }
-
-            // if(xbox.getSingleButtonPress(XboxController.BUTTON_A)){
-            // if(hatchOut){
-            // hatchServo.setAngle(0.0);
-            // } else {
+            // if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
             // hatchServo.setAngle(extendAngle);
+            // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) {
+            // hatchServo.setAngle(0.0);
             // }
-            // }
+
+            if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
+                if (hatchOut) {
+                    hatchServo.setAngle(0.0);
+                } else {
+                    hatchServo.setAngle(extendAngle);
+                }
+            }
         }
     }
 }
