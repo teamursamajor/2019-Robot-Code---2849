@@ -1,7 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import frc.tasks.HatchTask.HatchMode;
+// import frc.tasks.HatchTask.HatchMode;
 
 public class Vision implements UrsaRobot {
     public static boolean visionStop;
