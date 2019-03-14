@@ -72,7 +72,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     // try {
-    // writer =  new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
+    // writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
     // } catch (Exception e) {
     // System.out.println("COULD NOT CREATE FILE WRITER");
     // }
@@ -264,31 +264,35 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
       // run and kill auto climb
       if (xbox.getButton(controls.map.get("climb_start"))) {
-        //climb.climbInit();
+        // climb.climbInit();
       } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-        //climb.cancelClimb();
+        // climb.cancelClimb();
       }
 
       boolean climbPressed = false;
       // custom climb controls
-      // if (xbox.getPOV() == controls.map.get("climb_arm_up") && !climb.isClimbing()) { // front arm up
-      //   climb.setFrontMotor(Constants.climbPower);
-      //   climbPressed = true;
-      //   System.out.println(climbEncoder.getDistance());
-      // } else if (xbox.getPOV() == controls.map.get("climb_arm_down") && !climb.isClimbing()) { // front arm down
-      //   climb.setFrontMotor(-Constants.climbPower);
-      //   climbPressed = true;
-      //   System.out.println(climbEncoder.getDistance());
-      // } else if (xbox.getPOV() == controls.map.get("cam_up") && !climb.isClimbing()) { // TODO double check CAM up
-      //   climb.setBackMotor(-Constants.climbPower);
-      //   climbPressed = true;
-      //   System.out.println(Climb.climbPot.get());
-      // } else if (xbox.getPOV() == controls.map.get("cam_down") && !climb.isClimbing()) { // TODO double check CAM down
-      //   climb.setBackMotor(Constants.climbPower);
-      //   climbPressed = true;
-      //   System.out.println(Climb.climbPot.get());
+      // if (xbox.getPOV() == controls.map.get("climb_arm_up") && !climb.isClimbing())
+      // { // front arm up
+      // climb.setFrontMotor(Constants.climbPower);
+      // climbPressed = true;
+      // System.out.println(climbEncoder.getDistance());
+      // } else if (xbox.getPOV() == controls.map.get("climb_arm_down") &&
+      // !climb.isClimbing()) { // front arm down
+      // climb.setFrontMotor(-Constants.climbPower);
+      // climbPressed = true;
+      // System.out.println(climbEncoder.getDistance());
+      // } else if (xbox.getPOV() == controls.map.get("cam_up") &&
+      // !climb.isClimbing()) { // TODO double check CAM up
+      // climb.setBackMotor(-Constants.climbPower);
+      // climbPressed = true;
+      // System.out.println(Climb.climbPot.get());
+      // } else if (xbox.getPOV() == controls.map.get("cam_down") &&
+      // !climb.isClimbing()) { // TODO double check CAM down
+      // climb.setBackMotor(Constants.climbPower);
+      // climbPressed = true;
+      // System.out.println(Climb.climbPot.get());
       // } else if (!climbPressed && !climb.isClimbing()) {
-      //   climb.stopMotors();
+      // climb.stopMotors();
       // }
 
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
@@ -302,9 +306,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
       // run and kill auto climb
       // if (xbox.getButton(controls.map.get("climb_start"))) {
-      //   climb.climbInit();
+      // climb.climbInit();
       // } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-      //   climb.cancelClimb();
+      // climb.cancelClimb();
       // }
 
     } else {
@@ -319,7 +323,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private double currentTime;
 
-  // private Servo vexServo = new Servo(7);
+  private Servo vexServo = new Servo(7);
 
   /**
    * This function is run when test mode is first started up and should be used
@@ -336,17 +340,30 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    // System.out.println("Voltage: " + ScrewClimb.distanceSensor.getVoltage() + " Value: " + ScrewClimb.distanceSensor.getValue());
+    // System.out.println("Voltage: " + ScrewClimb.distanceSensor.getVoltage() + "
+    // Value: " + ScrewClimb.distanceSensor.getValue());
 
-    // if(xbox.getSingleButtonPress(XboxController.BUTTON_A)){
-    //   vexServo.setAngle(0.0);
-    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)){
-    //   vexServo.setAngle(160);
-    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_X)){
-    //   vexServo.setAngle(-160);
-    // }
-    // System.out.println(vexServo.getAngle());
+    if (xbox.getButton(XboxController.BUTTON_A)) {
+      vexServo.setAngle(160);
+    } else if (xbox.getButton(XboxController.BUTTON_B)) {
+      vexServo.setAngle(-160);
+    } else if (xbox.getButton(XboxController.BUTTON_X)) {
+      vexServo.set(0);
+    } else {
+      vexServo.set(0);
+    }
+    System.out.println(vexServo.getAngle());
 
+    /*
+     * if(xbox.getSingleButtonPress(XboxController.BUTTON_A)){
+     * vexServo.setAngle(vexServo.getAngle() + 10); } else if
+     * (xbox.getSingleButtonPress(XboxController.BUTTON_B)){
+     * vexServo.setAngle(vexServo.getAngle() - 10); } else if
+     * (xbox.getSingleButtonPress(XboxController.BUTTON_X)){
+     * System.out.println("button x"); vexServo.setAngle(0.0); } else if
+     * (xbox.getSingleButtonPress(XboxController.BUTTON_Y)){
+     * vexServo.setAngle(180.0); } System.out.println(vexServo.getAngle());
+     */
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
     // System.out.println(
