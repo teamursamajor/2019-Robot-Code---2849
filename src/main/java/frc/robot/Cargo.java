@@ -175,6 +175,6 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     *Returns [max height pot val, min height pot val]
     */
     public static double[] getPotRange(){
-        return {cargoStartVoltage, cargoGroundVoltage};
+        return new double[] {cargoStartVoltage, cargoGroundVoltage};
     }
 }

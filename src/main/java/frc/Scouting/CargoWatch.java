@@ -1,9 +1,9 @@
-package n;
+package frc.Scouting;
 
 public class CargoWatch{
 boolean success;
 boolean mistake;
-removeItem(intn)
+// removeItem(intn)
 
 //TODO - class for robot info + class for this ingo
 
