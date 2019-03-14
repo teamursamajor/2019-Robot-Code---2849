@@ -30,7 +30,7 @@ public interface UrsaRobot {
 	public static final int HATCH = 4;
 	public static final int TURNTABLE = 2;
 
-	public static final int HATCH_SERVO = 3;
+	public static final int HATCH_SERVO = 7;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;

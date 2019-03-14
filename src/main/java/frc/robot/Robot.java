@@ -329,7 +329,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     robotMode = "Test";
   }
 
-  private Servo vexServo = new Servo(7);
+  // private Servo vexServo = new Servo(7);
 
   /**
    * This function is called periodically during test mode.
