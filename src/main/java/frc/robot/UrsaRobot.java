@@ -13,22 +13,24 @@ public interface UrsaRobot {
 	public static boolean isArcadeDrive = true;
 
 	// Spark Ports
-	// 7 unused
+	// 6 unused
 	public static final int DRIVE_FRONT_LEFT = 0;
 	public static final int DRIVE_BACK_LEFT = 0;
 	public static final int DRIVE_FRONT_RIGHT = 9;
 	public static final int DRIVE_BACK_RIGHT = 9;
 
-	public static final int CARGO_INTAKE = 1;
-	public static final int CARGO_LIFT = 6;
+	public static final int CARGO_INTAKE = 2;
+	public static final int CARGO_LIFT = 7;
 	
 	public static final int CLIMB_FRONT = 5;
 	public static final int CLIMB_BACK = 8;
 	
 	public static final int HATCH = 4;
-	public static final int TURNTABLE = 2;
+	public static final int TURNTABLE = 1;
 
 	public static final int HATCH_SERVO = 3;
+
+	public static final int BUMPER_SWITCH_CHANNEL = 6;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
@@ -43,8 +45,6 @@ public interface UrsaRobot {
 
 	public static final int CARGO_POT_CHANNEL = 3;
 	public static final int CLIMB_POT_CHANNEL = 0;
-
-	public static final int BUMPER_SWITCH_CHANNEL = 6;
 
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);

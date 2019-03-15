@@ -1,9 +1,12 @@
 package frc.robot;
 
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.cscore.*;
+import edu.wpi.first.wpilibj.CameraServer;
 import frc.tasks.HatchTask.HatchMode;
 
-public class Vision implements UrsaRobot {
+public class Vision implements UrsaRobot, Runnable {
     public static boolean visionStop;
     public static boolean visionRunning;
     public static boolean turning = false;
@@ -13,8 +16,26 @@ public class Vision implements UrsaRobot {
 
     public static Hatch hatch;
 
+    private CvSink cvSink;
+    private CvSource cvSource;
+    private UsbCamera cargoCam;
+
     public enum VisionDirection {
         LEFT, RIGHT;
+    }
+
+    public void Vision(){
+        cargoCam = new UsbCamera("Cargo Camera", 0);
+        
+    }
+
+    public void visionStart(){
+        Thread t = new Thread(this, "Vision Thread");
+        t.start();
+    }
+
+    public void run(){
+
     }
 
     public static void autoAlign() {

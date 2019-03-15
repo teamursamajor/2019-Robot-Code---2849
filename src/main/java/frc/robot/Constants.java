@@ -32,9 +32,9 @@ public class Constants implements Runnable {
         SmartDashboard.putNumber("Climb Power", climbPower);
         turntablePower = 0.3;
         SmartDashboard.putNumber("Turntable Power", turntablePower);
-       test.setSize(500,500);
-        test.setVisible(true);
-        
+
+        test.setSize(500,500);
+        test.setVisible(true);        
         
         startConstants();
     }

@@ -48,7 +48,8 @@ public class ControlMap {
             map.put("turntable_right", XboxController.POV_RIGHT);
 
             // Auto Align
-            map.put("auto_align", XboxController.BUTTON_START);
+            // map.put("auto_align", XboxController.BUTTON_START);
+            map.put("reset_head", XboxController.BUTTON_START);
             map.put("cancel_auto_align", XboxController.BUTTON_BACK);
             break;
         case CARGO_CLIMB:

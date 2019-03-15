@@ -11,6 +11,9 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	public static Spark mRearLeft;
 	public static Spark mRearRight;
 
+	public static boolean cargoIsFront = true;
+
+
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
 	 * any time.

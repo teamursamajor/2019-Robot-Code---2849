@@ -238,6 +238,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    if(xbox.getSingleButtonPress(controls.map.get("reset_head"))){
+      Drive.cargoIsFront = !Drive.cargoIsFront;
+    }
     // System.out.println("Cargo Voltage: " + Cargo.cargoPot.get());
 
     // determines if cargo is being moved manually or automatically
