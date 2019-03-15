@@ -270,6 +270,11 @@ public class DriveTask extends Task implements UrsaRobot {
                 leftSpeed = xbox.getAxis(XboxController.AXIS_LEFTSTICK_Y) * (0.75);
                 rightSpeed = -xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y) * (0.75);
             }
+            // TODO untested
+            if(!Drive.cargoIsFront){
+                leftSpeed *= -1.0;
+                rightSpeed *= -1.0;
+            }
             return new DriveOrder(leftSpeed, rightSpeed);
         }
 

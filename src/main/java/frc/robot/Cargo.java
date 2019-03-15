@@ -10,8 +10,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     public static double cargoGroundVoltage, cargoLowRocketVoltage, cargoBayVoltage, cargoStartVoltage;
 
-    private Spark cargoIntake;
-    private Spark cargoLift;
+    private Spark cargoIntake, cargoLift;
     public static Potentiometer cargoPot;
     private long time;
 
@@ -40,7 +39,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         updateStateInfo();
         // automated cargo code
         // System.out.println(automating);
-        System.out.println(cargoPot.get());
+        // System.out.println(cargoPot.get());
         if (automating) {
             // if(xbox.getButton(XboxController.BUTTON_X)){
             //     subsystemMode = CargoMode.GROUND;
@@ -170,5 +169,12 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         } else {
             return 0.0;
         }
+    }
+    
+    /**
+    *Returns [max height pot val, min height pot val]
+    */
+    public static double[] getPotRange(){
+        return new double[] {cargoStartVoltage, cargoGroundVoltage};
     }
 }

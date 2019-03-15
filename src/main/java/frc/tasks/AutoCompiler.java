@@ -12,7 +12,6 @@ import java.util.ArrayList;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
-import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.TurntableTask.TurntableMode;
 import frc.robot.*;
 
@@ -128,34 +127,31 @@ public class AutoCompiler {
 		}
 	}
 
+	// TODO reevaluate
 	/**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 902a72ff9277f9f60a7432fc57328506c5561cfd
 	 * A token that moves the hatch arm to a preset position
 	 * 
 	 * @param position Position to move the hatch arm to
 	 */
-	class HatchToken implements Token {
-		private HatchMode hatchMode;
+	// class HatchToken implements Token {
+	// 	private HatchMode hatchMode;
 
-		public HatchToken(String position) {
-			position = position.replace(" ", "");
+	// 	public HatchToken(String position) {
+	// 		position = position.replace(" ", "");
 
-			if (position.equalsIgnoreCase("RUN")) {
-				hatchMode = HatchMode.RUN; 
-			} else if (position.equalsIgnoreCase("FLIP")) {
-				hatchMode = HatchMode.FLIP;
-			} else {
-				hatchMode = HatchMode.WAIT;
-			}
-		}
+	// 		if (position.equalsIgnoreCase("RUN")) {
+	// 			hatchMode = HatchMode.RUN; 
+	// 		} else if (position.equalsIgnoreCase("FLIP")) {
+	// 			hatchMode = HatchMode.FLIP;
+	// 		} else {
+	// 			hatchMode = HatchMode.WAIT;
+	// 		}
+	// 	}
 
-		public HatchTask makeTask() {
-			return new HatchTask(hatchMode, hatch);
-		}
-	}
+	// 	public HatchTask makeTask() {
+	// 		return new HatchTask(hatchMode, hatch);
+	// 	}
+	// }
 
 	/**
 	 * A token that moves the turntable to a given direction
@@ -363,9 +359,9 @@ public class AutoCompiler {
 			} else if (line.contains("turn")) {
 				String current = line.substring(line.indexOf("align") + "turn".length()); // TurntableTask angle
 				tokenList.add(new TurnToken(current));
-			} else if (line.contains("hatch")) {
-				String current = line.substring(line.indexOf("hatch") + "hatch".length()); // Hatch mode
-				tokenList.add(new HatchToken(current));
+			// } else if (line.contains("hatch")) {
+			// 	String current = line.substring(line.indexOf("hatch") + "hatch".length()); // Hatch mode
+			// 	tokenList.add(new HatchToken(current));
 			} else if (line.contains("cargo")) {
 				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
 				tokenList.add(new CargoToken(current));
@@ -416,8 +412,8 @@ public class AutoCompiler {
 				taskSet.addTask(((PathToken) t).makeTask());
 			} else if (t instanceof CargoToken) {
 				taskSet.addTask(((CargoToken) t).makeTask());
-			} else if (t instanceof HatchToken) {
-				taskSet.addTask(((HatchToken) t).makeTask());
+			// } else if (t instanceof HatchToken) {
+			// 	taskSet.addTask(((HatchToken) t).makeTask());
 			} else if (t instanceof TurntableToken) {
 				taskSet.addTask(((TurntableToken) t).makeTask());
 			} else if (t instanceof BundleToken) {

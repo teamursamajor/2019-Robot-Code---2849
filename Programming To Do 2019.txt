@@ -1,15 +1,14 @@
-Get Cargo Voltage values
+Test distance sensor
+Test and finalize climber
+New Hatch code
+Potentional Hatch automation/limelightQ
+Clean up/update teleopPeriodic() and control map code to reflect robot
+Mount second drive encoder
 
-
-
-New Design: Cargo and Climb
 
 Finish Auto Selector and test it
 Write auto files/draw paths
 Automate cargo using encoders or color sensor
-
-Write auto code using the scripting language that will use auto align to drop off
-	Test that if possible
 
 Color Sensor:
 	Where should we mount them? One in the center of the robot could be used to automate cargo drop off maybe
