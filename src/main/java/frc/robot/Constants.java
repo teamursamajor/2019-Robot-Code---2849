@@ -1,7 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import javax.swing.*;
+// import javax.swing.*;
+// import frc.minimap.Gui;
+
 public class Constants implements Runnable {
     // SmartDashboard.putData("Sicko Squirrel Test", new Squirrel());
 
@@ -16,7 +18,7 @@ public class Constants implements Runnable {
     public static double climbPower;
     public static double turntablePower;
     //TODO ... other constants here
-    private static JFrame test = new JFrame("temp");
+    // private static JFrame test = new JFrame("temp");
 
     public Constants() {
         hatchPower = 0.30;
@@ -33,8 +35,12 @@ public class Constants implements Runnable {
         turntablePower = 0.3;
         SmartDashboard.putNumber("Turntable Power", turntablePower);
 
-        test.setSize(500,500);
-        test.setVisible(true);        
+        // test.setSize(500,500);
+        // test.setVisible(true);        
+    //    test.setSize(500,500);
+    //     test.setVisible(true);
+    //     System.out.println("E");
+        // Gui g = new Gui();
         
         startConstants();
     }

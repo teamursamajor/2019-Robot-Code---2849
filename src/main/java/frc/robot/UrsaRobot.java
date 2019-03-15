@@ -1,6 +1,8 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
@@ -28,7 +30,7 @@ public interface UrsaRobot {
 	public static final int HATCH = 4;
 	public static final int TURNTABLE = 1;
 
-	public static final int HATCH_SERVO = 3;
+	public static final int HATCH_SERVO = 7;
 
 	public static final int BUMPER_SWITCH_CHANNEL = 6;
 
@@ -82,6 +84,12 @@ public interface UrsaRobot {
 
 	// Xbox Controller
 	XboxController xbox = new XboxController(0);
+
+	// Color Sensor
+	// ColorSensor colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
+
+	// Distance Sensor
+	// Ultrasonic distanceSensor = new Ultrasonic(7, 8); // TODO figure out what the actual ping and echo channels are
 
 	// Control Map
 	ControlMap controls = new ControlMap();

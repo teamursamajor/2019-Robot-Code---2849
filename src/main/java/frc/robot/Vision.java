@@ -4,7 +4,7 @@ import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.cscore.*;
 import edu.wpi.first.wpilibj.CameraServer;
-import frc.tasks.HatchTask.HatchMode;
+// import frc.tasks.HatchTask.HatchMode;
 
 public class Vision implements UrsaRobot, Runnable {
     public static boolean visionStop;
@@ -108,8 +108,7 @@ public class Vision implements UrsaRobot, Runnable {
             return;
         }
 
-        // run hatch
-        hatch.setMode(HatchMode.RUN);
+        // TODO run hatch
         visionRunning = false;
     }
 
@@ -167,6 +166,7 @@ public class Vision implements UrsaRobot, Runnable {
     private static void killVision() {
         limelightTable.getEntry("pipeline").setDouble(0);
         Turntable.turntableMotor.set(0.0);
-        Vision.hatch.setMode(HatchMode.WAIT);
+        // TODO fix later
+        // Vision.hatch.setMode(HatchMode.WAIT);
     }
 }

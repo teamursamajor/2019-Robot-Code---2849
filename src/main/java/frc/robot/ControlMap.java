@@ -37,8 +37,7 @@ public class ControlMap {
         map.put("cargo_outtake", XboxController.BUTTON_RIGHTBUMPER);
 
         // Hatch *unused in cargo_climb, but nothing else uses A/B anyways*
-        map.put("hatch_run", XboxController.BUTTON_A);
-        map.put("hatch_flip", XboxController.BUTTON_B);
+        map.put("hatch", XboxController.BUTTON_A);
 
         // Changes control settings based on current layout
         switch (controlLayout) {
