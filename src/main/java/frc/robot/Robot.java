@@ -77,10 +77,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // distanceSensor.setEnabled(true);
 
-    // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
-    // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
-    CameraServer.getInstance().startAutomaticCapture();
-
     drive = new Drive();
     drive.initialize("driveThread");
     cargo = new Cargo();
@@ -119,6 +115,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
+
+    Vision vision = new Vision();
+
+    // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
+    // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
+    // CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
 
   }
 
@@ -234,7 +236,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(xbox.getSingleButtonPress(controls.map.get("reset_head"))){
+    if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
       Drive.cargoIsFront = !Drive.cargoIsFront;
     }
     // System.out.println("Cargo Voltage: " + Cargo.cargoPot.get());
@@ -253,7 +255,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       // run and cancel auto align
       if (xbox.getButton(controls.map.get("auto_align"))) {
         System.out.println("Auto align!");
-        Vision.autoAlign();
+        // Vision.autoAlign();
       } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
         System.out.println("Canceling auto align :(");
         Vision.visionStop = true;
@@ -354,14 +356,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // System.out.println(vexServo.getAngle());
 
     // if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
-    //   vexServo.setAngle(vexServo.getAngle() + 10);
+    // vexServo.setAngle(vexServo.getAngle() + 10);
     // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) {
-    //   vexServo.setAngle(vexServo.getAngle() - 10);
+    // vexServo.setAngle(vexServo.getAngle() - 10);
     // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_X)) {
-    //   System.out.println("button x");
-    //   vexServo.setAngle(0.0);
+    // System.out.println("button x");
+    // vexServo.setAngle(0.0);
     // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
-    //   vexServo.setAngle(180.0);
+    // vexServo.setAngle(180.0);
     // }
     // System.out.println(vexServo.getAngle());
 
