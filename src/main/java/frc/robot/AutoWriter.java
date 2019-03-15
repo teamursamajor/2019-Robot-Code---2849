@@ -46,7 +46,7 @@ public class AutoWriter implements UrsaRobot{
         SimpleDateFormat format = new SimpleDateFormat ("yy/MM/dd - hh:mm:ss");
         String str = format.format(new Date());
         //TODO - change
-        fileName = new File(System.getProperty("user.dir") + "/../"+str);
+        fileName = ""+(System.getProperty("user.dir") + "/../"+str);
     }
     
     public void writeToFile (double encoderR, double encoderL,
