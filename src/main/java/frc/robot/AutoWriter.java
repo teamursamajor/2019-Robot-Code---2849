@@ -19,6 +19,8 @@ public class AutoWriter implements UrsaRobot{
     //ultrasonic
     //learning file 
 
+    // TODO @Chris figure this out cause I'm not bothering with it
+    /*
     private interface MachineLearning{
         String time = "T#";
         String encoderToString = "E#_X_";
@@ -66,6 +68,6 @@ public class AutoWriter implements UrsaRobot{
         writer.flush();
         writer.close();
     }
-
+*/
     
 }
