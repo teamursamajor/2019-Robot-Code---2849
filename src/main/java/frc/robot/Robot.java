@@ -116,11 +116,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
 
-    Vision vision = new Vision();
+    // Vision vision = new Vision();
 
     // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
     // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
-    // CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
+    CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
 
   }
 
@@ -134,7 +134,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotPeriodic() {
-
+    // boolean b = true;
+    // if (b){
+    //   System.load("C:/Users/Ursa Major/git/2019-Robot-Code---2849/src/main/java/frc/minimap/Gui.java");
+    //   b=false
+    // }
     // System.out.println(distanceSensor.getRangeInches());
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() >= currentTime + 500)) {
@@ -198,6 +202,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
         || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
       Cargo.automating = true;
     }
+
+    if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
+      Drive.cargoIsFront = !Drive.cargoIsFront;
+    }
     // drive.setPower(speed);
     // if (colorSensor.getRed() >= 200) {
     // speed = 0.0;
@@ -252,14 +260,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // TODO clean this whole thing up once climb/hatch is more finalized
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-      // run and cancel auto align
-      if (xbox.getButton(controls.map.get("auto_align"))) {
-        System.out.println("Auto align!");
-        // Vision.autoAlign();
-      } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
-        System.out.println("Canceling auto align :(");
-        Vision.visionStop = true;
-      }
+      // // run and cancel auto align
+      // if (xbox.getButton(controls.map.get("auto_align"))) {
+      //   System.out.println("Auto align!");
+      //   // Vision.autoAlign();
+      // } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
+      //   System.out.println("Canceling auto align :(");
+      //   Vision.visionStop = true;
+      // }
 
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
 

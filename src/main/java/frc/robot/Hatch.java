@@ -8,7 +8,8 @@ public class Hatch implements UrsaRobot, Runnable {
 
     public static Servo hatchServo;
     private boolean hatchOpen = true;
-    private double extendAngle = 280.0;
+    // TODO try reducing this angle and switching the smart servo to continuous mode
+    private double extendAngle = 360.0;
 
     public Hatch() {
         hatchServo = new Servo(HATCH_SERVO);
