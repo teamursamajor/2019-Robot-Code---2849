@@ -8,8 +8,7 @@ public class Hatch implements UrsaRobot, Runnable {
 
     public static Servo hatchServo;
     private boolean hatchOpen = true;
-    // TODO try reducing this angle and switching the smart servo to continuous mode
-    private double extendAngle = 360.0;
+    private double extendAngle = 280.0;
 
     public Hatch() {
         hatchServo = new Servo(HATCH_SERVO);
@@ -22,10 +21,12 @@ public class Hatch implements UrsaRobot, Runnable {
 
     public void run() {
         while (true) {
-            if(xbox.getSingleButtonPress(XboxController.BUTTON_A)){
+            if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
                 if (hatchOpen) {
+                    // openHatch();
                     hatchServo.setAngle(0.0); // closes hatch to drop off
                 } else {
+                    // closeHatch();
                     hatchServo.setAngle(extendAngle); // opens hatch to pick up
                 }
                 hatchOpen = !hatchOpen;
@@ -36,5 +37,25 @@ public class Hatch implements UrsaRobot, Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void openHatch(){
+        hatchServo.setSpeed(0.5);
+        try{
+            Thread.sleep(500);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        hatchServo.setSpeed(0.0);
+    }
+
+    public void closeHatch(){
+        hatchServo.setSpeed(-0.5);
+        try{
+            Thread.sleep(500);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        hatchServo.setSpeed(0.0);
     }
 }

@@ -15,6 +15,10 @@ import java.io.FileWriter;
 
 import java.io.File;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import org.opencv.core.Mat;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
@@ -43,6 +47,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
+  private Vision vision;
 
   // private FileWriter writer;
 
@@ -61,6 +66,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotInit() {
+    System.gc();
     Logger.setLevel(LogLevel.DEBUG);
     Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
 
@@ -90,18 +96,18 @@ public class Robot extends TimedRobot implements UrsaRobot {
       hatch.hatchInit();
       // auto align
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
-      climb = new Climb();
+      // climb = new Climb();
       // manual climb controls
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
-      turntable = new Turntable();
-      turntable.initialize("turntableThread");
+      // turntable = new Turntable();
+      // turntable.initialize("turntableThread");
 
-      hatch = new Hatch();
-      hatch.hatchInit();
+      // hatch = new Hatch();
+      // hatch.hatchInit();
 
       // auto align
 
-      climb = new Climb();
+      // climb = new Climb();
     } else {
       climb = new Climb();
     }
@@ -109,19 +115,19 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants = new Constants();
     constants.startConstants();
 
-    autoCompiler = new AutoCompiler(drive, cargo);
+    // autoCompiler = new AutoCompiler(drive, cargo);
     // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
     // autoSelect = new AutoSelector();
 
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
 
-    // Vision vision = new Vision();
+    // vision = new Vision();
 
     // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
     // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
     CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
-
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -136,8 +142,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void robotPeriodic() {
     // boolean b = true;
     // if (b){
-    //   System.load("C:/Users/Ursa Major/git/2019-Robot-Code---2849/src/main/java/frc/minimap/Gui.java");
-    //   b=false
+    // System.load("C:/Users/Ursa
+    // Major/git/2019-Robot-Code---2849/src/main/java/frc/minimap/Gui.java");
+    // b=false
     // }
     // System.out.println(distanceSensor.getRangeInches());
     // colorSensor.readColors();
@@ -262,11 +269,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
       // // run and cancel auto align
       // if (xbox.getButton(controls.map.get("auto_align"))) {
-      //   System.out.println("Auto align!");
-      //   // Vision.autoAlign();
+      // System.out.println("Auto align!");
+      // // Vision.autoAlign();
       // } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
-      //   System.out.println("Canceling auto align :(");
-      //   Vision.visionStop = true;
+      // System.out.println("Canceling auto align :(");
+      // Vision.visionStop = true;
       // }
 
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {

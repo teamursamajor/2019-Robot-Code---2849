@@ -100,6 +100,11 @@ public class Climb implements UrsaRobot {
         // Drive.stop();
         climbIsRunning = false;
         climbStop = true;
+        try {
+            Thread.sleep(20);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void cancelClimb() {

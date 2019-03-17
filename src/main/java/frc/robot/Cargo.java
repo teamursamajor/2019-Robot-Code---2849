@@ -153,7 +153,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         if (cargoPot.get() < cargoLowRocketVoltage) {
             return -0.6;
         } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage)) {
-            return -0.4;
+            return -0.45;
         } else {
             return 0.0;
         }
