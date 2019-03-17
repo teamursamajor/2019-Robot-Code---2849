@@ -26,9 +26,19 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         // gets the current cargo voltage (should be for start) so the rest can be
         // calculated relative to it
         cargoStartVoltage = cargoPot.get();
+<<<<<<< HEAD
         cargoGroundVoltage = cargoStartVoltage - 2;
         cargoLowRocketVoltage = cargoStartVoltage - 1.5;
         cargoBayVoltage = cargoStartVoltage - .75;
+=======
+        
+        //TODO -
+        //writer = new AutoWriter(carg
+        
+        cargoGroundVoltage = cargoStartVoltage - 8;
+        cargoLowRocketVoltage = cargoStartVoltage - 6;
+        cargoBayVoltage = cargoStartVoltage - 3;
+>>>>>>> 15018ac92814a95392ba2a02823ea24ef5be57cf
         // System.out.println(cargoStartVoltage);
         // System.out.println(cargoGroundVoltage);
         // System.out.println(cargoLowRocketVoltage);

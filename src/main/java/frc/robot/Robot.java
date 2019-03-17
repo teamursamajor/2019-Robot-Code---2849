@@ -37,6 +37,9 @@ import edu.wpi.first.wpilibj.Servo;
  */
 // Suggested to use CommandRobot
 public class Robot extends TimedRobot implements UrsaRobot {
+  
+  // public AutoWriter;
+  
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -160,11 +163,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // String str = drive.getHeading() + "\n";
     // str += drive.getLeftEncoder() + "\n";
     // str += drive.getRightEncoder() + "";
-    // try {
-    // writer.write(str);
-    // } catch (Exception e) {
-    // System.out.println("COULD NOT WRITE TO FILE");
-    // }
+    try {
+      //TODO - use actual methods
+   // writer.write(drive.getRightEncoder(), drive.getLeftEncoder(), drive.getHeading(), cargoArm.potValue());
+    } catch (Exception e) {
+    System.out.println("COULD NOT WRITE TO FILE");
+    }
 
   }
 
