@@ -54,6 +54,7 @@ public interface UrsaRobot {
 	public static Encoder climbEncoder = new Encoder(CLIMB_ENCODER_CHANNEL_A, CLIMB_ENCODER_CHANNEL_B);
 
 	// Tells encoder the value of each tick. Must be set in the corresponding file
+	// TODO Double check!
 	public static final double INCHES_PER_TICK = 0.011505d;
 
 	public static final double ROBOT_WIDTH_INCHES = 28d;

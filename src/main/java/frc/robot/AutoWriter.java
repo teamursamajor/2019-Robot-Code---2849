@@ -19,6 +19,7 @@ public class AutoWriter implements UrsaRobot{
     //ultrasonic
     //learning file 
 
+    // TODO Hey Chris, figure this out man. Commented out on the HP
     private interface MachineLearning{
         String time = "T#";
         String encoderToString = "E#_X_";

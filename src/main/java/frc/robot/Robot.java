@@ -22,6 +22,8 @@ import frc.tasks.*;
 import edu.wpi.first.networktables.*;
 import frc.robot.UrsaRobot;
 
+import frc.minimap.*;
+
 import edu.wpi.first.wpilibj.Servo;
 
 /**
@@ -40,7 +42,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private Drive drive;
   private Turntable turntable;
-  private Hatch hatch;
+  // private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
 
@@ -54,6 +56,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private DebugSelector debugSelect;
   private String robotMode;
+  
+  // For minimap
+  static TestBot testBot;
+  private int numberOfEncoders = 2;
+  private double[] encoders = new double[numberOfEncoders];
+  private RunTest runGui = new RunTest(testBot);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -86,8 +94,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
       turntable = new Turntable();
       turntable.initialize("turntableThread");
 
-      hatch = new Hatch();
-      hatch.hatchInit();
+      // hatch = new Hatch();
+      // hatch.initialize("hatchThread");
+      // hatch.hatchInit();
       // auto align
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
       climb = new Climb();
@@ -96,8 +105,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
       turntable = new Turntable();
       turntable.initialize("turntableThread");
 
-      hatch = new Hatch();
-      hatch.hatchInit();
+      // hatch = new Hatch();
+      // hatch.initialize("hatchThread");
+      // hatch.hatchInit();
 
       // auto align
 
@@ -132,9 +142,18 @@ public class Robot extends TimedRobot implements UrsaRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
+
+   public boolean b = true;
   @Override
   public void robotPeriodic() {
-
+    if(b){
+      String [] str = {};
+      runGui.main(str);
+    }
+    encoders[0] = drive.getLeftEncoder();
+    encoders[1] = drive.getRightEncoder();
+    testBot.update(encoders, drive.getHeading());
+    runGui.updateBot(testBot);
     // System.out.println(distanceSensor.getRangeInches());
     // colorSensor.readColors();
     // if ((System.currentTimeMillis() >= currentTime + 500)) {
@@ -236,6 +255,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    
+
     if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
       Drive.cargoIsFront = !Drive.cargoIsFront;
     }

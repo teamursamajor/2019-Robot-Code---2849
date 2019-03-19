@@ -4,13 +4,15 @@ import edu.wpi.first.wpilibj.I2C;
 
 /**
  * Designed for REV Robotics TMD3782 v2 Color Sensor:
- * http://www.revrobotics.com/content/docs/REV-31-1537-DS.pdf
+ * http://www.revrobotics.com/content/docs/R
+ * EV-31-1537-DS.pdf
  * 
  * Data Sheet: http://www.revrobotics.com/content/docs/v2.pdf
  * 
  * Based on 2017 code from Team 1736 Robot Casserole:
  * https://www.programcreek.com/java-api-examples/?code=RobotCasserole1736/CasseroleLib/CasseroleLib-master/java/src/org/usfirst/frc/team1736/lib/Sensors/TCS34725ColorSensor.java#
- * 
+ *0..........0
+ 
  * Based on 2019 code from Team 7034:
  * https://www.chiefdelphi.com/t/writing-code-for-a-color-sensor/167303/8
  */
