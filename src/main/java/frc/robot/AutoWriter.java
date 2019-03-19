@@ -67,6 +67,6 @@ public class AutoWriter implements UrsaRobot{
         writer.flush();
         writer.close();
     }
-
+*/
     
 }

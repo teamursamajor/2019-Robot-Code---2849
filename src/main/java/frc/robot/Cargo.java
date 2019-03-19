@@ -26,6 +26,10 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         // gets the current cargo voltage (should be for start) so the rest can be
         // calculated relative to it
         cargoStartVoltage = cargoPot.get();
+        
+        //TODO -
+        //writer = new AutoWriter(carg
+        
         cargoGroundVoltage = cargoStartVoltage - 8;
         cargoLowRocketVoltage = cargoStartVoltage - 6;
         cargoBayVoltage = cargoStartVoltage - 3;
@@ -98,10 +102,10 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
         // cargo intake code
         if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
-            System.out.println("left bumper");
+            // System.out.println("left bumper");
             cargoIntake.set(0.5);
         } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
-            System.out.println("right bumper");
+            // System.out.println("right bumper");
             cargoIntake.set(-1.0);
         } else {
             cargoIntake.set(0.0);
@@ -140,8 +144,8 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     public static double getHoldPower() {
         if (cargoPot.get() >= (cargoGroundVoltage) && cargoPot.get() < cargoLowRocketVoltage) {
             // System.out.println("ground/rocket");
-            return -0.32;
-        } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage)) {
+            return -0.25;
+        } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage-0.2)) {
             // System.out.println("rocket/start");
             return -0.20;
         } else {
@@ -152,8 +156,8 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     public static double getUpPower() {
         if (cargoPot.get() < cargoLowRocketVoltage) {
             return -0.6;
-        } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage - 0.75)) {
-            return -0.4;
+        } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage)) {
+            return -0.45;
         } else {
             return 0.0;
         }

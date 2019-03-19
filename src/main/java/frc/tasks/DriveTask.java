@@ -14,12 +14,9 @@ public class DriveTask extends Task implements UrsaRobot {
      */
     public enum DriveMode {
         /*
-         * AUTO is for autonomous codes
-         * ALIGN_BAY is for limelight iirc
-         * ALIGN_FLOOR is for color sensor
-         * DRIVE_STICKS is for manual control
-         * TURN is for autonomous turning
-         * PATH is for following Path files
+         * AUTO is for autonomous codes ALIGN_BAY is for limelight iirc ALIGN_FLOOR is
+         * for color sensor DRIVE_STICKS is for manual control TURN is for autonomous
+         * turning PATH is for following Path files
          */
         AUTO, ALIGN_BAY, ALIGN_FLOOR, DRIVE_STICKS, TURN, PATH;
 
@@ -249,11 +246,14 @@ public class DriveTask extends Task implements UrsaRobot {
          * @return DriveOrder containing the values from the XboxController
          */
         private DriveOrder sticksBox() {
-            double leftSpeed, rightSpeed;
+            double leftSpeed, rightSpeed, leftStickY, rightStickX;
             if (isArcadeDrive) {
                 // Arcade Drive
-                double leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
-                double rightStickX = -xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
+                leftStickY = xbox.getSquaredAxis(XboxController.AXIS_LEFTSTICK_Y);
+                rightStickX = -xbox.getSquaredAxis(XboxController.AXIS_RIGHTSTICK_X);
+                if (!Drive.cargoIsFront) {
+                    rightStickX *= -1.0;
+                }
                 leftSpeed = leftStickY + rightStickX;
                 rightSpeed = leftStickY - rightStickX;
                 double max = Math.max(leftSpeed, rightSpeed);
@@ -271,7 +271,7 @@ public class DriveTask extends Task implements UrsaRobot {
                 rightSpeed = -xbox.getAxis(XboxController.AXIS_RIGHTSTICK_Y) * (0.75);
             }
             // TODO untested
-            if(!Drive.cargoIsFront){
+            if (!Drive.cargoIsFront) {
                 leftSpeed *= -1.0;
                 rightSpeed *= -1.0;
             }

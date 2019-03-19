@@ -25,8 +25,10 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
         //  while (true) {
             if(xbox.getSingleButtonPress(XboxController.BUTTON_A)){
                 if (hatchOpen) {
+                    // openHatch();
                     hatchServo.setAngle(0.0); // closes hatch to drop off
                 } else {
+                    // closeHatch();
                     hatchServo.setAngle(extendAngle); // opens hatch to pick up
                 }
             }

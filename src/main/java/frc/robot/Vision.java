@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.cscore.*;
 import edu.wpi.first.cameraserver.*;
@@ -26,7 +25,7 @@ public class Vision implements UrsaRobot, Runnable {
         LEFT, RIGHT;
     }
 
-    public void Vision(){
+    public Vision(){
         cargoCam = new UsbCamera("Cargo Camera", 0);
         CameraServer.getInstance().addCamera(cargoCam);
         cargoCam.setFPS(30); // TODO test
@@ -67,6 +66,11 @@ public class Vision implements UrsaRobot, Runnable {
     }
 
     private static void runVision() {
+        try {
+            Thread.sleep(20);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         // set pipeline to single target
         limelightTable.getEntry("pipeline").setDouble(1);
 
@@ -107,6 +111,11 @@ public class Vision implements UrsaRobot, Runnable {
             default:
                 Turntable.turntableMotor.set(0.0);
                 break;
+            }
+            try {
+                Thread.sleep(20);
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
 

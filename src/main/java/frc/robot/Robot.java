@@ -15,6 +15,10 @@ import java.io.FileWriter;
 
 import java.io.File;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import org.opencv.core.Mat;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
@@ -35,6 +39,9 @@ import edu.wpi.first.wpilibj.Servo;
  */
 // Suggested to use CommandRobot
 public class Robot extends TimedRobot implements UrsaRobot {
+  
+  // public AutoWriter;
+  
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -45,6 +52,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   // private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
+  private Vision vision;
 
   // private FileWriter writer;
 
@@ -69,6 +77,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotInit() {
+    System.gc();
     Logger.setLevel(LogLevel.DEBUG);
     Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
 
@@ -99,11 +108,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
       // hatch.hatchInit();
       // auto align
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
-      climb = new Climb();
+      // climb = new Climb();
       // manual climb controls
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
-      turntable = new Turntable();
-      turntable.initialize("turntableThread");
+      // turntable = new Turntable();
+      // turntable.initialize("turntableThread");
 
       // hatch = new Hatch();
       // hatch.initialize("hatchThread");
@@ -111,7 +120,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
       // auto align
 
-      climb = new Climb();
+      // climb = new Climb();
     } else {
       climb = new Climb();
     }
@@ -119,19 +128,19 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants = new Constants();
     constants.startConstants();
 
-    autoCompiler = new AutoCompiler(drive, cargo);
+    // autoCompiler = new AutoCompiler(drive, cargo);
     // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
     // autoSelect = new AutoSelector();
 
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
 
-    Vision vision = new Vision();
+    // vision = new Vision();
 
     // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
     // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
-    // CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
-
+    CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -168,11 +177,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // String str = drive.getHeading() + "\n";
     // str += drive.getLeftEncoder() + "\n";
     // str += drive.getRightEncoder() + "";
-    // try {
-    // writer.write(str);
-    // } catch (Exception e) {
-    // System.out.println("COULD NOT WRITE TO FILE");
-    // }
+    try {
+      //TODO - use actual methods
+   // writer.write(drive.getRightEncoder(), drive.getLeftEncoder(), drive.getHeading(), cargoArm.potValue());
+    } catch (Exception e) {
+    System.out.println("COULD NOT WRITE TO FILE");
+    }
 
   }
 
@@ -216,6 +226,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
         || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
       Cargo.automating = true;
+    }
+
+    if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
+      Drive.cargoIsFront = !Drive.cargoIsFront;
     }
     // drive.setPower(speed);
     // if (colorSensor.getRed() >= 200) {
@@ -273,14 +287,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // TODO clean this whole thing up once climb/hatch is more finalized
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-      // run and cancel auto align
-      if (xbox.getButton(controls.map.get("auto_align"))) {
-        System.out.println("Auto align!");
-        // Vision.autoAlign();
-      } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
-        System.out.println("Canceling auto align :(");
-        Vision.visionStop = true;
-      }
+      // // run and cancel auto align
+      // if (xbox.getButton(controls.map.get("auto_align"))) {
+      // System.out.println("Auto align!");
+      // // Vision.autoAlign();
+      // } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
+      // System.out.println("Canceling auto align :(");
+      // Vision.visionStop = true;
+      // }
 
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
 
