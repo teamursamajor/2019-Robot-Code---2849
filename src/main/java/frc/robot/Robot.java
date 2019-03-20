@@ -26,6 +26,8 @@ import frc.tasks.*;
 import edu.wpi.first.networktables.*;
 import frc.robot.UrsaRobot;
 
+import frc.minimap.*;
+
 import edu.wpi.first.wpilibj.Servo;
 
 /**
@@ -47,7 +49,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private Drive drive;
   private Turntable turntable;
-  private Hatch hatch;
+  // private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
   private Vision vision;
@@ -62,6 +64,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private DebugSelector debugSelect;
   private String robotMode;
+  
+  // For minimap
+  static TestBot testBot;
+  private int numberOfEncoders = 2;
+  private double[] encoders = new double[numberOfEncoders];
+  private RunTest runGui = new RunTest(testBot);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -76,13 +84,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-
-    // try {
-    // writer = new FileWriter(new File("C:/Users/Ursa Major/Desktop/Kill Me.txt"));
-    // } catch (Exception e) {
-    // System.out.println("COULD NOT CREATE FILE WRITER");
-    // }
-
+    
     // distanceSensor.setEnabled(true);
 
     drive = new Drive();
@@ -94,8 +96,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
       turntable = new Turntable();
       turntable.initialize("turntableThread");
 
-      hatch = new Hatch();
-      hatch.hatchInit();
+      // hatch = new Hatch();
+      // hatch.initialize("hatchThread");
+      // hatch.hatchInit();
       // auto align
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
       // climb = new Climb();
@@ -105,11 +108,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
       // turntable.initialize("turntableThread");
 
       // hatch = new Hatch();
+      // hatch.initialize("hatchThread");
       // hatch.hatchInit();
 
-      // auto align
-
-      // climb = new Climb();
     } else {
       climb = new Climb();
     }
@@ -141,28 +142,18 @@ public class Robot extends TimedRobot implements UrsaRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
+
+   public boolean b = true;
   @Override
   public void robotPeriodic() {
-    // boolean b = true;
-    // if (b){
-    // System.load("C:/Users/Ursa
-    // Major/git/2019-Robot-Code---2849/src/main/java/frc/minimap/Gui.java");
-    // b=false
-    // }
-    // System.out.println(distanceSensor.getRangeInches());
-    // colorSensor.readColors();
-    // if ((System.currentTimeMillis() >= currentTime + 500)) {
-    // System.out.println(
-    // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
-    // Blue: " + colorSensor.getBlue());
-    // currentTime = System.currentTimeMillis();
-    // NetworkTable leftEncoder
-    // }
-
-    // str += time elapsed
-    // String str = drive.getHeading() + "\n";
-    // str += drive.getLeftEncoder() + "\n";
-    // str += drive.getRightEncoder() + "";
+    if(b){
+      String [] str = {};
+      runGui.main(str);
+    }
+    encoders[0] = drive.getLeftEncoder();
+    encoders[1] = drive.getRightEncoder();
+    testBot.update(encoders, drive.getHeading());
+    runGui.updateBot(testBot);
     try {
       //TODO - use actual methods
    // writer.write(drive.getRightEncoder(), drive.getLeftEncoder(), drive.getHeading(), cargoArm.potValue());
@@ -185,18 +176,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void autonomousInit() {
     Logger.log("Started Autonomous mode", LogLevel.INFO);
     Cargo.cargoStartVoltage = Cargo.cargoPot.get();
-    // Hatch.hatchServo.setAngle(Hatch.hatchServo.getAngle() - );
-    // robotMode = "Autonomous";
-    // speed = 0.45;
-    // m_autoSelected = m_chooser.getSelected();
-    // // autoSelected = SmartDashboard.getString("Auto Selector",
-    // // defaultAuto);
-    // Task task = autoCompiler.buildAutoMode(m_autoSelected);
-    // task.start();
-    // System.out.println(task.toString());
-    // System.out.println("Auto selected: " + m_autoSelected);
-    // Logger.log("Current Auto Mode: " + m_autoSelected, LogLevel.INFO);
-    // Logger.setLevel(debugSelect.getLevel());
   }
 
   private double speed = 0.45;
@@ -217,24 +196,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
       Drive.cargoIsFront = !Drive.cargoIsFront;
     }
-    // drive.setPower(speed);
-    // if (colorSensor.getRed() >= 200) {
-    // speed = 0.0;
-    // System.out.println(
-    // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
-    // Blue: " + colorSensor.getBlue());
-    // }
-
-    // switch (m_autoSelected) {
-    // case kCustomAuto:
-    // // Put custom auto cosde here
-    // break;
-
-    // case kDefaultAuto:
-    // default:
-    // // Put default auto code here
-    // break;
-    // }
+    
 
   }
 
@@ -255,6 +217,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+    
+
     if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
       Drive.cargoIsFront = !Drive.cargoIsFront;
     }
@@ -271,15 +235,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // TODO clean this whole thing up once climb/hatch is more finalized
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-      // // run and cancel auto align
-      // if (xbox.getButton(controls.map.get("auto_align"))) {
-      // System.out.println("Auto align!");
-      // // Vision.autoAlign();
-      // } else if (xbox.getButton(controls.map.get("cancel_auto_align"))) {
-      // System.out.println("Canceling auto align :(");
-      // Vision.visionStop = true;
-      // }
-
+      
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
 
       // run and kill auto climb
@@ -290,30 +246,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       }
 
       boolean climbPressed = false;
-      // custom climb controls
-      // if (xbox.getPOV() == controls.map.get("climb_arm_up") && !climb.isClimbing())
-      // { // front arm up
-      // climb.setFrontMotor(Constants.climbPower);
-      // climbPressed = true;
-      // System.out.println(climbEncoder.getDistance());
-      // } else if (xbox.getPOV() == controls.map.get("climb_arm_down") &&
-      // !climb.isClimbing()) { // front arm down
-      // climb.setFrontMotor(-Constants.climbPower);
-      // climbPressed = true;
-      // System.out.println(climbEncoder.getDistance());
-      // } else if (xbox.getPOV() == controls.map.get("cam_up") &&
-      // !climb.isClimbing()) { // TODO double check CAM up
-      // climb.setBackMotor(-Constants.climbPower);
-      // climbPressed = true;
-      // System.out.println(Climb.climbPot.get());
-      // } else if (xbox.getPOV() == controls.map.get("cam_down") &&
-      // !climb.isClimbing()) { // TODO double check CAM down
-      // climb.setBackMotor(Constants.climbPower);
-      // climbPressed = true;
-      // System.out.println(Climb.climbPot.get());
-      // } else if (!climbPressed && !climb.isClimbing()) {
-      // climb.stopMotors();
-      // }
+      
 
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
       // NO MANUAL CLIMB
@@ -324,12 +257,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
         Vision.visionStop = true;
       }
 
-      // run and kill auto climb
-      // if (xbox.getButton(controls.map.get("climb_start"))) {
-      // climb.climbInit();
-      // } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-      // climb.cancelClimb();
-      // }
 
     } else {
       // defaults to allowing user to cancel auto align and climb stop with BACK
@@ -360,38 +287,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    // System.out.println("Voltage: " + ScrewClimb.distanceSensor.getVoltage() + "
-    // Value: " + ScrewClimb.distanceSensor.getValue());
-
-    // if (xbox.getButton(XboxController.BUTTON_A)) {
-    // vexServo.setAngle(160);
-    // } else if (xbox.getButton(XboxController.BUTTON_B)) {
-    // vexServo.setAngle(-160);
-    // } else if (xbox.getButton(XboxController.BUTTON_X)) {
-    // vexServo.set(0);
-    // } else {
-    // vexServo.set(0);
-    // }
-    // System.out.println(vexServo.getAngle());
-
-    // if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
-    // vexServo.setAngle(vexServo.getAngle() + 10);
-    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) {
-    // vexServo.setAngle(vexServo.getAngle() - 10);
-    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_X)) {
-    // System.out.println("button x");
-    // vexServo.setAngle(0.0);
-    // } else if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
-    // vexServo.setAngle(180.0);
-    // }
-    // System.out.println(vexServo.getAngle());
-
-    // colorSensor.readColors();
-    // if ((System.currentTimeMillis() - startTime) % 50 == 0) {
-    // System.out.println(
-    // "Red: " + colorSensor.getRed() + " Green: " + colorSensor.getGreen() + "
-    // Blue: " + colorSensor.getBlue());
-    // }
+    
   }
 
   /**

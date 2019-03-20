@@ -20,7 +20,7 @@ public class MapPanel extends JPanel implements FieldMeasurements {
 	private BufferedImage fieldImage, robotImage, gridOverlay, path;
 	private int[] startPoint;// in Pixels, x y
 	private int[] previousPoint;// in Pixels, x y, topLeft based?
-	private TestBot bot;
+	static TestBot bot;
 	public int width,height;//of map
 	private double wConv,hConv;
 
@@ -58,7 +58,9 @@ public class MapPanel extends JPanel implements FieldMeasurements {
 		// inch -> pixel
 		int pixelArea = height * width;
 	    wConv = width/FieldMeasurements.width;
-	    hConv = height/FieldMeasurements.height;
+		hConv = height/FieldMeasurements.height;
+		
+		System.out.println("Width: " + wConv +", Height: " + hConv);
 	}
 
 	public void paint(Graphics g) {
@@ -123,7 +125,7 @@ public class MapPanel extends JPanel implements FieldMeasurements {
 		g.draw(dot); 
 	}
 
-	private void sendRobotToReferencePoint() {
+	public void sendRobotToReferencePoint(double[] coords) {
 		/*
 		 * If there is a spot where we KNOW where we are then it will move the
 		 * robot image to that spot
@@ -131,6 +133,18 @@ public class MapPanel extends JPanel implements FieldMeasurements {
 		 * example: start platforms
 		 * 
 		 */
+		int[] pixCords = {
+			(int)(coords[0] * (1/wConv)), (int)(coords[1] *(1/hConv))
+		};
+
+		startPoint = pixCords;
+		previousPoint = startPoint;
+		
+		bot.setEncoder(0);
+		bot.setHeading(0);
+		moveRobot();
+
+		this.repaint();
 	}
 
 	private void clearRobotImage() {

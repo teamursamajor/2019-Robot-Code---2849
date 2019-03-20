@@ -5,21 +5,26 @@ import frc.robot.Drive;
 public class TestBot {
 	private double navXValue = 1;
 	private double encoderValue = 1;
-	public int height = 25;
-	public int width = 10;
+	public int width = 32;//25;
+	public int height = 28;//10;
 	// Drive d = new Drive();
 
 	private double angle = 0;
 	private int numberOfEncoders = 2;
 	//File Reader
 
-	public void update(){
+	public void update(double[] encoders, double navX){
 		//Navx = parse double
+		double totalDist = 0;
+		for (double d : encoders){
+			totalDist+=d;
+		}
+		totalDist /= encoders.length;
 		
-		encoderValue = 0;
-
+		encoderValue = totalDist;
 		//read 
-		encoderValue /= numberOfEncoders;
+		// encoderValue /= numberOfEncoders;
+		navXValue = navX;		
 
 		
 	}
@@ -31,7 +36,7 @@ public class TestBot {
 
 
 
-	public void setHeading(int degree) {
+	public void setHeading(double degree) {
 		this.navXValue = (double) degree;
 		// .out.println(degree);
 	}

@@ -19,23 +19,32 @@ import javax.swing.border.EtchedBorder;
 //import minimap.Path.*;
 
  
-public class Gui {
+public class GuiTest {
 
-	static Border blackLine = BorderFactory.createLineBorder(Color.BLACK);
-	static Border raisedBevel = BorderFactory.createRaisedBevelBorder();
-	static Border loweredBevel = BorderFactory.createLoweredBevelBorder();
-	static TestBot testBot;
-	static MapPanel map;
-	static Compass compass;
+	private Border blackLine = BorderFactory.createLineBorder(Color.BLACK);
+	private Border raisedBevel = BorderFactory.createRaisedBevelBorder();
+	private Border loweredBevel = BorderFactory.createLoweredBevelBorder();
+	private TestBot testBot;
+	private MapPanel map;
+	private Compass compass;
+
+	// static public void update(){
+	// 	map.update();
+	// }
+
+	public GuiTest(TestBot t){
+		testBot = t;
+	}
+
 	
-	public static void main(String[] args) throws IOException {
+	public void main(String[] args) throws IOException {
 //		BufferedImage fieldImage = ImageIO.read(new File(System.getProperty("user.dir") + "/../2019 Field.jpg"));
 		BufferedImage fieldImage = ImageIO.read(new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
-		testBot = new TestBot();
+		// testBot = new TestBot();
 		map = new MapPanel(fieldImage, testBot);
 		compass = new Compass(75, testBot);
-
-		JPanel testPanel = setTestPanel();//32x28
+		
+		JPanel testPanel = setTestPanel();
 
 		JFrame frame = new JFrame("2019 Mini Map");
 		frame.setSize(1000, 1000);
@@ -60,7 +69,7 @@ public class Gui {
 		frame.setVisible(true);
 	}
 	
-	public static void setMenu(JFrame frame){
+	public void setMenu(JFrame frame){
 		JMenuBar menuBar = new JMenuBar();
 		Border compound = BorderFactory.createCompoundBorder(loweredBevel, blackLine);
 		menuBar.setBorder(compound);
@@ -99,48 +108,14 @@ public class Gui {
 		
 		ArrayList<JMenuItem> points = new ArrayList<JMenuItem>();
 		JMenuItem pointA = new JMenuItem("Top Left Platform");
-		pointA.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				double[] point = {0,37};
-				map.sendRobotToReferencePoint(point);
-			}
-		});
 		points.add(pointA);
-
 		JMenuItem pointB = new JMenuItem("Top Right Platform");
-		pointB.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				double[] point = {0,67};
-				map.sendRobotToReferencePoint(point);
-			}
-		});
 		points.add(pointB);
-
 		JMenuItem pointC = new JMenuItem("Bottom Left Platform");
-		pointC.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				double[] point = {75,37};
-				map.sendRobotToReferencePoint(point);
-			}
-		});
 		points.add(pointC);
-
 		JMenuItem pointD = new JMenuItem("Bottom Middle Platform");
 		points.add(pointD);
-		pointD.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				double[] point = {75,52};
-				map.sendRobotToReferencePoint(point);
-			}
-		});
-
 		JMenuItem pointE = new JMenuItem("Bottom Right Platform");
-		pointE.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				double[] point = {75,67};
-				map.sendRobotToReferencePoint(point);
-			}
-		});
 		points.add(pointE);
 		    
 		for (JMenuItem menu : points){
@@ -190,7 +165,14 @@ public class Gui {
 
 	}
 	
-	public static JPanel setTestPanel(){
+	private void setStartPoint(JMenuItem point, double[] coords){
+		//map.
+	}
+
+
+
+
+	public JPanel setTestPanel(){
 		JPanel testPanel = new JPanel();
 		
 		JButton rotateL = new JButton ("<--");
@@ -203,7 +185,7 @@ public class Gui {
 		
 		rotateL.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				testBot.setHeading(testBot.getHeading() + 10);
+				//testBot.setHeading(testBot.getHeading() + 10);
 				testBot.setEncoder(0);
 				map.update();
 				compass.repaint();
@@ -212,11 +194,7 @@ public class Gui {
 		
 		rotateR.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				testBot.setHeading(testBot.getHeading() - 10);
-				// double [] d = {
-				// 	5,5
-				// };
-				// map.sendRobotToReferencePoint(d);
+				//testBot.setHeading(testBot.getHeading() - 10);
 				testBot.setEncoder(0);
 				map.update();
 				compass.repaint();
