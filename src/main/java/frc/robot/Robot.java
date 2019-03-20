@@ -69,7 +69,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotInit() {
-    System.gc();
     Logger.setLevel(LogLevel.DEBUG);
     Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
 
@@ -129,8 +128,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
     // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
-    CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
-    CameraServer.getInstance().startAutomaticCapture();
+    // CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
+    // CameraServer.getInstance().startAutomaticCapture();
+
   }
 
   /**
