@@ -45,45 +45,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         // System.out.println(automating);
         // System.out.println(cargoPot.get());
         if (automating) {
-            // if(xbox.getButton(XboxController.BUTTON_X)){
-            //     subsystemMode = CargoMode.GROUND;
-            // }
-            // if (xbox.getButton(XboxController.BUTTON_Y)){
-            //     System.out.println("Going up!");
-            //     subsystemMode = CargoMode.CARGOBAY;
-            // }
-
-            // if (xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
-            //     System.out.println("cargo bay " + cargoPot.get());
-            //     if (Math.abs(cargoPot.get() - cargoGroundVoltage) <= Math.abs(cargoPot.get() - cargoBayVoltage)) {
-            //         System.out.println("ground to bay");
-            //         subsystemMode = CargoMode.CARGOBAY;
-            //     } else if (Math.abs(cargoPot.get() - cargoGroundVoltage) > Math.abs(cargoPot.get() - cargoBayVoltage)) {
-            //         System.out.println("bay to ground "  + cargoPot.get());
-            //         subsystemMode = CargoMode.GROUND;
-            //     } else {
-            //         System.out.println("holding somehow");
-            //         cargoLift.set(getHoldPower());
-            //     }
-
-            // } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))) {
-            //     System.out.println("cargo rocket " + cargoPot.get() + " " +
-            //         Math.abs(cargoPot.get() - cargoGroundVoltage) + " " + 
-            //         Math.abs(cargoPot.get() - cargoLowRocketVoltage) + " " +
-            //         (Math.abs(cargoPot.get() - cargoGroundVoltage) <= Math.abs(cargoPot.get() - cargoLowRocketVoltage))
-            //         );
-            //     if (Math.abs(cargoPot.get() - cargoGroundVoltage) <= Math.abs(cargoPot.get() - cargoLowRocketVoltage)) {
-            //         System.out.println("to rocket " + cargoPot.get());
-            //         subsystemMode = CargoMode.LOWROCKET;
-            //     } else if (Math.abs(cargoPot.get() - cargoGroundVoltage) > Math.abs(cargoPot.get() - cargoLowRocketVoltage)) {
-            //         System.out.println("to ground " + cargoPot.get());
-            //         subsystemMode = CargoMode.GROUND;
-            //     } else {
-            //         System.out.println("holding for some reaon");
-            //         cargoLift.set(getHoldPower());
-            //     }
-            // }
-            //System.out.println(subsystemMode);
+           //TODO - do this with a properly mounted pot this time
             CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
 
             cargoLift.set(cargoOrder.cargoPower);
@@ -129,11 +91,9 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         double currentVoltage = cargoPot.get();
         double deltaVolt = currentVoltage - CargoTask.CargoState.cargoVoltage;
         double deltaTime = System.currentTimeMillis() - CargoTask.CargoState.stateTime;
-
+        
+        if (deltaTime <= 5) return;
         double velocity = (deltaVolt / deltaTime);
-
-        if (Math.abs(deltaVolt) <= 5 || deltaTime <= 5)
-            return;
         CargoTask.CargoState.updateState(velocity, currentVoltage);
     }
 
