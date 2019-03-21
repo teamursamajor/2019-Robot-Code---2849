@@ -7,15 +7,6 @@ public class CargoTask extends Task implements UrsaRobot{
 	public enum CargoMode {
         GROUND, CARGOBAY, LOWROCKET, CLIMB;
 
-        // private interface angles {
-        //     double GROUND_ANGLE = 0.0; //0deg = 0% of pot range
-        //     double CARGO_BAY_ANGLE = 0.0;//FIND
-        //     double LOW_ROCKET_ANGLE = 0.0;
-        //     double CLIMB_ANGLE = 0.0;
-        // }
-
-        
-
         public CargoMode getNext(){
             return this.ordinal() < CargoMode.values().length - 1
                 ? CargoMode.values()[this.ordinal() + 1]
@@ -43,7 +34,7 @@ public class CargoTask extends Task implements UrsaRobot{
             return new CargoOrder(0.0);  
         }
 
-       private CargoOrder moveToAngle(double desiredVoltage) {
+        private CargoOrder moveToAngle(double desiredVoltage) {
             double voltageTolerance = 0.25;
 
             // System.out.println("desired volt: " + desiredVoltage);
@@ -57,13 +48,16 @@ public class CargoTask extends Task implements UrsaRobot{
             //TODO Add derivative term to PD loop
             double kpCargo = 1.0 / 30.0; // try this and go from there. My math says it should be about .45 but I don't trust it
             // double kdCargo = 1.0 / 50.0;
+            // TODO this feed forward is UNTESTED. we need a cargo arm to see if this works.
+            // ideal effect is that we cancel out the non-linearity of the pid loop so it does what it needs
+            double ffCargo = 0.1681*6.39*Math.cos(CargoState.cargoVoltage)/12;
             double cargoDownMinimumPower = 0.15;
             double cargoDownMaxPower = .2;
             double cargoUpMinimumPower = 0.5;
 
             // Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
             // System.out.println("Cargo Velocity: " + CargoState.cargoVelocity);
-			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage); // + kdCargo * CargoState.cargoVelocity;
+			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage) + ffCargo; // + kdCargo * CargoState.cargoVelocity;
             
             // if(cargoPower <= 0.1){
             //     running = false;
