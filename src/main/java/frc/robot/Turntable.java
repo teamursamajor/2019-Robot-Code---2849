@@ -15,21 +15,19 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
     }
 
     public void runSubsystem() {
-        if(Vision.visionRunning){
+        if (Vision.visionRunning) {
             // waits for auto align to end before proceeding
-            while(Vision.visionRunning){
-                try{
+            while (Vision.visionRunning) {
+                try {
                     Thread.sleep(20);
-                } catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
         }
 
         TurntableTask.TurntableOrder turntableOrder = subsystemMode.callLoop();
 
         turntableMotor.set(turntableOrder.power);
     }
-
 }

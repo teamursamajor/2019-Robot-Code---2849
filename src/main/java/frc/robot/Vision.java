@@ -157,7 +157,7 @@ public class Vision implements UrsaRobot, Runnable {
 
             // read values periodically
             double x = tx.getDouble(0.0);
-            double y = ty.getDouble(0.0);
+            // double y = ty.getDouble(0.0);
             // double area = ta.getDouble(0.0);
 
             // If we're already close enough to the tapes, then simply stop

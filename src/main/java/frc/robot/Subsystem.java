@@ -11,7 +11,6 @@ public abstract class Subsystem<E> implements Runnable {
      */
 
     public static boolean running = false;
-    private static Object lock = new Object();
 
     private Thread t;
 

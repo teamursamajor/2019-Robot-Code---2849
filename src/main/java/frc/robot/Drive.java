@@ -13,16 +13,15 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	public static boolean cargoIsFront = true;
 
-
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
 	 * any time.
 	 */
-
 	public Drive() {
-		// TODO do we want to do auto sandstorm or teleop? The answer to that question
-		// changes what we do here
-		// In the future we will want a switch statement here with getMode()
+		// TODO do we want to do auto sandstorm or teleop?
+		// The answer to that question changes what we do here
+
+		// TODO in the future we will want a switch statement here with getMode()
 		setMode(DriveMode.DRIVE_STICKS);
 
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
@@ -92,9 +91,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	/**
-	 * 
-	 * @return The raw angle from the NavX. This can return values below 0 or above
-	 *         360
+	 * @return The raw angle from the NavX. May be below 0 or above 360
 	 */
 	public double getRawHeading() {
 		return ahrs.getAngle();
@@ -122,7 +119,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	/**
-	 * 
 	 * @return Get the current rate of the encoder. Units are distance per second as
 	 *         scaled by the value from setDistancePerPulse().
 	 */
@@ -131,7 +127,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	/**
-	 * 
 	 * @return Get the current rate of the encoder. Units are distance per second as
 	 *         scaled by the value from setDistancePerPulse().
 	 */

@@ -186,7 +186,6 @@ public class XboxController extends Joystick implements Runnable {
 	 * @author kingeinstein
 	 *
 	 */
-
 	public class Latch {
 		private boolean lastInput = false;
 
@@ -199,5 +198,4 @@ public class XboxController extends Joystick implements Runnable {
 			return press;
 		}
 	}
-
 }
