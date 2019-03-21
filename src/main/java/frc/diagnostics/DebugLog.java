@@ -6,10 +6,8 @@ import frc.diagnostics.Logger.LogLevel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-// import java.util.Calendar;
 
 import java.io.BufferedWriter;
-// import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -22,6 +20,7 @@ public class DebugLog {
 	public void debugLogInit(String fileDestination) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 		Date dateobj = new Date();
+		
 		//Only runs this if the current Logger level is debug
 		if (debugSelect.isDebug()) {
 			try {
