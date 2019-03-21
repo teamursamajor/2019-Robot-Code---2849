@@ -282,9 +282,4 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void disabledPeriodic() {
 
   }
-
-  private void writeValues() {
-
-  }
-
 }

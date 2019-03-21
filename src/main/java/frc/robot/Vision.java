@@ -152,7 +152,7 @@ public class Vision implements UrsaRobot, Runnable {
             double goalPosition = 0.0; // on the limelight, 0.0 is the center
 
             NetworkTableEntry tx = limelightTable.getEntry("tx");
-            NetworkTableEntry ty = limelightTable.getEntry("ty");
+            // NetworkTableEntry ty = limelightTable.getEntry("ty");
             // NetworkTableEntry ta = limelightTable.getEntry("ta"); // target area
 
             // read values periodically
