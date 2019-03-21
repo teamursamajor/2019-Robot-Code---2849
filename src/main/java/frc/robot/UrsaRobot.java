@@ -1,7 +1,7 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.I2C;
+// import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -90,7 +90,7 @@ public interface UrsaRobot {
 	// ColorSensor colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
 	// Distance Sensor
-	Ultrasonic ultra = new Ultrasonic(0, 1); // TODO figure out what the actual ping and echo channels are
+	Ultrasonic ultra = new Ultrasonic(0, 1);
 
 	// Control Map
 	ControlMap controls = new ControlMap();
@@ -99,10 +99,9 @@ public interface UrsaRobot {
 	public static final double visionCameraSinglePipeline = 1;
 	public static final double visionCameraDoublePipeline = 2;
 
-
 	/**
-	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted, no m
-	 *  tter what Evan may say. - Isåàç
+	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted,
+	 * no matter what Evan may say. - Isåàç
 	 */
 	public enum SickoMode {
 		SICKO, BAMBA, SHECK, TRAVIS

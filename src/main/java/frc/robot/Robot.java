@@ -8,27 +8,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.io.FileWriter;
+// import java.io.FileWriter;
+// import java.io.File;
+// import edu.wpi.first.networktables.*;
+// import frc.minimap.*;
 
-import java.io.File;
-
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
-import org.opencv.core.Mat;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
-import frc.tasks.*;
-import edu.wpi.first.networktables.*;
+// import frc.tasks.*;
 import frc.robot.UrsaRobot;
 
-// import frc.minimap.*;
-
-import edu.wpi.first.wpilibj.Servo;
+// import edu.wpi.first.wpilibj.Servo;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -41,18 +35,19 @@ import edu.wpi.first.wpilibj.Servo;
 public class Robot extends TimedRobot implements UrsaRobot {
 
   // public AutoWriter;
-
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  
+  // TODO this came with the class. uncomment if using
+  // private static final String kDefaultAuto = "Default";
+  // private static final String kCustomAuto = "My Auto";
+  // private String m_autoSelected;
+  // private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
   private Turntable turntable;
   private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
-  private Vision vision;
+  // private Vision vision;
 
   // private FileWriter writer;
 
@@ -60,15 +55,15 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   // TODO integrate AutoSelector
   // private AutoSelector autoSelect;
-  private AutoCompiler autoCompiler;
+  // private AutoCompiler autoCompiler;
 
   private DebugSelector debugSelect;
   private String robotMode;
 
   // For minimap
   // static TestBot testBot;
-  private int numberOfEncoders = 2;
-  private double[] encoders = new double[numberOfEncoders];
+  // private int numberOfEncoders = 2;
+  // private double[] encoders = new double[numberOfEncoders];
   // private RunTest runGui = new RunTest(testBot);
 
   /**
@@ -80,10 +75,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     Logger.setLevel(LogLevel.DEBUG);
     Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
 
-    currentTime = System.currentTimeMillis();
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    // currentTime = System.currentTimeMillis();
+    // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    // m_chooser.addOption("My Auto", kCustomAuto);
+    // SmartDashboard.putData("Auto choices", m_chooser);
 
     // distanceSensor.setEnabled(true);
 
@@ -168,8 +163,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     Cargo.cargoStartVoltage = Cargo.cargoPot.get();
   }
 
-  private double speed = 0.45;
-
   /**
    * This function is called periodically during autonomous.
    */
@@ -251,10 +244,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
         climb.cancelClimb();
       }
     }
-
   }
-
-  private double currentTime;
 
   /**
    * This function is run when test mode is first started up and should be used
@@ -294,9 +284,4 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void disabledPeriodic() {
 
   }
-
-  private void writeValues() {
-
-  }
-
 }

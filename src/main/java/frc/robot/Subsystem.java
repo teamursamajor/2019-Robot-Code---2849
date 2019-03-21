@@ -11,7 +11,6 @@ public abstract class Subsystem<E> implements Runnable {
      */
 
     public static boolean running = false;
-    private static Object lock = new Object();
 
     private Thread t;
 
@@ -70,19 +69,12 @@ public abstract class Subsystem<E> implements Runnable {
     /**
      * Abstract method for subsystems to do stuff in their individual threads.
      * 
-     * @throws InterruptedException in case the thread is interrupted to change
-     *                              modes.
+     * @throws InterruptedException in case thread is interrupted to change mode.
      */
     public abstract void runSubsystem() throws InterruptedException;
 
     public void initialize(String threadName) {
-        // Used to prevent ("lock") a thread from starting again if constructor is run
-        // again
-        synchronized (lock) { // TODO this isnt doing anything right now, can we remove it?
-            // if (running)
-            // return;
-            running = true;
-        }
+        running = true;
         t = new Thread(this, threadName);
         t.start();
     }

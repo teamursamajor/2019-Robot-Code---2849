@@ -1,7 +1,5 @@
 package frc.tasks;
 import frc.robot.*;
-import java.util.Map;
-import java.util.HashMap;
 
 public class CargoTask extends Task implements UrsaRobot{
 	public enum CargoMode {
@@ -45,19 +43,23 @@ public class CargoTask extends Task implements UrsaRobot{
                 return new CargoOrder(Cargo.getHoldPower());
             }
 
-            //TODO Add derivative term to PD loop
-            double kpCargo = 1.0 / 30.0; // try this and go from there. My math says it should be about .45 but I don't trust it
-            // double kdCargo = 1.0 / 50.0;
-            // TODO this feed forward is UNTESTED. we need a cargo arm to see if this works.
-            // ideal effect is that we cancel out the non-linearity of the pid loop so it does what it needs
-            double ffCargo = 0.1681*6.39*Math.cos(CargoState.cargoVoltage)/12;
+            // TODO determine critical point (where it just oscillates forever) and period (time between oscillations)
+            double kcCargo = 0.0;
+            double tcCargo = 0.0;
+
+            double kpCargo = 0.6*kcCargo;
+
+            // double kiCargo = 1.2*kcCargo/tcCargo;
+            double kdCargo = 3.0/40*kcCargo*tcCargo;
+
+            // TODO reconfigure these based on new findings
             double cargoDownMinimumPower = 0.15;
             double cargoDownMaxPower = .2;
             double cargoUpMinimumPower = 0.5;
 
             // Proportional constant * (angle error) + derivative constant * velocity (aka pos / time)
             // System.out.println("Cargo Velocity: " + CargoState.cargoVelocity);
-			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage) + ffCargo; // + kdCargo * CargoState.cargoVelocity;
+			double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage) + feedForward(getCargoAngle(CargoState.cargoVoltage)) + kdCargo * CargoState.cargoVelocity;
             
             // if(cargoPower <= 0.1){
             //     running = false;
@@ -76,6 +78,21 @@ public class CargoTask extends Task implements UrsaRobot{
             
             System.out.println("Cargo Power: " + cargoPower);
 			return new CargoOrder(cargoPower); // returns negative because negative goes up, pos goes down
+       }
+
+       private double getCargoAngle(double voltage) {
+           // TODO determine linear regression
+           return 0.0;
+       }
+
+       private final double cargoMass = 4.6947; //kilograms
+       private final double cargoRadius = .365; //meters
+       private final double torqueCoefficient = cargoMass * cargoRadius * 9.81;
+       private final double voltToPowerRegression = 6.38982;
+       private final double motorRange = 12.0;
+
+       private double feedForward(double angle) {
+           return torqueCoefficient*voltToPowerRegression*Math.cos(angle)/motorRange;
        }
     }
 

@@ -1,4 +1,4 @@
-package frc.Scouting;
+package frc.scouting;
 
 import java.awt.Color;
 import java.awt.Dimension;

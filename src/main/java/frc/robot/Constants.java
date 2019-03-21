@@ -1,14 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import javax.swing.*;
-// import frc.minimap.Gui;
 
 public class Constants implements Runnable {
-    // SmartDashboard.putData("Sicko Squirrel Test", new Squirrel());
-
     public static boolean running = false;
-    private static Object lock = new Object();
 
     public static double hatchPower;
     public static double cargoPowerUp;
@@ -17,53 +12,41 @@ public class Constants implements Runnable {
     public static double cargoOuttakePower;
     public static double climbPower;
     public static double turntablePower;
-    //TODO ... other constants here
-    // private static JFrame test = new JFrame("temp");
 
     public Constants() {
         hatchPower = 0.30;
         SmartDashboard.putNumber("Hatch Power", hatchPower);
         cargoPowerUp = -.75;
+        SmartDashboard.putNumber("Cargo Power Up", cargoPowerUp);
         cargoPowerDown = 0.15;
-        SmartDashboard.putNumber("Cargo Power", cargoPowerDown);
+        SmartDashboard.putNumber("Cargo Power Down", cargoPowerDown);
         cargoIntakePower = 0.5;
         SmartDashboard.putNumber("Cargo Intake Power", cargoIntakePower);
-        cargoOuttakePower = 1;
+        cargoOuttakePower = 1.0;
         SmartDashboard.putNumber("Cargo Outtake Power", cargoOuttakePower);
         climbPower = 0.90;
         SmartDashboard.putNumber("Climb Power", climbPower);
         turntablePower = 0.3;
         SmartDashboard.putNumber("Turntable Power", turntablePower);
-
-        // test.setSize(500,500);
-        // test.setVisible(true);        
-    //    test.setSize(500,500);
-    //     test.setVisible(true);
-    //     System.out.println("E");
-        // Gui g = new Gui();
         
         startConstants();
     }
 
     public void startConstants() {
-        // Used to prevent ("lock") a thread from starting again if constructor is run
-        // again
-        synchronized (lock) {
-            if (running)
-                return;
-            running = true;
-        }
+        running = true;
         new Thread(this, "Constants").start();
     }
 
     public void run() {
         while (running) {
-            hatchPower = SmartDashboard.getNumber("Hatch Power", 0.0);
-            climbPower = SmartDashboard.getNumber("Climb Power", 0.0);
-            cargoIntakePower = SmartDashboard.getNumber("Cargo Intake Power", 0.0);
-            turntablePower = SmartDashboard.getNumber("Turntable Power", 0.0);
-            //TODO add cargoPowerDown
-            cargoPowerUp = SmartDashboard.getNumber("Cargo Power", 0.0);
+            hatchPower = SmartDashboard.getNumber("Hatch Power", 0.3);
+            cargoPowerUp = SmartDashboard.getNumber("Cargo Power Up", -0.75);
+            cargoPowerDown = SmartDashboard.getNumber("Cargo Power Down", 0.15);
+            cargoIntakePower = SmartDashboard.getNumber("Cargo Intake Power", 0.5);
+            cargoIntakePower = SmartDashboard.getNumber("Cargo Outtake Power", 1.0);
+            climbPower = SmartDashboard.getNumber("Climb Power", 0.9);
+            turntablePower = SmartDashboard.getNumber("Turntable Power", 0.3);
+            
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
@@ -73,13 +56,13 @@ public class Constants implements Runnable {
         }
     }
 
-    // SmartDashboard.putData()
     public void printTest() {
         System.out.println("SMART DASHBOARD: ");
-        System.out.println("Cargo Power" + cargoPowerUp);
+        System.out.println("Hatch Power" + hatchPower);
+        System.out.println("Cargo Power Up" + cargoPowerUp);
+        System.out.println("Cargo Power Down" + cargoPowerUp);
         System.out.println("Cargo Intake Power" + cargoIntakePower);
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
-        System.out.println("Hatch Power" + hatchPower);
         System.out.println("Climb Power" + climbPower);
         System.out.println("Turntable Power" + turntablePower);
     }
