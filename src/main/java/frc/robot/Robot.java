@@ -26,7 +26,7 @@ import frc.tasks.*;
 import edu.wpi.first.networktables.*;
 import frc.robot.UrsaRobot;
 
-import frc.minimap.*;
+// import frc.minimap.*;
 
 import edu.wpi.first.wpilibj.Servo;
 
@@ -66,10 +66,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private String robotMode;
   
   // For minimap
-  static TestBot testBot;
+  // static TestBot testBot;
   private int numberOfEncoders = 2;
   private double[] encoders = new double[numberOfEncoders];
-  private RunTest runGui = new RunTest(testBot);
+  // private RunTest runGui = new RunTest(testBot);
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -77,7 +77,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void robotInit() {
-    System.gc();
     Logger.setLevel(LogLevel.DEBUG);
     Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
 
@@ -85,7 +84,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    
+
     // distanceSensor.setEnabled(true);
 
     drive = new Drive();
@@ -119,6 +118,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
     constants = new Constants();
     constants.startConstants();
 
+    ultra.setEnabled(true);
+    ultra.setAutomaticMode(true);
+
     // autoCompiler = new AutoCompiler(drive, cargo);
     // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
     // autoSelect = new AutoSelector();
@@ -146,20 +148,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    public boolean b = true;
   @Override
   public void robotPeriodic() {
-    if(b){
-      String [] str = {};
-      runGui.main(str);
-    }
-    encoders[0] = drive.getLeftEncoder();
-    encoders[1] = drive.getRightEncoder();
-    testBot.update(encoders, drive.getHeading());
-    runGui.updateBot(testBot);
-    try {
-      //TODO - use actual methods
-   // writer.write(drive.getRightEncoder(), drive.getLeftEncoder(), drive.getHeading(), cargoArm.potValue());
-    } catch (Exception e) {
-    System.out.println("COULD NOT WRITE TO FILE");
-    }
+    System.out.println(ultra.getRangeInches());
 
   }
 

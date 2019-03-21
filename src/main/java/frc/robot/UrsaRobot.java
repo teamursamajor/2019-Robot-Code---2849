@@ -42,8 +42,8 @@ public interface UrsaRobot {
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
 
-	public static final int CLIMB_ENCODER_CHANNEL_A = 0;
-	public static final int CLIMB_ENCODER_CHANNEL_B = 1;
+	public static final int CLIMB_ENCODER_CHANNEL_A = 6;
+	public static final int CLIMB_ENCODER_CHANNEL_B = 7;
 
 	public static final int CARGO_POT_CHANNEL = 3;
 	public static final int CLIMB_POT_CHANNEL = 0;
@@ -90,7 +90,7 @@ public interface UrsaRobot {
 	// ColorSensor colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
 	// Distance Sensor
-	// Ultrasonic distanceSensor = new Ultrasonic(7, 8); // TODO figure out what the actual ping and echo channels are
+	Ultrasonic ultra = new Ultrasonic(0, 1); // TODO figure out what the actual ping and echo channels are
 
 	// Control Map
 	ControlMap controls = new ControlMap();
