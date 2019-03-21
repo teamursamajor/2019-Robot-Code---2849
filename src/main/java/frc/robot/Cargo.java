@@ -35,7 +35,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     public void runSubsystem() {
         updateStateInfo();
         // automated cargo code
-        //TODO do this with a properly mounted pot and PID control this time
+        // TODO do this with a properly mounted pot and PID control this time
         if (automating) {
             CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
 
