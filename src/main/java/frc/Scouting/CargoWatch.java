@@ -1,4 +1,4 @@
-package frc.Scouting;
+package frc.scouting;
 
 public class CargoWatch{
 boolean success;

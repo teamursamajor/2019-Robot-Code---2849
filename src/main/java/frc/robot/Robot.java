@@ -11,24 +11,18 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.io.FileWriter;
+// import java.io.FileWriter;
+// import java.io.File;
+// import edu.wpi.first.networktables.*;
+// import frc.minimap.*;
 
-import java.io.File;
-
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
-import org.opencv.core.Mat;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
 import frc.tasks.*;
-import edu.wpi.first.networktables.*;
 import frc.robot.UrsaRobot;
 
-// import frc.minimap.*;
-
-import edu.wpi.first.wpilibj.Servo;
+// import edu.wpi.first.wpilibj.Servo;
 
 /**
  * The VM is configured to automatically run this class, and to call the

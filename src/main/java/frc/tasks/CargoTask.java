@@ -1,7 +1,5 @@
 package frc.tasks;
 import frc.robot.*;
-import java.util.Map;
-import java.util.HashMap;
 
 public class CargoTask extends Task implements UrsaRobot{
 	public enum CargoMode {
