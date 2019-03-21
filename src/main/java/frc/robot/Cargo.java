@@ -23,34 +23,25 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         subsystemMode = CargoMode.CLIMB;
         time = System.currentTimeMillis();
 
-        // gets the current cargo voltage (should be for start) so the rest can be
-        // calculated relative to it
+        // gets the current cargo voltage (should be for start)
+        // so the rest can be calculated relative to it
+        // TODO update for VEX potentiometer
         cargoStartVoltage = cargoPot.get();
-        
-        //TODO -
-        //writer = new AutoWriter(carg
-        
-        cargoGroundVoltage = cargoStartVoltage - 8;
-        cargoLowRocketVoltage = cargoStartVoltage - 6;
-        cargoBayVoltage = cargoStartVoltage - 3;
-        // System.out.println(cargoStartVoltage);
-        // System.out.println(cargoGroundVoltage);
-        // System.out.println(cargoLowRocketVoltage);
-        // System.out.println(cargoBayVoltage);
+        cargoGroundVoltage = cargoStartVoltage - 2;
+        cargoLowRocketVoltage = cargoStartVoltage - 1.25;
+        cargoBayVoltage = cargoStartVoltage - 0.75;
     }
 
     public void runSubsystem() {
         updateStateInfo();
         // automated cargo code
-        // System.out.println(automating);
-        // System.out.println(cargoPot.get());
+        //TODO do this with a properly mounted pot and PID control this time
         if (automating) {
-           //TODO - do this with a properly mounted pot this time
             CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
 
             cargoLift.set(cargoOrder.cargoPower);
 
-        } else { // end automating
+        } else {
             if (cargoPot.get() > cargoStartVoltage) {
                 cargoLift.set(0.20);
             } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)) {
@@ -60,25 +51,16 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             } else {
                 cargoLift.set(getHoldPower());
             }
-        } // end else
+        }
 
         // cargo intake code
-        if (xbox.getButton(XboxController.BUTTON_LEFTBUMPER)) {
-            // System.out.println("left bumper");
-            cargoIntake.set(0.5);
-        } else if (xbox.getButton(XboxController.BUTTON_RIGHTBUMPER)) {
-            // System.out.println("right bumper");
+        if (xbox.getButton(controls.map.get("cargo_intake"))) {
+            cargoIntake.set(Constants.cargoIntakePower);
+        } else if (xbox.getButton(controls.map.get("cargo_outtake"))) {
             cargoIntake.set(-1.0);
         } else {
             cargoIntake.set(0.0);
         }
-        // if (xbox.getButton(controls.map.get("cargo_intake"))) {
-        // cargoIntake.set(Constants.cargoIntakePower);
-        // } else if (xbox.getButton(controls.map.get("cargo_outtake"))) {
-        // cargoIntake.set(-Constants.cargoOuttakePower);
-        // } else {
-        // cargoIntake.set(0);
-        // }
 
         if ((System.currentTimeMillis() - time) % 50 == 0) {
             // System.out.println("Pot Voltage: " + cargoPot.get());
@@ -101,12 +83,11 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         cargoLift.set(speed);
     }
 
+    // TODO remove all of these getPower methods and use PID control instead
     public static double getHoldPower() {
         if (cargoPot.get() >= (cargoGroundVoltage) && cargoPot.get() < cargoLowRocketVoltage) {
-            // System.out.println("ground/rocket");
             return -0.25;
         } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage-0.2)) {
-            // System.out.println("rocket/start");
             return -0.20;
         } else {
             return 0.0;
@@ -133,12 +114,5 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         } else {
             return 0.0;
         }
-    }
-    
-    /**
-    *Returns [max height pot val, min height pot val]
-    */
-    public static double[] getPotRange(){
-        return new double[] {cargoStartVoltage, cargoGroundVoltage};
     }
 }
