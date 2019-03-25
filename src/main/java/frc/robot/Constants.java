@@ -67,3 +67,6 @@ public class Constants implements Runnable {
         System.out.println("Turntable Power" + turntablePower);
     }
 }
+
+//The image widget simply displays a static image loaded from a file. If you want to display the final product from image processing and you’re extending a WPICameraWidgetExtension, either draw on top of the WPIImage provided as a parameter or return a new WPIImage (if you return, make sure you store a handle to it somewhere else, or SmartDashboard will crash without any indication – this caused me a lot of grief).
+//https://github.com/team2485/sdwidgets/tree/master/src/team2485/smartdashboard/extension
