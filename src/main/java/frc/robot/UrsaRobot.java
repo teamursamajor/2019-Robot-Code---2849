@@ -22,7 +22,7 @@ public interface UrsaRobot {
 	public static final int DRIVE_BACK_RIGHT = 9;
 
 	public static final int CARGO_INTAKE = 2;
-	public static final int CARGO_LIFT = 7;
+	public static final int CARGO_LIFT = 3;
 	
 	public static final int CLIMB_FRONT = 5;
 	public static final int CLIMB_BACK = 8;
@@ -30,7 +30,7 @@ public interface UrsaRobot {
 	public static final int HATCH = 4;
 	public static final int TURNTABLE = 1;
 
-	public static final int HATCH_SERVO = 3;
+	public static final int HATCH_SERVO = 7;
 
 	public static final int BUMPER_SWITCH_CHANNEL = 6;
 

@@ -83,7 +83,6 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         cargoLift.set(speed);
     }
 
-    // TODO remove all of these getPower methods and use PID control instead
     public static double getHoldPower() {
         if (cargoPot.get() >= (cargoGroundVoltage) && cargoPot.get() < cargoLowRocketVoltage) {
             return -0.25;

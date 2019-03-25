@@ -6,15 +6,19 @@ public class Hatch implements Runnable, UrsaRobot {
 
     public static Servo hatchServo;
     private boolean hatchOpen = true;
-    private double extendAngle = 360.0;
+
+    private double defaultAngle = 0.0;
+    private double extendAngle = 300.0;
+
+    private long hatchRunTime = 1000;
 
     private Thread t;
 
     public enum HatchMode {
-        HOLD, OPEN
+        WAIT, RUN
     }
 
-    public static HatchMode hatchMode = HatchMode.HOLD;
+    public static HatchMode hatchMode = HatchMode.WAIT;
 
     public Hatch() {
         hatchServo = new Servo(HATCH_SERVO);
@@ -26,21 +30,23 @@ public class Hatch implements Runnable, UrsaRobot {
     }
 
     public void run() {
-         while (true) {
-            if(xbox.getSingleButtonPress(XboxController.BUTTON_A)){
-                 if(hatchOpen){
-                    hatchMode = HatchMode.HOLD;
-                 } else {
-                    hatchMode = HatchMode.OPEN;
-                 }
-                 hatchOpen = !hatchOpen;
+        while (true) {
+            if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
+                hatchOpen = !hatchOpen;
+                hatchMode = HatchMode.RUN;
             }
 
-            if(hatchMode.equals(HatchMode.OPEN)){
-                hatchServo.setAngle(0.0); // ready to pick up or drop off
+            if (hatchMode.equals(HatchMode.RUN)) {
+                if (hatchOpen) { // close hatch, ready to pick up or drop off
+                    runHatch(0.75);
+                } else { // open hatch, ready to move
+                    runHatch(-0.75);
+                }
             } else {
-                hatchServo.setAngle(extendAngle); // ready to hold hatch and move
+                hatchServo.setPosition(0.5);
             }
+
+            hatchMode = HatchMode.WAIT;
 
             try {
                 Thread.sleep(20);
@@ -49,5 +55,15 @@ public class Hatch implements Runnable, UrsaRobot {
                 System.out.println("DID NOT SLEEP");
             }
         }
+    }
+
+    public void runHatch(double power) {
+        hatchServo.setPosition(power);
+        try {
+            Thread.sleep(hatchRunTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        hatchServo.set(.5);
     }
 }
