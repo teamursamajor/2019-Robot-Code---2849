@@ -192,15 +192,27 @@ public class Robot extends TimedRobot implements UrsaRobot {
     Logger.setLevel(debugSelect.getLevel());
   }
 
+  private boolean processedPipeline = true;
+
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
+    if(xbox.getSingleButtonPress(XboxController.BUTTON_START)){ // flip limelight pipeline
+      if(processedPipeline)
+        limelightTable.getEntry("pipeline").setDouble(0);
+      else 
+        limelightTable.getEntry("pipeline").setDouble(2);
+      
+      processedPipeline = !processedPipeline;
 
-    if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
-      Drive.cargoIsFront = !Drive.cargoIsFront;
     }
+
+    // if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
+    //   Drive.cargoIsFront = !Drive.cargoIsFront;
+    // }
+
     // System.out.println("Cargo Voltage: " + Cargo.cargoPot.get());
 
     // determines if cargo is being moved manually or automatically

@@ -35,10 +35,15 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     public void runSubsystem() {
         updateStateInfo();
         // automated cargo code
-        // TODO do this with a properly mounted pot and PID control this time
         if (automating) {
+            if (xbox.getSingleButtonPress(XboxController.BUTTON_X)) {
+                subsystemMode = CargoMode.GROUND;
+            } else if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
+                subsystemMode = CargoMode.CARGOBAY;
+            } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) {
+                subsystemMode = CargoMode.LOWROCKET;
+            }
             CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
-
             cargoLift.set(cargoOrder.cargoPower);
 
         } else {
@@ -49,7 +54,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
                 cargoLift.set(getDownPower());
             } else {
-                cargoLift.set(getHoldPower()); // TODO replace with feed forward later
+                cargoLift.set(CargoTask.feedForward(CargoTask.getCargoAngle()));
             }
         }
 
@@ -64,6 +69,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
         if ((System.currentTimeMillis() - time) % 50 == 0) {
             // System.out.println("Pot Voltage: " + cargoPot.get());
+            System.out.println(CargoTask.feedForward(CargoTask.getCargoAngle()));
             // System.out.println(subsystemMode);
         }
 
@@ -73,20 +79,17 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         double currentVoltage = cargoPot.get();
         double deltaVolt = currentVoltage - CargoTask.CargoState.cargoVoltage;
         double deltaTime = System.currentTimeMillis() - CargoTask.CargoState.stateTime;
-        
-        if (deltaTime <= 5) return;
+
+        if (deltaTime <= 5)
+            return;
         double velocity = (deltaVolt / deltaTime);
         CargoTask.CargoState.updateState(velocity, currentVoltage);
-    }
-
-    public void setCargoLift(double speed) {
-        cargoLift.set(speed);
     }
 
     public static double getHoldPower() {
         if (cargoPot.get() >= (cargoGroundVoltage) && cargoPot.get() < cargoLowRocketVoltage) {
             return -0.25;
-        } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage-0.2)) {
+        } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage)) {
             return -0.20;
         } else {
             return 0.0;
@@ -104,7 +107,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     }
 
     public static double getDownPower() {
-        if (cargoPot.get() >= (cargoGroundVoltage - 0.2) && cargoPot.get() < cargoLowRocketVoltage) {
+        if (cargoPot.get() >= (cargoGroundVoltage) && cargoPot.get() < cargoLowRocketVoltage) {
             return 0.15;
         } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage)) {
             return 0.23;

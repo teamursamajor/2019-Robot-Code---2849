@@ -38,7 +38,6 @@ public class Climb implements UrsaRobot {
     public Climb() {
         climbFrontMotor = new Spark(CLIMB_FRONT);
         climbBackMotor = new Spark(CLIMB_BACK);
-        climbPot = new AnalogPotentiometer(CLIMB_POT_CHANNEL, 360, 0);
     }
 
     public void climbInit() {
@@ -77,9 +76,9 @@ public class Climb implements UrsaRobot {
                 return;
             }
 
-            if(frontArmMaxDistance - climbEncoder.getDistance() <= distanceTolerance || (System.currentTimeMillis() - frontStart) > maxFrontClimbTime) {
-                climbFrontMotor.set(0.0);
-            }
+            // if(frontArmMaxDistance - climbEncoder.getDistance() <= distanceTolerance || (System.currentTimeMillis() - frontStart) > maxFrontClimbTime) {
+            //     climbFrontMotor.set(0.0);
+            // }
             try{
                 Thread.sleep(20);
             } catch(Exception e){

@@ -34,7 +34,7 @@ public class CargoTask extends Task implements UrsaRobot {
 
             if (Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;
-                return new CargoOrder(feedForward(getCargoAngle(Cargo.cargoPot.get())));
+                return new CargoOrder(feedForward(getCargoAngle()));
             }
 
             // TODO determine critical point (where it just oscillates forever) and period
@@ -57,7 +57,7 @@ public class CargoTask extends Task implements UrsaRobot {
 
             // TODO eventually add D term
             double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage)
-                    + feedForward(getCargoAngle(CargoState.cargoVoltage)) + kdCargo * CargoState.cargoVelocity;
+                    + feedForward(getCargoAngle()) + kdCargo * CargoState.cargoVelocity;
 
             if (cargoPower < 0 && Math.abs(cargoPower) < cargoUpMinimumPower) { // going up
                 System.out.println("PID Power too weak, using cargoMinimumPower");
@@ -80,12 +80,15 @@ public class CargoTask extends Task implements UrsaRobot {
     private static final double cargoMass = 4.6947; // kilograms
     private static final double cargoRadius = .365; // meters
     private static final double torqueCoefficient = cargoRadius * cargoMass * 9.81; // r * m * g
-    private static final double voltToPowerRegression = 6.38982;
+    private static final double torqueToVoltRegression = 6.38982;
     private static final double motorRange = 12.0;
+    private static final double voltAngleSlope = (90.0 - 0.0) / (100.35 - 0.35);
+    private static final double motorEfficiencyFactor = 1;
 
-    public static double getCargoAngle(double voltage) {
-        // TODO determine linear regression
-        return 0.0;
+    public static double getCargoAngle() {
+        // y = mx + b
+        // b = 0 since angle = 0 when voltage = 0
+        return voltAngleSlope * Cargo.cargoPot.get();
     }
 
     public static double feedForward(double angle) {
@@ -93,12 +96,20 @@ public class CargoTask extends Task implements UrsaRobot {
         double torque = torqueCoefficient * Math.cos(angle);
 
         // torque to voltage
-        double voltage = torque * voltToPowerRegression;
+        // 100:1 gearbox ratio, so divide torque by 100
+        double voltage = (torque / 100) * torqueToVoltRegression;
 
-        //voltage to power
+        // voltage to power
         double power = voltage / motorRange;
 
-        return power;
+        /**
+         * The power this returns is ~0.08. Our empirically determined values are
+         * actually around ~0.2-0.25 This means that the motor is likely not as
+         * efficient as a brand new motor which was used for the voltage -> torque
+         * regression, so we need to multiply our output by some factor to account for
+         * the motor inefficiency
+         */
+        return power * motorEfficiencyFactor;
     }
 
     public static class CargoState {
