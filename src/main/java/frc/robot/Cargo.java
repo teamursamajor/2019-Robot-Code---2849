@@ -49,13 +49,13 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
                 cargoLift.set(getDownPower());
             } else {
-                cargoLift.set(getHoldPower());
+                cargoLift.set(getHoldPower()); // TODO replace with feed forward later
             }
         }
 
         // cargo intake code
         if (xbox.getButton(controls.map.get("cargo_intake"))) {
-            cargoIntake.set(Constants.cargoIntakePower);
+            cargoIntake.set(0.55);
         } else if (xbox.getButton(controls.map.get("cargo_outtake"))) {
             cargoIntake.set(-1.0);
         } else {
