@@ -38,10 +38,21 @@ public class Hatch implements Runnable, UrsaRobot {
 
             if (hatchMode.equals(HatchMode.RUN)) {
                 if (hatchOpen) { // close hatch, ready to pick up or drop off
-                    runHatch(0.75);
+                    hatchServo.setPosition(.75);
+                    try {
+                        Thread.sleep(hatchRunTime + 750);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    hatchServo.set(.5);
                 } else { // open hatch, ready to move
-                    runHatch(-0.75);
-                }
+                    hatchServo.setPosition(-.75);
+                    try {
+                        Thread.sleep(hatchRunTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    hatchServo.set(.5);                }
             } else {
                 hatchServo.setPosition(0.5);
             }
@@ -55,15 +66,5 @@ public class Hatch implements Runnable, UrsaRobot {
                 System.out.println("DID NOT SLEEP");
             }
         }
-    }
-
-    public void runHatch(double power) {
-        hatchServo.setPosition(power);
-        try {
-            Thread.sleep(hatchRunTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        hatchServo.set(.5);
     }
 }
