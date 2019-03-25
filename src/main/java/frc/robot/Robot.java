@@ -33,7 +33,7 @@ import frc.robot.UrsaRobot;
  */
 // Suggested to use CommandRobot
 public class Robot extends TimedRobot implements UrsaRobot {
-  
+
   // public AutoWriter;
   
   // TODO this came with the class. uncomment if using
@@ -44,7 +44,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private Drive drive;
   private Turntable turntable;
-  // private Hatch hatch;
+  private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
   // private Vision vision;
@@ -59,8 +59,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private DebugSelector debugSelect;
   private String robotMode;
-  
-  // private double currentTime;
 
   // For minimap
   // static TestBot testBot;
@@ -93,9 +91,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
       turntable = new Turntable();
       turntable.initialize("turntableThread");
 
-      // hatch = new Hatch();
-      // hatch.initialize("hatchThread");
-      // hatch.hatchInit();
+      hatch = new Hatch();
+      hatch.hatchInit();
       // auto align
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
       // climb = new Climb();
@@ -129,8 +126,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
     // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
-    CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision constructor code doesnt work
-    CameraServer.getInstance().startAutomaticCapture();
+    // CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision
+    // constructor code doesnt work
+    // CameraServer.getInstance().startAutomaticCapture();
+
   }
 
   /**
@@ -142,11 +141,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
    * and SmartDashboard integrated updating.
    */
 
-  // public boolean b = true;
-  
+  public boolean b = true;
+
   @Override
   public void robotPeriodic() {
-    System.out.println(ultra.getRangeInches());
+
   }
 
   /*
@@ -180,6 +179,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
       Drive.cargoIsFront = !Drive.cargoIsFront;
     }
+
   }
 
   /**
@@ -199,7 +199,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
 
     if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
       Drive.cargoIsFront = !Drive.cargoIsFront;
@@ -217,7 +216,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // TODO clean this whole thing up once climb/hatch is more finalized
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-      
+
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
 
       // run and kill auto climb
@@ -226,6 +225,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
       } else if (xbox.getButton(controls.map.get("climb_stop"))) {
         // climb.cancelClimb();
       }
+
+      boolean climbPressed = false;
 
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
       // NO MANUAL CLIMB
@@ -262,7 +263,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    
+    // System.out.println(ultra.getRangeInches());
+
   }
 
   /**

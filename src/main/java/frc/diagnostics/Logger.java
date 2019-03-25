@@ -56,8 +56,7 @@ public class Logger {
 	 */
 	public static void log(String info, LogLevel lev, boolean writePrefix) {
 		if (level.compareTo(lev) >= 0) {
-			// TODO this toString might print incorrectly; in that case use ifs to set to a
-			// string
+			// this toString might print incorrectly; in that case use ifs to set to a string
 			if (writePrefix) {
 				write(getTime() + " [" + lev.toString() + "] " + info, file);
 			} else {
