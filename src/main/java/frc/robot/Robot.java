@@ -43,7 +43,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   // private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
-  private Turntable turntable;
   private Hatch hatch;
   private Climb climb;
   private Cargo cargo;
@@ -88,8 +87,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     cargo.initialize("cargoThread");
 
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-      turntable = new Turntable();
-      turntable.initialize("turntableThread");
+     
 
       hatch = new Hatch();
       hatch.hatchInit();

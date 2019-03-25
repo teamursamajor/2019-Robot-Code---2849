@@ -12,7 +12,6 @@ import java.util.ArrayList;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
-import frc.tasks.TurntableTask.TurntableMode;
 import frc.robot.*;
 
 //TODO path (follow) code need to be added!
@@ -33,18 +32,16 @@ public class AutoCompiler {
 	private Drive drive;
 	private Cargo cargo;
 	private Hatch hatch;
-	private Turntable turntable;
 
 	public AutoCompiler(Drive drive, Cargo cargo){
 		this.drive = drive;
 		this.cargo = cargo;
 	}
 
-	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch, Turntable turntable) {
+	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch) {
 		this.drive = drive;
 		this.cargo = cargo;
 		this.hatch = hatch;
-		this.turntable = turntable;
 	}
 
 	/**
@@ -153,53 +150,7 @@ public class AutoCompiler {
 	// 	}
 	// }
 
-	/**
-	 * A token that moves the turntable to a given direction
-	 * 
-	 * @param direction Direction to turn the turntable to
-	 */
-	class TurntableToken implements Token {
-		private TurntableMode turntableMode = TurntableMode.CUSTOM;
-		private double power;
-		private double time;
-		private int slashIndex;
-
-		public TurntableToken(String direction) {
-			//.5/250
-			direction = direction.replace(" ", "");
-
-			// if (direction.equalsIgnoreCase("FORWARD")) {
-			// 	turntableMode = TurntableMode.FORWARD;
-			// } else if (direction.equalsIgnoreCase("LEFT")) {
-			// 	turntableMode = TurntableMode.LEFT;
-			// } else if (direction.equalsIgnoreCase("RIGHT")) {
-			// 	turntableMode = TurntableMode.RIGHT;
-
-			//TODO figure out what's wrong with this and add a slash separator
-			if (direction.equalsIgnoreCase("ALIGN")) {
-				// turntableMode = TurntableMode.AUTO_ALIGN;
-			} else {
-				try {
-					slashIndex = direction.indexOf("/");
-					power = Double.parseDouble(direction.substring(0, slashIndex));
-					
-				} catch (NumberFormatException e) {
-					power = 0;
-					e.printStackTrace();
-				}
-			}
-		}
-
-		public TurntableTask makeTask() {
-			// If there is no custom power/time, auto align
-			// if (turntableMode == TurntableMode.AUTO_ALIGN)
-				// return new TurntableTask(TurntableMode.AUTO_ALIGN, turntable);
-			// If there is a custom power/time, return that power/time
-			// else
-				return new TurntableTask(TurntableMode.CUSTOM, turntable);
-		}
-	}
-
+	
 	/**
 	 * A token that delays the auto mode for a duration passed to it
 	 * 
@@ -353,9 +304,6 @@ public class AutoCompiler {
 			} else if (line.contains("drive")) {
 				String current = line.substring(line.indexOf("drive") + "drive".length()); // Drive length (feet)
 				tokenList.add(new DriveToken(current));
-			} else if (line.contains("turntable")) { // This must go first because "turntable" contains "turn"
-				String current = line.substring(line.indexOf("turntable") + "turntable".length()); // Turntable mode
-				tokenList.add(new TurntableToken(current));
 			} else if (line.contains("turn")) {
 				String current = line.substring(line.indexOf("align") + "turn".length()); // TurntableTask angle
 				tokenList.add(new TurnToken(current));
@@ -414,8 +362,6 @@ public class AutoCompiler {
 				taskSet.addTask(((CargoToken) t).makeTask());
 			// } else if (t instanceof HatchToken) {
 			// 	taskSet.addTask(((HatchToken) t).makeTask());
-			} else if (t instanceof TurntableToken) {
-				taskSet.addTask(((TurntableToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask bundleSet = new BundleTask();
 				parseAuto(tokenList, bundleSet);

@@ -1,17 +1,20 @@
 package frc.robot;
 
 import frc.tasks.*;
-import frc.tasks.TurntableTask.TurntableMode;
+import frc.tasks.AutoAlignTask.TurntableMode;
 
 import edu.wpi.first.wpilibj.Spark;
 
-public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements UrsaRobot {
+public class AutoAlign extends Subsystem<AutoAlignTask.TurntableMode> implements UrsaRobot {
 
     public static Spark turntableMotor;
 
-    public Turntable() {
+    public AutoAlign() {
         turntableMotor = new Spark(TURNTABLE);
-        subsystemMode = TurntableMode.MANUAL;
+    }
+
+    public void align(){
+
     }
 
     public void runSubsystem() {
@@ -26,7 +29,7 @@ public class Turntable extends Subsystem<TurntableTask.TurntableMode> implements
             }
         }
 
-        TurntableTask.TurntableOrder turntableOrder = subsystemMode.callLoop();
+        AutoAlignTask.TurntableOrder turntableOrder = subsystemMode.callLoop();
 
         turntableMotor.set(turntableOrder.power);
     }

@@ -1,14 +1,15 @@
 package frc.tasks;
 
-import frc.robot.Turntable;
+import frc.robot.AutoAlign;
 import frc.robot.UrsaRobot;
 import frc.robot.Constants;
 import frc.robot.ControlMap;
 
-public class TurntableTask extends Task implements UrsaRobot {
+public class AutoAlignTask extends Task implements UrsaRobot {
 
     public double power;
     public long time;
+    public boolean on = false;
 
     public enum TurntableMode {
         MANUAL, CUSTOM;
@@ -50,14 +51,14 @@ public class TurntableTask extends Task implements UrsaRobot {
     }
 
     // TODO update this to use a timer
-    public TurntableTask(TurntableMode mode, Turntable turntable) {
+    public AutoAlignTask(TurntableMode mode, AutoAlign turntable) {
         running = true;
         turntable.setMode(mode);
         Thread t = new Thread("Turntable Task");
         t.start();
     }
 
-    public TurntableTask(double power, long time, Turntable turntable) {
+    public AutoAlignTask(double power, long time, AutoAlign turntable) {
         running = true;
         this.power = power;
         this.time = time;
