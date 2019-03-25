@@ -103,13 +103,13 @@ public class Vision implements UrsaRobot, Runnable {
             }
             switch (turnDirection) {
             case RIGHT:
-                Turntable.turntableMotor.set(-0.3);
+                // Turntable.turntableMotor.set(-0.3);
                 break;
             case LEFT:
-                Turntable.turntableMotor.set(0.3);
+                // Turntable.turntableMotor.set(0.3);
                 break;
             default:
-                Turntable.turntableMotor.set(0.0);
+                // Turntable.turntableMotor.set(0.0);
                 break;
             }
             try {
@@ -120,7 +120,7 @@ public class Vision implements UrsaRobot, Runnable {
         }
 
         // stop the motor from moving until the PID loop runs
-        Turntable.turntableMotor.set(0.0);
+        // Turntable.turntableMotor.set(0.0);
 
         // PID loop
         visionPID();
@@ -164,7 +164,7 @@ public class Vision implements UrsaRobot, Runnable {
             double centerPos = x;
             if (Math.abs(centerPos) < autoAlignTolerance) {
                 turning = false;
-                Turntable.turntableMotor.set(0.0);
+                // Turntable.turntableMotor.set(0.0);
                 return;
             }
 
@@ -184,13 +184,13 @@ public class Vision implements UrsaRobot, Runnable {
                 outputPower = Math.signum(outputPower) * autoAlignMaximumPower;
             }
 
-            Turntable.turntableMotor.set(outputPower);
+            // Turntable.turntableMotor.set(outputPower);
         }
     }
 
     private static void killVision() {
         limelightTable.getEntry("pipeline").setDouble(0);
-        Turntable.turntableMotor.set(0.0);
+        // Turntable.turntableMotor.set(0.0);
         // TODO fix later
         // Vision.hatch.setMode(HatchMode.WAIT);
     }
