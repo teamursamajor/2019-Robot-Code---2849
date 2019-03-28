@@ -89,7 +89,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
      
 
-      hatch = new Hatch();
+      hatch = new Hatch(cargo);
       hatch.hatchInit();
       // auto align
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
