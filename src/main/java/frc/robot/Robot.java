@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.networktables.*;
 // import frc.minimap.*;
 
-import edu.wpi.first.cameraserver.CameraServer;
+// import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
 // import frc.tasks.*;
@@ -229,8 +229,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
       } else if (xbox.getButton(controls.map.get("climb_stop"))) {
         // climb.cancelClimb();
       }
-
-      boolean climbPressed = false;
 
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
       // NO MANUAL CLIMB
