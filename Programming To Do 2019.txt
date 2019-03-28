@@ -1,0 +1,68 @@
+Test distance sensor
+Test and finalize climber
+New Hatch code
+Potentional Hatch automation/limelightQ
+Clean up/update teleopPeriodic() and control map code to reflect robot
+Mount second drive encoder
+
+
+Finish Auto Selector and test it
+Write auto files/draw paths
+Automate cargo using encoders or color sensor
+
+Color Sensor:
+	Where should we mount them? One in the center of the robot could be used to automate cargo drop off maybe
+	We could also put one on the hatch end of the robot (centered horizontally on the edge)
+	Wire and mount the second sensor
+		Have build start to figure out how to mount them properly (NOT duct tape)
+	Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
+	Add another DriveMode which drives forward until the color sensor gets a match
+
+Drive Encoders
+
+Color sensor code for cargo (come at the line at an angle, kill motors/start turning, drive forward and drop off)
+Write auto code for all 3 rows:
+	Far Hatch -> Mid Hatch for both sides
+	Mid Hatch -> Close Cargo for both sides
+	Front Hatch/Cargo -> ?
+	Default drive forward mode
+
+Testing:
+	Test new cargo mode progression
+		X should go from ground to rocket and back
+		Y should go from ground to bay and back
+	New cargo velocity
+		Does it still return infinity/NaN?
+		If not try adding a kD constant and see what happens
+			Then tune it
+
+	Test limelight turntable movement
+
+Camera Mount: In progress but check on it
+
+Lower Priority:
+	Constants:
+		Move more powers and stuff to constants
+	Add offset to potentiometers? Ex: Cargo pot starts from around 125-130, adding an offset would make it stop from 0
+
+Older To Do Lists:
+Add Logger calls throughout the code
+	Later, if we have extra time, we can improve the Logger functionality
+
+Look at all the TODO's in the project and start doing them:
+	We never get to this. Maybe this year it'll be different...
+	
+Auto:
+	-Write new auto code:
+		-Make new path files
+		-Take a ball or hatch to any spot on the bay
+			-Dont drop the hatch until the driver confirms the position
+			-New naming convention:
+				[L,M,R][1,2][Hatch || Cargo][L,M,R][1,2][Additional Actions].auto
+				Ex: L1HatchL1LoadingStation.auto
+					Start on level 1 from the left, dropping off hatch at L1 station, then move to loading station afterward
+		-5 Start Positions:
+			Level 2: L   R
+			Level 1: L M R
+	-SmartDashboard integration
+	-Improve scripting language

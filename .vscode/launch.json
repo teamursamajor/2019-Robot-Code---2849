@@ -4,18 +4,59 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - StudySession",
+      "request": "launch",
+      "mainClass": "frc.minimap.StudySession",
+      "projectName": "2019-Robot-Code---2849"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - RunTest",
+      "request": "launch",
+      "mainClass": "frc.minimap.RunTest",
+      "projectName": "2019-Robot-Code---2849"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - ScoutGui",
+      "request": "launch",
+      "mainClass": "frc.Scouting.ScoutGui",
+      "projectName": "2019-Robot-Code---2849"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - ScoutGui",
+      "request": "launch",
+      "mainClass": "ScoutGui",
+      "projectName": "2019-Robot-Code---2849"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - Gui",
+      "request": "launch",
+      "mainClass": "Gui",
+      "projectName": "2019-Robot-Code---2849"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - Gui",
+      "request": "launch",
+      "mainClass": "frc.minimap.Gui",
+      "projectName": "2019-Robot-Code---2849"
+    },
     {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",
-      "desktop": true,
+      "desktop": true
     },
     {
       "type": "wpilib",
       "name": "WPILib roboRIO Debug",
       "request": "launch",
-      "desktop": false,
+      "desktop": false
     }
   ]
 }
