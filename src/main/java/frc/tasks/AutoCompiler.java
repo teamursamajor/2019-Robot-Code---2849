@@ -6,10 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// TODO @20XX why the unused imports?
-// import edu.wpi.first.wpilibj.DriverStation;
-// import edu.wpi.first.wpilibj.Relay.Direction;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
 import frc.robot.*;
@@ -31,17 +27,10 @@ public class AutoCompiler {
 
 	private Drive drive;
 	private Cargo cargo;
-	private Hatch hatch;
 
 	public AutoCompiler(Drive drive, Cargo cargo){
 		this.drive = drive;
 		this.cargo = cargo;
-	}
-
-	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch) {
-		this.drive = drive;
-		this.cargo = cargo;
-		this.hatch = hatch;
 	}
 
 	/**
@@ -123,33 +112,6 @@ public class AutoCompiler {
 			return new CargoTask(cargoMode, cargo);
 		}
 	}
-
-	// TODO reevaluate
-	/**
-	 * A token that moves the hatch arm to a preset position
-	 * 
-	 * @param position Position to move the hatch arm to
-	 */
-	// class HatchToken implements Token {
-	// 	private HatchMode hatchMode;
-
-	// 	public HatchToken(String position) {
-	// 		position = position.replace(" ", "");
-
-	// 		if (position.equalsIgnoreCase("RUN")) {
-	// 			hatchMode = HatchMode.RUN; 
-	// 		} else if (position.equalsIgnoreCase("FLIP")) {
-	// 			hatchMode = HatchMode.FLIP;
-	// 		} else {
-	// 			hatchMode = HatchMode.WAIT;
-	// 		}
-	// 	}
-
-	// 	public HatchTask makeTask() {
-	// 		return new HatchTask(hatchMode, hatch);
-	// 	}
-	// }
-
 	
 	/**
 	 * A token that delays the auto mode for a duration passed to it
@@ -305,11 +267,8 @@ public class AutoCompiler {
 				String current = line.substring(line.indexOf("drive") + "drive".length()); // Drive length (feet)
 				tokenList.add(new DriveToken(current));
 			} else if (line.contains("turn")) {
-				String current = line.substring(line.indexOf("align") + "turn".length()); // TurntableTask angle
+				String current = line.substring(line.indexOf("turn") + "turn".length()); // Turn angle
 				tokenList.add(new TurnToken(current));
-			// } else if (line.contains("hatch")) {
-			// 	String current = line.substring(line.indexOf("hatch") + "hatch".length()); // Hatch mode
-			// 	tokenList.add(new HatchToken(current));
 			} else if (line.contains("cargo")) {
 				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
 				tokenList.add(new CargoToken(current));
@@ -360,8 +319,6 @@ public class AutoCompiler {
 				taskSet.addTask(((PathToken) t).makeTask());
 			} else if (t instanceof CargoToken) {
 				taskSet.addTask(((CargoToken) t).makeTask());
-			// } else if (t instanceof HatchToken) {
-			// 	taskSet.addTask(((HatchToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask bundleSet = new BundleTask();
 				parseAuto(tokenList, bundleSet);
