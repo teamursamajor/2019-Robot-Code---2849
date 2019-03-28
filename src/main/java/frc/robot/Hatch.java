@@ -1,16 +1,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Servo;
+import frc.tasks.CargoTask;
 
 public class Hatch implements Runnable, UrsaRobot {
 
     public static Servo hatchServo;
     private boolean hatchOpen = true;
 
-    private double defaultAngle = 0.0;
-    private double extendAngle = 300.0;
-
     private long hatchRunTime = 1000;
+
+    private Cargo cargo;
 
     private Thread t;
 
@@ -20,8 +20,9 @@ public class Hatch implements Runnable, UrsaRobot {
 
     public static HatchMode hatchMode = HatchMode.WAIT;
 
-    public Hatch() {
+    public Hatch(Cargo cargo) {
         hatchServo = new Servo(HATCH_SERVO);
+        this.cargo = cargo;
     }
 
     public void hatchInit() {
@@ -52,7 +53,15 @@ public class Hatch implements Runnable, UrsaRobot {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    hatchServo.set(.5);                }
+                    hatchServo.set(.5);
+
+                    try { // TODO if everything breaks comment this out
+                        cargo.setMode(CargoTask.CargoMode.HATCH);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
             } else {
                 hatchServo.setPosition(0.5);
             }

@@ -59,6 +59,9 @@ public class XboxController extends Joystick implements Runnable {
 		}
 	}
 
+	/**
+	 * Starts the controller rumble
+	 */
 	private void startRumble() {
 		synchronized (lock) {
 			if (running)

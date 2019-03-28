@@ -171,6 +171,16 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		mRearRight.set(power);
 	}
 
+	public static void setLeftPower(double power){
+		mFrontLeft.set(-power);
+		mRearLeft.set(-power);
+	}
+
+	public static void setRightPower(double power){
+		mFrontRight.set(power);
+		mRearRight.set(power);
+	}
+
 	public void debugMessage(String message) {
 		message = "DEBUGGING: " + message;
 		System.out.println(message);

@@ -4,7 +4,7 @@ import frc.robot.*;
 
 public class CargoTask extends Task implements UrsaRobot {
     public enum CargoMode {
-        GROUND, CARGOBAY, LOWROCKET, CLIMB;
+        GROUND, HATCH, LOWROCKET, CARGOBAY, CLIMB;
 
         public CargoMode getNext() {
             return this.ordinal() < CargoMode.values().length - 1 ? CargoMode.values()[this.ordinal() + 1] : GROUND;
@@ -18,6 +18,8 @@ public class CargoTask extends Task implements UrsaRobot {
             switch (this) {
             case GROUND:
                 return moveToAngle(Cargo.cargoGroundVoltage);
+            case HATCH:
+                return moveToAngle(Cargo.cargoGroundVoltage + 12);
             case LOWROCKET:
                 return moveToAngle(Cargo.cargoLowRocketVoltage);
             case CARGOBAY:
