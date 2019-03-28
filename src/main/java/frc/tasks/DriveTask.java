@@ -68,7 +68,6 @@ public class DriveTask extends Task implements UrsaRobot {
                 return new DriveOrder(0.0, 0.0);
             }
 
-            // TODO someone double check this
             // If moving forward, everything is like normal
             if (direction > 0) {
                 leftOutputPower = kpDrive * (desiredLocation - DriveState.leftPos) + kdDrive * DriveState.leftVelocity;

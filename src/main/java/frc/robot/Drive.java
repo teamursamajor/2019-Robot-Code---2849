@@ -18,10 +18,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * any time.
 	 */
 	public Drive() {
-		// TODO do we want to do auto sandstorm or teleop?
-		// The answer to that question changes what we do here
-
-		// TODO in the future we will want a switch statement here with getMode()
 		setMode(DriveMode.DRIVE_STICKS);
 
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);

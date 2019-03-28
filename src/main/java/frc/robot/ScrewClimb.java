@@ -28,7 +28,6 @@ public class ScrewClimb implements UrsaRobot {
             leadscrewsUp = true;
             leadscrew.set(leadscrewSpeed);
             while (ultra.getRangeInches() <= distanceTolerance) {
-                // TODO do we need a sleep here? not sure
                 try {
                     Thread.sleep(20);
                 } catch(Exception e){

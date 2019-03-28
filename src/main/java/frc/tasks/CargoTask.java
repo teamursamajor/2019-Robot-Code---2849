@@ -30,7 +30,7 @@ public class CargoTask extends Task implements UrsaRobot {
         }
 
         private CargoOrder moveToAngle(double desiredVoltage) {
-            double voltageTolerance = 2.5; // TODO update voltage tolerance
+            double voltageTolerance = 3;
 
             if (Math.abs(CargoState.cargoVoltage - desiredVoltage) <= voltageTolerance) {
                 running = false;

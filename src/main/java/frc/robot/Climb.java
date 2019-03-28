@@ -2,9 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-// TODO unused?
-// import frc.tasks.DriveTask.DriveOrder;
 
 // TODO are we using this climb design? if not, remove?
 public class Climb implements UrsaRobot {
@@ -24,7 +21,6 @@ public class Climb implements UrsaRobot {
 
     public static Potentiometer climbPot;
 
-    // TODO determine values
     private double camPerpendicularVoltage = 0.0;
     private double frontArmMaxDistance = 0.0;
     private double distanceTolerance = 5.0;

@@ -1,7 +1,6 @@
 package frc.robot;
 
 import frc.tasks.*;
-import frc.tasks.AutoAlignTask.TurntableMode;
 
 import edu.wpi.first.wpilibj.Spark;
 
