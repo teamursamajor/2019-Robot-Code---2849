@@ -11,7 +11,6 @@ public class Constants implements Runnable {
     public static double cargoIntakePower;
     public static double cargoOuttakePower;
     public static double climbPower;
-    public static double turntablePower;
 
     public Constants() {
         hatchPower = 0.30;
@@ -26,8 +25,6 @@ public class Constants implements Runnable {
         SmartDashboard.putNumber("Cargo Outtake Power", cargoOuttakePower);
         climbPower = 0.90;
         SmartDashboard.putNumber("Climb Power", climbPower);
-        turntablePower = 0.3;
-        SmartDashboard.putNumber("Turntable Power", turntablePower);
         
         startConstants();
     }
@@ -45,7 +42,6 @@ public class Constants implements Runnable {
             cargoIntakePower = SmartDashboard.getNumber("Cargo Intake Power", 0.5);
             cargoIntakePower = SmartDashboard.getNumber("Cargo Outtake Power", 1.0);
             climbPower = SmartDashboard.getNumber("Climb Power", 0.9);
-            turntablePower = SmartDashboard.getNumber("Turntable Power", 0.3);
             
             try {
                 Thread.sleep(20);
@@ -64,7 +60,6 @@ public class Constants implements Runnable {
         System.out.println("Cargo Intake Power" + cargoIntakePower);
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
         System.out.println("Climb Power" + climbPower);
-        System.out.println("Turntable Power" + turntablePower);
     }
 }
 

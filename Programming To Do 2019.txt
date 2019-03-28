@@ -36,8 +36,6 @@ Testing:
 		If not try adding a kD constant and see what happens
 			Then tune it
 
-	Test limelight turntable movement
-
 Camera Mount: In progress but check on it
 
 Lower Priority:

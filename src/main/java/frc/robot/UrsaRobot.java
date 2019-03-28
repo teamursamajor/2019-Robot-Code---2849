@@ -28,7 +28,6 @@ public interface UrsaRobot {
 	public static final int CLIMB_BACK = 8;
 	
 	public static final int HATCH = 4;
-	public static final int TURNTABLE = 1;
 
 	public static final int HATCH_SERVO = 7;
 

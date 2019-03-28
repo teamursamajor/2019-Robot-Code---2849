@@ -87,8 +87,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     cargo.initialize("cargoThread");
 
     if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-     
-
       hatch = new Hatch(cargo);
       hatch.hatchInit();
       // auto align
@@ -96,12 +94,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
       // climb = new Climb();
       // manual climb controls
     } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
-      // turntable = new Turntable();
-      // turntable.initialize("turntableThread");
-
-      // hatch = new Hatch();
-      // hatch.initialize("hatchThread");
-      // hatch.hatchInit();
+      hatch = new Hatch(cargo);
+      hatch.hatchInit();
 
     } else {
       climb = new Climb();
@@ -114,7 +108,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     ultra.setAutomaticMode(true);
 
     // autoCompiler = new AutoCompiler(drive, cargo);
-    // autoCompiler = new AutoCompiler(drive, cargo, hatch, turntable);
     // autoSelect = new AutoSelector();
 
     debugSelect = new DebugSelector();
@@ -174,6 +167,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
       Cargo.automating = true;
     }
 
+    // TODO reconsider this
     if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
       Drive.cargoIsFront = !Drive.cargoIsFront;
     }

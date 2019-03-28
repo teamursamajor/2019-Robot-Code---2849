@@ -18,8 +18,8 @@ public class ControlMap {
     /*
      * PLEASE NOTE: If you change the type of an input (as in Button, Axis, or POV)
      * you have to change the method used to get that input whereever this control
-     * is called. Ex: If you change the turntable from the triggers to a button, you
-     * need to go to Turntable and change the xbox method to getButton() too.
+     * is called. Ex: If you change the cargo lift from the triggers to a button,
+     * you need to go to cargo and change the xbox method to getButton() too.
      */
     public ControlMap() {
         // These are the same throughout all control layouts
@@ -42,12 +42,9 @@ public class ControlMap {
         // Changes control settings based on current layout
         switch (controlLayout) {
         case CARGO_HATCH:
-            // Turntable
-            map.put("turntable_left", XboxController.POV_LEFT);
-            map.put("turntable_right", XboxController.POV_RIGHT);
-
             // Auto Align
-            // map.put("auto_align", XboxController.BUTTON_START);
+            map.put("auto_align", XboxController.BUTTON_START);
+            // TODO reconsider this
             map.put("reset_head", XboxController.BUTTON_START);
             map.put("cancel_auto_align", XboxController.BUTTON_BACK);
             break;
@@ -63,10 +60,6 @@ public class ControlMap {
 
             break;
         case CARGO_HATCH_CLIMB:
-            // Turntable
-            map.put("turntable_left", XboxController.POV_LEFT);
-            map.put("turntable_right", XboxController.POV_RIGHT);
-
             // Auto Align
             map.put("auto_align", XboxController.POV_UP);
             map.put("cancel_auto_align", XboxController.POV_DOWN);
@@ -80,10 +73,6 @@ public class ControlMap {
             // Climb
             map.put("climb_start", XboxController.BUTTON_START);
             map.put("climb_stop", XboxController.BUTTON_BACK);
-
-            // Turntable
-            map.put("turntable_left", XboxController.POV_LEFT);
-            map.put("turntable_right", XboxController.POV_RIGHT);
 
             break;
         }
