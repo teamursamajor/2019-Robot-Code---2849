@@ -1,5 +1,8 @@
 package frc.robot;
 
+/**
+* Used for aligning both cargo and hatch.
+*/
 public class AutoAlign implements UrsaRobot, Runnable {
 
     public static void autoAlign() {
@@ -8,8 +11,6 @@ public class AutoAlign implements UrsaRobot, Runnable {
     }
 
     public void run() {
-        // double tolerance = 3;
-
         //TODO calibrate all of this
         double maxTurnPower = 0.20;
         double maxTapeAreaPercent = 60;

@@ -2,7 +2,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+<<<<<<< HEAD:src/main/java/frc/robot/DashboardInfo.java
 public class DashboardInfo implements Runnable {
+=======
+/**
+*This class contains data to display on the smart dashboard as well as data for auto.This commit will improve readability
+*/
+public class Constants implements Runnable {
+>>>>>>> 1e8e9369a3808e491d43b71b7ea476b1dc5a9ef3:src/main/java/frc/robot/Constants.java
     public static boolean running = false;
 
     public static double hatchPower;
