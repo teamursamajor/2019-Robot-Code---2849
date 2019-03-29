@@ -4,7 +4,6 @@ Robotics To Do:
 -Tune the PID loop
 -Increment kp until you find kc (or approx. kc)
 
--test limelight pipeline switching
 -test auto align
 
 	On real bot:
