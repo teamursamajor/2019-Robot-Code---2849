@@ -6,11 +6,10 @@ public class Constants implements Runnable {
     public static boolean running = false;
 
     public static double hatchPower;
-    public static double cargoPowerUp;
-    public static double cargoPowerDown;
-    public static double cargoIntakePower;
-    public static double cargoOuttakePower;
+    public static double cargoPowerUp, cargoPowerDown;
+    public static double cargoIntakePower, cargoOuttakePower;
     public static double climbPower;
+    public static double lEncoder, rEncoder;
 
     public Constants() {
         hatchPower = 0.30;
