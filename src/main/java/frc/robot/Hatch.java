@@ -40,17 +40,17 @@ public class Hatch implements Runnable, UrsaRobot {
 
             if (hatchMode.equals(HatchMode.RUN)) {
                 if (hatchOpen) { // close hatch, ready to pick up or drop off
-                    hatchServo.setPosition(hatchPower);
+                    hatchServo.setPosition(-hatchPower);
                     try {
-                        Thread.sleep(hatchRunTime + 85);
+                        Thread.sleep(hatchRunTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     hatchServo.set(.5);
                 } else { // open hatch, ready to move
-                    hatchServo.setPosition(-hatchPower);
+                    hatchServo.setPosition(hatchPower);
                     try {
-                        Thread.sleep(hatchRunTime);
+                        Thread.sleep(hatchRunTime + 85);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
