@@ -25,11 +25,10 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
         // gets the current cargo voltage (should be for start) so the rest can be
         // calculated relative to it
-        // TODO update
         cargoStartVoltage = cargoPot.get();
-        cargoGroundVoltage = cargoStartVoltage - 2;
-        cargoLowRocketVoltage = cargoStartVoltage - 1.25;
-        cargoBayVoltage = cargoStartVoltage - 0.75;
+        cargoGroundVoltage = cargoStartVoltage - 98;
+        cargoLowRocketVoltage = cargoStartVoltage - 40;
+        cargoBayVoltage = cargoStartVoltage - 20;
     }
 
     public void runSubsystem() {
@@ -44,17 +43,18 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                 subsystemMode = CargoMode.LOWROCKET;
             }
             CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
-            cargoLift.set(cargoOrder.cargoPower);
+            // cargoLift.set(cargoOrder.cargoPower);
 
         } else {
             if (cargoPot.get() > cargoStartVoltage) {
-                cargoLift.set(0.20);
+                // cargoLift.set(0.20);
             } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)) {
                 cargoLift.set(getUpPower());
             } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
                 cargoLift.set(getDownPower());
             } else {
-                cargoLift.set(CargoTask.feedForward(CargoTask.getCargoAngle()));
+                cargoLift.set(0.0);
+                // cargoLift.set(CargoTask.feedForward(CargoTask.getCargoAngle()));
             }
         }
 

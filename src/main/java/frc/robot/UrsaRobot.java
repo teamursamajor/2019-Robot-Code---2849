@@ -27,8 +27,6 @@ public interface UrsaRobot {
 	public static final int CLIMB_FRONT = 5;
 	public static final int CLIMB_BACK = 8;
 	
-	public static final int HATCH = 3;
-
 	public static final int HATCH_SERVO = 7;
 
 	// Encoders and Sensors Ports
