@@ -33,13 +33,13 @@ public interface UrsaRobot {
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;
+	
+	public static final int CARGO_POT_CHANNEL = 0;
 
 	public static final int LEFT_ENCODER_CHANNEL_A = 4;
 	public static final int LEFT_ENCODER_CHANNEL_B = 5;
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
-
-	public static final int CARGO_POT_CHANNEL = 0;
 
 	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
@@ -56,11 +56,7 @@ public interface UrsaRobot {
 	public static final double ROBOT_DEPTH_FEET = ROBOT_WIDTH_FEET / 12.0;
 
 	// Radius of the robot and cargo
-	// TODO not sure what to do with this radius (ie how to measure it). It is used for the turn control loop
 	public static final double robotRadius = 15;
-
-	// public static final double cargoGroundVoltage = 17.1, cargoBayVoltage = 19.4;
-	// public static final double cargoLowRocketVoltage = 18.4, cargoStartVoltage = 21.8;
 
 	// Path settings
 	public static final double MAX_VELOCITY = 160; // inches / second
@@ -83,10 +79,6 @@ public interface UrsaRobot {
 
 	// Control Map
 	ControlMap controls = new ControlMap();
-
-	public static final double defaultCameraPipeline = 0;
-	public static final double visionCameraSinglePipeline = 1;
-	public static final double visionCameraDoublePipeline = 2;
 
 	/**
 	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted,

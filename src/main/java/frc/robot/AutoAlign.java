@@ -44,6 +44,8 @@ public class AutoAlign implements UrsaRobot, Runnable {
                 break;
             }
         }
+        
+        // lets driver know that auto align has ended
         xbox.rumbleFor(500);
     }
 }

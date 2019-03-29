@@ -55,12 +55,8 @@ public class Hatch implements Runnable, UrsaRobot {
                     }
                     hatchServo.set(.5);
 
-                    try { // TODO if everything breaks comment this out
-                        cargo.setMode(CargoTask.CargoMode.HATCH);
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-
+                    // TODO if everything breaks comment this out
+                    cargo.setMode(CargoTask.CargoMode.HATCH);
                 }
             } else {
                 hatchServo.setPosition(0.5);

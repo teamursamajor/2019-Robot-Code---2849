@@ -14,7 +14,7 @@ public class ScrewClimb implements UrsaRobot {
     private double climbTimeout = 100000000; // TODO change this
     private boolean leadscrewsUp = false;
 
-    // TODO use ultra object for ultrasonic sensor
+    // the ultrasonic is defined in UrsaRobot
 
     public ScrewClimb() {
         frameWheel = new Spark(CLIMB_FRONT);

@@ -23,9 +23,9 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         subsystemMode = CargoMode.CLIMB;
         time = System.currentTimeMillis();
 
-        // gets the current cargo voltage (should be for start)
-        // so the rest can be calculated relative to it
-        // TODO update for VEX potentiometer
+        // gets the current cargo voltage (should be for start) so the rest can be
+        // calculated relative to it
+        // TODO update
         cargoStartVoltage = cargoPot.get();
         cargoGroundVoltage = cargoStartVoltage - 2;
         cargoLowRocketVoltage = cargoStartVoltage - 1.25;
@@ -68,8 +68,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         }
 
         if ((System.currentTimeMillis() - time) % 50 == 0) {
-            // System.out.println("Pot Voltage: " + cargoPot.get());
-            System.out.println((cargoPot.get()));
+            System.out.println("Pot Voltage: " + cargoPot.get());
             // System.out.println(subsystemMode);
         }
 
@@ -84,16 +83,6 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             return;
         double velocity = (deltaVolt / deltaTime);
         CargoTask.CargoState.updateState(velocity, currentVoltage);
-    }
-
-    public static double getHoldPower() {
-        if (cargoPot.get() >= (cargoGroundVoltage) && cargoPot.get() < cargoLowRocketVoltage) {
-            return -0.25;
-        } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage)) {
-            return -0.20;
-        } else {
-            return 0.0;
-        }
     }
 
     public static double getUpPower() {
@@ -117,5 +106,20 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
             return 0.0;
         }
     }
-    
+
+    /**
+     * Deprecated, use CargoTask.feedForward(double angle) instead
+     * 
+     * @return
+     */
+    public static double getHoldPower() {
+        if (cargoPot.get() >= (cargoGroundVoltage) && cargoPot.get() < cargoLowRocketVoltage) {
+            return -0.25;
+        } else if (cargoPot.get() >= cargoLowRocketVoltage && cargoPot.get() < (cargoStartVoltage)) {
+            return -0.20;
+        } else {
+            return 0.0;
+        }
+    }
+
 }

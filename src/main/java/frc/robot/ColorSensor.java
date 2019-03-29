@@ -57,7 +57,6 @@ public class ColorSensor {
             return false;
         }
 
-        // TODO remove if we aren't ever using
         // // Set the integration time
         // sensor.write(Constant.ATIME | Constant.CMD,
         // Constant.INTEGRATIONTIME_2_4MS);
