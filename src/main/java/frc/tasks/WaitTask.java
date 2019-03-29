@@ -11,7 +11,6 @@ public class WaitTask extends Task {
 
 	@Override
 	public void run() {
-
 		try {
 			Thread.sleep(waitTime);
 		} catch (InterruptedException e) {

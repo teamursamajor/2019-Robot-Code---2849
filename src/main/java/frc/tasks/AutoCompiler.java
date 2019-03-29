@@ -10,13 +10,11 @@ import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
 import frc.robot.*;
 
-//TODO path (follow) code need to be added!
-
 // TODO actually make this file vvvv
 
 /**
- * Check the AutoModes folder for Auto Compiler Syntax.txt
- * It contains all the syntax
+ * Check the AutoModes folder for Auto Compiler Syntax.txt It contains all the
+ * syntax
  * 
  * @author Evan + Sheldon originally wrote this on 1/16/18. Evan updated it for
  *         the 2019 season.
@@ -27,10 +25,12 @@ public class AutoCompiler {
 
 	private Drive drive;
 	private Cargo cargo;
+	private Hatch hatch;
 
-	public AutoCompiler(Drive drive, Cargo cargo){
+	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch) {
 		this.drive = drive;
 		this.cargo = cargo;
+		this.hatch = hatch;
 	}
 
 	/**
@@ -103,6 +103,8 @@ public class AutoCompiler {
 				cargoMode = CargoMode.LOWROCKET;
 			} else if (state.equalsIgnoreCase("CARGOBAY")) {
 				cargoMode = CargoMode.CARGOBAY;
+			} else if (state.equalsIgnoreCase("HATCH")) {
+				cargoMode = CargoMode.HATCH;
 			} else {
 				cargoMode = CargoMode.GROUND;
 			}
@@ -112,7 +114,7 @@ public class AutoCompiler {
 			return new CargoTask(cargoMode, cargo);
 		}
 	}
-	
+
 	/**
 	 * A token that delays the auto mode for a duration passed to it
 	 * 
@@ -191,24 +193,31 @@ public class AutoCompiler {
 	 * @param args Location and number of pairs to check for
 	 */
 	class AlignToken implements Token {
+		//TODO rewrite
 		private String mode = "FLOOR";
 		private int matchPairs = 1;
 
 		public AlignToken(String args) {
 			args = args.replace(" ", "").toUpperCase();
-			if (args.contains("BAY")) mode = "BAY";
+			if (args.contains("BAY"))
+				mode = "BAY";
 			try {
 				matchPairs = Integer.parseInt(args.substring(args.indexOf(mode)));
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
-			if (matchPairs < 1) matchPairs = 1;
-			if (matchPairs > 3) matchPairs = 3;
+			if (matchPairs < 1)
+				matchPairs = 1;
+			if (matchPairs > 3)
+				matchPairs = 3;
 		}
 
 		public DriveTask makeTask() {
-			if (mode.equals("BAY")) return new DriveTask(matchPairs, drive, DriveMode.ALIGN_BAY);
-			else return new DriveTask(matchPairs, drive, DriveMode.ALIGN_FLOOR);
+			return new DriveTask(0.0, drive, DriveMode.DRIVE_STICKS);
+			// if (mode.equals("BAY"))
+				// return new DriveTask(matchPairs, drive, DriveMode.ALIGN_BAY);
+			// else
+				// return new DriveTask(matchPairs, drive, DriveMode.ALIGN_FLOOR);
 		}
 	}
 
@@ -232,7 +241,7 @@ public class AutoCompiler {
 		}
 
 		public DriveTask makeTask() {
-			return new DriveTask(dist, drive);
+			return new DriveTask(dist, drive, DriveMode.AUTO_DRIVE);
 		}
 	}
 
@@ -254,11 +263,11 @@ public class AutoCompiler {
 				continue;
 			} else if (line.contains("follow")) {
 				// Path to follow (file name)
-				String current = line.substring(line.indexOf("follow") + "follow".length()); 
+				String current = line.substring(line.indexOf("follow") + "follow".length());
 				tokenList.add(new PathToken(current));
 			} else if (line.contains("execute")) {
-				// Automode to execute (file name)
-				String current = line.substring(line.indexOf("execute") + "execute".length()); 
+				// Autofile to execute (file name)
+				String current = line.substring(line.indexOf("execute") + "execute".length());
 				tokenList.add(new ExecuteToken(current));
 			} else if (line.contains("wait")) {
 				String current = line.substring(line.indexOf("wait") + "wait".length()); // Wait length (seconds)
@@ -272,7 +281,12 @@ public class AutoCompiler {
 			} else if (line.contains("cargo")) {
 				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
 				tokenList.add(new CargoToken(current));
+			} else if(line.contains("hatch")) {
+				// TODO write/update
+				String current = line.substring(line.indexOf("hatch") + "hatch".length());
+				// tokenList.add(new HatchToken(current));
 			} else if (line.contains("align")) {
+				//TODO update
 				String current = line.substring(line.indexOf("align") + "align".length()); // Tape match args
 				tokenList.add(new AlignToken(current));
 			} else if (line.contains("print")) {

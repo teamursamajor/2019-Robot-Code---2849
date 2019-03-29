@@ -13,6 +13,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
 import frc.robot.UrsaRobot;
+import frc.tasks.DriveTask.DriveMode;
 
 // CommandRobot?
 public class Robot extends TimedRobot implements UrsaRobot {
@@ -131,6 +132,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopInit() {
     Logger.log("Started Teleop mode", LogLevel.INFO);
     robotMode = "Teleop";
+    drive.setMode(DriveMode.DRIVE_STICKS);
     Logger.setLevel(debugSelect.getLevel());
   }
 
