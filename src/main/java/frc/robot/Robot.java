@@ -8,35 +8,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-// import java.io.FileWriter;
-// import java.io.File;
-// import edu.wpi.first.networktables.*;
-// import frc.minimap.*;
-
-// import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
-// import frc.tasks.*;
 import frc.robot.UrsaRobot;
 
-// import edu.wpi.first.wpilibj.Servo;
-
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
-// Suggested to use CommandRobot
+// CommandRobot?
 public class Robot extends TimedRobot implements UrsaRobot {
 
-  // public AutoWriter;
-  
-  // TODO this came with the class. uncomment if using
   // private static final String kDefaultAuto = "Default";
   // private static final String kCustomAuto = "My Auto";
   // private String m_autoSelected;
@@ -44,15 +24,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private Drive drive;
   private Hatch hatch;
-  private Climb climb;
+  private ScrewClimb climb;
   private Cargo cargo;
-  // private Vision vision;
-
-  // private FileWriter writer;
 
   private Constants constants;
 
-  // TODO integrate AutoSelector
   // private AutoSelector autoSelect;
   // private AutoCompiler autoCompiler;
 
@@ -74,7 +50,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     Logger.setLevel(LogLevel.DEBUG);
     Logger.log("********ROBOT PROGRAM STARTING********", LogLevel.INFO);
 
-    // currentTime = System.currentTimeMillis();
     // m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     // m_chooser.addOption("My Auto", kCustomAuto);
     // SmartDashboard.putData("Auto choices", m_chooser);
@@ -86,20 +61,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     cargo = new Cargo();
     cargo.initialize("cargoThread");
 
-    if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-      hatch = new Hatch(cargo);
-      hatch.hatchInit();
-      // auto align
-    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
-      // climb = new Climb();
-      // manual climb controls
-    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
-      hatch = new Hatch(cargo);
-      hatch.hatchInit();
+    hatch = new Hatch(cargo);
+    hatch.hatchInit();
 
-    } else {
-      climb = new Climb();
-    }
+    climb = new ScrewClimb();
 
     constants = new Constants();
     constants.startConstants();
@@ -107,20 +72,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     ultra.setEnabled(true);
     ultra.setAutomaticMode(true);
 
-    // autoCompiler = new AutoCompiler(drive, cargo);
-    // autoSelect = new AutoSelector();
-
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
 
-    // vision = new Vision();
-
-    // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
-    // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
-    // CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision
-    // constructor code doesnt work
-    // CameraServer.getInstance().startAutomaticCapture();
-
+    // uncomment if vision constructor code doesnt work:
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -131,8 +87,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
-
-  public boolean b = true;
 
   @Override
   public void robotPeriodic() {
@@ -166,12 +120,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
         || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
       Cargo.automating = true;
     }
-
-    // TODO reconsider this
-    if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
-      Drive.cargoIsFront = !Drive.cargoIsFront;
-    }
-
   }
 
   /**
@@ -180,7 +128,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopInit() {
-    // Cargo.cargoStartVoltage = Cargo.cargoPot.get();
     Logger.log("Started Teleop mode", LogLevel.INFO);
     robotMode = "Teleop";
     Logger.setLevel(debugSelect.getLevel());
@@ -193,21 +140,15 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(xbox.getDPad(XboxController.POV_RIGHT)){ // flip limelight pipeline
-      if(processedPipeline)
+    if (xbox.getDPad(XboxController.POV_RIGHT)) { // flip limelight pipeline
+      if (processedPipeline)
         limelightTable.getEntry("pipeline").setDouble(0);
-      else 
+      else
         limelightTable.getEntry("pipeline").setDouble(2);
-      
+
       processedPipeline = !processedPipeline;
 
     }
-
-    // if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
-    //   Drive.cargoIsFront = !Drive.cargoIsFront;
-    // }
-
-    // System.out.println("Cargo Voltage: " + Cargo.cargoPot.get());
 
     // determines if cargo is being moved manually or automatically
     if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)
@@ -218,32 +159,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
       Cargo.automating = true;
     }
 
-    // TODO clean this whole thing up once climb/hatch is more finalized
-    if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-
-    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
-
-      // run and kill auto climb
-      if (xbox.getButton(controls.map.get("climb_start"))) {
-        // climb.climbInit();
-      } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-        // climb.cancelClimb();
-      }
-
-    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
-      // NO MANUAL CLIMB
-      // run and cancel auto align
-      if (xbox.getPOV() == controls.map.get("auto_align")) {
-      } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
-        Vision.visionStop = true;
-      }
-
-    } else {
-      // defaults to allowing user to cancel auto align and climb stop with BACK
-      if (xbox.getButton(XboxController.BUTTON_BACK)) {
-        Vision.visionStop = true;
-        climb.cancelClimb();
-      }
+    // run and cancel auto align
+    if (xbox.getPOV() == controls.map.get("auto_align")) {
+      // TODO add auto align call
+    } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
+      Vision.visionStop = true;
     }
   }
 
@@ -257,15 +177,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
     robotMode = "Test";
   }
 
-  // private Servo vexServo = new Servo(7);
-
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
     // System.out.println(ultra.getRangeInches());
-
   }
 
   /**

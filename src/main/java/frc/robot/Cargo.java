@@ -36,11 +36,11 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
         updateStateInfo();
         // automated cargo code
         if (automating) {
-            if (xbox.getSingleButtonPress(XboxController.BUTTON_X)) {
+            if (xbox.getSingleButtonPress(controls.map.get("cargo_ground"))) {
                 subsystemMode = CargoMode.GROUND;
-            } else if (xbox.getSingleButtonPress(XboxController.BUTTON_Y)) {
+            } else if (xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
                 subsystemMode = CargoMode.CARGOBAY;
-            } else if (xbox.getSingleButtonPress(XboxController.BUTTON_B)) {
+            } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))) {
                 subsystemMode = CargoMode.LOWROCKET;
             }
             CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
