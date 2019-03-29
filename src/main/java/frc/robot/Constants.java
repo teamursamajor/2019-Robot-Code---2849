@@ -2,6 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+*This class contains data to display on the smart dashboard as well as data for auto.This commit will improve readability
+*/
 public class Constants implements Runnable {
     public static boolean running = false;
 
