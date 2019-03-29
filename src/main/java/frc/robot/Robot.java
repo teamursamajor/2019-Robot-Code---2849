@@ -44,7 +44,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   private Drive drive;
   private Hatch hatch;
-  private Climb climb;
+  private ScrewClimb climb;
   private Cargo cargo;
   // private Vision vision;
 
@@ -86,20 +86,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     cargo = new Cargo();
     cargo.initialize("cargoThread");
 
-    if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-      hatch = new Hatch(cargo);
-      hatch.hatchInit();
-      // auto align
-    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
-      // climb = new Climb();
-      // manual climb controls
-    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
-      hatch = new Hatch(cargo);
-      hatch.hatchInit();
-
-    } else {
-      climb = new Climb();
-    }
+    hatch = new Hatch(cargo);
+    hatch.hatchInit();
+    
+    climb = new ScrewClimb();
 
     constants = new Constants();
     constants.startConstants();
@@ -115,12 +105,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     // vision = new Vision();
 
-    // On HP laptop, this works on SmartDashboard but NOT DriverStation Dashboard
-    // if(ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB))
-    // CameraServer.getInstance().startAutomaticCapture(); // uncomment if vision
-    // constructor code doesnt work
+    // uncomment if vision constructor code doesnt work:
     // CameraServer.getInstance().startAutomaticCapture();
-
   }
 
   /**
@@ -171,7 +157,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (xbox.getSingleButtonPress(controls.map.get("reset_head"))) {
       Drive.cargoIsFront = !Drive.cargoIsFront;
     }
-
   }
 
   /**
@@ -217,34 +202,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
         || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
       Cargo.automating = true;
     }
-
-    // TODO clean this whole thing up once climb/hatch is more finalized
-    if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH)) {
-
-    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_CLIMB)) {
-
-      // run and kill auto climb
-      if (xbox.getButton(controls.map.get("climb_start"))) {
-        // climb.climbInit();
-      } else if (xbox.getButton(controls.map.get("climb_stop"))) {
-        // climb.cancelClimb();
-      }
-
-    } else if (ControlMap.controlLayout.equals(ControlMap.ControlLayout.CARGO_HATCH_CLIMB)) {
-      // NO MANUAL CLIMB
-      // run and cancel auto align
-      if (xbox.getPOV() == controls.map.get("auto_align")) {
-        Vision.autoAlign();
-      } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
-        Vision.visionStop = true;
-      }
-
-    } else {
-      // defaults to allowing user to cancel auto align and climb stop with BACK
-      if (xbox.getButton(XboxController.BUTTON_BACK)) {
-        Vision.visionStop = true;
-        climb.cancelClimb();
-      }
+    
+    // run and cancel auto align
+    if (xbox.getPOV() == controls.map.get("auto_align")) {
+      Vision.autoAlign();
+    } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
+      Vision.visionStop = true;
     }
   }
 
