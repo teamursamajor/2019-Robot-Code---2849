@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
@@ -65,6 +65,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     hatch.hatchInit();
 
     climb = new ScrewClimb();
+    climb.initialize();
 
     constants = new Constants();
     constants.startConstants();

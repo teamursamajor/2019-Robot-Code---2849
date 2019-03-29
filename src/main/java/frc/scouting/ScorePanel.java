@@ -2,12 +2,12 @@ package frc.scouting;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class ScorePanel extends JPanel{
     private String[] locations = {
         "Cargo Bay", "Rocket 1", "Rocket 2", "Rocket 3"
