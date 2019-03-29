@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class ScorePanel extends JPanel{
     private String[] locations = {
         "Cargo Bay", "Rocket 1", "Rocket 2", "Rocket 3"

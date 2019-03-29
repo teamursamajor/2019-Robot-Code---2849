@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+@SuppressWarnings("serial")
 public class Counter extends JPanel{
     private JButton plus,minus;
 	private int total = 0;

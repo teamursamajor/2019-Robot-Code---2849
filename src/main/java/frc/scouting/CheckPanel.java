@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import org.junit.Ignore;
+
+@SuppressWarnings("serial")
 public class CheckPanel extends JPanel {
 	private String longestOption = "";
 	private ArrayList<String> options;

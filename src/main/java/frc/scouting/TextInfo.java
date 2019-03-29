@@ -18,7 +18,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
-
+@SuppressWarnings("serial")
 public class TextInfo extends JPanel{
 	
 	private JTextArea area;
