@@ -15,7 +15,8 @@ public class XboxController extends Joystick implements Runnable {
 	public static final int BUTTON_A = 1, BUTTON_B = 2, BUTTON_X = 3, BUTTON_Y = 4;
 	
 	// Bumpers
-	public static final int BUTTON_LEFTBUMPER = 5, int BUTTON_RIGHTBUMPER = 6;
+	public static final int BUTTON_LEFTBUMPER = 5;
+	public static final int BUTTON_RIGHTBUMPER = 6;
 	public static final int BUTTON_BACK = 7;
 	public static final int BUTTON_START = 8;
 	public static final int BUTTON_LEFTSTICK = 9;
