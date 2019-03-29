@@ -141,7 +141,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if (xbox.getDPad(XboxController.POV_RIGHT)) { // flip limelight pipeline
+    if (xbox.getDPad(controls.map.get("limelight_toggle"))) { // flip limelight pipeline
       if (processedPipeline)
         limelightTable.getEntry("pipeline").setDouble(0);
       else

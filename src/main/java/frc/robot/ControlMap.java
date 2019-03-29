@@ -35,7 +35,7 @@ public class ControlMap {
         // Auto Align
         map.put("auto_align", XboxController.POV_UP);
         map.put("cancel_auto_align", XboxController.POV_DOWN);
-        map.put("limelight toggle", XboxController.POV_RIGHT);
+        map.put("limelight_toggle", XboxController.POV_RIGHT);
 
         // Climb
         map.put("climb_leadscrew_up", XboxController.BUTTON_START);
