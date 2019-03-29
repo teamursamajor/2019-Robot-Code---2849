@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Constants implements Runnable {
+public class DashboardInfo implements Runnable {
     public static boolean running = false;
 
     public static double hatchPower;
@@ -11,7 +11,7 @@ public class Constants implements Runnable {
     public static double climbPower;
     public static double lEncoder, rEncoder;
 
-    public Constants() {
+    public DashboardInfo() {
         hatchPower = 0.30;
         SmartDashboard.putNumber("Hatch Power", hatchPower);
         cargoPowerUp = -.75;
@@ -25,12 +25,12 @@ public class Constants implements Runnable {
         climbPower = 0.90;
         SmartDashboard.putNumber("Climb Power", climbPower);
         
-        startConstants();
+        startDashboardInfo();
     }
 
-    public void startConstants() {
+    public void startDashboardInfo() {
         running = true;
-        new Thread(this, "Constants").start();
+        new Thread(this, "DashboardInfo").start();
     }
 
     public void run() {
