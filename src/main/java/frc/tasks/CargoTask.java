@@ -85,7 +85,7 @@ public class CargoTask extends Task implements UrsaRobot {
     private static final double torqueToVoltRegression = 6.38982;
     private static final double motorRange = 12.0;
     private static final double voltAngleSlope = (90.0 - 0.0) / (100.35 - 0.35);
-    private static final double motorEfficiencyFactor = 1;
+    private static final double motorEfficiencyFactor = 3;
 
     public static double getCargoAngle() {
         // y = mx + b

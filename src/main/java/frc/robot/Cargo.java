@@ -69,7 +69,7 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
         if ((System.currentTimeMillis() - time) % 50 == 0) {
             // System.out.println("Pot Voltage: " + cargoPot.get());
-            System.out.println(CargoTask.feedForward(CargoTask.getCargoAngle()));
+            System.out.println((cargoPot.get()));
             // System.out.println(subsystemMode);
         }
 

@@ -193,7 +193,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(xbox.getSingleButtonPress(XboxController.BUTTON_START)){ // flip limelight pipeline
+    if(xbox.getDPad(XboxController.POV_RIGHT)){ // flip limelight pipeline
       if(processedPipeline)
         limelightTable.getEntry("pipeline").setDouble(0);
       else 
@@ -234,7 +234,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
       // NO MANUAL CLIMB
       // run and cancel auto align
       if (xbox.getPOV() == controls.map.get("auto_align")) {
-        Vision.autoAlign();
       } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
         Vision.visionStop = true;
       }
