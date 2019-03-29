@@ -27,7 +27,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private ScrewClimb climb;
   private Cargo cargo;
 
-  private Constants constants;
+  private DashboardInfo dashboardInfo;
 
   // private AutoSelector autoSelect;
   // private AutoCompiler autoCompiler;
@@ -67,8 +67,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     climb = new ScrewClimb();
     climb.initialize();
 
-    constants = new Constants();
-    constants.startConstants();
+    dashboardInfo = new DashboardInfo();
+    dashboardInfo.startDashboardInfo();
 
     ultra.setEnabled(true);
     ultra.setAutomaticMode(true);
@@ -141,7 +141,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if (xbox.getDPad(XboxController.POV_RIGHT)) { // flip limelight pipeline
+    if (xbox.getDPad(controls.map.get("limelight_toggle"))) { // flip limelight pipeline
       if (processedPipeline)
         limelightTable.getEntry("pipeline").setDouble(0);
       else

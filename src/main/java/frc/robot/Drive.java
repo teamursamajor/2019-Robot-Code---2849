@@ -4,6 +4,14 @@ import edu.wpi.first.wpilibj.Spark;
 import frc.tasks.DriveTask;
 import frc.tasks.DriveTask.DriveMode;
 
+/**
+*This is the class that allows us to drive the robot.
+*It contains the following information: 
+*<ul>
+*<li><b>Encoders:</b> getRightRate(), getLeftRate()</li>
+*<li><b>Heading:</b> uses degrees as a measurement</li>
+</ul>
+*/
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	public static Spark mFrontLeft;
@@ -22,8 +30,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		mFrontRight = new Spark(DRIVE_FRONT_RIGHT);
 		mFrontLeft = new Spark(DRIVE_FRONT_LEFT);
-		// mRearLeft = new Spark(DRIVE_BACK_LEFT);
-		// mRearRight = new Spark(DRIVE_BACK_RIGHT);
 
 		mRearLeft = mFrontLeft;
 		mRearRight = mFrontRight;

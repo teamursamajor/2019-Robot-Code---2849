@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 /**
  * This is a map of all of the controls for the robot.
+ *<ul>
+ *<li><b>PUT CONTROLS HERE</b></li>
+ *</ul>
  */
 public class ControlMap {
 
