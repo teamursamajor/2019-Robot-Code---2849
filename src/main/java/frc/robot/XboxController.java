@@ -4,18 +4,18 @@ import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * Wrapper class for Joystick that adds useful methods as well as rumble!
- * 
+ *<ul>
+ *<li><b>Char Buttons</b>: A=1, B=2, X=3, Y=4</li>
+ *<li><b>Bumpers</b>: Left=5, Right=6</li>
  * @author FRC Team 2849 URSA MAJOR 2016 Season
  */
 public class XboxController extends Joystick implements Runnable {
-
-	// Use these ints when referring to a Joystick axis or button for readability
-	public static final int BUTTON_A = 1;
-	public static final int BUTTON_B = 2;
-	public static final int BUTTON_X = 3;
-	public static final int BUTTON_Y = 4;
-	public static final int BUTTON_LEFTBUMPER = 5;
-	public static final int BUTTON_RIGHTBUMPER = 6;
+	
+	// Character Buttons
+	public static final int BUTTON_A = 1, BUTTON_B = 2, BUTTON_X = 3, BUTTON_Y = 4;
+	
+	// Bumpers
+	public static final int BUTTON_LEFTBUMPER = 5, int BUTTON_RIGHTBUMPER = 6;
 	public static final int BUTTON_BACK = 7;
 	public static final int BUTTON_START = 8;
 	public static final int BUTTON_LEFTSTICK = 9;
