@@ -19,7 +19,7 @@ public class CargoTask extends Task implements UrsaRobot {
             case GROUND:
                 return moveToAngle(Cargo.cargoGroundVoltage);
             case HATCH:
-                return moveToAngle(Cargo.cargoGroundVoltage + 12);
+                return moveToAngle(Cargo.cargoGroundVoltage + 10);
             case LOWROCKET:
                 return moveToAngle(Cargo.cargoLowRocketVoltage);
             case CARGOBAY:
@@ -58,8 +58,8 @@ public class CargoTask extends Task implements UrsaRobot {
             // System.out.println("Cargo Velocity: " + CargoState.cargoVelocity);
 
             // TODO eventually add D term
-            double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage)
-                    + feedForward(getCargoAngle()) + kdCargo * CargoState.cargoVelocity;
+            double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage) + feedForward(getCargoAngle())
+                    + kdCargo * CargoState.cargoVelocity;
 
             if (cargoPower < 0 && Math.abs(cargoPower) < cargoUpMinimumPower) { // going up
                 System.out.println("PID Power too weak, using cargoMinimumPower");
@@ -82,10 +82,10 @@ public class CargoTask extends Task implements UrsaRobot {
     private static final double cargoMass = 4.6947; // kilograms
     private static final double cargoRadius = .365; // meters
     private static final double torqueCoefficient = cargoRadius * cargoMass * 9.81; // r * m * g
-    private static final double torqueToVoltRegression = 6.38982;
+    private static final double torqueToVoltRegression = 6.38982; // slope of torque vs voltage graph
     private static final double motorRange = 12.0;
-    private static final double voltAngleSlope = (90.0 - 0.0) / (100.35 - 0.35);
-    private static final double motorEfficiencyFactor = 3;
+    private static final double voltAngleSlope = (90.0 - 0.0) / (100.35 - 0.35); // delta angle / delta voltage
+    private static final double motorEfficiencyFactor = 3; // old motors means calculations aren't always accurate
 
     public static double getCargoAngle() {
         // y = mx + b

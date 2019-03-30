@@ -2,11 +2,12 @@ package frc.tasks;
 
 public abstract class Task extends Thread {
 
-    //TODO do we need this class for anything?
     /**
-     * Constructor for all tasks
+     * Constructor for all tasks. Can be used if something needs to be ran for every
+     * Task
      */
     public Task() {
+        
     }
 
     public abstract void run();

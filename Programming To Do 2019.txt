@@ -1,4 +1,8 @@
 Robotics To Do:
+-import pathweaver stuff to each laptop
+-draw paths
+-fix autocompiler
+-write autoselector
 -Update cargo voltages
 -Test the feed forward to determine the empirically found motor factor
 -Tune the PID loop
