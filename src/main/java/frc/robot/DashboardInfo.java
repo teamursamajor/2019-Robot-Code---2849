@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DashboardInfo implements Runnable {
+public class DashboardInfo implements Runnable, UrsaRobot {
     public static boolean running = false;
 
     public static double hatchPower;
@@ -41,6 +41,9 @@ public class DashboardInfo implements Runnable {
             cargoIntakePower = SmartDashboard.getNumber("Cargo Intake Power", 0.5);
             cargoIntakePower = SmartDashboard.getNumber("Cargo Outtake Power", 1.0);
             climbPower = SmartDashboard.getNumber("Climb Power", 0.9);
+
+            lEncoder = leftEncoder.getDistance();
+            rEncoder = rightEncoder.getDistance();
             
             try {
                 Thread.sleep(20);
@@ -60,6 +63,8 @@ public class DashboardInfo implements Runnable {
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
         System.out.println("Climb Power" + climbPower);
     }
+
+    
 }
 
 //The image widget simply displays a static image loaded from a file. If you want to display the final product from image processing and you’re extending a WPICameraWidgetExtension, either draw on top of the WPIImage provided as a parameter or return a new WPIImage (if you return, make sure you store a handle to it somewhere else, or SmartDashboard will crash without any indication – this caused me a lot of grief).
