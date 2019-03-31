@@ -45,17 +45,12 @@ public class CargoTask extends Task implements UrsaRobot {
             double tcCargo = 0.0; // time per oscillation at the critical point
 
             double kpCargo = 0.6 * kcCargo;
-            // double kiCargo = 1.2 * (kcCargo / tcCargo);
             double kdCargo = (3.0 / 40) * kcCargo * tcCargo;
 
             // TODO reconfigure these based on new findings
             double cargoDownMinimumPower = 0.15;
             double cargoDownMaxPower = .2;
             double cargoUpMinimumPower = 0.5;
-
-            // Proportional constant * (angle error) + derivative constant * velocity (aka
-            // pos / time)
-            // System.out.println("Cargo Velocity: " + CargoState.cargoVelocity);
 
             // TODO eventually add D term
             double cargoPower = kpCargo * (desiredVoltage - CargoState.cargoVoltage) + feedForward(getCargoAngle())
@@ -88,8 +83,6 @@ public class CargoTask extends Task implements UrsaRobot {
     private static final double motorEfficiencyFactor = 3; // old motors means calculations aren't always accurate
 
     public static double getCargoAngle() {
-        // y = mx + b
-        // b = 0 since angle = 0 when voltage = 0
         return voltAngleSlope * Cargo.cargoPot.get();
     }
 
