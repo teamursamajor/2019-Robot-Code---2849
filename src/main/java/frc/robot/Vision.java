@@ -4,9 +4,12 @@ import edu.wpi.cscore.*;
 import edu.wpi.first.cameraserver.*;
 import org.opencv.core.Mat;
 
+/**
+*contains info for the camera as well as setting the 
+*resolution and fps of the resulting image.
+*/
 public class Vision implements UrsaRobot, Runnable {
-    public static boolean visionStop;
-    public static boolean visionRunning;
+    public static boolean visionStop, visionRunning;
 
     private CvSink cvSink;
     private CvSource outputStream;
@@ -16,8 +19,8 @@ public class Vision implements UrsaRobot, Runnable {
     public Vision(){
         cargoCam = new UsbCamera("Cargo Camera", 0);
         CameraServer.getInstance().addCamera(cargoCam);
-        cargoCam.setFPS(30); // TODO test
-        cargoCam.setResolution(320, 240); // TODO test
+        cargoCam.setFPS(30);
+        cargoCam.setResolution(320, 240);
 
         cvSink = CameraServer.getInstance().getVideo(cargoCam);
 		outputStream = CameraServer.getInstance().putVideo("Cargo Camera", 320, 240);
@@ -29,6 +32,10 @@ public class Vision implements UrsaRobot, Runnable {
         t.start();
     }
 
+    /**
+    * puts the image received from the screen into an 
+    * output stream.
+    */
     public void run(){
         while(true){
             cvSink.grabFrame(videoImage);
