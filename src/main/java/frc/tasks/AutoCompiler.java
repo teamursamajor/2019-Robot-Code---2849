@@ -10,14 +10,11 @@ import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
 import frc.robot.*;
 
-// TODO actually make this file vvvv
-
 /**
  * Check the AutoModes folder for Auto Compiler Syntax.txt It contains all the
  * syntax
+ *<b> REPLACE ALL AUTO JUNK FOR PATH WEAVER</b>
  * 
- * @author Evan + Sheldon originally wrote this on 1/16/18. Evan updated it for
- *         the 2019 season.
  */
 public class AutoCompiler {
 	interface Token {
@@ -52,7 +49,7 @@ public class AutoCompiler {
 	 * @param str String to print
 	 */
 	class PrintToken implements Token {
-		private String str; // String to be printed
+		private String str;
 
 		// Instantiate PrintToken class
 		public PrintToken(String str) {
@@ -66,23 +63,16 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that runs a given path file
+	 * A token that runs a given path file <b>UPDATE FOR PATH WEAVER</n>
 	 * 
 	 * @param filename Path file to run
 	 */
-	// TODO Implement with changes to path
 	class PathToken implements Token {
-		// private Path[] paths;
-
 		public PathToken(String filename) {
 			filename = filename.replace(" ", "");
-			// TODO put all paths into /paths
-			// paths = new PathReader("/home/lvuser/paths/" + filename + ".path",
-			// false).getPaths();
 		}
 
 		public PathTask makeTask() {
-			// return new PathTask(paths);
 			return null;
 		}
 	}
@@ -214,10 +204,6 @@ public class AutoCompiler {
 
 		public DriveTask makeTask() {
 			return new DriveTask(0.0, drive, DriveMode.DRIVE_STICKS);
-			// if (mode.equals("BAY"))
-				// return new DriveTask(matchPairs, drive, DriveMode.ALIGN_BAY);
-			// else
-				// return new DriveTask(matchPairs, drive, DriveMode.ALIGN_FLOOR);
 		}
 	}
 
@@ -247,7 +233,7 @@ public class AutoCompiler {
 
 	/**
 	 * Interprets specified file to identify keywords as tokens to add to a
-	 * collective ArrayList
+	 * collective ArrayList <b>TO BE REPLACED WITH PATHWEAVER?</b>  
 	 * 
 	 * @param filename Name of file to tokenize
 	 * @return ArrayList of all tokens in ranking order
@@ -305,7 +291,7 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * Interprets an ArrayList of tokens as an ordered set of tasks
+	 * Interprets an ArrayList of tokens as an ordered set of tasks <b>TO BE REPLACED WITH PATH WEAVER?</b>
 	 * 
 	 * @param tokenList An ArrayList of tokens (returned from tokenize())
 	 * @param taskSet   A set of tasks to add tasks to
