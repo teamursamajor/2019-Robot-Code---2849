@@ -3,19 +3,17 @@ package frc.tasks;
 import frc.robot.UrsaRobot;
 import frc.robot.XboxController;
 import frc.robot.Drive;
-// import frc.path.PathReader;
 
 public class DriveTask extends Task implements UrsaRobot {
 
     /*
-     * An enum is a list of predefined constants. Ex: Directions - North South East
-     * West. In this case we have two Drive Modes, Auto and DriveSticks, to
+     * We have two Drive Modes, Auto and DriveSticks, to
      * represent Autonomous and Teleop
      */
     public enum DriveMode {
         /*
          * AUTO_DRIVE is for autonomous code,TURN is for autonomous turning, PATH is for
-         * following Path files, DRIVE_STICKS is for manual control
+         * following Path files, DRIVE_STICKS is for manual control.
          */
         AUTO_DRIVE, TURN, PATH, DRIVE_STICKS;
 
@@ -48,7 +46,6 @@ public class DriveTask extends Task implements UrsaRobot {
          * @return A DriveOrder object containing the new left and right powers
          */
         private DriveOrder autoCalculator() {
-            // TODO test driveTolerance, kpDrive, and kdDrive
             double leftOutputPower = 0.0, rightOutputPower = 0.0;
             double currentDistance = DriveState.averagePos;
             double driveTolerance = 5.0;
@@ -63,7 +60,7 @@ public class DriveTask extends Task implements UrsaRobot {
                 return new DriveOrder(0.0, 0.0);
             }
 
-            // If moving forward, everything is like normal
+            // If moving forward, everything is normal
             if (direction > 0) {
                 leftOutputPower = kpDrive * (desiredLocation - DriveState.leftPos) + kdDrive * DriveState.leftVelocity;
                 rightOutputPower = kpDrive * (desiredLocation - DriveState.rightPos)
@@ -71,11 +68,11 @@ public class DriveTask extends Task implements UrsaRobot {
             }
             // If moving backwards, find our error term minus velocity term
             else if (direction < 0) {
-                /*
-                 * This treats moving backwards as if it were moving forwards by flipping the
-                 * sign of our error. Then we reaccount for our flipped error by multiplying by
-                 * -1 once our calculations are complete
-                 */
+                 
+                 // This treats moving backwards as if it were moving forwards by flipping the
+                 // sign of our error. Then we reaccount for our flipped error by multiplying by
+                 // -1 once our calculations are complete
+                 
                 leftOutputPower = kpDrive * (DriveState.leftPos - desiredLocation)
                         + kdDrive * (-1 * DriveState.leftVelocity);
                 leftOutputPower *= -1.0;
@@ -118,8 +115,8 @@ public class DriveTask extends Task implements UrsaRobot {
                 leftSpeed = leftStickY + rightStickX;
                 rightSpeed = leftStickY - rightStickX;
 
-                double max = Math.max(leftSpeed, rightSpeed); // returns the greater of the two values
-                double min = Math.min(leftSpeed, rightSpeed); // returns the lesser of the two values
+                double max = Math.max(leftSpeed, rightSpeed); // the greater of the two values
+                double min = Math.min(leftSpeed, rightSpeed); // the lesser of the two values
 
                 if (max > 1) {
                     leftSpeed /= max;
@@ -139,17 +136,15 @@ public class DriveTask extends Task implements UrsaRobot {
 
         private DriveOrder turnTo() {
             double newAngle = desiredAngle - DriveState.currentHeading;
-            double angleTolerance = 5; // TODO set experimentally
+            double angleTolerance = 5;
             if (newAngle < angleTolerance) {
                 driving = false;
                 return new DriveOrder(0.0, 0.0);
             }
 
-            // TODO i dont think this works
             if (newAngle < 0 && Math.abs(newAngle) > 180)
                 newAngle += 360;
 
-            // TODO PD Loop
             double turningKp = 1.0 / 40.0;
             double turningKd = 0.0;
 
@@ -157,7 +152,6 @@ public class DriveTask extends Task implements UrsaRobot {
             // rightVelocity
             double velocity = (DriveState.leftVelocity > 0) ? DriveState.leftVelocity : DriveState.rightVelocity;
 
-            // TODO does robot radius actually work like this
             double outputPower = turningKp * newAngle + turningKd * (velocity / UrsaRobot.robotRadius);
 
             return new DriveOrder(1 * (Math.signum(newAngle) * outputPower),
@@ -224,7 +218,7 @@ public class DriveTask extends Task implements UrsaRobot {
             desiredLocation = startDistance + desiredDistance;
 
             driving = true;
-            drive.setMode(DriveMode.AUTO_DRIVE); // TODO does this work?
+            drive.setMode(DriveMode.AUTO_DRIVE);
             Thread t = new Thread("DriveTask");
             t.start();
             break;
