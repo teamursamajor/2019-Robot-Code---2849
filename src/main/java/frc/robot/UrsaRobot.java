@@ -24,6 +24,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 * <li>0: Cargo Potentiometer</li>
 * <li>4 & 5: Left Encoder</li>
 * <li>2 & 3: Right Encoder</li>
+* </ul>
+*
 * <b>*Subject to Change</b>
 */
 public interface UrsaRobot {
