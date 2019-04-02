@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
 import frc.robot.UrsaRobot;
+import frc.tasks.*;
 import frc.tasks.DriveTask.DriveMode;
 
 // CommandRobot?
@@ -28,13 +29,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Drive drive;
   private Hatch hatch;
   private ScrewClimb climb;
+  private Arm arm;
   private Cargo cargo;
   // private Vision vision;
 
   private DashboardInfo dashboardInfo;
 
   // private AutoSelector autoSelect;
-  // private AutoCompiler autoCompiler;
+  private AutoCompiler autoCompiler;
 
   private DebugSelector debugSelect;
   private String robotMode;
@@ -62,10 +64,14 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     drive = new Drive();
     drive.initialize("driveThread");
+
     cargo = new Cargo();
     cargo.initialize("cargoThread");
 
-    hatch = new Hatch(cargo);
+    arm = new Arm();
+    arm.initialize("armThread");
+
+    hatch = new Hatch(arm);
     hatch.hatchInit();
 
     climb = new ScrewClimb();
@@ -80,15 +86,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
 
-    // uncomment if vision constructor code works:
-    // vision = new Vision();
-    // vision.visionInit();
+    // autoCompiler = new AutoCompiler(drive, arm, cargo, hatch);
 
     UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture();
     camera0.setFPS(30);
     camera0.setResolution(225, 225);
-    // uncomment if vision constructor code doesn't work:
-    // CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -117,7 +119,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   @Override
   public void autonomousInit() {
     Logger.log("Started Autonomous mode", LogLevel.INFO);
-    Cargo.cargoStartVoltage = Cargo.cargoPot.get();
+    Arm.armStartVoltage = Arm.armPot.get();
   }
 
   /**
@@ -125,12 +127,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)
-        || xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
-      Cargo.automating = false;
-    } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
-        || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
-      Cargo.automating = true;
+    if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)
+        || xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
+      Arm.automating = false;
+    } else if (xbox.getSingleButtonPress(controls.map.get("arm_rocket"))
+        || xbox.getSingleButtonPress(controls.map.get("arm_bay"))) {
+      Arm.automating = true;
     }
   }
 
@@ -166,12 +168,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
     }
 
     // determines if cargo is being moved manually or automatically
-    if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)
-        || xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
-      Cargo.automating = false;
-    } else if (xbox.getSingleButtonPress(controls.map.get("cargo_rocket"))
-        || xbox.getSingleButtonPress(controls.map.get("cargo_bay"))) {
-      Cargo.automating = true;
+    if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)
+        || xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
+      Arm.automating = false;
+    } else if (xbox.getSingleButtonPress(controls.map.get("arm_rocket"))
+        || xbox.getSingleButtonPress(controls.map.get("arm_bay"))) {
+      Arm.automating = true;
     }
 
     // run and cancel auto align

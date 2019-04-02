@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
+import frc.tasks.ArmTask.ArmMode;
+import frc.tasks.CargoTask.CargoMode;
+import frc.tasks.HatchTask.HatchMode;
 import frc.robot.*;
 
 /**
@@ -21,11 +23,13 @@ public class AutoCompiler {
 	}
 
 	private Drive drive;
+	private Arm arm;
 	private Cargo cargo;
 	private Hatch hatch;
 
-	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch) {
+	public AutoCompiler(Drive drive, Arm arm, Cargo cargo, Hatch hatch) {
 		this.drive = drive;
+		this.arm = arm;
 		this.cargo = cargo;
 		this.hatch = hatch;
 	}
@@ -78,30 +82,74 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that sets the cargo arm to a given state
+	 * A token that sets the arm to a given height
 	 * 
-	 * @param state State of the cargo arm (picking up, dropping off, etc)
+	 * @param state Height of the arm
+	 */
+	class ArmToken implements Token {
+		private ArmMode armMode;
+
+		public ArmToken(String height) {
+			height = height.replace(" ", "");
+			if (height.equalsIgnoreCase("GROUND")) {
+				armMode = ArmMode.GROUND;
+			} else if (height.equalsIgnoreCase("LOWROCKET")) {
+				armMode = ArmMode.LOWROCKET;
+			} else if (height.equalsIgnoreCase("CARGOBAY")) {
+				armMode = ArmMode.CARGOBAY;
+			} else if (height.equalsIgnoreCase("HATCH")) {
+				armMode = ArmMode.HATCH;
+			} else {
+				armMode = ArmMode.GROUND;
+			}
+		}
+
+		public ArmTask makeTask() {
+			return new ArmTask(armMode, arm);
+		}
+	}
+
+	/**
+	 * A token that sets the cargo intake to a given state
+	 * 
+	 * @param state State of the cargo intake
 	 */
 	class CargoToken implements Token {
 		private CargoMode cargoMode;
 
 		public CargoToken(String state) {
 			state = state.replace(" ", "");
-			if (state.equalsIgnoreCase("GROUND")) {
-				cargoMode = CargoMode.GROUND;
-			} else if (state.equalsIgnoreCase("LOWROCKET")) {
-				cargoMode = CargoMode.LOWROCKET;
-			} else if (state.equalsIgnoreCase("CARGOBAY")) {
-				cargoMode = CargoMode.CARGOBAY;
-			} else if (state.equalsIgnoreCase("HATCH")) {
-				cargoMode = CargoMode.HATCH;
-			} else {
-				cargoMode = CargoMode.GROUND;
+			if (state.equalsIgnoreCase("IN")) {
+				cargoMode = CargoMode.IN;
+			} else if (state.equalsIgnoreCase("OUT")) {
+				cargoMode = CargoMode.OUT;
 			}
 		}
 
 		public CargoTask makeTask() {
 			return new CargoTask(cargoMode, cargo);
+		}
+	}
+
+	/**
+	 * A token that sets the hatch servo to a given state
+	 * 
+	 * @param state State of the hatch servo
+	 */
+	class HatchToken implements Token {
+		private HatchMode hatchMode;
+
+		public HatchToken(String state) {
+			state = state.replace(" ", "");
+			if (state.equalsIgnoreCase("RUN")) {
+				hatchMode = HatchMode.RUN;
+			} else if (state.equalsIgnoreCase("WAIT")) {
+				hatchMode = HatchMode.WAIT;
+			}
+		}
+
+		public HatchTask makeTask() {
+			return new HatchTask(hatchMode, hatch);
 		}
 	}
 
@@ -264,9 +312,9 @@ public class AutoCompiler {
 			} else if (line.contains("turn")) {
 				String current = line.substring(line.indexOf("turn") + "turn".length()); // Turn angle
 				tokenList.add(new TurnToken(current));
-			} else if (line.contains("cargo")) {
-				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
-				tokenList.add(new CargoToken(current));
+			} else if (line.contains("arm")) {
+				String current = line.substring(line.indexOf("arm") + "arm".length()); // Arm mode
+				tokenList.add(new ArmToken(current));
 			} else if(line.contains("hatch")) {
 				// TODO write/update
 				String current = line.substring(line.indexOf("hatch") + "hatch".length());
@@ -317,8 +365,8 @@ public class AutoCompiler {
 				taskSet.addTask(((AlignToken) t).makeTask());
 			} else if (t instanceof PathToken) {
 				taskSet.addTask(((PathToken) t).makeTask());
-			} else if (t instanceof CargoToken) {
-				taskSet.addTask(((CargoToken) t).makeTask());
+			} else if (t instanceof ArmToken) {
+				taskSet.addTask(((ArmToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask bundleSet = new BundleTask();
 				parseAuto(tokenList, bundleSet);

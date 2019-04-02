@@ -1,12 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Servo;
-import frc.tasks.CargoTask;
+import frc.tasks.*;
+import frc.tasks.HatchTask.HatchMode;
+import frc.tasks.ArmTask.ArmMode;
 
 /**
-* For the servo Hatch mechanism.
+* For the Hatch servo mechanism.
 */
-public class Hatch implements Runnable, UrsaRobot {
+public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public static Servo hatchServo;
     private boolean hatchOpen = true;
@@ -14,19 +16,14 @@ public class Hatch implements Runnable, UrsaRobot {
     private long hatchRunTime = 1050;
     private double hatchPower = 0.9;
 
-    private Cargo cargo;
+    private Arm arm;
 
     private Thread t;
 
-    public enum HatchMode {
-        WAIT, RUN
-    }
-
-    public static HatchMode hatchMode = HatchMode.WAIT;
-
-    public Hatch(Cargo cargo) {
+    public Hatch(Arm arm) {
         hatchServo = new Servo(HATCH_SERVO);
-        this.cargo = cargo;
+        setMode(HatchMode.WAIT);
+        this.arm = arm;
     }
 
     public void hatchInit() {
@@ -34,45 +31,36 @@ public class Hatch implements Runnable, UrsaRobot {
         t.start();
     }
 
-    public void run() {
-        while (true) {
-            if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
-                hatchOpen = !hatchOpen;
-                hatchMode = HatchMode.RUN;
-            }
-
-            if (hatchMode.equals(HatchMode.RUN)) {
-                if (hatchOpen) { // close hatch, ready to pick up or drop off
-                    hatchServo.setPosition(-hatchPower);
-                    try {
-                        Thread.sleep(hatchRunTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    hatchServo.set(.5);
-                } else { // open hatch, ready to move
-                    hatchServo.setPosition(hatchPower);
-                    try {
-                        Thread.sleep(hatchRunTime + 85);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    hatchServo.set(.5);
-
-                    cargo.setMode(CargoTask.CargoMode.HATCH);
-                }
-            } else {
-                hatchServo.setPosition(0.5);
-            }
-
-            hatchMode = HatchMode.WAIT;
-
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.out.println("DID NOT SLEEP");
-            }
+    public void runSubsystem() {
+        if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
+            hatchOpen = !hatchOpen;
+            setMode(HatchTask.HatchMode.RUN);
         }
+
+        if (getMode().equals(HatchMode.RUN)) {
+            if (hatchOpen) { // close hatch, ready to pick up or drop off
+                hatchServo.setPosition(-hatchPower);
+                try {
+                    Thread.sleep(hatchRunTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                hatchServo.set(.5);
+            } else { // open hatch, ready to move
+                hatchServo.setPosition(hatchPower);
+                try {
+                    Thread.sleep(hatchRunTime + 85);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                hatchServo.set(.5);
+
+                arm.setMode(ArmMode.HATCH);
+            }
+        } else {
+            hatchServo.setPosition(0.5);
+        }
+
+        setMode(HatchMode.WAIT);
     }
 }
