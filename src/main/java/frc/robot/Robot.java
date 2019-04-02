@@ -11,11 +11,11 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-// import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
 import frc.robot.UrsaRobot;
-import frc.tasks.*;
+// TODO uncomment for auto selector/compiler
+// import frc.tasks.*;
 import frc.tasks.DriveTask.DriveMode;
 
 // CommandRobot?
@@ -31,12 +31,11 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private ScrewClimb climb;
   private Arm arm;
   private Cargo cargo;
-  // private Vision vision;
 
   private DashboardInfo dashboardInfo;
 
   // private AutoSelector autoSelect;
-  private AutoCompiler autoCompiler;
+  // private AutoCompiler autoCompiler;
 
   private DebugSelector debugSelect;
   private String robotMode;
@@ -180,7 +179,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (xbox.getPOV() == controls.map.get("auto_align")) {
       // TODO add auto align call
     } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
-      Vision.visionStop = true;
+      // TODO add working vision stop
+      // Vision.visionStop = true;
     }
   }
 

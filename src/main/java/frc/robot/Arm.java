@@ -47,7 +47,7 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
                 subsystemMode = ArmMode.LOWROCKET;
             }
             ArmTask.ArmOrder armOrder = subsystemMode.callLoop();
-            // armLift.set(armOrder.armPower);
+            armLift.set(armOrder.armPower);
 
         } 
         

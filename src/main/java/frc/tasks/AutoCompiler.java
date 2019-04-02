@@ -13,10 +13,8 @@ import frc.tasks.HatchTask.HatchMode;
 import frc.robot.*;
 
 /**
- * Check the AutoModes folder for Auto Compiler Syntax.txt It contains all the
- * syntax
- *<b> REPLACE ALL AUTO JUNK FOR PATH WEAVER</b>
- * 
+ * Check the AutoModes folder for Auto Compiler Syntax.txt
+ * It contains all the syntax
  */
 public class AutoCompiler {
 	interface Token {
@@ -43,7 +41,7 @@ public class AutoCompiler {
 		private String scriptName;
 
 		public ExecuteToken(String scriptName) {
-			this.scriptName = "/home/lvuser/automodes/" + scriptName.trim();
+			this.scriptName = "/home/lvuser/automodes/" + scriptName.trim() + ".auto";
 		}
 	}
 
@@ -66,6 +64,7 @@ public class AutoCompiler {
 		}
 	}
 
+	// TODO update for path weaver
 	/**
 	 * A token that runs a given path file <b>UPDATE FOR PATH WEAVER</n>
 	 * 
@@ -109,6 +108,7 @@ public class AutoCompiler {
 		}
 	}
 
+	// TODO make sure this is correct
 	/**
 	 * A token that sets the cargo intake to a given state
 	 * 
@@ -131,6 +131,7 @@ public class AutoCompiler {
 		}
 	}
 
+	// TODO make sure this is correct
 	/**
 	 * A token that sets the hatch servo to a given state
 	 * 
@@ -281,7 +282,7 @@ public class AutoCompiler {
 
 	/**
 	 * Interprets specified file to identify keywords as tokens to add to a
-	 * collective ArrayList <b>TO BE REPLACED WITH PATHWEAVER?</b>  
+	 * collective ArrayList
 	 * 
 	 * @param filename Name of file to tokenize
 	 * @return ArrayList of all tokens in ranking order
@@ -296,12 +297,10 @@ public class AutoCompiler {
 			if (line.contains("#")) { // # means a comment, so the tokenizer ignores lines beginning with it
 				continue;
 			} else if (line.contains("follow")) {
-				// Path to follow (file name)
-				String current = line.substring(line.indexOf("follow") + "follow".length());
+				String current = line.substring(line.indexOf("follow") + "follow".length()); // Path to follow (file name)
 				tokenList.add(new PathToken(current));
 			} else if (line.contains("execute")) {
-				// Autofile to execute (file name)
-				String current = line.substring(line.indexOf("execute") + "execute".length());
+				String current = line.substring(line.indexOf("execute") + "execute".length()); // Autofile to execute (file name)
 				tokenList.add(new ExecuteToken(current));
 			} else if (line.contains("wait")) {
 				String current = line.substring(line.indexOf("wait") + "wait".length()); // Wait length (seconds)
@@ -313,12 +312,14 @@ public class AutoCompiler {
 				String current = line.substring(line.indexOf("turn") + "turn".length()); // Turn angle
 				tokenList.add(new TurnToken(current));
 			} else if (line.contains("arm")) {
-				String current = line.substring(line.indexOf("arm") + "arm".length()); // Arm mode
+				String current = line.substring(line.indexOf("arm") + "arm".length()); // Arm height
 				tokenList.add(new ArmToken(current));
+			} else if(line.contains("cargo")) {
+				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo state
+				tokenList.add(new HatchToken(current));
 			} else if(line.contains("hatch")) {
-				// TODO write/update
-				String current = line.substring(line.indexOf("hatch") + "hatch".length());
-				// tokenList.add(new HatchToken(current));
+				String current = line.substring(line.indexOf("hatch") + "hatch".length()); // Hatch state
+				tokenList.add(new HatchToken(current));
 			} else if (line.contains("align")) {
 				//TODO update
 				String current = line.substring(line.indexOf("align") + "align".length()); // Tape match args
@@ -367,6 +368,10 @@ public class AutoCompiler {
 				taskSet.addTask(((PathToken) t).makeTask());
 			} else if (t instanceof ArmToken) {
 				taskSet.addTask(((ArmToken) t).makeTask());
+			} else if (t instanceof CargoToken) {
+				taskSet.addTask(((CargoToken) t).makeTask());
+			} else if (t instanceof HatchToken) {
+				taskSet.addTask(((HatchToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask bundleSet = new BundleTask();
 				parseAuto(tokenList, bundleSet);
