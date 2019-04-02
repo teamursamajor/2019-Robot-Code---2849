@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-// import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -10,25 +9,38 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+/**
+* This interface contains all of the used ports on the robot as well as constants
+* involving encoders as well as the robot.
+*
+* <ul>
+* <li><b>Spark Ports*:</b></li>
+* <li>0 & 9: Drive</li>
+* <li>2 & 4: Cargo</li>
+* <li>5 & 8: Lift</li>
+* <li>7: Hatch</li>
+* <li></li>
+* <li><b>Sensor Ports*:</b></li>
+* <li>0: Cargo Potentiometer</li>
+* <li>4 & 5: Left Encoder</li>
+* <li>2 & 3: Right Encoder</li>
+* </ul>
+*
+* <b>*Subject to Change</b>
+*/
 public interface UrsaRobot {
 	// Arcade vs Tank drive
 	public static boolean isArcadeDrive = true;
 
 	// Spark Ports
 	// 6 unused
-	public static final int DRIVE_FRONT_LEFT = 0;
-	public static final int DRIVE_BACK_LEFT = 0;
-	public static final int DRIVE_FRONT_RIGHT = 9;
-	public static final int DRIVE_BACK_RIGHT = 9;
+	public static final int DRIVE_FRONT_LEFT = 0, DRIVE_BACK_LEFT = 0;
+	public static final int DRIVE_FRONT_RIGHT = 9, DRIVE_BACK_RIGHT = 9;
 
-	public static final int CARGO_INTAKE = 2;
-	public static final int CARGO_LIFT = 4;
+	public static final int CARGO_INTAKE = 2, CARGO_LIFT = 4;
 	
-	public static final int CLIMB_FRONT = 5;
-	public static final int CLIMB_BACK = 8;
+	public static final int CLIMB_FRONT = 5, CLIMB_BACK = 8;
 	
-	public static final int HATCH = 3;
-
 	public static final int HATCH_SERVO = 7;
 
 	// Encoders and Sensors Ports
@@ -36,12 +48,9 @@ public interface UrsaRobot {
 	
 	public static final int CARGO_POT_CHANNEL = 0;
 
-	public static final int LEFT_ENCODER_CHANNEL_A = 4;
-	public static final int LEFT_ENCODER_CHANNEL_B = 5;
-	public static final int RIGHT_ENCODER_CHANNEL_A = 2;
-	public static final int RIGHT_ENCODER_CHANNEL_B = 3;
+	public static final int LEFT_ENCODER_CHANNEL_A = 4, LEFT_ENCODER_CHANNEL_B = 5;
+	public static final int RIGHT_ENCODER_CHANNEL_A = 2, RIGHT_ENCODER_CHANNEL_B = 3;
 
-	// Encoders
 	public static Encoder leftEncoder = new Encoder(LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B);
 	public static Encoder rightEncoder = new Encoder(RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B);
 
@@ -58,9 +67,8 @@ public interface UrsaRobot {
 	// Radius of the robot and cargo
 	public static final double robotRadius = 15;
 
-	// Path settings
-	public static final double MAX_VELOCITY = 160; // inches / second
-	public static final double MAX_ACCELERATION = 80; // inches / second ^2
+	// Path settings in inches/second and inches^2/second
+	public static final double MAX_VELOCITY = 160, MAX_ACCELERATION = 80; 
 
 	// Nav-X
 	AHRS ahrs = new AHRS(SPI.Port.kMXP);
@@ -80,11 +88,8 @@ public interface UrsaRobot {
 	// Control Map
 	ControlMap controls = new ControlMap();
 
-	/**
-	 * 2/5/19 - This enum has been redeclared sacred and shall n♀t be deleted,
-	 * no matter what Evan may say. - Isåàç
-	 */
-	public enum SickoMode {
-		SICKO, BAMBA, SHECK, TRAVIS
-	}
+	//TODO - do we still need 
+// 	public enum SickoMode {
+// 		SICKO, BAMBA, SHECK, TRAVIS
+// 	}
 }

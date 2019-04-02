@@ -3,12 +3,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Servo;
 import frc.tasks.CargoTask;
 
+/**
+* For the servo Hatch mechanism.
+*/
 public class Hatch implements Runnable, UrsaRobot {
 
     public static Servo hatchServo;
     private boolean hatchOpen = true;
 
-    private long hatchRunTime = 1000;
+    private long hatchRunTime = 1050;
+    private double hatchPower = 0.9;
 
     private Cargo cargo;
 
@@ -39,23 +43,22 @@ public class Hatch implements Runnable, UrsaRobot {
 
             if (hatchMode.equals(HatchMode.RUN)) {
                 if (hatchOpen) { // close hatch, ready to pick up or drop off
-                    hatchServo.setPosition(.75);
-                    try {
-                        Thread.sleep(hatchRunTime + 750);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    hatchServo.set(.5);
-                } else { // open hatch, ready to move
-                    hatchServo.setPosition(-.75);
+                    hatchServo.setPosition(-hatchPower);
                     try {
                         Thread.sleep(hatchRunTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     hatchServo.set(.5);
+                } else { // open hatch, ready to move
+                    hatchServo.setPosition(hatchPower);
+                    try {
+                        Thread.sleep(hatchRunTime + 85);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    hatchServo.set(.5);
 
-                    // TODO if everything breaks comment this out
                     cargo.setMode(CargoTask.CargoMode.HATCH);
                 }
             } else {

@@ -6,8 +6,11 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import frc.tasks.*;
 import frc.tasks.CargoTask.CargoMode;
 
+/**
+*This controls how high up our cargo arm is as well as it's intake/outake
+*/
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
-
+    
     public static double cargoGroundVoltage, cargoLowRocketVoltage, cargoBayVoltage, cargoStartVoltage;
 
     public static Spark cargoIntake, cargoLift;
@@ -25,16 +28,16 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
         // gets the current cargo voltage (should be for start) so the rest can be
         // calculated relative to it
-        // TODO update
         cargoStartVoltage = cargoPot.get();
-        cargoGroundVoltage = cargoStartVoltage - 2;
-        cargoLowRocketVoltage = cargoStartVoltage - 1.25;
-        cargoBayVoltage = cargoStartVoltage - 0.75;
+        cargoGroundVoltage = cargoStartVoltage - 98;
+        cargoLowRocketVoltage = cargoStartVoltage - 40;
+        cargoBayVoltage = cargoStartVoltage - 20;
     }
 
     public void runSubsystem() {
         updateStateInfo();
-        // automated cargo code
+        
+        // Automated Cargo
         if (automating) {
             if (xbox.getSingleButtonPress(controls.map.get("cargo_ground"))) {
                 subsystemMode = CargoMode.GROUND;
@@ -44,21 +47,25 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
                 subsystemMode = CargoMode.LOWROCKET;
             }
             CargoTask.CargoOrder cargoOrder = subsystemMode.callLoop();
-            cargoLift.set(cargoOrder.cargoPower);
+            // cargoLift.set(cargoOrder.cargoPower);
 
-        } else {
+        } 
+        
+        // Manual Cargo
+        else {
             if (cargoPot.get() > cargoStartVoltage) {
-                cargoLift.set(0.20);
+                // cargoLift.set(0.20);
             } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_up"), 0.1)) {
                 cargoLift.set(getUpPower());
             } else if (xbox.getAxisGreaterThan(controls.map.get("cargo_down"), 0.1)) {
                 cargoLift.set(getDownPower());
             } else {
-                cargoLift.set(CargoTask.feedForward(CargoTask.getCargoAngle()));
+                cargoLift.set(0.0);
+                // cargoLift.set(CargoTask.feedForward(CargoTask.getCargoAngle()));
             }
         }
 
-        // cargo intake code
+        // Cargo Intake
         if (xbox.getButton(controls.map.get("cargo_intake"))) {
             cargoIntake.set(0.55);
         } else if (xbox.getButton(controls.map.get("cargo_outtake"))) {
@@ -69,11 +76,17 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
         if ((System.currentTimeMillis() - time) % 50 == 0) {
             System.out.println("Pot Voltage: " + cargoPot.get());
-            // System.out.println(subsystemMode);
         }
 
     }
 
+    /**
+    * Updates the following items:
+    *<ul>
+    *<li><b>Potentiometer voltage</b> - used for calculating cargo's current angle</li>
+    *<li>The <b>speed</b> of the cargo arm</li>
+    *</ul>
+    */
     public void updateStateInfo() {
         double currentVoltage = cargoPot.get();
         double deltaVolt = currentVoltage - CargoTask.CargoState.cargoVoltage;
@@ -109,8 +122,6 @@ public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
 
     /**
      * Deprecated, use CargoTask.feedForward(double angle) instead
-     * 
-     * @return
      */
     public static double getHoldPower() {
         if (cargoPot.get() >= (cargoGroundVoltage) && cargoPot.get() < cargoLowRocketVoltage) {

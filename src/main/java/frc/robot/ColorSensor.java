@@ -57,13 +57,6 @@ public class ColorSensor {
             return false;
         }
 
-        // // Set the integration time
-        // sensor.write(Constant.ATIME | Constant.CMD,
-        // Constant.INTEGRATIONTIME_2_4MS);
-
-        // // Set the gain
-        // sensor.write(Constant.CONTROL | Constant.CMD, Constant.GAIN_4X | 0x20);
-
         System.out.println("Color Sensor Initialized!");
         initalized = true;
         return true;

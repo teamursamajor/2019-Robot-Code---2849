@@ -9,12 +9,8 @@ public class ScrewClimb implements UrsaRobot {
 
     private Spark frameWheel, leadscrew;
     private double distanceTolerance = 2.0; // max distance before the sensor tells the leadscrews to stop
-    private double leadscrewSpeed = 0.5;
-    private double frameWheelSpeed = 0.5;
-    private double climbTimeout = 100000000; // TODO change this
+    private double leadscrewSpeed = 0.5, frameWheelSpeed = 0.5, climbTimeout = 100000000; // TODO change this
     private boolean leadscrewsUp = false;
-
-    // the ultrasonic is defined in UrsaRobot
 
     public ScrewClimb() {
         frameWheel = new Spark(CLIMB_FRONT);
@@ -28,9 +24,6 @@ public class ScrewClimb implements UrsaRobot {
 
     public void run() {
         while (true) {
-            // System.out.println("Distance: " + ultra.getRangeInches());
-            // initial climb up
-            // start button
             if (xbox.getSingleButtonPress(controls.map.get("climb_leadscrew_up")) && !leadscrewsUp) { // start leadscrews
                 long startTime = System.currentTimeMillis();
                 leadscrewsUp = true;
@@ -71,8 +64,7 @@ public class ScrewClimb implements UrsaRobot {
             }
 
             // In case something happens to the ultra sonic sensor during a competition
-
-            // Emergency stop
+            // use this for an emergency stop
             if (xbox.getButton(controls.map.get("climb_leadscrew_up"))
                     && xbox.getButton(controls.map.get("climb_framewheel"))) {
                 leadscrew.set(0.0);

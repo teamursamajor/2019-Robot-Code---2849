@@ -1,20 +1,21 @@
 package frc.robot;
 
-public abstract class Subsystem<E> implements Runnable {
-
-    /*
+ /*
      * This class is meant to act as a skeleton for subsystems and reduce redundant
      * code. It creates a subsystem thread and methods to get/set different modes
      * (according to enums). Subsystem classes then extend it and run its
      * constructor so they get the thread and methods. It uses the generic E so that
      * subsystem classes can substitute this with their mode enums.
      */
-
+public abstract class Subsystem<E> implements Runnable {
+    
     public static boolean running = false;
 
     private Thread t;
-
-    // Constructor for starting threads for each subsystem
+    
+    /*
+    * Constructor for starting threads for each subsystem
+    */
     public Subsystem() {
 
     }

@@ -7,12 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.cameraserver.CameraServer;
+// import edu.wpi.first.cameraserver.CameraServer;
 import frc.diagnostics.*;
 import frc.diagnostics.Logger.LogLevel;
 import frc.robot.UrsaRobot;
+import frc.tasks.DriveTask.DriveMode;
 
 // CommandRobot?
 public class Robot extends TimedRobot implements UrsaRobot {
@@ -26,6 +29,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Hatch hatch;
   private ScrewClimb climb;
   private Cargo cargo;
+  // private Vision vision;
 
   private DashboardInfo dashboardInfo;
 
@@ -76,8 +80,15 @@ public class Robot extends TimedRobot implements UrsaRobot {
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
 
-    // uncomment if vision constructor code doesnt work:
-    CameraServer.getInstance().startAutomaticCapture();
+    // uncomment if vision constructor code works:
+    // vision = new Vision();
+    // vision.visionInit();
+
+    UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture();
+    camera0.setFPS(30);
+    camera0.setResolution(225, 225);
+    // uncomment if vision constructor code doesn't work:
+    // CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -131,6 +142,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   public void teleopInit() {
     Logger.log("Started Teleop mode", LogLevel.INFO);
     robotMode = "Teleop";
+    drive.setMode(DriveMode.DRIVE_STICKS);
     Logger.setLevel(debugSelect.getLevel());
   }
 
@@ -141,7 +153,9 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if (xbox.getDPad(controls.map.get("limelight_toggle"))) { // flip limelight pipeline
+    if (xbox.getPOV() == XboxController.POV_RIGHT) {
+    // if (xbox.getSingleButtonPress(controls.map.get("limelight_toggle"))){
+
       if (processedPipeline)
         limelightTable.getEntry("pipeline").setDouble(0);
       else

@@ -1,47 +1,67 @@
-Test distance sensor
-Test and finalize climber
-New Hatch code
-Potentional Hatch automation/limelightQ
-Clean up/update teleopPeriodic() and control map code to reflect robot
-Mount second drive encoder
+Robotics To Do:
+-import pathweaver stuff to each laptop
+-draw paths
+-fix autocompiler
+-write autoselector
+-Update cargo voltages
+-Test the feed forward to determine the empirically found motor factor
+-Tune the PID loop
+-Increment kp until you find kc (or approx. kc)
+
+-test auto align
+
+	On real bot:
+	Get voltage on ground and at 90 degrees to redo the regression
+	Get the voltages for the different heights
+	Double check feed forward and the empirically found factor
+	Test PID loop moving to different heights
+
+-Camera mount
+	Determine limelight mounting height
+	Make perfboard extension from eboard for cargo camera
+
+-General code clean up:
+	Finish To Dos
+	Remove unneeded comments and unused code
+
+-Auto code:
+	Finish PathFinding software and AutoSelector
+	Can we drive a path backwards?
+    Level 1/2 -> Cargo on side -> Pick up cargo -> Side cargo
+							   -> Pick up hatch -> Rocket
+							                    -> Front bay
+							   
+			  -> Hatch in front -> Pick up cargo -> Side cargo
+			  
+			  -> Hatch in front -> Pick up hatch -> Rocket
+												 -> Second front hatch
+			  -> Hatch on side -> Pick up hatch -> Rocket
+												-> Front hatch
+							   -> Pick up cargo -> Side cargo
+	Need Paths for:
+		Level 1/2 -> Close side bay
+		Close side bay -> Cargo pick up
+		Cargo pick up -> Close side bay
+		Close side bay -> Loading station
+		Loading station -> Rocket
+		Loading station -> Front bay
+		Level 1/2 -> Front bay
+		Front bay -> Cargo pick up
+		Front bay -> Loading station
+		Cargo pick up -> Middle side bay
+
+-Auto align cargo/hatch using 614 strategy:
+	Back up so you're approximately perpendicular to the wall
+	Slight drive forward while looping turn PID using limelight
+		If its to the left then more power to right, if its to the right then more power to left
+			Rumble when auto align is done so nico can shoot immediately
+			This also means it doesnt auto shoot so if defense hits us we don't lose a cycle
 
 
 Finish Auto Selector and test it
 Write auto files/draw paths
-Automate cargo using encoders or color sensor
-
-Color Sensor:
-	Where should we mount them? One in the center of the robot could be used to automate cargo drop off maybe
-	We could also put one on the hatch end of the robot (centered horizontally on the edge)
-	Wire and mount the second sensor
-		Have build start to figure out how to mount them properly (NOT duct tape)
-	Write the code for the second one (should be easy, just make another object). Make sure that both can work at the same time
-	Add another DriveMode which drives forward until the color sensor gets a match
-
-Drive Encoders
-
-Color sensor code for cargo (come at the line at an angle, kill motors/start turning, drive forward and drop off)
-Write auto code for all 3 rows:
-	Far Hatch -> Mid Hatch for both sides
-	Mid Hatch -> Close Cargo for both sides
-	Front Hatch/Cargo -> ?
-	Default drive forward mode
-
-Testing:
-	Test new cargo mode progression
-		X should go from ground to rocket and back
-		Y should go from ground to bay and back
-	New cargo velocity
-		Does it still return infinity/NaN?
-		If not try adding a kD constant and see what happens
-			Then tune it
 
 Camera Mount: In progress but check on it
-
-Lower Priority:
-	Constants:
-		Move more powers and stuff to constants
-	Add offset to potentiometers? Ex: Cargo pot starts from around 125-130, adding an offset would make it stop from 0
 
 Older To Do Lists:
 Add Logger calls throughout the code

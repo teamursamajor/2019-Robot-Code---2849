@@ -1,5 +1,6 @@
 package frc.tasks;
 
+import frc.diagnostics.*;
 public class PrintTask extends Task {
 	private String str; //The string that you want to print
 	
@@ -12,6 +13,7 @@ public class PrintTask extends Task {
 	//Prints the string to System.out
 	public void run() {
 		System.out.println(str);
+		Logger.log(str, Logger.LogLevel.DEBUG);
 	}
 	
 	//Returns the string that would be printed
