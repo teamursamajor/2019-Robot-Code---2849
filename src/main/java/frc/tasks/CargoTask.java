@@ -10,9 +10,8 @@ public class CargoTask extends Task implements UrsaRobot {
     private long runTime = 1000;
     private Cargo cargo;
 
-    public CargoTask(CargoMode mode, Cargo cargo, long runTime) {
+    public CargoTask(CargoMode mode, Cargo cargo) {
         this.cargo = cargo;
-        this.runTime = runTime;
         cargo.setMode(mode);
         Thread t = new Thread(this, "CargoTask");
         t.start();

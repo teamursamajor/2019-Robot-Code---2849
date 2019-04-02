@@ -127,7 +127,7 @@ public class AutoCompiler {
 		}
 
 		public CargoTask makeTask() {
-			return new CargoTask(cargoMode, cargo, 1000);
+			return new CargoTask(cargoMode, cargo);
 		}
 	}
 
