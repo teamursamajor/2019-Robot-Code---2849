@@ -18,17 +18,10 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     private Arm arm;
 
-    private Thread t;
-
     public Hatch(Arm arm) {
         hatchServo = new Servo(HATCH_SERVO);
         setMode(HatchMode.WAIT);
         this.arm = arm;
-    }
-
-    public void hatchInit() {
-        t = new Thread(this, "Hatch Thread");
-        t.start();
     }
 
     public void runSubsystem() {

@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
+ * UNUSED, KEPT FOR FUTURE REFERENCE
+ * 
  * Designed for REV Robotics TMD3782 v2 Color Sensor:
  * http://www.revrobotics.com/content/docs/REV-31-1537-DS.pdf
  * 

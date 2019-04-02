@@ -7,7 +7,8 @@ public abstract class Task extends Thread {
      * Task
      */
     public Task() {
-        
+        Thread t = new Thread(this);
+        t.start();
     }
 
     public abstract void run();

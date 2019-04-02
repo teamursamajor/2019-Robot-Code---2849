@@ -15,7 +15,7 @@ public class DriveTask extends Task implements UrsaRobot {
          * AUTO_DRIVE is for autonomous code,TURN is for autonomous turning, PATH is for
          * following Path files, DRIVE_STICKS is for manual control.
          */
-        AUTO_DRIVE, TURN, PATH, DRIVE_STICKS;
+        AUTO_DRIVE, TURN, DRIVE_STICKS;
 
         /**
          * This method takes the current drive state and iterates the control loop then
@@ -31,8 +31,6 @@ public class DriveTask extends Task implements UrsaRobot {
                 return autoCalculator();
             case TURN:
                 return turnTo();
-            case PATH:
-                // return pathIterate(pathReader);
             case DRIVE_STICKS:
                 return sticksBox();
             }
@@ -228,9 +226,6 @@ public class DriveTask extends Task implements UrsaRobot {
             drive.setMode(DriveMode.TURN);
             Thread turnThread = new Thread("TurnTask");
             turnThread.start();
-            break;
-        case PATH:
-            // TODO currently not coded
             break;
         case DRIVE_STICKS:
             System.out.println(

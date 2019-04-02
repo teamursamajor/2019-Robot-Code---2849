@@ -43,5 +43,6 @@ public class ControlMap {
         // Climb
         map.put("climb_leadscrew_up", XboxController.BUTTON_START);
         map.put("climb_framewheel", XboxController.BUTTON_BACK);
+        // pressing start/back together cancels climb
     }
 }

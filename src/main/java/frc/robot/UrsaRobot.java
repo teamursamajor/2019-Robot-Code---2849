@@ -87,9 +87,6 @@ public interface UrsaRobot {
 
 	// Control Map
 	ControlMap controls = new ControlMap();
-
-	//TODO - do we still need 
-// 	public enum SickoMode {
-// 		SICKO, BAMBA, SHECK, TRAVIS
-// 	}
+	
+	// RIP summonSatan() and SickoMode Time of Death: 6:57 PM on April 2nd, 2019
 }

@@ -40,12 +40,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private DebugSelector debugSelect;
   private String robotMode;
 
-  // For minimap
-  // static TestBot testBot;
-  // private int numberOfEncoders = 2;
-  // private double[] encoders = new double[numberOfEncoders];
-  // private RunTest runGui = new RunTest(testBot);
-
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -71,7 +65,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     arm.initialize("armThread");
 
     hatch = new Hatch(arm);
-    hatch.hatchInit();
+    hatch.initialize("hatchThread");
 
     climb = new ScrewClimb();
     climb.initialize();
@@ -92,6 +86,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     camera0.setResolution(225, 225);
   }
 
+  private boolean processedPipeline = true;
+
   /**
    * This function is called every robot packet, no matter the mode. Use this for
    * items like diagnostics that you want ran during disabled, autonomous,
@@ -103,6 +99,33 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   @Override
   public void robotPeriodic() {
+    // sets manual vs automatic arm control
+    if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)
+        || xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
+      Arm.automating = false;
+    } else if (xbox.getSingleButtonPress(controls.map.get("arm_rocket"))
+        || xbox.getSingleButtonPress(controls.map.get("arm_bay"))) {
+      Arm.automating = true;
+    }
+
+    // run and cancel auto align
+    if (xbox.getPOV() == controls.map.get("auto_align")) {
+      AutoAlign.autoAlign();
+    } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
+      AutoAlign.killAutoAlign();
+    }
+
+    // toggle processsed image or raw image
+    if (xbox.getSingleButtonPress(controls.map.get("limelight_toggle"))) {
+
+      if (processedPipeline)
+        limelightTable.getEntry("pipeline").setDouble(0);
+      else
+        limelightTable.getEntry("pipeline").setDouble(2);
+
+      processedPipeline = !processedPipeline;
+
+    }
 
   }
 
@@ -126,13 +149,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)
-        || xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
-      Arm.automating = false;
-    } else if (xbox.getSingleButtonPress(controls.map.get("arm_rocket"))
-        || xbox.getSingleButtonPress(controls.map.get("arm_bay"))) {
-      Arm.automating = true;
-    }
+
   }
 
   /**
@@ -147,41 +164,12 @@ public class Robot extends TimedRobot implements UrsaRobot {
     Logger.setLevel(debugSelect.getLevel());
   }
 
-  private boolean processedPipeline = true;
-
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    if (xbox.getPOV() == XboxController.POV_RIGHT) {
-    // if (xbox.getSingleButtonPress(controls.map.get("limelight_toggle"))){
 
-      if (processedPipeline)
-        limelightTable.getEntry("pipeline").setDouble(0);
-      else
-        limelightTable.getEntry("pipeline").setDouble(2);
-
-      processedPipeline = !processedPipeline;
-
-    }
-
-    // determines if cargo is being moved manually or automatically
-    if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)
-        || xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
-      Arm.automating = false;
-    } else if (xbox.getSingleButtonPress(controls.map.get("arm_rocket"))
-        || xbox.getSingleButtonPress(controls.map.get("arm_bay"))) {
-      Arm.automating = true;
-    }
-
-    // run and cancel auto align
-    if (xbox.getPOV() == controls.map.get("auto_align")) {
-      // TODO add auto align call
-    } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
-      // TODO add working vision stop
-      // Vision.visionStop = true;
-    }
   }
 
   /**
@@ -199,7 +187,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    // System.out.println(ultra.getRangeInches());
+    System.out.println("Distance: " + ultra.getRangeInches());
   }
 
   /**

@@ -8,7 +8,6 @@ import frc.tasks.ArmTask.ArmMode;
 
 /**
 *This controls how high up our arm is
-*  as well as it's intake/outake
 */
 public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
     
@@ -48,7 +47,6 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
             }
             ArmTask.ArmOrder armOrder = subsystemMode.callLoop();
             armLift.set(armOrder.armPower);
-
         } 
         
         // Manual Arm

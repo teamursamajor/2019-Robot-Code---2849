@@ -132,7 +132,7 @@ public class ArmTask extends Task implements UrsaRobot {
     public ArmTask(ArmMode mode, Arm arm) {
         running = true;
         arm.setMode(mode);
-        Thread t = new Thread("ArmTask");
+        Thread t = new Thread(this, "ArmTask");
         t.start();
     }
 
