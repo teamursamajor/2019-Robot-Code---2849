@@ -27,7 +27,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
   // private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
-  private Hatch hatch;
+  // private Hatch hatch;
+  private AngularHatch hatch;
   private ScrewClimb climb;
   private Arm arm;
   private Cargo cargo;
@@ -64,8 +65,10 @@ public class Robot extends TimedRobot implements UrsaRobot {
     arm = new Arm();
     arm.initialize("armThread");
 
-    hatch = new Hatch(arm);
-    hatch.initialize("hatchThread");
+    // hatch = new Hatch(arm);
+    // hatch.initialize("hatchThread");
+
+    hatch = new AngularHatch();    
 
     climb = new ScrewClimb();
     climb.initialize();

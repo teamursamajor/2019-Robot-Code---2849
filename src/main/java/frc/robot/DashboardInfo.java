@@ -66,7 +66,6 @@ public class DashboardInfo implements Runnable, UrsaRobot {
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
         System.out.println("Climb Power" + climbPower);
     }
-}
 
 /**
  * The image widget simply displays a static image loaded from a file. If you
@@ -77,3 +76,4 @@ public class DashboardInfo implements Runnable, UrsaRobot {
  * any indication – this caused me a lot of grief).
  * https://github.com/team2485/sdwidgets/tree/master/src/team2485/smartdashboard/extension
  */
+}
