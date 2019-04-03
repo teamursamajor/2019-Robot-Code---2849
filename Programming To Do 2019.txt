@@ -1,6 +1,4 @@
 Robotics To Do:
--hatch stuff
-
 -import pathweaver stuff to each laptop
 -draw paths
 -write autoselector
