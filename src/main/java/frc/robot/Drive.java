@@ -5,19 +5,16 @@ import frc.tasks.DriveTask;
 import frc.tasks.DriveTask.DriveMode;
 
 /**
-*This is the class that allows us to drive the robot.
-*It contains the following information: 
-*<ul>
-*<li><b>Encoders:</b> getRightRate(), getLeftRate()</li>
-*<li><b>Heading:</b> uses degrees as a measurement</li>
-</ul>
-*/
+ * This subsystem class allows us to drive the robot. It contains the following
+ * information:
+ * <ul>
+ * <li><b>Encoders:</b> getRightRate(), getLeftRate()</li>
+ * <li><b>Heading:</b> uses degrees as a measurement</li>
+ * </ul>
+ */
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
-	public static Spark mFrontLeft;
-	public static Spark mFrontRight;
-	public static Spark mRearLeft;
-	public static Spark mRearRight;
+	public static Spark mFrontLeft, mFrontRight, mRearLeft, mRearRight;
 
 	/**
 	 * Constructor for Drive class. Only one Drive object should be instantiated at
@@ -31,7 +28,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		mRearLeft = mFrontLeft;
 		mRearRight = mFrontRight;
-		
+
 		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setReverseDirection(true);
@@ -56,6 +53,14 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	}
 
+	/**
+	 * Updates the following:
+	 * <ul>
+	 * <li>left/right velocity</li>
+	 * <li>left/right distance traveled</li>
+	 * <li>the current heading of the robot</li>
+	 * <ul>
+	 */
 	public void updateStateInfo() {
 		double leftDistance = getLeftEncoder();
 		double rightDistance = getRightEncoder();
@@ -83,7 +88,6 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * 
 	 * @return Fixed heading from the NavX always between 0 and 360
 	 */
-
 	public double getHeading() {
 		double angle = ahrs.getAngle();
 		angle = fixHeading(angle);
@@ -110,10 +114,16 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		return heading;
 	}
 
+	/**
+	 * @return - the left encoder's distance value
+	 */
 	public double getLeftEncoder() {
 		return leftEncoder.getDistance();
 	}
 
+	/**
+	 * @return - the right encoder's distance value
+	 */
 	public double getRightEncoder() {
 		return rightEncoder.getDistance();
 	}
@@ -166,37 +176,38 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	 * Sets all drive motors to the same power. Accounts for the flip between the
 	 * left and right sides
 	 * 
-	 * @param power
+	 * @param power - the power the motors get set to
 	 */
 	public static void setPower(double power) {
-		mFrontRight.set(power);
+		setRightPower(power);
+		setLeftPower(power);
+	}
+
+	/**
+	 * Sets the front and back left motors.
+	 *
+	 * @param power - the power the motor is set to
+	 */
+	public static void setLeftPower(double power) {
 		mFrontLeft.set(-power);
 		mRearLeft.set(-power);
+	}
+
+	/**
+	 * Sets the front and back right motors.
+	 *
+	 * @param power - the power the motor is set to.
+	 */
+	public static void setRightPower(double power) {
+		mFrontRight.set(power);
 		mRearRight.set(power);
 	}
 
-	public static void setLeftPower(double power){
-		mFrontLeft.set(-power);
-		mRearLeft.set(-power);
-	}
-
-	public static void setRightPower(double power){
-		mFrontRight.set(power);
-		mRearRight.set(power);
-	}
-
+	/**
+	 * Will print out DEBUGGING followed by a message. Used for testing code.
+	 */
 	public void debugMessage(String message) {
 		message = "DEBUGGING: " + message;
 		System.out.println(message);
 	}
-
-	/**
-	 * As of 3/9/2018 at 5:49 PM this method has been declared sacred and will not
-	 * be deleted. Ever. -20XX
-	 * 
-	 * During the holidays, summonSanta() is an acceptable replacement. -20XX
-	 */
-	public void summonSatan() {
-	}
-
 }

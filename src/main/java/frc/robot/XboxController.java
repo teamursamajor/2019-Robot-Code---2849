@@ -3,17 +3,18 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Wrapper class for Joystick that adds useful methods as well as rumble!
- *<ul>
- *<li><b>Char Buttons</b>: A=1, B=2, X=3, Y=4</li>
- *<li><b>Bumpers</b>: Left=5, Right=6</li>
- * @author FRC Team 2849 URSA MAJOR 2016 Season
+ * This is a wrapper class for Joystick that adds useful methods (and rumble!).
+ * <ul>
+ * <li><b>Char Buttons</b>: A=1, B=2, X=3, Y=4</li>
+ * <li><b>Bumpers</b>: Left=5, Right=6</li>
+ * 
+ * @author FRC Team 2849 Ursa Major 2016 Season
  */
 public class XboxController extends Joystick implements Runnable {
-	
+
 	// Character Buttons
 	public static final int BUTTON_A = 1, BUTTON_B = 2, BUTTON_X = 3, BUTTON_Y = 4;
-	
+
 	// Bumpers
 	public static final int BUTTON_LEFTBUMPER = 5;
 	public static final int BUTTON_RIGHTBUMPER = 6;
@@ -51,11 +52,11 @@ public class XboxController extends Joystick implements Runnable {
 		startRumble();
 
 		// Creates Latch objects for every button and axis on the controller
-		for(int i = 0; i < buttonLatch.length - 1; i++){
+		for (int i = 0; i < buttonLatch.length - 1; i++) {
 			buttonLatch[i] = new Latch();
 		}
 
-		for(int i = 0; i < axisLatch.length - 1; i++){
+		for (int i = 0; i < axisLatch.length - 1; i++) {
 			axisLatch[i] = new Latch();
 		}
 	}
@@ -183,12 +184,9 @@ public class XboxController extends Joystick implements Runnable {
 	}
 
 	/**
-	 * Rising edge detector
-	 * 
-	 * Prevents an input from being read more than once
+	 * Rising edge detector. Prevents an input from being read more than once
 	 * 
 	 * @author kingeinstein
-	 *
 	 */
 	public class Latch {
 		private boolean lastInput = false;

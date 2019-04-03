@@ -1,6 +1,10 @@
 package frc.tasks;
 
 import frc.diagnostics.*;
+
+/**
+ * This is a task class for printing out text when running Auto Modes.
+ */
 public class PrintTask extends Task {
 	private String str; //The string that you want to print
 	

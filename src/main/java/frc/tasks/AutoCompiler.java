@@ -6,29 +6,32 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import frc.tasks.CargoTask.CargoMode;
 import frc.tasks.DriveTask.DriveMode;
+import frc.tasks.ArmTask.ArmMode;
+import frc.tasks.CargoTask.CargoMode;
+import frc.tasks.HatchTask.HatchMode;
 import frc.robot.*;
 
-// TODO actually make this file vvvv
-
 /**
- * Check the AutoModes folder for Auto Compiler Syntax.txt It contains all the
- * syntax
+ * @author Sheldon and ForwardSlash
  * 
- * @author Evan + Sheldon originally wrote this on 1/16/18. Evan updated it for
- *         the 2019 season.
+ * This is a class for compiling Auto Modes. It takes an Auto Mode file and interprets
+ * tokens and arguments on each line as a set of tasks to be executed in sequence.
+ * 
+ * Auto Mode syntax is located on the team Google Drive.
  */
 public class AutoCompiler {
 	interface Token {
 	}
 
 	private Drive drive;
+	private Arm arm;
 	private Cargo cargo;
 	private Hatch hatch;
 
-	public AutoCompiler(Drive drive, Cargo cargo, Hatch hatch) {
+	public AutoCompiler(Drive drive, Arm arm, Cargo cargo, Hatch hatch) {
 		this.drive = drive;
+		this.arm = arm;
 		this.cargo = cargo;
 		this.hatch = hatch;
 	}
@@ -42,7 +45,23 @@ public class AutoCompiler {
 		private String scriptName;
 
 		public ExecuteToken(String scriptName) {
-			this.scriptName = "/home/lvuser/automodes/" + scriptName.trim();
+			this.scriptName = "/home/lvuser/automodes/" + scriptName.trim() + ".auto";
+		}
+	}
+
+	// TODO Update for PathWeaver
+	/**
+	 * A token that runs a given path file
+	 * 
+	 * @param filename Path file to run
+	 */
+	class FollowToken implements Token {
+		public FollowToken(String filename) {
+			filename = filename.replace(" ", "") + ".path"; // Assuming path files still end in path
+		}
+
+		public PathTask makeTask() {
+			return null;
 		}
 	}
 
@@ -52,66 +71,14 @@ public class AutoCompiler {
 	 * @param str String to print
 	 */
 	class PrintToken implements Token {
-		private String str; // String to be printed
+		private String str;
 
-		// Instantiate PrintToken class
 		public PrintToken(String str) {
-			this.str = str; // Set variable str to argument string
+			this.str = str;
 		}
 
-		// Creates a new instance of PrintTask class
 		public PrintTask makeTask() {
 			return new PrintTask(str);
-		}
-	}
-
-	/**
-	 * A token that runs a given path file
-	 * 
-	 * @param filename Path file to run
-	 */
-	// TODO Implement with changes to path
-	class PathToken implements Token {
-		// private Path[] paths;
-
-		public PathToken(String filename) {
-			filename = filename.replace(" ", "");
-			// TODO put all paths into /paths
-			// paths = new PathReader("/home/lvuser/paths/" + filename + ".path",
-			// false).getPaths();
-		}
-
-		public PathTask makeTask() {
-			// return new PathTask(paths);
-			return null;
-		}
-	}
-
-	/**
-	 * A token that sets the cargo arm to a given state
-	 * 
-	 * @param state State of the cargo arm (picking up, dropping off, etc)
-	 */
-	class CargoToken implements Token {
-		private CargoMode cargoMode;
-
-		public CargoToken(String state) {
-			state = state.replace(" ", "");
-			if (state.equalsIgnoreCase("GROUND")) {
-				cargoMode = CargoMode.GROUND;
-			} else if (state.equalsIgnoreCase("LOWROCKET")) {
-				cargoMode = CargoMode.LOWROCKET;
-			} else if (state.equalsIgnoreCase("CARGOBAY")) {
-				cargoMode = CargoMode.CARGOBAY;
-			} else if (state.equalsIgnoreCase("HATCH")) {
-				cargoMode = CargoMode.HATCH;
-			} else {
-				cargoMode = CargoMode.GROUND;
-			}
-		}
-
-		public CargoTask makeTask() {
-			return new CargoTask(cargoMode, cargo);
 		}
 	}
 
@@ -140,26 +107,26 @@ public class AutoCompiler {
 	}
 
 	/**
-	 * A token that runs a set of tasks within it at once
+	 * A token that drives the robot a given distance
+	 * 
+	 * @param dist The distance to drive
 	 */
-	class BundleToken implements Token {
-		public BundleToken() {
-		}
-	}
+	class DriveToken implements Token {
+		private double dist;
 
-	/**
-	 * A token that runs a set of tasks within it in order
-	 */
-	class SerialToken implements Token {
-		public SerialToken() {
+		public DriveToken(String distance) {
+			distance = distance.replace(" ", "");
+			try {
+				if (Math.abs(Double.parseDouble(distance)) >= 0) {
+					dist = Double.parseDouble(distance);
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
 		}
-	}
 
-	/**
-	 * A token that ends the most recent group task (bundle/serial)
-	 */
-	class RightBraceToken implements Token {
-		public RightBraceToken() {
+		public DriveTask makeTask() {
+			return new DriveTask(dist, drive, DriveMode.AUTO_DRIVE);
 		}
 	}
 
@@ -189,59 +156,115 @@ public class AutoCompiler {
 
 	/**
 	 * A token that aligns the robot to the nearest pair of reflective tape
-	 * 
-	 * @param args Location and number of pairs to check for
 	 */
-	class AlignToken implements Token {
-		//TODO rewrite
-		private String mode = "FLOOR";
-		private int matchPairs = 1;
-
-		public AlignToken(String args) {
-			args = args.replace(" ", "").toUpperCase();
-			if (args.contains("BAY"))
-				mode = "BAY";
-			try {
-				matchPairs = Integer.parseInt(args.substring(args.indexOf(mode)));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-			if (matchPairs < 1)
-				matchPairs = 1;
-			if (matchPairs > 3)
-				matchPairs = 3;
+	class AutoAlignToken implements Token {
+		public AutoAlignToken() {
 		}
 
-		public DriveTask makeTask() {
-			return new DriveTask(0.0, drive, DriveMode.DRIVE_STICKS);
-			// if (mode.equals("BAY"))
-				// return new DriveTask(matchPairs, drive, DriveMode.ALIGN_BAY);
-			// else
-				// return new DriveTask(matchPairs, drive, DriveMode.ALIGN_FLOOR);
+		public AutoAlignTask makeTask() {
+			return new AutoAlignTask();
 		}
 	}
 
 	/**
-	 * A token that drives the robot a given distance
+	 * A token that sets the arm to a given height
 	 * 
-	 * @param dist The distance to drive
+	 * @param state Height of the arm
 	 */
-	class DriveToken implements Token {
-		private double dist;
+	class ArmToken implements Token {
+		private ArmMode armMode;
 
-		public DriveToken(String distance) {
-			distance = distance.replace(" ", "");
-			try {
-				if (Math.abs(Double.parseDouble(distance)) >= 0) {
-					dist = Double.parseDouble(distance);
-				}
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
+		public ArmToken(String height) {
+			height = height.replace(" ", "");
+			if (height.equalsIgnoreCase("GROUND")) {
+				armMode = ArmMode.GROUND;
+			} else if (height.equalsIgnoreCase("LOWROCKET")) {
+				armMode = ArmMode.LOWROCKET;
+			} else if (height.equalsIgnoreCase("CARGOBAY")) {
+				armMode = ArmMode.CARGOBAY;
+			} else if (height.equalsIgnoreCase("HATCH")) {
+				armMode = ArmMode.HATCH;
+			} else {
+				armMode = ArmMode.GROUND;
 			}
 		}
 
-		public DriveTask makeTask() {
-			return new DriveTask(dist, drive, DriveMode.AUTO_DRIVE);
+		public ArmTask makeTask() {
+			return new ArmTask(armMode, arm);
+		}
+	}
+
+	/**
+	 * A token that sets the cargo intake to a given state
+	 * 
+	 * @param state State of the cargo intake
+	 */
+	class CargoToken implements Token {
+		private CargoMode cargoMode;
+
+		public CargoToken(String state) {
+			state = state.replace(" ", "");
+			if (state.equalsIgnoreCase("IN")) {
+				cargoMode = CargoMode.IN;
+			} else if (state.equalsIgnoreCase("OUT")) {
+				cargoMode = CargoMode.OUT;
+			} else if (state.equalsIgnoreCase("WAIT")) {
+				cargoMode = CargoMode.WAIT;
+			} else {
+				cargoMode = CargoMode.WAIT;
+			}
+		}
+
+		public CargoTask makeTask() {
+			return new CargoTask(cargoMode, cargo);
+		}
+	}
+
+	/**
+	 * A token that sets the hatch servo to a given state
+	 * 
+	 * @param state State of the hatch servo
+	 */
+	class HatchToken implements Token {
+		private HatchMode hatchMode;
+
+		public HatchToken(String state) {
+			state = state.replace(" ", "");
+			if (state.equalsIgnoreCase("RUN")) {
+				hatchMode = HatchMode.RUN;
+			} else if (state.equalsIgnoreCase("WAIT")) {
+				hatchMode = HatchMode.WAIT;
+			} else {
+				hatchMode = HatchMode.WAIT;
+			}
+		}
+
+		public HatchTask makeTask() {
+			return new HatchTask(hatchMode, hatch);
+		}
+	}
+
+	/**
+	 * A token that runs a set of tasks within it at once
+	 */
+	class BundleToken implements Token {
+		public BundleToken() {
+		}
+	}
+
+	/**
+	 * A token that runs a set of tasks within it in order
+	 */
+	class SerialToken implements Token {
+		public SerialToken() {
+		}
+	}
+
+	/**
+	 * A token that ends the most recent group task (bundle/serial)
+	 */
+	class RightBraceToken implements Token {
+		public RightBraceToken() {
 		}
 	}
 
@@ -261,14 +284,15 @@ public class AutoCompiler {
 		while ((line = buff.readLine()) != null) {
 			if (line.contains("#")) { // # means a comment, so the tokenizer ignores lines beginning with it
 				continue;
-			} else if (line.contains("follow")) {
-				// Path to follow (file name)
-				String current = line.substring(line.indexOf("follow") + "follow".length());
-				tokenList.add(new PathToken(current));
 			} else if (line.contains("execute")) {
-				// Autofile to execute (file name)
-				String current = line.substring(line.indexOf("execute") + "execute".length());
+				String current = line.substring(line.indexOf("execute") + "execute".length()); // Auto Mode to execute
 				tokenList.add(new ExecuteToken(current));
+			} else if (line.contains("follow")) {
+				String current = line.substring(line.indexOf("follow") + "follow".length()); // Path to follow
+				tokenList.add(new FollowToken(current));
+			} else if (line.contains("print")) {
+				String current = line.substring(line.indexOf("print") + "print".length()); // Text to print
+				tokenList.add(new PrintToken(current));
 			} else if (line.contains("wait")) {
 				String current = line.substring(line.indexOf("wait") + "wait".length()); // Wait length (seconds)
 				tokenList.add(new WaitToken(current));
@@ -278,20 +302,17 @@ public class AutoCompiler {
 			} else if (line.contains("turn")) {
 				String current = line.substring(line.indexOf("turn") + "turn".length()); // Turn angle
 				tokenList.add(new TurnToken(current));
-			} else if (line.contains("cargo")) {
-				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo mode
-				tokenList.add(new CargoToken(current));
-			} else if(line.contains("hatch")) {
-				// TODO write/update
-				String current = line.substring(line.indexOf("hatch") + "hatch".length());
-				// tokenList.add(new HatchToken(current));
 			} else if (line.contains("align")) {
-				//TODO update
-				String current = line.substring(line.indexOf("align") + "align".length()); // Tape match args
-				tokenList.add(new AlignToken(current));
-			} else if (line.contains("print")) {
-				String current = line.substring(line.indexOf("print") + "print".length()); // Text to print
-				tokenList.add(new PrintToken(current));
+				tokenList.add(new AutoAlignToken());
+			} else if (line.contains("arm")) {
+				String current = line.substring(line.indexOf("arm") + "arm".length()); // Arm height
+				tokenList.add(new ArmToken(current));
+			} else if (line.contains("cargo")) {
+				String current = line.substring(line.indexOf("cargo") + "cargo".length()); // Cargo state
+				tokenList.add(new HatchToken(current));
+			} else if (line.contains("hatch")) {
+				String current = line.substring(line.indexOf("hatch") + "hatch".length()); // Hatch state
+				tokenList.add(new HatchToken(current));
 			} else if (line.contains("bundle")) {
 				tokenList.add(new BundleToken());
 			} else if (line.contains("serial")) {
@@ -301,7 +322,7 @@ public class AutoCompiler {
 			}
 		}
 		buff.close();
-		return tokenList; // Returns ArrayList of all tokens
+		return tokenList;
 	}
 
 	/**
@@ -315,24 +336,29 @@ public class AutoCompiler {
 		if (tokenList.size() == 0) {
 			return new WaitTask(0);
 		}
-
 		while (tokenList.size() > 0) {
 			Token t = tokenList.remove(0);
 			if (t instanceof ExecuteToken) {
 				Task otherMode = buildAutoMode(((ExecuteToken) t).scriptName);
 				taskSet.addTask(otherMode);
+			} else if (t instanceof FollowToken) {
+				taskSet.addTask(((FollowToken) t).makeTask());
 			} else if (t instanceof WaitToken) {
 				taskSet.addTask(((WaitToken) t).makeTask());
+			} else if (t instanceof PrintToken) {
+				taskSet.addTask(((PrintToken) t).makeTask());
 			} else if (t instanceof DriveToken) {
 				taskSet.addTask(((DriveToken) t).makeTask());
 			} else if (t instanceof TurnToken) {
 				taskSet.addTask(((TurnToken) t).makeTask());
-			} else if (t instanceof AlignToken) {
-				taskSet.addTask(((AlignToken) t).makeTask());
-			} else if (t instanceof PathToken) {
-				taskSet.addTask(((PathToken) t).makeTask());
+			} else if (t instanceof AutoAlignToken) {
+				taskSet.addTask(((AutoAlignToken) t).makeTask());
+			} else if (t instanceof ArmToken) {
+				taskSet.addTask(((ArmToken) t).makeTask());
 			} else if (t instanceof CargoToken) {
 				taskSet.addTask(((CargoToken) t).makeTask());
+			} else if (t instanceof HatchToken) {
+				taskSet.addTask(((HatchToken) t).makeTask());
 			} else if (t instanceof BundleToken) {
 				BundleTask bundleSet = new BundleTask();
 				parseAuto(tokenList, bundleSet);
@@ -343,8 +369,6 @@ public class AutoCompiler {
 				taskSet.addTask(serialSet);
 			} else if (t instanceof RightBraceToken) {
 				return taskSet;
-			} else if (t instanceof PrintToken) {
-				taskSet.addTask(((PrintToken) t).makeTask());
 			}
 		}
 		return taskSet;
@@ -372,13 +396,14 @@ public class AutoCompiler {
 	 * task in the ranked list of tasks from the SmartDashboard that matches the
 	 * current setup.
 	 * 
-	 * @param robotPosition The side our robot starts on. L, M, or R.
+	 * @param robotPos		The hab platform our robot starts on. L1/2, M1, R1/2.
+	 * @param piece     	The game piece our robot is holding. Cargo or Hatch.
+	 * @param piecePos		The bay side we want to go to. L1/2/3/4 or R1/2/3/4.
 	 * @param autoPrefs     String array of ranked Auto Modes
 	 * @param autoFiles     File array of all files in the AutoModes folder
 	 * @return String name of the auto file to run
 	 */
-	public String pickAutoMode(String robotPosition, String gamePiece, String piecePosition, String[] autoPrefs,
-			File[] autoFiles) {
+	public String pickAutoMode(String robotPos, String piece, String piecePos, String[] autoPrefs, File[] autoFiles) {
 		// Gets the ownership information from the FMS
 
 		// TODO make a new selector for this based on what bay we want to go to
@@ -407,7 +432,7 @@ public class AutoCompiler {
 		// String oppSide =
 		// DriverStation.getInstance().getGameSpecificMessage().substring(2);
 
-		String regex = "/(" + robotPosition + ")(" + gamePiece + ")(" + piecePosition + ")(" + mode + "(.auto)/gi";
+		String regex = "/(" + robotPos + ")(" + piece + ")(" + piecePos + ")(" + mode + "(.auto)/gi";
 
 		for (File f : autoFiles) {
 			if (f.getName().matches(regex)) {

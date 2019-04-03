@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
 
 /**
- * Program for our screw climb/buddy lift
+ * This class operates the screw climb/buddy lift mechanism.
  */
 public class ScrewClimb implements UrsaRobot {
 
