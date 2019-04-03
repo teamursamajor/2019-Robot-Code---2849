@@ -3,9 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
- * UNUSED, KEPT FOR FUTURE REFERENCE
- * 
- * Designed for REV Robotics TMD3782 v2 Color Sensor:
+ * This class interacts with the REV Robotics TMD3782 v2 Color Sensor.
  * http://www.revrobotics.com/content/docs/REV-31-1537-DS.pdf
  * 
  * Data Sheet: http://www.revrobotics.com/content/docs/v2.pdf
@@ -15,6 +13,8 @@ import edu.wpi.first.wpilibj.I2C;
  *
  * Based on 2019 code from Team 7034:
  * https://www.chiefdelphi.com/t/writing-code-for-a-color-sensor/167303/8
+ * 
+ * <b>UNUSED, KEEP FOR FUTURE REFERENCE</b>
  */
 public class ColorSensor {
 

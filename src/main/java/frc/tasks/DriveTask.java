@@ -4,11 +4,15 @@ import frc.robot.UrsaRobot;
 import frc.robot.XboxController;
 import frc.robot.Drive;
 
+/**
+ * This is a task class for controlling the drivetrain in teleop and
+ * autonomous.
+ */
 public class DriveTask extends Task implements UrsaRobot {
 
     /*
-     * We have two Drive Modes, Auto and DriveSticks, to
-     * represent Autonomous and Teleop
+     * We have two Drive Modes, Auto and DriveSticks, to represent Autonomous and
+     * Teleop
      */
     public enum DriveMode {
         /*
@@ -66,11 +70,11 @@ public class DriveTask extends Task implements UrsaRobot {
             }
             // If moving backwards, find our error term minus velocity term
             else if (direction < 0) {
-                 
-                 // This treats moving backwards as if it were moving forwards by flipping the
-                 // sign of our error. Then we reaccount for our flipped error by multiplying by
-                 // -1 once our calculations are complete
-                 
+
+                // This treats moving backwards as if it were moving forwards by flipping the
+                // sign of our error. Then we reaccount for our flipped error by multiplying by
+                // -1 once our calculations are complete
+
                 leftOutputPower = kpDrive * (DriveState.leftPos - desiredLocation)
                         + kdDrive * (-1 * DriveState.leftVelocity);
                 leftOutputPower *= -1.0;

@@ -5,13 +5,13 @@ import frc.tasks.DriveTask;
 import frc.tasks.DriveTask.DriveMode;
 
 /**
-*This is the class that allows us to drive the robot.
-*It contains the following information: 
-*<ul>
-*<li><b>Encoders:</b> getRightRate(), getLeftRate()</li>
-*<li><b>Heading:</b> uses degrees as a measurement</li>
-</ul>
-*/
+ * This subsystem class allows us to drive the robot. It contains the following
+ * information:
+ * <ul>
+ * <li><b>Encoders:</b> getRightRate(), getLeftRate()</li>
+ * <li><b>Heading:</b> uses degrees as a measurement</li>
+ * </ul>
+ */
 public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 	public static Spark mFrontLeft, mFrontRight, mRearLeft, mRearRight;
@@ -28,7 +28,7 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 
 		mRearLeft = mFrontLeft;
 		mRearRight = mFrontRight;
-		
+
 		leftEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setDistancePerPulse(INCHES_PER_TICK);
 		rightEncoder.setReverseDirection(true);
@@ -52,15 +52,15 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 		mRearRight.set(driveOrder.rightPower);
 
 	}
-	
+
 	/**
-	* Updates the following:
-	*<ul>
-	*<li>left/right velocity</li>
-	*<li>left/right distance traveled</li>
-	*<li>the current heading of the robot</li>
-	*<ul>
-	*/
+	 * Updates the following:
+	 * <ul>
+	 * <li>left/right velocity</li>
+	 * <li>left/right distance traveled</li>
+	 * <li>the current heading of the robot</li>
+	 * <ul>
+	 */
 	public void updateStateInfo() {
 		double leftDistance = getLeftEncoder();
 		double rightDistance = getRightEncoder();
@@ -115,15 +115,15 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	/**
-	* @return - the left encoder's distance value
-	*/
+	 * @return - the left encoder's distance value
+	 */
 	public double getLeftEncoder() {
 		return leftEncoder.getDistance();
 	}
 
 	/**
-	* @return - the right encoder's distance value
-	*/
+	 * @return - the right encoder's distance value
+	 */
 	public double getRightEncoder() {
 		return rightEncoder.getDistance();
 	}
@@ -184,32 +184,30 @@ public class Drive extends Subsystem<DriveTask.DriveMode> implements UrsaRobot {
 	}
 
 	/**
-	* Sets the front and back left motors.
-	*
-	*@param power - the power the motor is set to
-	*/
-	public static void setLeftPower(double power){
+	 * Sets the front and back left motors.
+	 *
+	 * @param power - the power the motor is set to
+	 */
+	public static void setLeftPower(double power) {
 		mFrontLeft.set(-power);
 		mRearLeft.set(-power);
 	}
 
 	/**
-	* Sets the front and back right motors.
-	*
-	* @param power - the power the motor is set to.
-	*/
-	public static void setRightPower(double power){
+	 * Sets the front and back right motors.
+	 *
+	 * @param power - the power the motor is set to.
+	 */
+	public static void setRightPower(double power) {
 		mFrontRight.set(power);
 		mRearRight.set(power);
 	}
-	
+
 	/**
-	* Will print out DEBUGGING followed by a message.
-	* Used for testing code.
-	*/
+	 * Will print out DEBUGGING followed by a message. Used for testing code.
+	 */
 	public void debugMessage(String message) {
 		message = "DEBUGGING: " + message;
 		System.out.println(message);
 	}
-
 }

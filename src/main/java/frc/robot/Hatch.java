@@ -6,8 +6,8 @@ import frc.tasks.HatchTask.HatchMode;
 import frc.tasks.ArmTask.ArmMode;
 
 /**
-* For the Hatch servo mechanism.
-*/
+ * This subsystem class controls the Hatch servo mechanism.
+ */
 public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public static Servo hatchServo;

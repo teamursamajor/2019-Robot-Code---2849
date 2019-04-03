@@ -1,5 +1,8 @@
 package frc.tasks;
 
+/**
+ * This is an class for tasks.
+ */
 public abstract class Task extends Thread {
 
     /**

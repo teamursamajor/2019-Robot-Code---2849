@@ -7,10 +7,11 @@ import frc.tasks.*;
 import frc.tasks.ArmTask.ArmMode;
 
 /**
-*This controls how high up our arm is
-*/
+ * This subsystem class controls the Arm mechanism for Hatch and Cargo
+ * placement.
+ */
 public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
-    
+
     public static double armGroundVoltage, armLowRocketVoltage, armBayVoltage, armStartVoltage;
 
     public static Spark armLift;
@@ -35,7 +36,7 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
 
     public void runSubsystem() {
         updateStateInfo();
-        
+
         // Automated Arm
         if (automating) {
             if (xbox.getSingleButtonPress(controls.map.get("arm_ground"))) {
@@ -47,8 +48,8 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
             }
             ArmTask.ArmOrder armOrder = subsystemMode.callLoop();
             armLift.set(armOrder.armPower);
-        } 
-        
+        }
+
         // Manual Arm
         else {
             if (armPot.get() > armStartVoltage) {
@@ -70,12 +71,13 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
     }
 
     /**
-    * Updates the following items:
-    *<ul>
-    *<li><b>Potentiometer voltage</b> - used for calculating the arm's current angle</li>
-    *<li>The <b>speed</b> of the arm</li>
-    *</ul>
-    */
+     * Updates the following items:
+     * <ul>
+     * <li><b>Potentiometer voltage</b> - used for calculating the arm's current
+     * angle</li>
+     * <li>The <b>speed</b> of the arm</li>
+     * </ul>
+     */
     public void updateStateInfo() {
         double currentVoltage = armPot.get();
         double deltaVolt = currentVoltage - ArmTask.ArmState.armVoltage;

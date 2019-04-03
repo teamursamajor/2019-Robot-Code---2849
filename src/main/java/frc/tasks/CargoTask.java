@@ -2,6 +2,9 @@ package frc.tasks;
 
 import frc.robot.*;
 
+/**
+ * This is a task class for controlling the Cargo intake mechanism during autonomous.
+ */
 public class CargoTask extends Task implements UrsaRobot {
     public enum CargoMode {
         IN, OUT, WAIT;

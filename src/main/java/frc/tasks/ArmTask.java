@@ -2,6 +2,9 @@ package frc.tasks;
 
 import frc.robot.*;
 
+/**
+ * This is a task class for controlling the Arm mechanism during autonomous.
+ */
 public class ArmTask extends Task implements UrsaRobot {
     public enum ArmMode {
         GROUND, HATCH, LOWROCKET, CARGOBAY, CLIMB;
@@ -39,8 +42,8 @@ public class ArmTask extends Task implements UrsaRobot {
                 return new ArmOrder(feedForward(getArmAngle()));
             }
 
-            // TODO determine critical point (where it just oscillates forever) and period
-            // (time between oscillations)
+            // TODO find critical point (oscillates forever) and period (length
+            // of oscillations)
             double kcArm = 0.0; // critical point, aka the P value where the arm oscillates forever
             double tcArm = 0.0; // time per oscillation at the critical point
 

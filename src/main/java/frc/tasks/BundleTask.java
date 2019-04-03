@@ -1,5 +1,8 @@
 package frc.tasks;
 
+/**
+ * This is a group task class for running tasks in parallel.
+ */
 public class BundleTask extends GroupTask {
 
 	public BundleTask() {

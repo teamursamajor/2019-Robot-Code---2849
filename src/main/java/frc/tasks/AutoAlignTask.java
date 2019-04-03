@@ -2,14 +2,18 @@ package frc.tasks;
 
 import frc.robot.AutoAlign;
 
-public class AutoAlignTask extends Task{
+/**
+ * This is a task class for aligning the robot for Hatch and Cargo placement
+ * during autonomous.
+ */
+public class AutoAlignTask extends Task {
 
-    public AutoAlignTask(){
+    public AutoAlignTask() {
         Thread t = new Thread(this, "AutoAlignTask");
         t.start();
     }
-    
-    public void run(){
+
+    public void run() {
         AutoAlign.autoAlign();
     }
 }

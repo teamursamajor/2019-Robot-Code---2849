@@ -99,7 +99,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
   @Override
   public void robotPeriodic() {
-    // sets manual vs automatic arm control
+    // sets manual or automatic arm control
     if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)
         || xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
       Arm.automating = false;
@@ -108,25 +108,22 @@ public class Robot extends TimedRobot implements UrsaRobot {
       Arm.automating = true;
     }
 
-    // run and cancel auto align
+    // runs and cancels auto align
     if (xbox.getPOV() == controls.map.get("auto_align")) {
       AutoAlign.autoAlign();
     } else if (xbox.getPOV() == controls.map.get("cancel_auto_align")) {
       AutoAlign.killAutoAlign();
     }
 
-    // toggle processsed image or raw image
+    // toggles limelight between processsed and raw image
     if (xbox.getSingleButtonPress(controls.map.get("limelight_toggle"))) {
-
       if (processedPipeline)
         limelightTable.getEntry("pipeline").setDouble(0);
       else
         limelightTable.getEntry("pipeline").setDouble(2);
-
       processedPipeline = !processedPipeline;
 
     }
-
   }
 
   /*
@@ -149,7 +146,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void autonomousPeriodic() {
-
   }
 
   /**
@@ -169,7 +165,6 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
-
   }
 
   /**
@@ -205,6 +200,5 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void disabledPeriodic() {
-
   }
 }

@@ -11,7 +11,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
 * This interface contains all of the used ports on the robot as well as constants
-* involving encoders as well as the robot.
+* involving encoders and the robot.
 *
 * <ul>
 * <li><b>Spark Ports*:</b></li>

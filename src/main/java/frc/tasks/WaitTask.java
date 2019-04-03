@@ -1,5 +1,8 @@
 package frc.tasks;
 
+/**
+ * This is a task class for adding delay when running Auto Modes.
+ */
 public class WaitTask extends Task {
 	
 	private long waitTime = 20;
