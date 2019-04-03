@@ -1,9 +1,11 @@
 package frc.robot;
 
+import java.io.IOException;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.Spark;
+// import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import jaci.pathfinder.Pathfinder;
@@ -12,8 +14,8 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.EncoderFollower;
 
 /**
- * This will use Jaci to follow the paths drawn in PathWeaver.
- * This still needs to be optimized and is not ready for competitions yet.
+ * This will use Jaci to follow the paths drawn in PathWeaver. This still needs
+ * to be optimized and is not ready for competitions yet.
  */
 public class PathFollower extends TimedRobot implements UrsaRobot {
     private static final int k_ticks_per_rev = 1024;
@@ -21,7 +23,7 @@ public class PathFollower extends TimedRobot implements UrsaRobot {
     private static final double k_wheel_diameter = 4.0 / 12.0;
     private static final double k_max_velocity = 10;
 
-    private static final int k_gyro_port = 0;
+    // private static final int k_gyro_port = 0;
 
     private static final String k_path_name = "example";
     private SpeedController m_left_motor;
@@ -30,7 +32,7 @@ public class PathFollower extends TimedRobot implements UrsaRobot {
     private Encoder m_left_encoder = leftEncoder;
     private Encoder m_right_encoder = rightEncoder;
 
-    // private AnalogGyro m_gyro; //TODO - replace with navx
+    private AnalogGyro m_gyro; // TODO - replace with navx
 
     private EncoderFollower m_left_follower; // TODO - CHANGE
     private EncoderFollower m_right_follower; // TODO - CHANGE
@@ -49,42 +51,26 @@ public class PathFollower extends TimedRobot implements UrsaRobot {
 
     @Override
     public void autonomousInit() {
-        Trajectory left_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".left");
-        Trajectory right_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".right");
+        try {
+            Trajectory left_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".left");
+            Trajectory right_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".right");
 
-        m_left_follower = new EncoderFollower(left_trajectory);
-        m_right_follower = new EncoderFollower(right_trajectory);
+            m_left_follower = new EncoderFollower(left_trajectory);
+            m_right_follower = new EncoderFollower(right_trajectory);
 
-        m_left_follower.configureEncoder(m_left_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
-        // You must tune the PID values on the following line!
-        m_left_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
+            m_left_follower.configureEncoder(m_left_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
+            // You must tune the PID values on the following line!
+            m_left_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
 
-        m_right_follower.configureEncoder(m_right_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
-        // You must tune the PID values on the following line!
-        m_right_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
+            m_right_follower.configureEncoder(m_right_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
+            // You must tune the PID values on the following line!
+            m_right_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
 
-        m_follower_notifier = new Notifier(this::followPath);
-        m_follower_notifier.startPeriodic(left_trajectory.get(0).dt);
-    }
-
-    @Override
-    public void autonomousInit() {
-        Trajectory left_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".left");
-        Trajectory right_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".right");
-
-        m_left_follower = new EncoderFollower(left_trajectory);
-        m_right_follower = new EncoderFollower(right_trajectory);
-
-        m_left_follower.configureEncoder(m_left_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
-        // You must tune the PID values on the following line!
-        m_left_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
-
-        m_right_follower.configureEncoder(m_right_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
-        // You must tune the PID values on the following line!
-        m_right_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
-
-        m_follower_notifier = new Notifier(this::followPath);
-        m_follower_notifier.startPeriodic(left_trajectory.get(0).dt);
+            m_follower_notifier = new Notifier(this::followPath);
+            m_follower_notifier.startPeriodic(left_trajectory.get(0).dt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void followPath() {
