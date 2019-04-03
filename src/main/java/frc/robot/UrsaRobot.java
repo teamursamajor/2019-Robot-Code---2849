@@ -39,9 +39,9 @@ public interface UrsaRobot {
 
 	public static final int CARGO_INTAKE = 2, ARM_LIFT = 4;
 	
-	public static final int CLIMB_FRONT = 5, CLIMB_BACK = 8;
+	public static final int CLIMB_FRONT = 5, CLIMB_BACK = 7;
 	
-	public static final int HATCH_SERVO = 7;
+	public static final int HATCH_SERVO = 8;
 
 	// Encoders and Sensors Ports
 	public static final int CONTROLLER_PORT = 0;

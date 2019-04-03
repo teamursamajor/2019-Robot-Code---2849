@@ -11,9 +11,9 @@ import frc.tasks.ArmTask.ArmMode;
 public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public static Servo hatchServo;
-    private boolean hatchOpen = true;
+    private boolean hatchOpen = false;
 
-    private long hatchRunTime = 1050;
+    private long hatchRunTime = 900;
     private double hatchPower = 0.9;
 
     private Arm arm;
@@ -42,7 +42,7 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
             } else { // open hatch, ready to move
                 hatchServo.setPosition(hatchPower);
                 try {
-                    Thread.sleep(hatchRunTime + 85);
+                    Thread.sleep(hatchRunTime + 45);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
