@@ -1,13 +1,13 @@
 package frc.robot;
 
 /**
-* Used for aligning both cargo and hatch.
-*/
+ * This class automatically aligns the robot for Hatch and Cargo placement.
+ */
 public class AutoAlign implements UrsaRobot, Runnable {
     private static boolean runAutoAlign = false;
 
     public static void autoAlign() {
-        if(runAutoAlign){
+        if (runAutoAlign) {
             return;
         }
         runAutoAlign = true;
@@ -15,13 +15,13 @@ public class AutoAlign implements UrsaRobot, Runnable {
         t.start();
     }
 
-    public static void killAutoAlign(){
+    public static void killAutoAlign() {
         runAutoAlign = false;
         Drive.setPower(0);
     }
 
     public void run() {
-        //TODO calibrate all of this
+        // TODO calibrate all of this
         double maxTurnPower = 0.20;
         double maxTapeAreaPercent = 60;
         double passiveSpeed = .25;
@@ -54,7 +54,7 @@ public class AutoAlign implements UrsaRobot, Runnable {
                 killAutoAlign();
             }
         }
-        
+
         // lets driver know that auto align has ended
         xbox.rumbleFor(500);
     }

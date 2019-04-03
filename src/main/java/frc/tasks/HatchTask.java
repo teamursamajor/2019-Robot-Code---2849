@@ -2,6 +2,9 @@ package frc.tasks;
 
 import frc.robot.*;
 
+/**
+ * This is a task class for controlling the Hatch servo mechanism during autonomous.
+ */
 public class HatchTask extends Task implements UrsaRobot {
     public enum HatchMode {
         WAIT, RUN;

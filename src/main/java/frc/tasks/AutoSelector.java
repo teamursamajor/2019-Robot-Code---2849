@@ -7,6 +7,10 @@ import java.util.Arrays;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * This class allows Auto Modes to be selected via the SmartDashboard interface.
+ * <b>NEEDS TO BE UPDATED FOR 2019</b>
+ */
 public class AutoSelector {
 	private ArrayList<SendableChooser<String>> autoList = new ArrayList<SendableChooser<String>>();
 	private SendableChooser<String> startingPosition = new SendableChooser<String>();

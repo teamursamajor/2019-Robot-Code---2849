@@ -3,7 +3,7 @@ package frc.robot;
 import java.util.HashMap;
 
 /**
- * This is a map of all of the controls for the robot.
+ * This class is a map of all of the controls for the robot.
  * <ul>
  * <li><b>PUT CONTROLS HERE</b></li>
  * </ul>
@@ -13,10 +13,10 @@ public class ControlMap {
     public HashMap<String, Integer> map = new HashMap<String, Integer>();
 
     /*
-     * PLEASE NOTE: If you change the type of an input (as in Button, Axis, or POV)
-     * you have to change the method used to get that input whereever this control
-     * is called. Ex: If you change the arm from the triggers to a button, you need
-     * to go to cargo and change the xbox method to getButton() too.
+     * PLEASE NOTE: If you change the type of input (as in Button, Axis, or POV),
+     * you have to change the method used to get that input wherever the control is
+     * called. Ex: If you change the arm control from the triggers to a button, you
+     * need to go to Arm.java and change the xbox method to getButton() too.
      */
     public ControlMap() {
         // Arm automatic lifting
@@ -43,6 +43,6 @@ public class ControlMap {
         // Climb
         map.put("climb_leadscrew_up", XboxController.BUTTON_START);
         map.put("climb_framewheel", XboxController.BUTTON_BACK);
-        // pressing start/back together cancels climb
+        // For reference: Pressing these two controls together cancels climb.
     }
 }

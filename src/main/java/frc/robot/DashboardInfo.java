@@ -2,6 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * This class displays and reads information off of the SmartDashboard.
+ */
 public class DashboardInfo implements Runnable, UrsaRobot {
     public static boolean running = false;
 
@@ -24,7 +27,7 @@ public class DashboardInfo implements Runnable, UrsaRobot {
         SmartDashboard.putNumber("Cargo Outtake Power", cargoOuttakePower);
         climbPower = 0.90;
         SmartDashboard.putNumber("Climb Power", climbPower);
-        
+
         startDashboardInfo();
     }
 
@@ -44,13 +47,13 @@ public class DashboardInfo implements Runnable, UrsaRobot {
 
             lEncoder = leftEncoder.getDistance();
             rEncoder = rightEncoder.getDistance();
-            
+
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //printTest();
+            // printTest();
         }
     }
 
@@ -63,9 +66,14 @@ public class DashboardInfo implements Runnable, UrsaRobot {
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
         System.out.println("Climb Power" + climbPower);
     }
-
-    
 }
 
-//The image widget simply displays a static image loaded from a file. If you want to display the final product from image processing and you’re extending a WPICameraWidgetExtension, either draw on top of the WPIImage provided as a parameter or return a new WPIImage (if you return, make sure you store a handle to it somewhere else, or SmartDashboard will crash without any indication – this caused me a lot of grief).
-//https://github.com/team2485/sdwidgets/tree/master/src/team2485/smartdashboard/extension
+/**
+ * The image widget simply displays a static image loaded from a file. If you
+ * want to display the final product from image processing and you’re
+ * extending a WPICameraWidgetExtension, either draw on top of the WPIImage
+ * provided as a parameter or return a new WPIImage (if you return, make sure
+ * you store a handle to it somewhere else, or SmartDashboard will crash without
+ * any indication – this caused me a lot of grief).
+ * https://github.com/team2485/sdwidgets/tree/master/src/team2485/smartdashboard/extension
+ */

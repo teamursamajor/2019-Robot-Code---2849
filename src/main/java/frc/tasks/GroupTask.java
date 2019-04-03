@@ -2,6 +2,9 @@ package frc.tasks;
 
 import java.util.ArrayList;
 
+/**
+ * This is an abstract class for group tasks (bundle and serial).
+ */
 public abstract class GroupTask extends Task {
     protected ArrayList<Task> tasks = new ArrayList<Task>();
 

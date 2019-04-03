@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.Spark;
 import frc.tasks.*;
 import frc.tasks.CargoTask.CargoMode;
 
+/**
+ * This subsystem class controls the Cargo intake mechanism.
+ */
 public class Cargo extends Subsystem<CargoTask.CargoMode> implements UrsaRobot {
     public static Spark cargoIntake;
 
