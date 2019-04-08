@@ -1,11 +1,8 @@
 package frc.robot;
 
 import java.io.IOException;
-
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Notifier;
-// import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import jaci.pathfinder.Pathfinder;
@@ -21,67 +18,89 @@ public class PathFollower extends TimedRobot implements UrsaRobot {
     private static final int k_ticks_per_rev = 1024;
 
     private static final double k_wheel_diameter = 4.0 / 12.0;
-    private static final double k_max_velocity = 10;
+    private static final double k_max_velocity = 160;
 
     // private static final int k_gyro_port = 0;
+    private SpeedController m_left_motor, m_right_motor;
 
-    private static final String k_path_name = "example";
-    private SpeedController m_left_motor;
-    private SpeedController m_right_motor;
+    private Encoder m_left_encoder, m_right_encoder;
 
-    private Encoder m_left_encoder = leftEncoder;
-    private Encoder m_right_encoder = rightEncoder;
+    private Drive drive; // TODO - replace with navx
 
-    private AnalogGyro m_gyro; // TODO - replace with navx
+    private EncoderFollower leftFollower, rightFollower; // TODO - CHANGE
 
-    private EncoderFollower m_left_follower; // TODO - CHANGE
-    private EncoderFollower m_right_follower; // TODO - CHANGE
+    private Notifier followNotifier;
+    private Trajectory lTrajectory, rTrajectory;
 
-    private Notifier m_follower_notifier;
-
-    // @Override
-    // public void robotInit() {
-    // m_left_motor = new Spark(k_left_channel);
-    // m_right_motor = new Spark(k_right_channel);
-    // m_left_encoder = new Encoder(k_left_encoder_port_a, k_left_encoder_port_b);
-    // m_right_encoder = new Encoder(k_right_encoder_port_a,
-    // k_right_encoder_port_b);
-    // m_gyro = new AnalogGyro(k_gyro_port);
-    // }
-
-    @Override
-    public void autonomousInit() {
-        try {
-            Trajectory left_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".left");
-            Trajectory right_trajectory = PathfinderFRC.getTrajectory(k_path_name + ".right");
-
-            m_left_follower = new EncoderFollower(left_trajectory);
-            m_right_follower = new EncoderFollower(right_trajectory);
-
-            m_left_follower.configureEncoder(m_left_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
-            // You must tune the PID values on the following line!
-            m_left_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
-
-            m_right_follower.configureEncoder(m_right_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
-            // You must tune the PID values on the following line!
-            m_right_follower.configurePIDVA(1.0, 0.0, 0.0, 1 / k_max_velocity, 0);
-
-            m_follower_notifier = new Notifier(this::followPath);
-            m_follower_notifier.startPeriodic(left_trajectory.get(0).dt);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * 
+     * @param leftEncoder encoder on the left side
+     * @param rightEncoder encoder on the right side
+     * @param leftMotor motor on the left side
+     * @param rightMotor motor on the right side
+     */
+    public PathFollower(Drive drive){
+        this.drive = drive;
+        m_left_encoder = UrsaRobot.leftEncoder;
+        m_right_encoder = UrsaRobot.rightEncoder;
+        m_left_motor = drive.mFrontLeft;
+        m_right_motor = drive.mFrontRight;
     }
 
+    /**
+     * Call this to follow a path
+     * @param path
+     * @throws IOException
+     */
+    public void runPath(String path) throws IOException{
+        setFollowers(path);
+        followNotifier = new Notifier(this::followPath);
+        followNotifier.startPeriodic(lTrajectory.get(0).dt);
+    }
+
+    /**
+     * configures the encoder followers
+     */
+    private void setFollowers(String path) throws IOException{
+        lTrajectory = PathfinderFRC.getTrajectory(path + ".left");
+        rTrajectory = PathfinderFRC.getTrajectory(path + ".right");
+
+        leftFollower = new EncoderFollower(lTrajectory);
+        rightFollower = new EncoderFollower(rTrajectory);
+
+        //TODO - find these values imperiacally
+        double kp = 0.0;
+        double ki = 0.0;
+        double kd = 0.0;
+        double kv = 1/k_max_velocity;
+        double ka = 0.0;
+        setFollowers(kp,ki,kd,kv,ka);
+
+    }
+
+
+    private void setFollowers(double kp, double ki, double kd, double kv, double ka){
+        leftFollower.configureEncoder(m_left_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
+        leftFollower.configurePIDVA(kp,ki,kd,kv,ka);
+
+        rightFollower.configureEncoder(m_right_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
+        rightFollower.configurePIDVA(kp,ki,kd,kv,ka);
+    }
+    
+    // @Override
+    // public void autonomousInit() {
+    // }
+
     private void followPath() {
-        if (m_left_follower.isFinished() || m_right_follower.isFinished()) {
-            m_follower_notifier.stop();
+        if (leftFollower.isFinished() || rightFollower.isFinished()) {
+            followNotifier.stop();
         } else {
-            double left_speed = m_left_follower.calculate(m_left_encoder.get());
-            double right_speed = m_right_follower.calculate(m_right_encoder.get());
-            double heading = m_gyro.getAngle();
-            double desired_heading = Pathfinder.r2d(m_left_follower.getHeading());
+            double left_speed = leftFollower.calculate(leftEncoder.get());
+            double right_speed = rightFollower.calculate(rightEncoder.get());
+            double heading = drive.getHeading();
+            double desired_heading = Pathfinder.r2d(leftFollower.getHeading());
             double heading_difference = Pathfinder.boundHalfDegrees(desired_heading - heading);
+            //TODO - check
             double turn = 0.8 * (-1.0 / 80.0) * heading_difference;
             m_left_motor.set(left_speed + turn);
             m_right_motor.set(right_speed - turn);
@@ -95,9 +114,12 @@ public class PathFollower extends TimedRobot implements UrsaRobot {
     public void autonomousPeriodic() {
     }
 
+    /**
+     * stops path follower before it reaches its end goal
+     */
     @Override
     public void teleopInit() {
-        m_follower_notifier.stop();
+        followNotifier.stop();
         m_left_motor.set(0);
         m_right_motor.set(0);
     }
