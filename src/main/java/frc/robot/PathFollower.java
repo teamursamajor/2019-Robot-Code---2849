@@ -3,6 +3,7 @@ package frc.robot;
 import java.io.IOException;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import jaci.pathfinder.Pathfinder;
@@ -17,7 +18,7 @@ import jaci.pathfinder.followers.EncoderFollower;
 public class PathFollower extends TimedRobot implements UrsaRobot {
     private static final int k_ticks_per_rev = 1024;
 
-    private static final double k_wheel_diameter = 0.2032;
+    private static final double k_wheel_diameter = 0.2032; // meters
     private static final double k_max_velocity = 160;
 
     private SpeedController m_left_motor, m_right_motor;
@@ -60,13 +61,17 @@ public class PathFollower extends TimedRobot implements UrsaRobot {
         leftFollower = new EncoderFollower(lTrajectory);
         rightFollower = new EncoderFollower(rTrajectory);
 
-        // TODO - find these values empirically
-        double kp = 0.0;
-        double ki = 0.0;
-        double kd = 0.0;
-        double kv = 1 / k_max_velocity;
-        double ka = 0.0;
+        //TODO - find these values imperiacally
+        double kp = 0.0; //should be between .8 and 1.0
+        double ki = 0.0; //currently unused
+        double kd = 0.0; //adjust accuracy of path
+        double kv = 1/k_max_velocity;
+        double ka = 0.0; //default is 0
+        setFollowers(kp,ki,kd,kv,ka);
 
+    }
+
+    private void setFollowers(double kp, double ki, double kd, double kv, double ka){
         leftFollower.configureEncoder(m_left_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
         leftFollower.configurePIDVA(kp, ki, kd, kv, ka);
 
@@ -87,7 +92,7 @@ public class PathFollower extends TimedRobot implements UrsaRobot {
 
             // this may need to be negative, try it if the robot is turning the wrong way or something
             double desired_heading = Pathfinder.r2d(leftFollower.getHeading());
-            
+
             double heading_difference = Pathfinder.boundHalfDegrees(desired_heading - heading);
             
             // these numbers are from WPILIB, dont know why/where they came from
