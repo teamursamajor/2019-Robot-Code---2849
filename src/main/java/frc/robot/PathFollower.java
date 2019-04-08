@@ -3,6 +3,7 @@ package frc.robot;
 import java.io.IOException;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import jaci.pathfinder.Pathfinder;
@@ -17,17 +18,16 @@ import jaci.pathfinder.followers.EncoderFollower;
 public class PathFollower extends TimedRobot implements UrsaRobot {
     private static final int k_ticks_per_rev = 1024;
 
-    private static final double k_wheel_diameter = 4.0 / 12.0;
+    private static final double k_wheel_diameter = .0232;//meters
     private static final double k_max_velocity = 160;
 
-    // private static final int k_gyro_port = 0;
-    private SpeedController m_left_motor, m_right_motor;
+    private Spark m_left_motor, m_right_motor;
 
     private Encoder m_left_encoder, m_right_encoder;
 
-    private Drive drive; // TODO - replace with navx
+    private Drive drive;
 
-    private EncoderFollower leftFollower, rightFollower; // TODO - CHANGE
+    private EncoderFollower leftFollower, rightFollower;
 
     private Notifier followNotifier;
     private Trajectory lTrajectory, rTrajectory;
@@ -69,15 +69,14 @@ public class PathFollower extends TimedRobot implements UrsaRobot {
         rightFollower = new EncoderFollower(rTrajectory);
 
         //TODO - find these values imperiacally
-        double kp = 0.0;
-        double ki = 0.0;
-        double kd = 0.0;
+        double kp = 0.0; //should be between .8 and 1.0
+        double ki = 0.0; //currently unused
+        double kd = 0.0; //adjust accuracy of path
         double kv = 1/k_max_velocity;
-        double ka = 0.0;
+        double ka = 0.0; //default is 0
         setFollowers(kp,ki,kd,kv,ka);
 
     }
-
 
     private void setFollowers(double kp, double ki, double kd, double kv, double ka){
         leftFollower.configureEncoder(m_left_encoder.get(), k_ticks_per_rev, k_wheel_diameter);
