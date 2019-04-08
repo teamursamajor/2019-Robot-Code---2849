@@ -24,6 +24,7 @@ public class ScrewClimb implements UrsaRobot {
 
     public void run() {
         while (true) {
+            // start button
             if (xbox.getSingleButtonPress(controls.map.get("climb_leadscrew_up")) && !leadscrewsUp) { // start leadscrews
                 long startTime = System.currentTimeMillis();
                 leadscrewsUp = true;
