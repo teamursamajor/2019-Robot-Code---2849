@@ -2,10 +2,11 @@ Robotics To Do:
 -import pathweaver stuff to each laptop
 -draw paths
 -write autoselector
+
 -Update cargo voltages
 -Test the feed forward to determine the empirically found motor factor
--Tune the PID loop
 -Increment kp until you find kc (or approx. kc)
+-Tune the PID loop
 
 -test auto align
 
@@ -14,10 +15,6 @@ Robotics To Do:
 	Get the voltages for the different heights
 	Double check feed forward and the empirically found factor
 	Test PID loop moving to different heights
-
--Camera mount
-	Determine limelight mounting height
-	Make perfboard extension from eboard for cargo camera
 
 -General code clean up:
 	Finish To Dos
@@ -60,26 +57,6 @@ Robotics To Do:
 Finish Auto Selector and test it
 Write auto files/draw paths
 
-Camera Mount: In progress but check on it
-
-Older To Do Lists:
-Add Logger calls throughout the code
-	Later, if we have extra time, we can improve the Logger functionality
-
 Look at all the TODO's in the project and start doing them:
 	We never get to this. Maybe this year it'll be different...
-	
-Auto:
-	-Write new auto code:
-		-Make new path files
-		-Take a ball or hatch to any spot on the bay
-			-Dont drop the hatch until the driver confirms the position
-			-New naming convention:
-				[L,M,R][1,2][Hatch || Cargo][L,M,R][1,2][Additional Actions].auto
-				Ex: L1HatchL1LoadingStation.auto
-					Start on level 1 from the left, dropping off hatch at L1 station, then move to loading station afterward
-		-5 Start Positions:
-			Level 2: L   R
-			Level 1: L M R
-	-SmartDashboard integration
-	-Improve scripting language
+	It wasn't...
