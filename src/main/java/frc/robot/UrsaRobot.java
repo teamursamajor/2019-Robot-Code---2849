@@ -83,6 +83,8 @@ public interface UrsaRobot {
 	// ColorSensor colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
 	// Distance Sensor
+	// output wire from the sensor should go to the echo channel
+	// input wire from the sensor should go to the ping channel
 	Ultrasonic ultra = new Ultrasonic(0, 1);
 
 	// Control Map

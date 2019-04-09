@@ -75,6 +75,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
 
     ultra.setEnabled(true);
     ultra.setAutomaticMode(true);
+    
 
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
