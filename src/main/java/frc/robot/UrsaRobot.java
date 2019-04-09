@@ -83,7 +83,7 @@ public interface UrsaRobot {
 	// ColorSensor colorSensor = new ColorSensor(new I2C(I2C.Port.kOnboard, 0x39));
 
 	// Distance Sensor
-	Ultrasonic ultra = new Ultrasonic(0, 1);
+	// Ultrasonic ultra = new Ultrasonic(0, 1);
 
 	// Control Map
 	ControlMap controls = new ControlMap();

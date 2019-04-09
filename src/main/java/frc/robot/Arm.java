@@ -65,7 +65,7 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
         }
 
         if ((System.currentTimeMillis() - time) % 50 == 0) {
-            System.out.println("Pot Voltage: " + armPot.get());
+            // System.out.println("Pot Voltage: " + armPot.get());
         }
 
     }
