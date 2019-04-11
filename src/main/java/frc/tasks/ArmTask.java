@@ -82,14 +82,17 @@ public class ArmTask extends Task implements UrsaRobot {
     private static final double torqueCoefficient = armRadius * armMass * 9.81; // r * m * g
     private static final double torqueToVoltRegression = 6.38982; // slope of torque vs voltage graph
     private static final double motorRange = 12.0;
-    private static final double voltAngleSlope = (90.0 - 0.0) / (100.35 - 0.35); // delta angle / delta voltage
-    private static final double motorEfficiencyFactor = 3; // old motors means calculations aren't always accurate
+    private static final double voltAngleSlope = (90.0 - 0.0) / (75.3 - 0.356); // delta angle / delta voltage
+    private static final double motorEfficiencyFactor = 2.5; // old motors means calculations aren't always accurate
 
     public static double getArmAngle() {
         return voltAngleSlope * Arm.armPot.get();
     }
 
     public static double feedForward(double angle) {
+        if(angle < 0.5){
+            return 0;
+        }
         // theta to torque
         double torque = torqueCoefficient * Math.cos(angle);
 
@@ -107,7 +110,7 @@ public class ArmTask extends Task implements UrsaRobot {
          * regression, so we need to multiply our output by some factor to account for
          * the motor inefficiency
          */
-        return power * motorEfficiencyFactor;
+        return (power * motorEfficiencyFactor) * -1 * Math.signum(power);
     }
 
     public static class ArmState {

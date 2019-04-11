@@ -67,8 +67,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     hatch = new Hatch(arm);
     hatch.initialize("hatchThread");
 
-    climb = new ScrewClimb();
-    climb.initialize();
+    // climb = new ScrewClimb();
+    // climb.initialize();
 
     dashboardInfo = new DashboardInfo();
     dashboardInfo.startDashboardInfo();

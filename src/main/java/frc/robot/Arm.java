@@ -28,13 +28,18 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
 
         // gets the current arm voltage (should be for start) so the rest can be
         // calculated relative to it
-        armStartVoltage = armPot.get();
-        armGroundVoltage = armStartVoltage - 98;
-        armLowRocketVoltage = armStartVoltage - 40;
-        armBayVoltage = armStartVoltage - 20;
+        armStartVoltage = armPot.get(); // 70-75
+        armGroundVoltage = 0.356;
+        armLowRocketVoltage = 16.3; // 16ish
+        armBayVoltage = 45.3; // 45 - 47ish
     }
 
     public void runSubsystem() {
+        System.out.println("Voltage: " + armPot.get());
+        System.out.println("Angle: " + ArmTask.getArmAngle());
+        System.out.println(ArmTask.feedForward(ArmTask.getArmAngle()));
+        // System.out.println(armPot.get());
+        // System.out.println("Angle: " + ArmTask.getArmAngle());
         updateStateInfo();
 
         // Automated Arm
@@ -52,9 +57,10 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
 
         // Manual Arm
         else {
-            if (armPot.get() > armStartVoltage) {
+            // if (armPot.get() > armStartVoltage) {
                 // armLift.set(0.20);
-            } else if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)) {
+            // } else 
+            if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)) {
                 armLift.set(getUpPower());
             } else if (xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
                 armLift.set(getDownPower());
