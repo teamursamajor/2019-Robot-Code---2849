@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import frc.minimap.Gui;
 
 /**
  * SmartDashboard logic
@@ -17,6 +18,8 @@ import javax.swing.UIManager;
  */
 public class SmartDashboard {
 
+  public Gui mapFrame = new Gui();
+  
   /**
    * Variable used in the {@link SmartDashboard#inCompetition() inCompetition()} method
    */
@@ -126,6 +129,8 @@ public class SmartDashboard {
           try {
             frame.pack();
             frame.setVisible(true);
+            
+            mapFrame.main();
 
             monitor.setProgress(750);
             monitor.setNote("Loading From Save");
@@ -150,4 +155,13 @@ public class SmartDashboard {
       System.exit(2);
     }
   }
+  
+  public void updateMap(double lEncoder, double rEncoder, double angle){
+    double[] enc = { lEncoder, rEncoder };
+    mapFrame.testBot.update(enc, angle);
+    mapFrame.map.update();
+		MapFrame.compass.repaint();
+  }
+
+  
 }
