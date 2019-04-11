@@ -32,7 +32,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
   private Arm arm;
   private Cargo cargo;
 
-  private DashboardInfo dashboardInfo;
+  // private DashboardInfo dashboardInfo;
 
   // private AutoSelector autoSelect;
   // private AutoCompiler autoCompiler;
@@ -70,8 +70,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     // climb = new ScrewClimb();
     // climb.initialize();
 
-    dashboardInfo = new DashboardInfo();
-    dashboardInfo.startDashboardInfo();
+    // dashboardInfo = new DashboardInfo();
+    // dashboardInfo.startDashboardInfo();
 
     // ultra.setEnabled(true);
     // ultra.setAutomaticMode(true);

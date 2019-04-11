@@ -28,7 +28,7 @@ public class ArmTask extends Task implements UrsaRobot {
             case CARGOBAY:
                 return moveToAngle(Arm.armBayVoltage);
             case CLIMB:
-                return moveToAngle(Arm.armStartVoltage);
+                // return moveToAngle(Arm.armStartVoltage);
             }
             running = false;
             return new ArmOrder(0.0);
@@ -44,32 +44,40 @@ public class ArmTask extends Task implements UrsaRobot {
 
             // TODO find critical point (oscillates forever) and period (length
             // of oscillations)
-            double kcArm = 0.0; // critical point, aka the P value where the arm oscillates forever
-            double tcArm = 0.0; // time per oscillation at the critical point
+            double kcArm = 1.0 / 85.0; // critical point, aka the P value where the arm oscillates forever
+            double tcArm = 1.0; // time per oscillation at the critical point
 
             double kpArm = 0.6 * kcArm;
             double kdArm = (3.0 / 40) * kcArm * tcArm;
 
             // TODO reconfigure these based on new findings
-            double armDownMinimumPower = 0.15;
-            double armDownMaxPower = .2;
-            double armUpMinimumPower = 0.5;
+            double armDownMinimumPower = 0.1;
+            double armDownMaxPower = .13;
+            double armUpMinimumPower = -0.2;
+            double armUpMaxPower = -0.45;
 
-            // TODO eventually add D term
-            double armPower = kpArm * (desiredVoltage - ArmState.armVoltage) + feedForward(getArmAngle())
-                    + kdArm * ArmState.armVelocity;
+            System.out.println("Desired: " + desiredVoltage); 
+            System.out.println("Current: " + ArmState.armVoltage);
+            System.out.println("Velocity: " + ArmState.armVelocity);
 
+            double armPower = kpArm * (desiredVoltage - ArmState.armVoltage)
+                    + (kdArm * ArmState.armVelocity)
+                    + feedForward(getArmAngle());
+            armPower *= -1;
             if (armPower < 0 && Math.abs(armPower) < armUpMinimumPower) { // going up
-                System.out.println("PID Power too weak, using armMinimumPower");
+                System.out.println("PID Power too weak, using armUpMinimumPower");
                 armPower = Math.signum(armPower) * armUpMinimumPower;
             } else if (armPower > 0 && Math.abs(armPower) < armDownMinimumPower) {
-                System.out.println("PID Power too weak, using armMinimumPower");
+                System.out.println("PID Power too weak, using armDowninimumPower");
                 armPower = Math.signum(armPower) * armDownMinimumPower;
             }
  
             if (armPower > 0 && Math.abs(armPower) > armDownMaxPower) {
-                System.out.println("PID Power too strong, using armMaxPower");
+                System.out.println("PID Power too strong, using armDownMaxPower");
                 armPower = armDownMaxPower;
+            } else if (armPower < 0 && Math.abs(armPower) > armUpMaxPower){
+                System.out.println("PID Power too strong, using armUpMaxPower");
+                armPower = armUpMaxPower;
             }
 
             System.out.println("Arm Power: " + armPower);
@@ -83,14 +91,19 @@ public class ArmTask extends Task implements UrsaRobot {
     private static final double torqueToVoltRegression = 6.38982; // slope of torque vs voltage graph
     private static final double motorRange = 12.0;
     private static final double voltAngleSlope = (90.0 - 0.0) / (75.3 - 0.356); // delta angle / delta voltage
-    private static final double motorEfficiencyFactor = 2.5; // old motors means calculations aren't always accurate
+    private static double motorEfficiencyFactor = 2.75; // old motors means calculations aren't always accurate
 
     public static double getArmAngle() {
         return voltAngleSlope * Arm.armPot.get();
     }
 
     public static double feedForward(double angle) {
-        if(angle < 0.5){
+        if(Arm.armPot.get() <= 21){
+            motorEfficiencyFactor = 3;
+        } else {
+            motorEfficiencyFactor = 2.75;
+        }
+        if(angle < 0.43){
             return 0;
         }
         // theta to torque
