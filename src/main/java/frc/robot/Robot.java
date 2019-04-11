@@ -73,8 +73,8 @@ public class Robot extends TimedRobot implements UrsaRobot {
     dashboardInfo = new DashboardInfo();
     dashboardInfo.startDashboardInfo();
 
-    ultra.setEnabled(true);
-    ultra.setAutomaticMode(true);
+    // ultra.setEnabled(true);
+    // ultra.setAutomaticMode(true);
 
     debugSelect = new DebugSelector();
     Logger.setLevel(debugSelect.getLevel());
@@ -182,7 +182,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void testPeriodic() {
-    System.out.println("Distance: " + ultra.getRangeInches());
+    // System.out.println("Distance: " + ultra.getRangeInches());
   }
 
   /**

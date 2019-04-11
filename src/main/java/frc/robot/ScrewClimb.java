@@ -30,8 +30,10 @@ public class ScrewClimb implements UrsaRobot {
                 leadscrew.set(leadscrewSpeed);
                 // runs leadscrew while the distance sensor has not reached or while we are
                 // within timeout
-                while (ultra.getRangeInches() <= distanceTolerance
-                        && (System.currentTimeMillis() - startTime) < climbTimeout) {
+                while (
+                    // ultra.getRangeInches() <= distanceTolerance
+                        // && 
+                        (System.currentTimeMillis() - startTime) < climbTimeout) {
                     try {
                         Thread.sleep(20);
                     } catch (Exception e) {

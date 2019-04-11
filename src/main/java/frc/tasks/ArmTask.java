@@ -66,7 +66,7 @@ public class ArmTask extends Task implements UrsaRobot {
                 System.out.println("PID Power too weak, using armMinimumPower");
                 armPower = Math.signum(armPower) * armDownMinimumPower;
             }
-
+ 
             if (armPower > 0 && Math.abs(armPower) > armDownMaxPower) {
                 System.out.println("PID Power too strong, using armMaxPower");
                 armPower = armDownMaxPower;
@@ -77,7 +77,7 @@ public class ArmTask extends Task implements UrsaRobot {
         }
     }
 
-    private static final double armMass = 4.6947; // kilograms
+    private static final double armMass = 5.8287; // kilograms // was 4.6947 without hatch
     private static final double armRadius = .365; // meters
     private static final double torqueCoefficient = armRadius * armMass * 9.81; // r * m * g
     private static final double torqueToVoltRegression = 6.38982; // slope of torque vs voltage graph

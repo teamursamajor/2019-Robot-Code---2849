@@ -11,7 +11,7 @@ import frc.tasks.ArmTask.ArmMode;
 public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
 
     public static Servo hatchServo;
-    private boolean hatchOpen = false;
+    private boolean hatchOpen = true;
 
     private Arm arm;
 
