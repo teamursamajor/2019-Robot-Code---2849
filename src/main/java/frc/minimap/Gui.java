@@ -24,7 +24,7 @@ public class Gui {
 	static Border blackLine = BorderFactory.createLineBorder(Color.BLACK);
 	static Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 	static Border loweredBevel = BorderFactory.createLoweredBevelBorder();
-	static TestBot testBot;
+	public static TestBot testBot;
 	static MapPanel map;
 	static Compass compass;
 	
