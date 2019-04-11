@@ -24,13 +24,14 @@ public class Gui {
 	static Border blackLine = BorderFactory.createLineBorder(Color.BLACK);
 	static Border raisedBevel = BorderFactory.createRaisedBevelBorder();
 	static Border loweredBevel = BorderFactory.createLoweredBevelBorder();
-	static TestBot testBot;
-	static MapPanel map;
-	static Compass compass;
+	public static TestBot testBot;
+	public static MapPanel map;
+	public static Compass compass;
 	
 	public static void main(String[] args) throws IOException {
 //		BufferedImage fieldImage = ImageIO.read(new File(System.getProperty("user.dir") + "/../2019 Field.jpg"));
-		BufferedImage fieldImage = ImageIO.read(new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
+		//TODO - CHECK USER NAME ON VALS LAPTOP!!!!!!!!!!!!!!!!!!!!!!!!!
+		BufferedImage fieldImage = ImageIO.read(new File("C:/Users/TeamUrsaMajor2849/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
 		testBot = new TestBot();
 		map = new MapPanel(fieldImage, testBot);
 		compass = new Compass(75, testBot);

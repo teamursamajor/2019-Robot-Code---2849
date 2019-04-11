@@ -1,6 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.minimap.MapPanel;
+import frc.minimap.TestBot;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException
 
 /**
  * This class displays and reads information off of the SmartDashboard.
@@ -13,8 +18,10 @@ public class DashboardInfo implements Runnable, UrsaRobot {
     public static double cargoIntakePower, cargoOuttakePower;
     public static double climbPower;
     public static double lEncoder, rEncoder;
+    private static MapPanel map;
+    private static TestBot bot;
 
-    public DashboardInfo() {
+    public DashboardInfo() throws IOException{
         hatchPower = 0.30;
         SmartDashboard.putNumber("Hatch Power", hatchPower);
         cargoPowerUp = -.75;
@@ -28,6 +35,13 @@ public class DashboardInfo implements Runnable, UrsaRobot {
         climbPower = 0.90;
         SmartDashboard.putNumber("Climb Power", climbPower);
 
+        bot = new TestBot();
+        //TODO - Change this when not in GitHub
+//         BufferedImage fieldImage = ImageIO.read(
+//             new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
+//         map = new MapPanel(fieldImage, bot);
+//         SmartDashboard.frame.add(map);
+        
         startDashboardInfo();
     }
 
@@ -47,7 +61,17 @@ public class DashboardInfo implements Runnable, UrsaRobot {
 
             lEncoder = leftEncoder.getDistance();
             rEncoder = rightEncoder.getDistance();
-
+            double angle = ahrs.getAngle();
+	    	angle = fixHeading(angle);            
+            
+            double[] encoderVals = {lEncoder, rEncoder};
+            
+            //TODO - Get rid of TestBot when not in GitHub
+            //TODO - Add compass when not in GitHub
+            //TODO - Set start points (after getting field measurements)
+//             bot.update(encoderVals, angle);
+//             map.update();
+            Dashboard.updateMap(lEncoder, rEncoder, angle);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
@@ -66,6 +90,8 @@ public class DashboardInfo implements Runnable, UrsaRobot {
         System.out.println("Cargo Outtake Power" + cargoOuttakePower);
         System.out.println("Climb Power" + climbPower);
     }
+    
+    
 
 /**
  * The image widget simply displays a static image loaded from a file. If you
