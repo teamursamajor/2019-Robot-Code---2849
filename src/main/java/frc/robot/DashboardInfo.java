@@ -37,10 +37,10 @@ public class DashboardInfo implements Runnable, UrsaRobot {
 
         bot = new TestBot();
         //TODO - Change this when not in GitHub
-        BufferedImage fieldImage = ImageIO.read(
-            new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
-        map = new MapPanel(fieldImage, bot);
-        SmartDashboard.frame.add(map);
+//         BufferedImage fieldImage = ImageIO.read(
+//             new File("C:/Users/teamursamajor/git/2019-Robot-Code---2849/src/main/java/frc/minimap/2019 Field.jpg"));
+//         map = new MapPanel(fieldImage, bot);
+//         SmartDashboard.frame.add(map);
         
         startDashboardInfo();
     }
@@ -69,9 +69,9 @@ public class DashboardInfo implements Runnable, UrsaRobot {
             //TODO - Get rid of TestBot when not in GitHub
             //TODO - Add compass when not in GitHub
             //TODO - Set start points (after getting field measurements)
-            bot.update(encoderVals, angle);
-            map.update();
-            
+//             bot.update(encoderVals, angle);
+//             map.update();
+            Dashboard.updateMap(lEncoder, rEncoder, angle);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
