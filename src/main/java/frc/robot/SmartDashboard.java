@@ -1,4 +1,4 @@
-package edu.wpi.first.smartdashboard;
+package frc.robot;
 
 import edu.wpi.first.smartdashboard.gui.DashboardFrame;
 import edu.wpi.first.smartdashboard.properties.IntegerProperty;
@@ -37,7 +37,7 @@ public class SmartDashboard {
   }
 
 
-  private static DashboardFrame frame;
+  public static DashboardFrame frame;
 
   /**
    * Starts the program
