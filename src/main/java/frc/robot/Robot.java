@@ -103,6 +103,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
     if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)
         || xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
       Arm.automating = false;
+      Arm.defense = false;
     } else if (xbox.getSingleButtonPress(controls.map.get("arm_rocket"))
         || xbox.getSingleButtonPress(controls.map.get("arm_bay"))) {
       Arm.automating = true;
@@ -116,13 +117,22 @@ public class Robot extends TimedRobot implements UrsaRobot {
     }
 
     // toggles limelight between processsed and raw image
-    if (xbox.getSingleButtonPress(controls.map.get("limelight_toggle"))) {
+    if (xbox.getPOV() == (controls.map.get("limelight_toggle"))) {
       if (processedPipeline)
         limelightTable.getEntry("pipeline").setDouble(0);
       else
         limelightTable.getEntry("pipeline").setDouble(2);
       processedPipeline = !processedPipeline;
+    }
 
+    // toggle defense mode
+    if(xbox.getSingleButtonPress(XboxController.BUTTON_START)){
+      Arm.defense = !Arm.defense;
+    }
+
+    // toggle basic arm mode
+    if(xbox.getSingleButtonPress(XboxController.BUTTON_BACK)){
+      Arm.basic = !Arm.basic;
     }
   }
 
@@ -165,6 +175,7 @@ public class Robot extends TimedRobot implements UrsaRobot {
    */
   @Override
   public void teleopPeriodic() {
+
   }
 
   /**

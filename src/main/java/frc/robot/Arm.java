@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import frc.tasks.*;
 import frc.tasks.ArmTask.ArmMode;
+import frc.tasks.ArmTask.ArmState;
 
 /**
  * This subsystem class controls the Arm mechanism for Hatch and Cargo
@@ -19,6 +20,8 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
     private long time;
 
     public static boolean automating = false;
+    public static boolean defense = false;
+    public static boolean basic = false;
 
     public Arm() {
         armLift = new Spark(ARM_LIFT);
@@ -37,8 +40,31 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
     public void runSubsystem() {
         // System.out.println("Voltage: " + armPot.get());
         // System.out.println("Angle: " + ArmTask.getArmAngle());
-        // System.out.println("Feed Forward: " + ArmTask.feedForward(ArmTask.getArmAngle()));
+        // System.out.println("Feed Forward: " +
+        // ArmTask.feedForward(ArmTask.getArmAngle()));
         updateStateInfo();
+
+        // Defense Mode
+        if (defense) {
+            if (armPot.get() < 105) {
+                armLift.set(-0.4);
+            } else {
+                armLift.set(0.0);
+            }
+            return;
+        }
+
+        // Basic Arm Mode
+        if(basic){
+            if (xbox.getAxisGreaterThan(controls.map.get("arm_up"), 0.1)) {
+                armLift.set(-.45);
+            } else if (xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
+                armLift.set(.25);
+            } else {
+                armLift.set(-.25);
+            }
+            return;
+        }
 
         // Automated Arm
         if (automating) {
@@ -60,7 +86,6 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
             } else if (xbox.getAxisGreaterThan(controls.map.get("arm_down"), 0.1)) {
                 armLift.set(getDownPower());
             } else {
-                // armLift.set(0.0);
                 armLift.set(ArmTask.feedForward(ArmTask.getArmAngle()));
             }
         }
@@ -86,8 +111,11 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
 
         if (deltaTime <= 5)
             return;
+
+        deltaTime /= 1000;
+
         double velocity = (deltaVolt / deltaTime);
-        ArmTask.ArmState.updateState(velocity, currentVoltage);
+        ArmTask.ArmState.updateState(velocity, currentVoltage, deltaTime);
     }
 
     public static double getUpPower() {
@@ -104,9 +132,9 @@ public class Arm extends Subsystem<ArmTask.ArmMode> implements UrsaRobot {
         if (armPot.get() >= (armGroundVoltage) && armPot.get() < armLowRocketVoltage) {
             return 0.15;
         } else if (armPot.get() >= armLowRocketVoltage && armPot.get() < (armStartVoltage)) {
-            return 0.23;
+            return 0.3;
         } else if (armPot.get() >= armStartVoltage) {
-            return 0.55;
+            return 0.6;
         } else {
             return 0.0;
         }

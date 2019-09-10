@@ -22,6 +22,12 @@ public class Hatch extends Subsystem<HatchTask.HatchMode> implements UrsaRobot {
     }
 
     public void runSubsystem() {
+        if(hatchOpen){
+            System.out.println("Hatch is extended (hold ready)");
+        } else {
+            System.out.println("Hatch is open (pickup ready)");
+        }
+        
         if (xbox.getSingleButtonPress(XboxController.BUTTON_A)) {
             hatchOpen = !hatchOpen;
             setMode(HatchTask.HatchMode.RUN);
